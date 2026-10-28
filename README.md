@@ -1,23 +1,46 @@
-# Formula Tycoon Starter
+# Formula Tycoon
 
-This ZIP is the first visual prototype for Formula Tycoon: an Expo/React Native TypeScript app with a miniature isometric racing headquarters.
+A mobile racing-team management game built with Expo / React Native and TypeScript.
+The current build is the **Living Headquarters** vertical slice: a miniature isometric
+team HQ where staff arrive for the day, walk to their assigned workstations and get to work.
 
-## What is already here
+## What is here
 
-- Isometric factory floor rendered with standard React Native views
-- Six department/work stations
-- Six miniature workers
-- Workers enter from the lower-right, walk to assigned stations, then remain in a working animation
-- "Run Workday Again" button to replay the assignment animation
-- Formula Tycoon mobile HUD/navigation shell
-- Clean separation between `src/simulation` and `src/ui`
-- Deterministic seeded RNG utility ready for future racing systems
+- Isometric HQ diorama drawn with plain React Native views (no 3D engine, no SVG dependency):
+  main workshop with two car bays, aero & design, strategy, driver simulator,
+  parts & manufacturing, and logistics with a transporter outside
+- 8 staff with persistent station assignments and readable states (IDLE → WALKING → WORKING)
+- Deterministic waypoint movement over a small navigation graph (no teleporting, no cutting through furniture)
+- Tap a worker for an info card; tap a department floor or sign for a department card; tap outside to dismiss
+- Top HUD (placeholder team/day/next event) and bottom navigation (only HQ is live; other tabs say "Coming soon")
+- "New day" button replays the morning arrival
+
+## Architecture
+
+```
+src/game/                    data: models, HQ layout (departments, stations, nav graph, props), starting staff
+src/simulation/headquarters/  headless, deterministic HQ rules: worker creation, assignment, routing, clock tick
+src/simulation/__tests__/     Jest tests for the simulation (no rendering)
+src/ui/                      rendering only: isometric projection, diorama shapes, worker sprites, HUD, cards
+```
+
+The simulation owns worker state, assignments and positions. `advanceHeadquarters(state, layout, dtMs)`
+is a pure function, so it can run headlessly (see `runHeadquarters`). The UI drives the clock in fixed
+50 ms steps, re-renders only when a worker's state/route/assignment changes, and replays the
+simulation's planned route with native-driver animations for smooth movement.
+
+## Scripts
+
+```bash
+npm run typecheck   # tsc --noEmit
+npm test            # jest (jest-expo preset)
+```
 
 ## Run on Windows + iPhone
 
 1. Install Node.js LTS if it is not installed.
 2. Install **Expo Go** from the iPhone App Store.
-3. Unzip this project.
+3. Clone this repository.
 4. Open PowerShell in this folder.
 5. Run:
 
@@ -40,4 +63,4 @@ As of October 2026, Expo is transitioning to SDK 58. Expo's current guidance say
 
 ## Important
 
-This is intentionally **not** the full game. It is the first playable/visual foundation. The next step should be generating the fictional 10-team/20-driver universe underneath this HQ, not adding more decoration.
+This is intentionally **not** the full game. Race simulation, drivers, contracts and seasons are future milestones (see `docs/ROADMAP.md`).

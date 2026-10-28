@@ -1,13 +1,18 @@
 # Formula Tycoon — Roadmap
 
-## Prototype 0 — Living HQ (included in this ZIP)
+## Prototype 0 — Living HQ (done)
 - Isometric factory floor
-- Six workstations
-- Six miniature workers
-- Workers walk to assigned jobs and remain working
-- Basic mobile HUD and bottom navigation shell
 - Simulation/UI folder separation
 - Seeded RNG foundation
+
+## Living Headquarters v1 (done)
+- Isometric HQ diorama: workshop with two car bays, aero, strategy, simulator, manufacturing, logistics
+- Data-driven departments, stations (with capacity/slots) and navigation graph
+- 8 workers with persistent assignments; IDLE → WALKING → WORKING
+- Deterministic waypoint routing, headless clock (`advanceHeadquarters`)
+- Tap workers and departments for info cards
+- Placeholder HUD and bottom navigation
+- Jest tests for the headquarters simulation
 
 ## Milestone 1 — Fictional racing universe
 - 10 teams
