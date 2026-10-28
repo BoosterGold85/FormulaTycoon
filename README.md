@@ -1,11 +1,43 @@
-# Formula Tycoon
+# Formula Tycoon Starter
 
-Formula Tycoon is a long-term Formula-style racing management simulation for iPhone.
+This ZIP is the first visual prototype for Formula Tycoon: an Expo/React Native TypeScript app with a miniature isometric racing headquarters.
 
-The player manages a racing organization across an evolving fictional motorsport universe. Drivers are procedurally generated, develop over time, change teams, retire, and build persistent career histories.
+## What is already here
 
-## Development direction
+- Isometric factory floor rendered with standard React Native views
+- Six department/work stations
+- Six miniature workers
+- Workers enter from the lower-right, walk to assigned stations, then remain in a working animation
+- "Run Workday Again" button to replay the assignment animation
+- Formula Tycoon mobile HUD/navigation shell
+- Clean separation between `src/simulation` and `src/ui`
+- Deterministic seeded RNG utility ready for future racing systems
 
-The app will be built with React Native, Expo, and TypeScript. Core simulation logic must remain independent from the UI so seasons can be simulated and tested without rendering the mobile interface.
+## Run on Windows + iPhone
 
-Initial development will focus on the technical foundation and simulation architecture before building the living headquarters presentation.
+1. Install Node.js LTS if it is not installed.
+2. Install **Expo Go** from the iPhone App Store.
+3. Unzip this project.
+4. Open PowerShell in this folder.
+5. Run:
+
+   ```powershell
+   npm install
+   npx expo start
+   ```
+
+6. Scan the QR code with the iPhone camera / Expo Go.
+
+If the phone cannot see the development server over your local network, try:
+
+```powershell
+npx expo start --tunnel
+```
+
+## Why SDK 57?
+
+As of October 2026, Expo is transitioning to SDK 58. Expo's current guidance says developers using Expo Go on a physical device should use SDK 57 during the transition. This starter therefore targets SDK 57 / React Native 0.86.
+
+## Important
+
+This is intentionally **not** the full game. It is the first playable/visual foundation. The next step should be generating the fictional 10-team/20-driver universe underneath this HQ, not adding more decoration.

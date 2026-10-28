@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Formula Tycoon",
+    "slug": "formula-tycoon",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.boostergold85.formulatycoon"
+    },
+    "android": {
+      "package": "com.boostergold85.formulatycoon"
+    }
+  }
+}
