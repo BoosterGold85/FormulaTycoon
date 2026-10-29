@@ -35,3 +35,22 @@ replacing racing rules. Optimize with incomplete information; never expose all h
 
 Navigation stays HQ / TEAM / DRIVERS / RACE / HISTORY. A tab gets depth only when its simulation
 slice exists. No empty UI-first screen rollout. See MILESTONES.md for the gates.
+
+## Permanent pillars and HQ evolution (future)
+
+Car Development; Staff & Leadership; Drivers; Finances & Commercial; Facilities;
+Racing & Strategy; Team Legacy form the tycoon loop. Facility investment must be both a meaningful
+capability decision and a visible change to the HQ: PLANNED, UNDER_CONSTRUCTION, COMMISSIONING,
+then ACTIVE. Costs/time/upkeep and temporary disruption create tradeoffs, not cosmetic-only
+purchases. Every major facility upgrade requires a simulation effect AND visible HQ effect.
+No facility construction gameplay exists yet.
+
+Teams must become original fictional organizations with distinct philosophies, risk appetite,
+resources and histories, not identical AI with alternate colors. Use the canonical brand-policy
+and working identities in BRAND_IDENTITY.md; do not copy real logos/liveries/commercial identities.
+The new eleven-team proposals do not yet replace the ten-team development dataset.
+
+Save-envelope serialization and a volatile in-memory repository exist after A.1. There is still
+no save/load button or persistent browser/native save slot; closing the app still loses progress.
+Do not imply that an autosave occurred. Real-device persistence and recovery are a later explicit
+infrastructure step, before players can depend on a campaign.

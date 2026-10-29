@@ -30,7 +30,7 @@ export function restoreGameSave(save: GameSave, definition: GameDefinition): Gam
   return copyUniverse(save.universe);
 }
 
-/** Platform storage implementations belong outside domain code; no autosave is enabled yet. */
+/** @deprecated Trusted checkpoint-only interface. New storage adapters use SaveStorage/SaveRepository. */
 export interface GameSaveStorage {
   write(slot: string, save: GameSave): Promise<void>;
   read(slot: string): Promise<GameSave | null>;

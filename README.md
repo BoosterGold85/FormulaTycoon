@@ -82,5 +82,6 @@ This is intentionally **not** the full game. Race simulation, drivers, contracts
 Start with [DEV_STATUS](docs/DEV_STATUS.md), [GAME_ARCHITECTURE](docs/GAME_ARCHITECTURE.md),
 [GAME_LOOP](docs/GAME_LOOP.md), [SYSTEM_MAP](docs/SYSTEM_MAP.md) and
 [MILESTONES](docs/MILESTONES.md). The App owns one composed universe; the HQ and development
-engines remain independently headless. Versioned trusted checkpoints exist, but persistent
-save storage/import and campaign UI are not implemented.
+engines remain independently headless. Versioned trusted checkpoints and a validated serialized save envelope/memory repository exist.
+Real-device persistent storage, save/import UI and campaign UI are not implemented.
+See [fictional brand policy](docs/BRAND_IDENTITY.md) for future canonical identity rules.

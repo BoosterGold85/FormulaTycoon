@@ -13,7 +13,7 @@ car-development engines. Read DEV_STATUS.md first for implementation evidence an
 | `simulation/development` | Weekly planning, budgets, projects, introduction, failures/reversions, reliability and winter reset | Keep; this is development, not a race/finance simulation |
 | `carModel.ts` | Six attributes, average/event-weighted pace and reliability | Existing pace is a planning proxy, not a race result; track translation belongs to C |
 | HQ hook/UI | Hook owned only HQ state; other tabs/HUD are placeholders | Root App now owns a universe hook and passes HQ projection/actions down |
-| Persistence | No saved format, storage or autosave existed | Introduce versioned trusted checkpoints and storage interface only |
+| Persistence | No saved format, storage or autosave existed | A: trusted checkpoints; A.1: validated serialized envelope/repository and volatile adapter |
 | RNG | One PRNG, development-local keyed stream factory | Share the factory without changing hashing, calls or existing outcomes |
 | Tests/deploy | 36 engine tests, Jest/Expo, static web export; no checked-in CI workflow | Keep commands; add integration tests; deployment remains external |
 
@@ -77,19 +77,41 @@ Do not add optional bags for all these systems now. Each enters the universe wit
 transitions, tests and save migration when its vertical slice exists. An event bus/ECS or generic
 rules framework is not required for the current two systems.
 
-## Save compatibility and replay
+## Save compatibility and replay (hardened in A.1)
 
-`GameSave` version 1 is the FIRST trusted in-memory checkpoint contract, not a shipped save file
-feature. Capture/restore deep-copy both engines. Unknown schema versions, incompatible content
-and inconsistent root/development seeds are refused. No prior user save format exists to migrate.
-There is no disk/browser/native storage implementation, autosave, import UI or arbitrary-JSON parser.
-`GameSaveStorage` adapters MUST validate unknown data at the boundary before restoring. Never use
-`JSON.parse(...) as GameSave` on user files. Current JSON cloning is for known plain-data states only.
+Two intentionally distinct contracts exist:
 
-Before persistent campaigns ship: implement runtime schema/invariant validation (IDs, slot ownership,
-finite values, projects), atomic slot writes/backups, explicit ordered migrations with fixtures,
-content-version retention and recovery UX. Never replace an unreadable save with a new universe.
-Future migrations must preserve source data, have from/to versions, and reject future versions.
+- `gameSave.ts`: A's trusted internal checkpoint API, unchanged for compatibility. Its old
+  `GameSaveStorage` is deprecated; it is not an imported-file decoder.
+- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 1`, containing
+  gameVersion, saveId, canonical UTC createdAt/updatedAt, and universe. App/repository callers
+  supply metadata; domain code never generates wall-clock timestamps or unseeded save IDs.
+
+`createSaveEnvelope` -> `serializeSave` -> `SaveRepository` -> raw `SaveStorage` is the write
+boundary. Loading calls `deserializeSave` -> `migrateSave` -> full validation -> detached envelope.
+Only `ok: true` exposes a universe. Errors carry a code/message; no partial initialization or
+fallback new game. Metadata gameVersion is informational; schema and definitionVersion determine
+compatibility. Root/development seed, clocks, routes/assignments, teams/parts/projects and upgrade
+history are serialized. No live PRNG/timer/React object enters the format.
+
+Private validators check the complete v1 field shape, reject extra/missing keys and nonfinite or
+out-of-range numbers, and check IDs, slot/worker correspondence, route references, project
+progress/sequence, budget bounds and event chronology. This is structural/domain consistency,
+not tamper-proof anti-cheat or proof that an entire historical career is authentic. Validation is
+scoped to the loaded definition; future systems must extend it and their migration fixtures.
+
+`migrateSave` dispatches known schemas. V1 is identity; missing/malformed versions fail, future
+versions fail UNSUPPORTED_VERSION. No fictitious v0 is invented from A's trusted checkpoints.
+Future v1 -> v2 -> v3 transforms belong here, with fixtures and semantic validation of the final
+result. Content identity must be preserved or explicitly migrated; names are never foreign keys.
+
+`SaveStorage` transports raw strings via write/read/list/delete; it imports no React Native or
+platform APIs. `SaveRepository` validates before writing/after reading, checks slot identity and
+returns controlled storage errors without overwriting a valid slot on validation failure.
+`MemorySaveStorage` is implemented and tested but VOLATILE: no data survives recreation/restart.
+The durable FORMAT exists; real-device durable storage, file picker/import UI, autosave, quota
+handling, atomic writes/backups and crash recovery are not implemented. A small validated web/native
+adapter is the next persistence infrastructure step; no new dependency was added for A.1.
 
 Keyed RNG streams are reconstructed from seed and logical keys; no live PRNG object is saved.
 Keep legacy development key sequences unchanged. Future systems use namespaces such as weather,
@@ -112,3 +134,33 @@ headless tests in C–K. Results must carry causal events for strategy, tyres, w
 and mistakes. Qualifying traffic/runs/weather timing and pit-wall choices belong in transitions.
 History must archive stable IDs and actual outcomes, not references to mutable current ratings.
 Hundred-season simulation is a target, not something Milestone A claims to have verified.
+
+## A.1 addendum: permanent product pillars and organization evolution
+
+The permanent pillars are CAR DEVELOPMENT; STAFF & LEADERSHIP; DRIVERS; FINANCES & COMMERCIAL;
+FACILITIES; RACING & STRATEGY; TEAM LEGACY. Their future circular tycoon economy is:
+facilities -> development capability -> car performance -> results -> prize/sponsor income ->
+finances -> staff/driver/facility investment -> future performance. This is a design contract,
+not an implemented economy. Never connect visible work loops to invented financial effects.
+
+Facilities are first-class future universe state, owned by team ID. EVERY MAJOR FACILITY UPGRADE
+MUST HAVE BOTH A SIMULATION EFFECT AND A VISIBLE HQ EFFECT. Categories: Design & Aero,
+Manufacturing, Race Engineering, Driver Simulator, Garage/Assembly, Staff Facilities, Logistics.
+Lifecycle: PLANNED -> UNDER_CONSTRUCTION -> COMMISSIONING -> ACTIVE. Definitions/state will
+hold construction cost, build time, upkeep, capacity effects, temporary disruption and visual
+HQ stage/variant IDs. Only commissioned/active capability applies the designed lasting effect;
+construction disruption is explicit and tested. Domain time advances construction, not animations.
+
+Facilities must eventually affect development capability/capacity, staff effectiveness, reliability,
+finance obligations, recruitment, logistics and race preparation. One domain transition updates
+facility state; capability queries feed other engines and read-only scene selectors choose visible
+HQ evolution. Do not maintain separate UI facility levels. Current development profile facilities
+are legacy abstract inputs; current HQ furniture is decoration. The facility milestone must replace
+those inputs with an adapter from canonical facilities, preserving or migrating existing values
+and avoiding double bonuses/charges. No construction, facilities types or gameplay added in A.1.
+
+Fictional organization definitions extend team IDs with identity/history/reputation, finances,
+facilities, development and driver philosophy, commercial strength, risk tolerance, fan base and
+personality. Different AI choices must follow these traits rather than just colors/names. See
+[BRAND_IDENTITY.md](BRAND_IDENTITY.md) for the canonical future registry, working eleven-team grid,
+fictional commercial policies and ID/migration rules. No runtime team identity changes in A.1.

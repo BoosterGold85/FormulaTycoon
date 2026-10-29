@@ -22,3 +22,8 @@ update DEV_STATUS.md with COMPLETED, IN PROGRESS, TESTED, NOT VERIFIED, KNOWN IS
 and NEXT MILESTONE. Report limitations and stop before beginning the next milestone.
 Keep one app-lifetime universe owner; do not create a separate game per screen.
 Do not silently change RNG keys, content versions, saved formats or existing rules.
+
+Facilities are a core pillar: every major upgrade must have both a simulation effect and
+visible HQ evolution. Follow `docs/BRAND_IDENTITY.md`: canonical fictional IDs, original
+brands, no silent legacy-grid rename/expansion. Save imports must go through the validated
+envelope/repository boundary, never the older trusted-checkpoint API.
