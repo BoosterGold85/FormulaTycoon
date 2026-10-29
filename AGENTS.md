@@ -12,3 +12,13 @@ Formula Tycoon is a long-term racing-management game. Preserve these rules in al
 8. The initial art direction is a clean, miniature isometric motorsport HQ inspired by management/tycoon games, not a photorealistic F1 simulator.
 9. Workers should have persistent assignments and readable states (walking, working, traveling, etc.).
 10. Future race simulation must be runnable headlessly without rendering UI.
+
+## Milestone workflow
+
+Read `docs/DEV_STATUS.md`, `docs/GAME_ARCHITECTURE.md` and `docs/MILESTONES.md`
+before major work. State the milestone and touched boundaries; implement only that slice.
+Run relevant simulation/presentation checks and TypeScript validation. After every milestone,
+update DEV_STATUS.md with COMPLETED, IN PROGRESS, TESTED, NOT VERIFIED, KNOWN ISSUES
+and NEXT MILESTONE. Report limitations and stop before beginning the next milestone.
+Keep one app-lifetime universe owner; do not create a separate game per screen.
+Do not silently change RNG keys, content versions, saved formats or existing rules.

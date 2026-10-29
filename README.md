@@ -76,3 +76,11 @@ As of October 2026, Expo is transitioning to SDK 58. Expo's current guidance say
 ## Important
 
 This is intentionally **not** the full game. Race simulation, drivers, contracts and seasons are future milestones (see `docs/ROADMAP.md`).
+
+## Architecture and development handoff
+
+Start with [DEV_STATUS](docs/DEV_STATUS.md), [GAME_ARCHITECTURE](docs/GAME_ARCHITECTURE.md),
+[GAME_LOOP](docs/GAME_LOOP.md), [SYSTEM_MAP](docs/SYSTEM_MAP.md) and
+[MILESTONES](docs/MILESTONES.md). The App owns one composed universe; the HQ and development
+engines remain independently headless. Versioned trusted checkpoints exist, but persistent
+save storage/import and campaign UI are not implemented.

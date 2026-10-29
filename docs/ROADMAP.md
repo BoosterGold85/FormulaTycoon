@@ -1,5 +1,9 @@
 # Formula Tycoon — Roadmap
 
+Implementation order and acceptance gates now live in [MILESTONES.md](MILESTONES.md).
+Read [DEV_STATUS.md](DEV_STATUS.md) for current evidence. The numbered sections below
+are historical planning notes; use milestones A–K for new work.
+
 ## Prototype 0 — Living HQ (done)
 - Isometric factory floor
 - Simulation/UI folder separation
