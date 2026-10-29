@@ -1,6 +1,6 @@
 /**
- * Placeholder presentation data for the HUD. There is no calendar or team
- * system yet; these values are display-only and not game state.
+ * Placeholder presentation data for the HUD. Development has team/calendar definitions,
+ * but the HUD is not connected to campaign progression yet. These are not game state.
  */
 export const HUD_PLACEHOLDERS = {
   teamName: 'Your Team',

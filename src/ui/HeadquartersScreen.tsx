@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View, type LayoutChangeEvent } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { HEADQUARTERS_LAYOUT, STARTING_STAFF } from '../game/headquartersData';
+import { HEADQUARTERS_LAYOUT } from '../game/headquartersData';
 import type { NavTab } from '../game/hudPlaceholders';
 import { countWorkersByState } from '../simulation/headquarters';
 import { BottomNav } from './components/BottomNav';
 import { GameHud } from './components/GameHud';
 import { SelectionCard } from './components/SelectionCard';
-import { useHeadquartersSimulation } from './hooks/useHeadquartersSimulation';
+import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { theme } from './theme';
 
-export function HeadquartersScreen() {
-  const { state, restartDay } = useHeadquartersSimulation(HEADQUARTERS_LAYOUT, STARTING_STAFF);
+export function HeadquartersScreen({ state, restartDay }: { state: HeadquartersState; restartDay: () => void }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
   const [toast, setToast] = useState<string | null>(null);
