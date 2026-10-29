@@ -12,7 +12,7 @@ team HQ where staff arrive for the day, walk to their assigned workstations and 
 - 8 staff with persistent station assignments and readable states (IDLE → WALKING → WORKING)
 - Deterministic waypoint movement over a small navigation graph (no teleporting, no cutting through furniture)
 - Tap a worker for an info card; tap a department floor or sign for a department card; tap outside to dismiss
-- Top HUD (placeholder team/day/next event) and bottom navigation (only HQ is live; other tabs say "Coming soon")
+- Top HUD (placeholder team/day/next event) and bottom navigation (HQ, DRIVERS and a limited TEAM comparison are live; RACE/HISTORY remain placeholders)
 - "New day" button replays the morning arrival
 
 ## Architecture
@@ -85,3 +85,11 @@ Start with [DEV_STATUS](docs/DEV_STATUS.md), [GAME_ARCHITECTURE](docs/GAME_ARCHI
 engines remain independently headless. Versioned trusted checkpoints and a validated serialized save envelope/memory repository exist.
 Real-device persistent storage, save/import UI and campaign UI are not implemented.
 See [fictional brand policy](docs/BRAND_IDENTITY.md) for future canonical identity rules.
+
+## Milestone B — driver world
+
+New games use eleven canonical fictional teams, 22 fixed 2026 starters, ten prospects and ten
+reserve/free agents. DRIVERS shows grade-only profiles and team-owned scouting; TEAM compares
+Wellington's two contracts and fixed options. No race simulation or overall driver score.
+Validated save schema v2 migrates v1 ten-team data explicitly. Storage remains memory-only.
+Read `docs/development-notes/MILESTONE-B.md` and `docs/DEV_STATUS.md` before extending it.

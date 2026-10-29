@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals';
-import { DEFAULT_GAME_DEFINITION as definition } from '../../game/defaultGame';
+import { LEGACY_GAME_DEFINITION as definition } from '../../game/legacyGame';
 import { createGameUniverse, advanceUniverseHeadquarters, advanceUniverseWeek } from '../../simulation/universe';
 import {
   createSaveEnvelope, deserializeSave, serializeSave, migrateSave,
@@ -21,7 +21,7 @@ function fixture() {
 }
 const clone = () => JSON.parse(JSON.stringify(fixture())) as GameSaveEnvelope;
 
-test('v1 envelope records caller metadata and serializes/restores nested meaningful state', () => {
+test('current envelope records caller metadata and serializes/restores nested meaningful state', () => {
   const save = fixture();
   expect(save.saveVersion).toBe(CURRENT_SAVE_VERSION);
   expect(save).toMatchObject(metadata);
@@ -50,13 +50,13 @@ test('deterministic continuation survives multiple repository save/load boundari
   expect(b).toEqual(a);
 });
 
-test('initial migration pipeline passes v1 unchanged and refuses missing/invalid/future versions', () => {
+test('migration pipeline passes current schema unchanged and refuses missing/invalid/future versions', () => {
   const original = fixture();
   expect(value(migrateSave(original))).toBe(original);
   for (const version of [undefined, null, '1', 0, -1, 1.5, NaN, Infinity]) {
     expect(migrateSave({ ...original, saveVersion: version })).toMatchObject({ ok: false, error: { code: 'INVALID_DATA' } });
   }
-  for (const version of [2, 99]) expect(migrateSave({ saveVersion: version })).toMatchObject({ ok: false, error: { code: 'UNSUPPORTED_VERSION' } });
+  for (const version of [CURRENT_SAVE_VERSION + 1, 99]) expect(migrateSave({ saveVersion: version })).toMatchObject({ ok: false, error: { code: 'UNSUPPORTED_VERSION' } });
   expect(migrateSave(null).ok).toBe(false);
   expect(migrateSave([]).ok).toBe(false);
   expect(validateSave({ saveVersion: 1 }, definition).ok).toBe(false);

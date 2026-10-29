@@ -1,3 +1,4 @@
+import type { DriverWorld } from '../../game/drivers/types';
 import type { DevelopmentContext } from '../../game/development';
 import type { HeadquartersLayout, WorkerDefinition } from '../../game/models';
 import type { DevelopmentWorld } from '../development';
@@ -7,6 +8,7 @@ import type { HeadquartersState } from '../headquarters';
 export type GameDefinition = {
   /** Bump when content/rules change in a way that needs a saved-state migration. */
   version: string;
+  driverEra?: 2026;
   headquarters: { layout: HeadquartersLayout; roster: WorkerDefinition[] };
   development: DevelopmentContext;
 };
@@ -20,4 +22,5 @@ export type GameUniverse = {
   headquarters: HeadquartersState;
   /** Owns season/week and team car state until the race calendar milestone extends the clock. */
   development: DevelopmentWorld;
+  drivers?: DriverWorld;
 };

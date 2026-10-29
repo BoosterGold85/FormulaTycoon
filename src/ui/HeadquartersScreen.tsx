@@ -11,7 +11,7 @@ import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { theme } from './theme';
 
-export function HeadquartersScreen({ state, restartDay }: { state: HeadquartersState; restartDay: () => void }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate }: { state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -30,8 +30,9 @@ export function HeadquartersScreen({ state, restartDay }: { state: HeadquartersS
   }, []);
 
   const onSelectTab = useCallback((tab: NavTab, available: boolean) => {
-    if (!available) setToast(`${tab} · Coming soon`);
-  }, []);
+    if(available) onNavigate(tab);
+    else setToast(`${tab} · Coming soon`);
+  }, [onNavigate]);
 
   const counts = countWorkersByState(state);
 

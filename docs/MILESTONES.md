@@ -41,3 +41,11 @@ explicit old/new entity mapping, content/save migration and allowance/standings 
 Do not rename stable historical IDs or silently expand the roster in A.1. Original organization
 personality and differentiated AI must be reflected in B–I; sponsors and other brands follow
 BRAND_IDENTITY.md. Sponsor/brand generation remains later work.
+
+## Current milestone gate
+
+A, A.1 and permanent guardrails were merged to main at `f2dab51` before B began. B is implemented
+on `feature/milestone-b-driver-world`; see DEV_STATUS.md for actual validation. The canonical
+registry and ten-to-eleven content/save migration are now implemented. Legacy fixtures remain
+only for compatibility tests. Next is C (track profiles/characteristic translation), NOT begun.
+Full driver growth, offseason AI, real finances and durable device saving remain outside B.

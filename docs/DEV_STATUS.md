@@ -2,137 +2,104 @@
 
 ## Milestone
 
-MILESTONE A — FOUNDATION INTEGRATION: COMPLETE (`a41f38a`).
-MILESTONE A.1 — FOUNDATION HARDENING: COMPLETE (see branch history for the A.1 commit).
-MILESTONE B — NOT STARTED.
+A + A.1 + permanent guardrails: COMPLETE, merged/pushed to main at `f2dab51` before B.
+B — 2026 fictional driver world, contracts and scouting: COMPLETE on
+`feature/milestone-b-driver-world` (see final commit in branch history).
+C — track profiles: NOT STARTED.
 
-Branch: `feature/game-universe-foundation`, originally based on main `333eec4`.
-Read this file plus DEVELOPMENT_GUARDRAILS.md, GAME_ARCHITECTURE.md, GAME_LOOP.md,
-SYSTEM_MAP.md and MILESTONES.md at every milestone. Preserve COMPLETED / IN PROGRESS /
-TESTED / NOT VERIFIED / KNOWN ISSUES / TECHNICAL DEBT / ARCHITECTURAL RISK / NEXT MILESTONE.
+Read AGENTS.md and the six required architecture/guardrail documents before further work.
+Detailed assumptions, five ownership/state/interface/failure/test answers and the exact legacy
+mapping are in `docs/development-notes/MILESTONE-B.md`.
 
 ## COMPLETED
 
-A preserved the independent HQ/development engines, composed one GameUniverse at App lifetime,
-separated factory animation time from development weeks, retained keyed RNG outcomes and
-introduced trusted checkpoints. Architecture, loop, system map and milestone gates were created.
-
-A.1 adds:
-
-- Durable serialized v1 envelope with saveVersion/gameVersion/saveId/createdAt/updatedAt/universe.
-  Caller injects metadata; no unseeded randomness or wall clock in simulation.
-- Unknown JSON -> migration dispatch -> complete nested structural validation plus references/
-  consistency -> detached state. No partial state or fallback new game is exposed on failure.
-- Controlled INVALID_JSON / INVALID_DATA / UNSUPPORTED_VERSION / STORAGE_ERROR results.
-- SaveRepository and raw string SaveStorage write/read/list/delete interface. MemorySaveStorage
-  works on web/native-compatible JS but is VOLATILE, not device persistence.
-- Deterministic save/load continuation; seeds, HQ clocks/routes/assignments, development clocks,
-  parts/projects/budgets and upgrade history are preserved.
-- Permanent facility/organization contracts and seven game pillars. Every major facility upgrade
-  must affect simulation AND visible HQ; lifecycle PLANNED -> UNDER_CONSTRUCTION -> COMMISSIONING
-  -> ACTIVE. Costs/time/upkeep/capacity/disruption remain future gameplay.
-- BRAND_IDENTITY.md: original fictional brands, proposed canonical registry, eleven working team
-  identities/archetypes, fictional sponsor candidates/model, other-brand policy and stable IDs.
-  Existing ten-team runtime data is NOT renamed/rebalanced/expanded without explicit migration.
-- No new gameplay, UI, simulation rules, native storage dependency, cloud saving or authentication.
-
-### Permanent guardrails integration
-
-Documentation/process integration complete: the supplied 31 guardrails are preserved in
-DEVELOPMENT_GUARDRAILS.md. AGENTS.md now requires the six-document reading list, five
-pre-feature questions, validation/handoff/commit workflow and explicit stop rule. Reviewed
-GAME_ARCHITECTURE, GAME_LOOP, SYSTEM_MAP, MILESTONES, DEV_STATUS and BRAND_IDENTITY for
-contradictions. Existing pillars, facility dual-effect rule and fictional registry policy remain
-intact; no runtime source, dependencies, tests, simulation, RNG or save semantics changed.
+- Eleven canonical fictional organizations in `game/brandRegistry.ts`, with differentiated
+  organization traits, stable `team.*` IDs, names/colors/philosophies. Current starting world
+  uses this registry; the old ten-team context is explicitly a frozen compatibility fixture.
+- Fixed 2026 cast: 22 race drivers (two per team), ten core prospects, ten additional reserve/
+  free-agent drivers. Names/profiles are fictional design data, not real stats or likenesses.
+- Six internal bounded ability buckets -> centralized public letter grades/ranges/Unknown.
+  No universal player-facing overall score. Age basis, stage, hidden growth/potential,
+  personality/dynamics, traits, comfort/familiarity, markets and career-history structures.
+- Contracts own seat/team assignments: guaranteed terms, salary and single performance-bonus
+  obligations, fixed team-option deadlines/exercise/lapse, automatic expiry and overlap guards.
+  Repeated option decisions/calendar updates do not duplicate changes. No payroll or bonuses paid.
+- Observer-owned scouting precision/report dates, conservative uncertainty and free report-review
+  action; established starters are high-confidence, prospects uncertain. Truth is not mutated.
+- Technical/commercial contribution interfaces and coarse current-car compatibility read existing
+  characteristics without changing driver ability or awarding development/sponsor/race effects.
+- App-lifetime universe persists through HQ/DRIVERS/TEAM navigation. DRIVERS grid/detail/prospect/
+  reserve views and limited TEAM pairing/option view consume disclosure selectors only.
+- Durable format v2 validates DriverWorld and contract/knowledge references. V1 migration first
+  validates old data, preserves earned HQ/development/history, maps team references, initializes
+  Caldera and driver state. Pending opaque project IDs retain keyed RNG outcomes. No input reset.
+- Frozen v1 fixture plus legacy regression suites retained; no dependencies installed/added.
+- No racing, qualifying, track engine, points, sponsors, finances, staff/facility construction,
+  full driver growth, retirement or offseason AI. Future careers are not scripted to reality.
 
 ## IN PROGRESS
 
-None within A.1 at handoff. No Milestone B implementation begun. The app is still an HQ slice
-with headless development, not a playable campaign or a shipped save/load UI.
+None at milestone handoff. B branch awaits review; do not start C without explicit instruction.
+Wellington is the initial player organization; a team chooser/hiring UI is outside this slice.
 
 ## TESTED
 
+- `npm test -- --runInBand`: PASS, 100 tests in five suites (76 existing foundation + 24 B cases).
 - `npm run typecheck`: PASS.
-- `npm test -- --runInBand`: PASS, 76 tests in 4 suites (44 existing + 32 A.1 cases).
-  Includes all HQ/development/foundation and envelope/repository/migration/invalid-data tests.
-- `EXPO_NO_TELEMETRY=1 npm run build:web`: PASS, static export only. Build emits a harmless
-  NO_COLOR/FORCE_COLOR warning. No new dependency installations.
-- A.1 tests cover meaningful mid-route/project/history round trip, version recording/rejection,
-  v1 identity dispatch, repeated save/load deterministic continuation, all 53 weekly snapshots
-  from preseason through year end, malformed metadata/fields/numbers/IDs/assignments/routes,
-  budget and chronology checks, slot mismatch, invalid writes preserving valid slots, list/
-  overwrite/delete/missing slots, adapter failures, aliasing and invalid slot IDs.
-- A browser interaction check at 390 × 844 previously passed during A: eight working workers,
-  cards/dismissal, placeholder TEAM navigation, NEW DAY, zero page errors/overflow. No UI or
-  simulation code changed in A.1; this is prior evidence, not a new native-device test.
-- A.1 logs: `/workspace/artifacts/milestone-a1/`. No deployment performed.
-- Guardrails integration validation reran `npm test -- --runInBand` (76/76 PASS in 4 suites),
-  `npm run typecheck` (PASS) and `EXPO_NO_TELEMETRY=1 npm run build:web` (PASS).
-  Verified all 31 supplied guardrails verbatim; diff contains documentation/agent instructions only.
-  Logs: `/workspace/artifacts/development-guardrails/`. No source/test/package changes needed.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: PASS (static export, not deployment).
+- Driver tests: 11/22/42 counts, two distinct seats per team, fixed cast across seeds, bounded
+  profiles/traits/grades, no raw truth in disclosure, independent/narrowing scouting, guaranteed
+  contract conflicts/invalid terms, option ownership/deadline/conflict/idempotence and option-year
+  salary, expiry and save validation through three development years.
+- Save tests: knowledge/contracts/stable IDs round trip, deterministic headless continuation,
+  malformed new state rejected, explicit legacy mapping preserving pending projects/history,
+  immutable source save, frozen foundation-v1 fixture migration and invalid legacy references.
+- Chromium at 390 × 844: 22 grid, ten prospects, ten reserves, two player contracts; driver detail,
+  report improvement and option exercise; back to HQ at 8/8, worker/department cards, NEW DAY.
+  Zero page errors and no horizontal overflow. Screenshots/logs under `/workspace/artifacts/milestone-b/`.
 
 ## NOT VERIFIED
 
-- Native iPhone/Safari/Expo Go behavior, performance, memory/battery or safe areas.
-- Real-device durable writes, app-restart recovery, browser/native storage quotas and backup
-  restoration. The memory adapter loses everything when its instance/process ends.
-- Cloudflare deployment. Build/export success is not deployment.
-- Prior released-envelope migration transforms: v1 is the first format. Only v1 identity and
-  unsupported/malformed versions are testable now; future version transforms require fixtures.
-- Drivers, contracts, scouting, facilities gameplay, races, real finances, sponsors and careers.
-- 10/100-season campaign balance; no such campaign engine exists.
+- Native iPhone/Safari/Expo Go, hardware frame rate, battery/memory, device safe areas.
+- Cloudflare deployment; no B deployment or remote publication performed.
+- Real-device durable save storage/restart recovery. Save FORMAT is serialized/validated;
+  MemorySaveStorage is volatile. No load/import/export/autosave UI was added.
+- Career balancing or future driver growth/retirement, actual race car-fit effects or salaries.
+  Three development/calendar years in tests are NOT three racing championship seasons.
 
 ## KNOWN ISSUES
 
-- Real-device storage adapter, atomic writes/backups, import/export UI, autosave and explicit
-  application load/replacement are the next persistence infrastructure work. Do not advertise
-  persistent saving based on this volatile adapter or export the trusted checkpoint as a file.
-- `gameSave.ts` remains trusted-only for A compatibility. Its storage interface is deprecated;
-  all new external inputs use SaveRepository/deserializeSave. V1 envelope is a separate format,
-  not an invented migration from an unreleased checkpoint. No silent fallback on load errors.
-- Definition version is manual, not a hash. New content/rules require retained definitions or
-  explicit migrations. Strict extra-field rejection prevents silently losing unknown data.
-- Validation is structural/state consistency, not tamper-proof authenticity of every historical
-  outcome. New universe domains must extend validators, reference checks and migrations.
-- Legacy team IDs, development facilities/staff ratings and 24-event calendar remain fixtures.
-  Adopting eleven proposed brands requires registry/mapping/new-team initialization/allowance
-  balance/content version and save fixtures. Fictional candidate names still need product review.
-- Facility state will later own capability and visible variant IDs; existing HQ decoration and
-  abstract facility ratings are not canonical construction state. Avoid duplicate bonuses/costs.
-- Player selection is null; ten teams are AI; HUD values remain placeholders. NEW DAY replays
-  arrivals rather than progressing the campaign. No player takeover is silently introduced.
-- Calendar season/week remain in development until a later migration. Submissions grow across
-  years; archival/pruning policy is future work. Planning pace is not a universal race rating.
-- RNG uses stable namespace/event/entity keys, no saved live generator objects. Keep legacy key
-  hashing/tokens (no `|` in new tokens) until a versioned encoding replaces it.
+- Free scouting reviews are a V1 knowledge demonstration, not staff/time/budget gameplay.
+  Knowledge precision derives conservative grade envelopes around fixed current truth; future
+  changing abilities/evidence snapshots require an explicit model/schema evolution.
+- Fixed starting contracts are deliberately fictional 2026–27 + 2028 team option (2027 W40).
+  New domain signings currently support guaranteed terms only; starting options are exercisable.
+  There is no negotiation, buyout, driver option, full hiring UI, agent or payroll simulation.
+- Expiry leaves explicit seat vacancies; no invented offseason AI fills them. Driver grid screen
+  shows the fixed 2026 starting cohort, not a future championship entry list. Full future roster/
+  season-entry behavior belongs to later slices. A reserve with a future deal is available now.
+- Ages display from ageAt2026; stage/abilities do not automatically develop/decline yet. Reputation
+  summaries are fictional; history arrays are initially empty and no race results are fabricated.
+- Current-car fit is a qualitative downforce/mechanical-grip proxy, not braking/oversteer simulation.
+  Technical feedback and commercial interfaces have no hidden bonuses/payouts.
+- Canonical profiles keep ten calibrated development profiles; Caldera/eleven-entry ATR have only
+  basic initialization/regression evidence, not long-run competitive balance.
+- Legacy v1 migration initializes the named driver world at the migrated calendar date, so old
+  saves beyond starting contract terms can have vacancies. No retroactive driver history is invented.
 
 ## TECHNICAL DEBT / ARCHITECTURAL RISK
 
-No new immediate functionality/save-integrity blocker was identified in this documentation
-alignment review. Existing documented constraints remain:
-
-- Only a volatile storage adapter exists; device durability, atomic writes/backups and recovery
-  must be deliberately implemented before players depend on persistent careers.
-- Future schema/content changes need migration fixtures; strict validation and stable IDs must
-  evolve together. Do not bypass the validated repository with trusted checkpoints.
-- Historical submissions grow over seasons; measure save/history growth and execution cost
-  as long-career gameplay matures. No 20/50/100-season campaign validation exists yet.
-- The eleven proposed fictional identities are not the current ten-team fixture. Adoption needs
-  explicit registry/mapping/content migration and balance review, not scattered renames.
-
-These are carry-forward infrastructure/product work, not authorization to refactor or introduce
-new gameplay during this guardrails task.
+- Durable platform adapters, atomic slot writes/backups and explicit validated session replacement
+  remain required before users depend on long careers. Keep trusted checkpoints out of file import.
+- V2 validates exactly the fixed 42-person content cohort. Later procedural generation, new brands,
+  real career statistics and facility/finance domains require schema/content migrations and fixtures.
+- Legacy content remains for validation/tests only; do not resume ten-team new-game initialization.
+  Opaque old project IDs are permitted on their mapped team, preserving pending upgrade RNG draws.
+- Canonical names are owner-provided working identities, not legal clearance. Brand originality
+  review and separate original visual identities remain before release; no real images/logos/assets.
+- History growth, broad market/price balancing and 20/50/100-season performance remain future work.
 
 ## NEXT MILESTONE
 
-B remains NOT STARTED. After reviewing/merging A+A.1, B can design fictional drivers, canonical
-organizations, contracts and imperfect scouting, with original IDs and checkpoint evolution.
-Real-device persistence/recovery is the next infrastructure step before campaigns depend on saves.
-Facilities remains the major I-F milestone, with simulation and visual acceptance gates, not
-optional decoration. Do not implement any of those systems as part of A.1.
-
-## Merge recommendation
-
-Ready to merge A+A.1 as a foundation, conditional on the checks above. This establishes the
-format/validation/system boundaries; it does not certify durable native saving, future schema
-migrations or decades of campaign balance. No push or merge is authorized by this hardening task.
+C — data-driven track profiles and car-to-track performance translation. Not started. Do not begin
+qualifying/racing/tyres/weather, full finance/sponsors or facilities gameplay without explicit scope.
