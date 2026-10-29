@@ -62,13 +62,13 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
   const scoutDriver = useCallback((id:string) => {
     const current=universeRef.current!;
     if(!current.drivers||!current.playerTeamId) return;
-    const next={...current,drivers:observeDriver(current.drivers,current.playerTeamId,id)};
+    const next={...current,drivers:observeDriver(current.drivers,current.playerTeamId,id,current.currentDate)};
     universeRef.current=next;setSnapshot(next);
   }, []);
   const exerciseOption = useCallback((id:string) => {
     const current=universeRef.current!;
     if(!current.drivers||!current.playerTeamId) return;
-    const result=decideTeamOption(current.drivers,current.playerTeamId,id,true);
+    const result=decideTeamOption(current.drivers,current.playerTeamId,id,true,current.currentDate);
     if(result.ok) {const next={...current,drivers:result.world};universeRef.current=next;setSnapshot(next);}
   }, []);
   const checkpoint = useCallback(() => createGameSave(universeRef.current!), []);

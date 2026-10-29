@@ -1,3 +1,4 @@
+import {legacyWeekDate} from '../campaignTime';
 import {PERFORMANCE_2026} from '../../game/drivers/performance2026';
 import {CONTRACTS_2026} from '../../game/drivers/contracts2026';
 import {deriveStartingAbilities} from './performance';
@@ -36,7 +37,7 @@ export function createDriverWorld(aligned = true): DriverWorld {
      seat: GRID.filter(s => s.teamId === seed.teamId).findIndex(s => s.id === id) === 0 ? 1 : 2,
      startSeason:2026,endSeason:2027,annualSalaryM:Math.round((seed.values[0]+seed.values[5]-130)*0.42*10)/10,
      performanceBonusM:0.35,status:'SIGNED',
-     option:{season:2028,deadlineSeason:2027,deadlineWeek:40,salaryM:Math.round((seed.values[0]+seed.values[5]-125)*0.42*10)/10,state:'PENDING'}});
+     option:{season:2028,decisionDate:legacyWeekDate(2,40),salaryM:Math.round((seed.values[0]+seed.values[5]-125)*0.42*10)/10,state:'PENDING'}});
  });
  if(aligned) {
    for(const d of Object.values(drivers)) {
@@ -46,7 +47,7 @@ export function createDriverWorld(aligned = true): DriverWorld {
    for(const c of contracts) {
      const data=CONTRACTS_2026[c.driverId]!;
      c.teamId=data.teamId;c.endSeason=data.endSeason;c.annualSalaryM=data.annualSalaryM;c.provenance={...data.provenance};
-     c.option=data.optionSeason?{season:data.optionSeason,deadlineSeason:data.endSeason,deadlineWeek:40,salaryM:data.annualSalaryM,state:'PENDING'}:null;
+     c.option=data.optionSeason?{season:data.optionSeason,decisionDate:legacyWeekDate(data.endSeason-2025,40),salaryM:data.annualSalaryM,state:'PENDING'}:null;
    }
    const reserve=drivers['driver.takase']!;
    reserve.affiliatedTeamIds=['team.vortex','team.veloce'];
@@ -59,5 +60,5 @@ export function createDriverWorld(aligned = true): DriverWorld {
  const knowledge: DriverWorld['knowledge'] = {};
  for (const team of TEAM_BRANDS) knowledge[team.id] = Object.fromEntries(Object.values(drivers).map(driver => [driver.id,
    {precision: driver.category === 'GRID' ? 100 : driver.category === 'PROSPECT' ? 20 : 65,lastSeason:2026,lastWeek:0,reports:0}]));
- return {season:2026,week:0,drivers,contracts,knowledge,nextContractNumber:23};
+ return {drivers,contracts,knowledge,nextContractNumber:23};
 }

@@ -66,3 +66,15 @@ only the owning team can exercise them. Wellington's starting pair has guarantee
 Report review is free/instant prototype learning; salaries/bonuses are terms only, not payments.
 Return to HQ without losing staff progress. Save format v3 supports these systems, but no durable
 save UI/device storage is introduced. No hiring UI, races, qualifying or full career growth yet.
+
+## C0.1 calendar date (before the real event registry)
+
+Career date begins Monday, March2,2026 and displays in the existing HQ HUD. HQ NEW DAY still
+replays worker arrivals only; no daily-click career UX or calendar screen is added. Domain
+commands may advance directly to a target date while processing crossed work/deadlines. The
+full event/phase registry and smart event-selection UI belong to C and later slices.
+
+Drivers/contracts/scouting consume the root date; observations/history retain their timestamps.
+Team options display explicit decision dates. The prototype 24-event development fixture remains
+an internal compatibility fixture, not the actual 2026 championship calendar. No race or track
+performance behavior was introduced. External saves use v4; older careers migrate their progress.

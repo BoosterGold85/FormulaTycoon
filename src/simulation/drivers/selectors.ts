@@ -1,3 +1,4 @@
+import {campaignContext,type CampaignDate} from '../campaignTime';
 import {formLabel} from './performance';
 import { BUCKETS, type Bucket, type Driver, type DriverWorld } from '../../game/drivers/types';
 import { teamBrand } from '../../game/brandRegistry';
@@ -11,15 +12,17 @@ export function gradeIndex(raw:number):number {
 export const gradeFor=(raw:number)=>GRADES[gradeIndex(raw)]!;
 export const BUCKET_LABELS:Record<Bucket,string>={talent:'Talent',racecraft:'Racecraft',adaptability:'Adaptability',composure:'Composure',feedback:'Technical Feedback',marketability:'Marketability'};
 /** Existing race/reserve employment lookup shared by disclosure and car-fit selection. */
-export function currentDriverContract(world:DriverWorld,id:string) {
- const race=activeContracts(world).find(c=>c.driverId===id);
- return race??world.contracts.find(c=>c.driverId===id&&c.role==='RESERVE'&&c.status==='SIGNED'&&c.startSeason<=world.season&&effectiveEnd(c)>=world.season);
+export function currentDriverContract(world:DriverWorld,id:string,date:CampaignDate) {
+ const {season}=campaignContext(date);
+ const race=activeContracts(world,date).find(c=>c.driverId===id);
+ return race??world.contracts.find(c=>c.driverId===id&&c.role==='RESERVE'&&c.status==='SIGNED'&&c.startSeason<=season&&effectiveEnd(c)>=season);
 }
 /** Grade-only disclosure DTO. No raw ability, hidden potential, personality numbers or universal rating. */
-export function driverView(world:DriverWorld,observer:string,id:string) {
+export function driverView(world:DriverWorld,observer:string,id:string,date:CampaignDate) {
+ const {season}=campaignContext(date);
  const d=world.drivers[id]; const known=world.knowledge[observer]?.[id];
  if (!Object.hasOwn(world.drivers,id)||!Object.hasOwn(world.knowledge,observer)||!Object.hasOwn(world.knowledge[observer]!,id)||!d||!known) throw new Error('Unknown driver/observer');
- const contract=currentDriverContract(world,id);
+ const contract=currentDriverContract(world,id,date);
  const race=contract?.role!=='RESERVE'?contract:undefined;
  const bounds=Object.fromEntries(BUCKETS.map((key,i)=>{
    if (d.category==='PROSPECT'&&known.precision<30&&key==='adaptability') return [key,'Unknown'];
@@ -27,16 +30,16 @@ export function driverView(world:DriverWorld,observer:string,id:string) {
    const radius=known.precision>=100?0:known.precision>=70?1:known.precision>=40?2:3;
    return [key, radius===0?GRADES[center]:`${GRADES[Math.max(0,center-radius)]} to ${GRADES[Math.min(10,center+radius)]}`];
  })) as Record<Bucket,string>;
- return {id:d.id,name:d.name,nationality:d.nationality,age:d.ageAt2026+world.season-2026,stage:d.stage,category:d.category,
+ return {id:d.id,name:d.name,nationality:d.nationality,age:d.ageAt2026+season-2026,stage:d.stage,category:d.category,
    grades:bounds,team:contract?teamBrand(contract.teamId).name:'Available',teamId:contract?.teamId??null,
    contractId:contract?.id??null,raceSeat:!!race,form:formLabel(d.dynamic.form),
    contractEnd:contract?.endSeason??null,optionYear:contract?.option?.season??null,
-   futureGuaranteedYears:contract?Math.max(0,contract.endSeason-world.season):null,
-   futureEffectiveYears:contract?Math.max(0,effectiveEnd(contract)-world.season):null,
+   futureGuaranteedYears:contract?Math.max(0,contract.endSeason-season):null,
+   futureEffectiveYears:contract?Math.max(0,effectiveEnd(contract)-season):null,
    sourceStatus:contract?.provenance?.status??null,
    affiliations:(d.affiliatedTeamIds??[]).map(id=>teamBrand(id).name),
-   contract:contract ? `${contract.role==='RESERVE'?'Reserve · ':''}${contract.startSeason}–${contract.endSeason} guaranteed · $${annualSalary(contract,world.season)}M / year` : 'No race-seat contract',
-   option:contract?.option ? `${contract.option.season} team option · ${contract.option.state.toLowerCase()} · decide by ${contract.option.deadlineSeason} W${contract.option.deadlineWeek}` : null,
+   contract:contract ? `${contract.role==='RESERVE'?'Reserve · ':''}${contract.startSeason}–${contract.endSeason} guaranteed · $${annualSalary(contract,season)}M / year` : 'No race-seat contract',
+   option:contract?.option ? `${contract.option.season} team option · ${contract.option.state.toLowerCase()} · decide by ${contract.option.decisionDate}` : null,
    specialties:known.precision>=75?d.traits:d.traits.slice(0,1),unknownTraits:known.precision<75,
    familiarity:contract&&d.familiarity.teamId===contract.teamId?(d.familiarity.organization>=80?'Established':'Adapting'):'New organization',
    potential:known.precision<40?'Uncertain':d.hidden.potential>=96?'Very High':d.hidden.potential>=90?'High':'Established ceiling',
@@ -44,10 +47,11 @@ export function driverView(world:DriverWorld,observer:string,id:string) {
    summary:d.summary,commercial:`${d.commercial.home} · ${d.commercial.region} · ${known.precision>=100?gradeFor(d.commercial.globalAppeal)+' global reach':'Commercial reach under review'}`,
    history:d.history.seasons.map(s=>({...s,team:teamBrand(s.teamId).name})), lastObserved:`${known.lastSeason} W${known.lastWeek}`};
 }
-export function observeDriver(world:DriverWorld,observer:string,id:string):DriverWorld {
+export function observeDriver(world:DriverWorld,observer:string,id:string,date:CampaignDate):DriverWorld {
+ const {season,week}=campaignContext(date);
  const old=world.knowledge[observer]?.[id];
  if(!Object.hasOwn(world.drivers,id)||!Object.hasOwn(world.knowledge,observer)||!Object.hasOwn(world.knowledge[observer]!,id)||!old) throw new Error('Unknown observer/driver');
- const next={...old,precision:Math.min(100,old.precision+20),reports:old.reports+1,lastSeason:world.season,lastWeek:world.week};
+ const next={...old,precision:Math.min(100,old.precision+20),reports:old.reports+1,lastSeason:season,lastWeek:week};
  return {...world,knowledge:{...world.knowledge,[observer]:{...world.knowledge[observer],[id]:next}}};
 }
 /** Future engineering input; deliberately not applied as a hidden development bonus in B. */

@@ -1,3 +1,4 @@
+import {activeChampionshipSeason} from '../simulation/campaignTime';
 import React,{useState,useRef,useEffect} from 'react';
 import {SafeAreaView,ScrollView,View,Text,Pressable,StyleSheet} from 'react-native';
 import type {DriverWorld} from '../game/drivers/types';
@@ -24,14 +25,14 @@ export function DriversScreen({universe,definition,world,observer,tab,onNavigate
  const [selected,setSelected]=useState<string|null>(null);
  const [notice,setNotice]=useState('');
  useEffect(()=>{scroll.current?.scrollTo({y:0,animated:false});},[selected,filter,tab]);
- const all=Object.keys(world.drivers).map(id=>driverView(world,observer,id));
- const selectedDriver=selected?driverView(world,observer,selected):null;
+ const all=Object.keys(world.drivers).map(id=>driverView(world,observer,id,universe.currentDate));
+ const selectedDriver=selected?driverView(world,observer,selected,universe.currentDate):null;
  const fit=selectedDriver?selectDriverCarFit(universe,definition,selectedDriver.id):null;
  const comparison=tab==='TEAM';
  const visible=comparison?all.filter(d=>d.raceSeat&&d.teamId===observer):all.filter(d=>d.category===filter);
  const navigate=(next:NavTab,available:boolean)=>{if(available){setSelected(null);setNotice('');onNavigate(next);}else setNotice(`${next} · Coming soon`);};
  return <SafeAreaView style={s.safe}>
-   <View style={s.header}><Text style={s.kicker}>FORMULA TYCOON / {world.season}</Text><Text style={s.title}>{comparison?'Your driver pairing':'Driver world'}</Text>
+   <View style={s.header}><Text style={s.kicker}>FORMULA TYCOON / {activeChampionshipSeason(universe.currentDate)}</Text><Text style={s.title}>{comparison?'Your driver pairing':'Driver world'}</Text>
    <Text style={s.subtitle}>{comparison?teamBrand(observer).name:'22 seats. Distinct strengths. No single overall rating.'}</Text></View>
    {notice?<Text accessibilityRole="alert" style={s.notice}>{notice}</Text>:null}
    <ScrollView ref={scroll} style={s.scroll} contentContainerStyle={s.content}>

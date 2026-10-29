@@ -1,6 +1,6 @@
 import type { PartDefinition } from '../../game/development/types';
 import type { DevelopmentProject } from '../../simulation/development/types';
-import type { DriverContract, DriverWorld } from '../../game/drivers/types';
+import type { DriverWorld, HistoricalContract as DriverContract } from './preCalendarTypes';
 import { INITIAL_V3 } from './index';
 
 /** Released validation/migration semantics, deliberately independent from future live engine changes. */

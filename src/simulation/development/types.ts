@@ -58,6 +58,7 @@ export type TeamDevelopmentState = {
   nextProjectNumber: number;
 };
 
+/** Ephemeral kernel view only. Current careers persist DevelopmentState, never these time projections. */
 export type DevelopmentWorld = {
   seed: number;
   season: number;
@@ -66,3 +67,6 @@ export type DevelopmentWorld = {
   teams: Record<string, TeamDevelopmentState>;
   submissions: UpgradeSubmission[];
 };
+
+/** The only development data persisted by a current career. */
+export type DevelopmentState = Omit<DevelopmentWorld, 'season' | 'week'>;

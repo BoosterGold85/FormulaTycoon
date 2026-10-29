@@ -1,12 +1,11 @@
-import { SAVE_V3, INITIAL_V3 } from './contracts';
+import { SAVE_V3, INITIAL_V3, SAVE_V2 } from './contracts';
 import { initialReleasedDrivers } from './contracts/preCalendarRules';
-import { LEGACY_DRIVER_GAME_DEFINITION } from '../game/legacyDriverGame';
-import type { GameUniverse } from '../simulation/universe';
-import { validateUniverse } from './universeValidation';
+import type { GameUniverse } from './contracts/preCalendarTypes';
+import { validateReleasedUniverse } from './contracts/preCalendarValidation';
 
 /** Upgrade content shape without replacing career abilities, contracts or scouting decisions. */
 export function migrateDriverAlignment(input: unknown): GameUniverse {
-  validateUniverse(input, LEGACY_DRIVER_GAME_DEFINITION);
+  validateReleasedUniverse(input, SAVE_V2);
   const next = JSON.parse(JSON.stringify(input)) as GameUniverse;
   const world = next.drivers!;
   for (const driver of Object.values(world.drivers)) {
@@ -21,6 +20,6 @@ export function migrateDriverAlignment(input: unknown): GameUniverse {
     world.knowledge[team]![id] = {...fresh.knowledge[team]![id]!,lastSeason:world.season,lastWeek:world.week};
   }
   next.definitionVersion = SAVE_V3.definition.version;
-  validateUniverse(next, SAVE_V3.definition);
+  validateReleasedUniverse(next, SAVE_V3);
   return next;
 }

@@ -15,7 +15,7 @@ export function selectDriverCarFit(universe:GameUniverse, definition:GameDefinit
  const world=universe.drivers;
  if(!world)return null;
  if(!Object.hasOwn(world.drivers,driverId))throw new Error('Unknown driver');
- const contract=currentDriverContract(world,driverId);
+ const contract=currentDriverContract(world,driverId,universe.currentDate);
  if(!contract)return null;
  const team=universe.development.teams[contract.teamId];
  const profile=definition.development.teams.find(t=>t.id===contract.teamId);

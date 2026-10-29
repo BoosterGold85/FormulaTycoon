@@ -1,3 +1,5 @@
+import {developmentState,developmentView} from '../campaignTime/developmentView';
+import {campaignContext} from '../campaignTime';
 import { test, expect } from '@jest/globals';
 import { LEGACY_GAME_DEFINITION as definition } from '../../game/legacyGame';
 import { createGameSave, restoreGameSave, type GameSave } from '../../persistence/gameSave';
@@ -15,7 +17,7 @@ const make = () => createGameUniverse(definition, 7);
 test('composes the existing engines without changing their initial state or AI ownership', () => {
   const universe = make();
   expect(universe.headquarters).toEqual(createHeadquartersState(definition.headquarters.layout, definition.headquarters.roster));
-  expect(universe.development).toEqual(createDevelopmentWorld(definition.development, 7));
+  expect(universe.development).toEqual(developmentState(createDevelopmentWorld(definition.development, 7)));
   expect(universe.playerTeamId).toBeNull();
 });
 
@@ -36,12 +38,12 @@ test('HQ steps preserve development identity and exactly match the standalone en
 test('weeks match standalone development, independent of factory animation and restarting NEW DAY', () => {
   const initial = make();
   let a = initial;
-  let standalone = initial.development;
+  let standalone = developmentView(initial.development,initial.currentDate);
   for (let week = 0; week < 52; week++) {
     a = advanceUniverseWeek(a, definition);
     standalone = advanceDevelopmentWeek(standalone, definition.development);
   }
-  expect(a.development).toEqual(standalone);
+  expect(a.development).toEqual(developmentState(standalone));
   expect(a.headquarters).toBe(initial.headquarters);
   const restarted = restartUniverseHeadquarters(a, definition);
   expect(restarted.development).toBe(a.development);
@@ -93,8 +95,8 @@ test('season boundary requires complete standings and preserves submissions and 
   const standings = definition.development.teams.map(t => t.id);
   expect(() => startUniverseSeason(a, definition, standings.map(() => standings[0]!))).toThrow('exactly once');
   const b = startUniverseSeason(a, definition, standings);
-  expect(b.development.season).toBe(2);
-  expect(b.development.week).toBe(0);
+  expect(campaignContext(b.currentDate).seasonIndex).toBe(2);
+  expect(campaignContext(b.currentDate).week).toBe(0);
   expect(b.development.submissions).toBe(a.development.submissions);
   expect(b.headquarters).toBe(a.headquarters);
 });

@@ -1,7 +1,7 @@
 import type { GameDefinition, GameUniverse } from '../simulation/universe';
 import { assertDefinition } from '../simulation/universe';
 
-export const SAVE_VERSION = 1 as const;
+export const SAVE_VERSION = 2 as const;
 
 /** Trusted in-memory checkpoint contract. Not a validator for arbitrary JSON/files. */
 export type GameSave = {
@@ -21,7 +21,7 @@ export function createGameSave(universe: GameUniverse): GameSave {
 /**
  * Restore only a trusted GameSave. A future storage adapter MUST validate unknown input
  * before calling this; we deliberately do not expose a misleading parseSave(string).
- * Version 1 is the first schema: no prior released save format exists to migrate.
+ * Trusted checkpoint v2 contains date-clock state; old file imports use the external v4 migration boundary.
  */
 export function restoreGameSave(save: GameSave, definition: GameDefinition): GameUniverse {
   if (save.saveVersion !== SAVE_VERSION) throw new Error('Unsupported save version: migration required');

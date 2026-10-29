@@ -1,3 +1,4 @@
+import type {CampaignDate} from '../simulation/campaignTime';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View, type LayoutChangeEvent } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -11,7 +12,7 @@ import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { theme } from './theme';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate }: { state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate }: { currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -39,7 +40,7 @@ export function HeadquartersScreen({ state, restartDay, onNavigate }: { state: H
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar style="light" />
-      <GameHud />
+      <GameHud currentDate={currentDate} />
 
       <View style={styles.viewport} onLayout={onLayout}>
         {size ? (

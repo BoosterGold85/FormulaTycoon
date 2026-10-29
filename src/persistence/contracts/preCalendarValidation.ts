@@ -1,7 +1,7 @@
 /** Released v1/v2/v3 validation semantics. Future schemas get a new validator. */
 import type { ReleasedContent } from './index';
 import { validateReleasedDrivers } from './preCalendarDriverValidation';
-import type { GameUniverse } from '../../simulation/universe';
+import type { GameUniverse } from './preCalendarTypes';
 import { releasedStageWork as stageWork } from './preCalendarRules';
 import { array, choice, nullable, number, object, requireValid, text, type Check } from '../validation';
 

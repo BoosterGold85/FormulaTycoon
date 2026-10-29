@@ -103,6 +103,19 @@ driver's skills. Other teams keep their own knowledge. Confidence, the last repo
 count show what you currently know. Report reviews are free and immediate in this prototype;
 scouting staff, budgets and elapsed-time assignments are future work.
 
+## Time & Calendar
+
+Your career begins on **Monday, March 2, 2026**. The in-game date stays the same wherever you
+play; it is separate from the real date and the clock on your device.
+
+Development and contract deadlines use this shared career calendar. The HQ **NEW DAY** button
+currently replays the morning arrivals; it does **not** move the career date forward.
+
+Future calendar controls may advance directly to important events or deadlines, so you will not
+need to click through every day. Race weekends, travel, scouting assignments and future facility
+work will use the same calendar. Those event controls and the full race calendar are not available
+yet; the current next-event HUD remains a placeholder.
+
 ## Headquarters and saving
 
 Use **HQ** to return to the working headquarters. Tap workers or departments for their cards;
