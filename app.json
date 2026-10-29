@@ -20,9 +20,6 @@
       "shortName": "F. Tycoon",
       "backgroundColor": "#0A111B",
       "themeColor": "#0A111B"
-    },
-    "experiments": {
-      "baseUrl": "/FormulaTycoon"
     }
   }
 }
