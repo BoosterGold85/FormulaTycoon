@@ -1,9 +1,10 @@
 import React from 'react';
+import {weekday,formatCampaignDate,type CampaignDate} from '../../simulation/campaignTime';
 import { StyleSheet, Text, View } from 'react-native';
 import { HUD_PLACEHOLDERS } from '../../game/hudPlaceholders';
 import { theme } from '../theme';
 
-export function GameHud() {
+export function GameHud({currentDate}:{currentDate:CampaignDate}) {
   return (
     <View style={styles.wrap}>
       <Text style={styles.title}>
@@ -11,20 +12,21 @@ export function GameHud() {
       </Text>
       <View style={styles.row}>
         <HudChip label="TEAM" value={HUD_PLACEHOLDERS.teamName} />
-        <HudChip label="DAY" value={HUD_PLACEHOLDERS.day} />
+        <HudChip label="DAY" value={weekday(currentDate)} detail={formatCampaignDate(currentDate)} />
         <HudChip label="NEXT EVENT" value={HUD_PLACEHOLDERS.nextEvent} accent />
       </View>
     </View>
   );
 }
 
-function HudChip({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function HudChip({ label, value, accent,detail }: { label: string; value: string; accent?: boolean;detail?:string }) {
   return (
     <View style={styles.chip}>
       <Text style={styles.chipLabel}>{label}</Text>
       <Text style={[styles.chipValue, accent && styles.chipValueAccent]} numberOfLines={1}>
         {value}
       </Text>
+      {detail?<Text style={{color:theme.textMuted,fontSize:10,marginTop:2}}>{detail}</Text>:null}
     </View>
   );
 }

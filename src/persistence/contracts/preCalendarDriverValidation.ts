@@ -1,5 +1,5 @@
 /** Released pre-calendar driver schema; no dependency on live driver/team registries. */
-import type { DriverWorld } from '../../game/drivers/types';
+import type { DriverWorld } from './preCalendarTypes';
 import type { ReleasedDriverContent } from './index';
 import { releasedEffectiveEnd as effectiveEnd } from './preCalendarRules';
 import { array, choice, nullable, number, object, requireValid, text } from '../validation';

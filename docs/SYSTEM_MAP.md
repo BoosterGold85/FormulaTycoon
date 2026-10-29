@@ -6,7 +6,9 @@ Solid connections below exist today. Everything in the future table is design, n
 flowchart TD
     Definition[GameDefinition: existing content and rules] --> Universe[Pure universe transitions]
     Universe --> HQ[Existing headquarters engine]
-    Universe --> Dev[Existing development engine]
+    Universe --> Clock[One root currentDate / CampaignTime]
+    Clock -->|derived temporal view| Dev[Existing development kernel]
+    Clock -->|date context| Drivers
     Universe --> Drivers[DriverWorld: profiles, contracts, knowledge]
     Drivers --> State
     Drivers --> Disclosure[Grade-only disclosure selectors]
@@ -16,13 +18,13 @@ flowchart TD
     Dev --> State
     App[App lifetime useGameUniverse] -->|commands / 50ms HQ steps| Universe
     State -->|display snapshots| UI[HQ scene, HUD, cards]
-    State --> Checkpoint[Version 1 trusted checkpoint]
+    State --> Checkpoint[Version 2 trusted checkpoint]
     Checkpoint -->|version + content checks| State
-    State --> Envelope[Validated v3 serialized envelope]
+    State --> Envelope[Validated v4 serialized envelope]
     Envelope --> Repo[SaveRepository]
     Repo --> Memory[MemorySaveStorage: volatile]
     Memory -->|raw strings| Decode[JSON decode / migration dispatch / validation]
-    Frozen[Immutable released v1 v2 v3 contracts] --> Decode
+    Frozen[Immutable released v1 v2 v3 v4 contracts] --> Decode
     State --> Fit[Domain driver-car fit selector]
     Definition --> Fit
     Fit --> DriverUI
@@ -72,24 +74,21 @@ Only the memory adapter is implemented today. Native/browser storage belongs beh
 the simulation imports neither platform storage nor persistence. Repository decode never mutates
 an active session; a future explicit application load action may replace state only after success.
 
-B integration: DriverWorld calendar follows development season/week through an explicit 2026-year
-adapter. Contract queries derive seats and future salary obligations. Car fit reads car attributes,
-feedback/commercial interfaces await later consumers. Scouting commands update observer knowledge
-only; all public grades are centralized. No event feed, payroll or race-result rules are added.
+## C0.1 single-clock boundary
 
-## C0 readiness boundaries
+GameUniverse.currentDate -> CampaignTime -> derived development/contract/display contexts.
+Persisted development and DriverWorld contain no current clocks. The balanced development
+kernel's dated view is temporary; its season/week fields are never stored. Date advancement
+processes the ordered interval, running existing weekly work and explicit option/expiry checks.
+Future dated systems join this interval; a target-date jump cannot skip their intermediate work.
 
-`persistence/contracts` stores released content, IDs and validation semantics independently from
-live registries. `historicalSaveValidation` validates each source schema, v1/v2 migrations target
-frozen v3 data, and final validation resolves a registered released definition. The v3 fixture
-is ready for future v4 migration tests; saveVersion remains 3. Unknown content does not fall back
-to mutable arrays. The live new-game definition remains the new-game owner, not these snapshots.
+V1/V2 -> frozen validated V3 -> explicit date migration -> V4 validation. Source snapshots and
+fixtures remain untouched. The v4 fixture preserves C0's meaningful audited progress.
 
-Driver UI -> `selectDriverCarFit` -> employment + car profile -> compatibility label/null.
-No UI-owned composition, duplicate fit field or car/track-fit implementation.
+UI -> domain date/day selectors; current HQ NEW DAY -> animation replay, never the campaign
+clock. The next-event HUD remains a placeholder until C adds the event registry. Calendar year,
+championship lifecycle, dated facts and HQ milliseconds are different concepts.
 
-Temporary current time: development season/week -> universe adapter -> driver year/week;
-validation rejects disagreement. Proposed future ownership (NOT IMPLEMENTED): approved root
-CampaignTime -> derived driver/development/display/deadline queries. HQ animation milliseconds
-remain separate. Owner must approve date-vs-logical-time representation before C content;
-the v3→v4 steps and exhaustive inventory are in `development-notes/MILESTONE-C0.md`.
+C0's clock inventory/migration plan is historical context; C0.1 implements the approved actual-
+date model. Provisional annual March2/52-work-week projection preserves old progress until real
+calendar/phase definitions replace it through an explicit compatibility step. C is NOT STARTED.

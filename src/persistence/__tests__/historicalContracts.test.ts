@@ -62,7 +62,7 @@ test('live registry/content drift cannot change historical acceptance or v1/v2 m
   set(CONTRACTS_2026['driver.verhoeven']!,'endSeason',2035);
   for(const [i,f] of fixtures.entries())expect(()=>assertHistoricalSave(f,(i+1) as 1|2|3)).not.toThrow();
   // The public validator also resolves released IDs to snapshots rather than the caller's altered objects.
-  expect(()=>validateUniverse(v3.universe,live)).not.toThrow();
+  expect(()=>validateUniverse(value(deserializeSave(JSON.stringify(v3),live)).universe,live)).not.toThrow();
   expect(value(deserializeSave(JSON.stringify(v1),live))).toEqual(expected[0]);
   expect(value(deserializeSave(JSON.stringify(v2),live))).toEqual(expected[1]);
   const bad=clone(v3);bad.universe.development.submissions[0]!.eventId='live.future.event';
@@ -86,8 +86,8 @@ test('v3 fixture contains meaningful audited career state and resumes determinis
   b=advanceUniverseWeek(advanceUniverseHeadquarters(b,live,500),live);
  }
  expect(a).toEqual(b);
- expect(CURRENT_SAVE_VERSION).toBe(3);
- expect(deserializeSave(JSON.stringify({...v3,saveVersion:4}),live)).toMatchObject({ok:false,error:{code:'UNSUPPORTED_VERSION'}});
+ expect(CURRENT_SAVE_VERSION).toBe(4);
+ expect(deserializeSave(JSON.stringify({...v3,saveVersion:5}),live)).toMatchObject({ok:false,error:{code:'UNSUPPORTED_VERSION'}});
 });
 
 

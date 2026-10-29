@@ -1,34 +1,39 @@
 # Released save content contracts
 
-Captured from audited B/B.1 `6b7e894` (merged to main as `88ef974`). These are independent,
-checked-in historical data, not imports or startup clones of the current game registries.
+V1/V2/V3 were captured from audited B/B.1 `6b7e894` (merged as `88ef974`) and frozen by C0.
+They are checked-in historical data, not imports or startup clones of current registries.
 Each JSON object is detached and recursively frozen by `index.ts` before use.
 
 - `v1.json`: released ten-team development/HQ content, roster, layout, parts, events and bounds;
-  no canonical-team migration aliases existed in v1.
+  no canonical-team migration aliases existed in V1.
 - `v2.json`: released 11-team B content and closed 42-driver/trait/bucket identity schema.
 - `v3.json`: aligned pre-calendar content and closed 43-driver schema, including reserve support.
-- `v3-initial.json`: frozen migration-target driver initialization and Caldera state. This is
-  historical migration content, not a second mutable roster and not the live new-game source.
-- `preCalendarValidation.ts` / `preCalendarDriverValidation.ts`: released v1/v2/v3 validation
-  semantics. `preCalendarRules.ts` pins project-progress and contract-calendar semantics that
-  otherwise would drift when live engine functions changed. Imports from current model files
-  are type-only; no runtime live registry/engine dependency exists.
+- `v3-initial.json`: frozen migration-target driver initialization and Caldera state. Historical
+  migration content, not a second mutable roster or live new-game source.
+- `preCalendarValidation.ts` / `preCalendarDriverValidation.ts`: released V1/V2/V3 validation
+  semantics. `preCalendarRules.ts` pins project-progress/contract-calendar semantics. Runtime
+  validation has no live registry/engine dependency. `preCalendarTypes.ts` preserves old shapes;
+  only type imports changed when C0.1 removed live subsystem clocks.
+- `v4.json`: C0.1 content snapshot with date-based definition identity. Root date and dated options
+  are checked by `universeValidation.ts`, which creates an ephemeral historical-shaped projection
+  to reuse frozen structural rules. It explicitly uses released `calendarPolicyV4.ts`, not an
+  unspecified future live event-calendar policy. Keep this policy available unchanged to validate
+  V4 if subsequent versions change championship phase/week interpretation.
 
-Legacy game-definition modules are compatibility aliases to v1/v2 snapshots. Actual current
-new games still use the live default definition/driver factory. Save validation resolves known
-released definition IDs to snapshots; an unknown definition needs an explicit registered
-contract/validator rather than silently trusting arbitrary current arrays.
+The external current save version is **4**. `assertHistoricalSave(input, version)` validates raw
+V1/V2/V3 source. V1/V2 transformations first reach frozen V3; V3 source is validated, then
+`dateMigration.ts` produces detached V4 output; the public boundary validates that output with
+V4 rules before returning it. The trusted internal checkpoint is independently version2 and is
+not an external import API. Unknown released definition IDs require explicit registration.
 
-`assertHistoricalSave(input, version)` is the source validation boundary. V1/v2 transforms
-produce the audited v3 target, preserving earned state. The current save version remains **3**.
-When calendar state really enters the save, C must add v4 validation and a v3→v4 migration:
-validate source with v3, transform detached data, then validate v4. Do not change the v3 contract
-to make a new format pass. Preserve old schema types if live runtime types evolve incompatibly.
-The matching v3 fixture contains mid-route HQ, week-16 pending projects/history, improved scouting
-and an exercised option, not an empty new game.
+Old `(seasonIndex, completedWeek)` maps to March2 of `2025 + seasonIndex` plus `7 * week` days,
+not ISO week. Old option deadlines map identically to explicit inclusive decision dates.
+The immutable V3 fixture contains mid-route HQ, week16 pending projects/history, improved
+scouting and an exercised option. The corresponding V4 fixture maps to **2026-06-22** and retains
+that meaningful state; V1/V2/V3 fixture bytes remain unchanged.
 
-Permanent rule: an old save version validates against the content contract that existed when
-it was released. When persistent structure changes: bump version, freeze the prior contract,
-retain its fixture, implement migration, and test it. Never rewrite historical fixtures or
-contracts to match new current content. New versions get new files and explicit dispatch.
+Permanent rule: old saves validate against their released content and validation semantics.
+For persistent changes: bump version, freeze the previous contract, retain a meaningful fixture,
+implement migration and test source/output/continuation. Never rewrite historical inputs to match
+current content. New versions get new files and explicit dispatch. Preserve the V4 phase mapping
+and explicit option dates when adding later calendars; do not silently reinterpret a career.

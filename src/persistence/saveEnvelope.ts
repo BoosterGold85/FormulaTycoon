@@ -1,3 +1,4 @@
+import { migrateV3Universe } from './dateMigration';
 import { migrateDriverAlignment } from './alignmentMigration';
 import { assertHistoricalSave } from './historicalSaveValidation';
 import { migrateTenTeamUniverse } from './teamMigration';
@@ -6,7 +7,7 @@ import { validateUniverse } from './universeValidation';
 import { object, number, saveId, text, timestamp, requireValid } from './validation';
 
 /** Independent from the older trusted checkpoint's SAVE_VERSION. */
-export const CURRENT_SAVE_VERSION = 3 as const;
+export const CURRENT_SAVE_VERSION = 4 as const;
 export type GameSaveEnvelope = {
   saveVersion: typeof CURRENT_SAVE_VERSION;
   gameVersion: string;
@@ -19,7 +20,7 @@ export type SaveErrorCode = 'INVALID_DATA' | 'UNSUPPORTED_VERSION' | 'INVALID_JS
 export type SaveResult<T> = { ok: true; value: T } | { ok: false; error: { code: SaveErrorCode; message: string } };
 export const failure = (code: SaveErrorCode, message: string): SaveResult<never> => ({ ok: false, error: { code, message } });
 
-/** Migration dispatch: validate released schemas before upgrading to v3; never guess missing/unknown versions. */
+/** Migration dispatch: validate released schemas before upgrading to v4; never guess missing/unknown versions. */
 export function migrateSave(input: unknown, definition?: GameDefinition): SaveResult<unknown> {
   try {
     if (!input || typeof input !== 'object' || Array.isArray(input) || !Object.hasOwn(input, 'saveVersion')) {
@@ -29,22 +30,16 @@ export function migrateSave(input: unknown, definition?: GameDefinition): SaveRe
     if (typeof version !== 'number' || !Number.isSafeInteger(version) || version < 1) {
       return failure('INVALID_DATA', 'Invalid save version');
     }
-    if (version === 1) {
+    if(version===1||version===2||version===3){
+      assertHistoricalSave(input,version);
       const raw=input as Record<string,unknown>;
-      // Fully validate v1 fields and legacy state BEFORE renaming any references.
-      assertHistoricalSave(input,1);
-      const universe=definition?.driverEra ? migrateTenTeamUniverse(raw.universe) : raw.universe;
-      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe}};
+      const historical=version===1?migrateTenTeamUniverse(raw.universe):version===2?migrateDriverAlignment(raw.universe):raw.universe;
+      // Every historical path first reaches the validated immutable v3 boundary.
+      const v3={...raw,saveVersion:3,universe:historical};
+      assertHistoricalSave(v3,3);
+      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe:migrateV3Universe(v3.universe as import('./contracts/preCalendarTypes').GameUniverse)}};
     }
-    if (version === 2) {
-      const raw=input as Record<string,unknown>;
-      assertHistoricalSave(input,2);
-      const universe=definition?.driverEra&&definition.driverDataVersion!==1?migrateDriverAlignment(raw.universe):raw.universe;
-      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe}};
-    }
-    if (version !== CURRENT_SAVE_VERSION) return failure('UNSUPPORTED_VERSION', `Unsupported save version: ${version}`);
-    // C introduces v4 only with real persistent clock state: assertHistoricalSave(input,3),
-    // then an explicit v3 -> v4 transform. Never pass old data to a future live validator.
+    if(version!==CURRENT_SAVE_VERSION)return failure('UNSUPPORTED_VERSION',`Unsupported save version: ${version}`);
     return { ok: true, value: input };
   } catch { return failure('INVALID_DATA', 'Invalid save version or legacy content'); }
 }

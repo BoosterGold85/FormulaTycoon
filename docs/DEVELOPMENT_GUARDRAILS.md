@@ -948,7 +948,27 @@ When persistent structure changes:
 5. Test source validation, migration, final validation and deterministic continuation.
 6. Never rewrite historical fixtures or contracts merely to match current content.
 
-C0 retains v3 and prepares the historical v3 boundary. Introduce v4 only when actual persistent
-calendar state is implemented. The future GameUniverse campaign clock must be the sole current
-campaign-time owner; other systems derive their views. The final time representation requires
-project-owner approval. HQ animation time and historical/deadline timestamps remain separate.
+C0 prepared the historical v3 boundary; C0.1 introduces v4 after owner approval of actual calendar
+dates. Root currentDate is the sole current campaign-time owner. HQ animation time and historical/
+deadline timestamps remain separate.
+
+
+# 33. ONE AUTHORITATIVE CAMPAIGN DATE
+
+The career clock is GameUniverse.currentDate, a plain validated Gregorian calendar date.
+New careers start Monday, March 2, 2026. It is not an instant or wall-clock timestamp.
+No device timezone, locale, Date.now or actual current-world date may affect campaign rules.
+
+Development and DriverWorld persist no independent current season/week/date. Derive all views
+through CampaignTime. Historical observations/results, contract seasons and explicit decision
+dates describe facts/terms, not additional current clocks. Ephemeral development kernel views
+are projections, never serialized authorities.
+
+Normal advancement is monotonic and processes crossed work/deadlines in order. Future event,
+travel, race-session, staff, scouting, facility, finance and sponsor timing must use the same
+owner. Keep HQ milliseconds and the existing NEW DAY visual replay independent.
+
+Calendar year is not automatically championship season: use the centralized phase query.
+C0.1's annual March2/completed-week compatibility policy is provisional until event-calendar
+content arrives. Do not silently change its interpretation or saved option decision dates;
+freeze prior policy/validation and version/migrate any required semantic change deliberately.

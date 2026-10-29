@@ -1,3 +1,4 @@
+import type {CampaignDate} from '../../simulation/campaignTime';
 import type {SourcePerformance} from './performance2026';
 export const BUCKETS = ['talent', 'racecraft', 'adaptability', 'composure', 'feedback', 'marketability'] as const;
 export type Bucket = typeof BUCKETS[number];
@@ -25,12 +26,12 @@ export type DriverContract = {
   id: string; teamId: string; driverId: string; seat: 1 | 2 | null; role?: 'RACE' | 'RESERVE';
   provenance?: {status:'CONFIRMED'|'REPORTED';context:'new deal'|'2026 base'}; startSeason: number; endSeason: number;
   annualSalaryM: number; performanceBonusM: number; status: 'SIGNED' | 'EXPIRED' | 'RELEASED';
-  option: null | { season: number; deadlineSeason: number; deadlineWeek: number; salaryM: number;
+  option: null | { season: number; decisionDate: CampaignDate; salaryM: number;
     state: 'PENDING' | 'EXERCISED' | 'DECLINED' | 'LAPSED' };
 };
 export type Observation = { precision: number; lastSeason: number; lastWeek: number; reports: number };
 export type DriverWorld = {
-  season: number; week: number; drivers: Record<string, Driver>; contracts: DriverContract[];
+  drivers: Record<string, Driver>; contracts: DriverContract[];
   /** Observer-owned evidence, not a duplicate true profile. */
   knowledge: Record<string, Record<string, Observation>>;
   nextContractNumber: number;

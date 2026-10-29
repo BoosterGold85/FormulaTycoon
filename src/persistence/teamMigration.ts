@@ -1,13 +1,12 @@
-import { LEGACY_GAME_DEFINITION } from '../game/legacyGame';
-import { SAVE_V3, INITIAL_V3 } from './contracts';
+import { SAVE_V3, INITIAL_V3, SAVE_V1 } from './contracts';
 import { initialReleasedDrivers } from './contracts/preCalendarRules';
 
-import type { GameUniverse } from '../simulation/universe';
-import { validateUniverse } from './universeValidation';
+import type { GameUniverse } from './contracts/preCalendarTypes';
+import { validateReleasedUniverse } from './contracts/preCalendarValidation';
 
 /** Preserve earned parts/projects/spend/history. The new entrant alone receives an initial car. */
 export function migrateTenTeamUniverse(input:unknown):GameUniverse {
- validateUniverse(input,LEGACY_GAME_DEFINITION);
+ validateReleasedUniverse(input,SAVE_V1);
  const old=JSON.parse(JSON.stringify(input)) as GameUniverse;
  const LEGACY_TEAM_MAP=SAVE_V3.legacyTeamMap;
  const mapped:GameUniverse['development']['teams']={};

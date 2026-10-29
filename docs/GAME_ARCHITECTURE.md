@@ -47,18 +47,28 @@ or empty screen scaffolding.
 
 ## State ownership
 
-`GameUniverse` contains definition version, seed, player selection, HQ runtime, DevelopmentWorld
-and (for the canonical B definition) DriverWorld. Legacy definitions omit DriverWorld. `GameDefinition` supplies layout/roster/development context. It is treated
-as immutable. Version strings must change when content/rules need migration; they are not an
-automatic content hash. A changed definition cannot be applied to an old universe silently.
+GameUniverse owns definition version, seed, player selection, **currentDate**, HQ state,
+clock-free DevelopmentState and clock-free DriverWorld. currentDate is a branded plain
+YYYY-MM-DD string, not a timestamp, with one domain advancement path. Source/current state
+contains no competing season/week/weekday/current-round fields. Contract seasons and historical
+result/observation timestamps are distinct factual data.
 
-DevelopmentWorld currently owns season/week, runtime cars/parts/projects, spending and upgrade
-history. Queries should derive calendar/team/car views from those owners instead of mirroring
-values. Universe HQ ticks and NEW DAY never advance/reset development. Weekly advancement is
-explicit; end-of-season advancement requires complete caller-supplied standings. No race results
-are invented from development pace. The canonical B definition has eleven teams and Wellington as the documented initial player
-organization. The original ten-team context remains a legacy fixture, not the new-game default.
-No staff/driver-to-development bonuses are silently introduced.
+CampaignTime centralizes strict parsing, Gregorian day arithmetic, formatting, comparisons,
+weekday/year/deadline queries and derived championship/development context without Date/Intl/
+locale/timezone APIs. New careers begin 2026-03-02. Normal advancement rejects backward movement.
+HQ milliseconds/frame timers and NEW DAY replay never move the career date.
+
+The existing balanced development kernel consumes an ephemeral DevelopmentWorld temporal VIEW:
+root currentDate -> derived season-index/week -> kernel work -> clock-free state. Its time fields
+are read-only projections, not persisted ownership. Driver queries/commands receive the root
+calendar date explicitly. The old development-to-driver synchronization adapter is removed.
+
+C0.1 preserves prototype time semantics: old season1/week0 -> 2026-03-02; each completed week
+adds seven days from the March2 annual anchor. Week52 and next season/week0 stay distinct.
+Championship season remains the preceding year through January/February; it is not simply the
+calendar year. The annual anchor is a provisional compatibility policy, not the actual race or
+offseason calendar. Existing explicit standings-driven reset crosses it; ordinary jumps cannot
+invent results. Details and dates are in development-notes/MILESTONE-C01.md.
 
 ## Future universe domains (design only)
 
@@ -82,9 +92,10 @@ rules framework is not required for the current two systems.
 
 Two intentionally distinct contracts exist:
 
-- `gameSave.ts`: A's trusted internal checkpoint API, unchanged for compatibility. Its old
+- `gameSave.ts`: trusted internal checkpoint v2 for date-clock state. Older trusted checkpoints
+  are incompatible; imported files use the explicit external migration path. Its old
   `GameSaveStorage` is deprecated; it is not an imported-file decoder.
-- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 3`, containing
+- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 4`, containing
   gameVersion, saveId, canonical UTC createdAt/updatedAt, and universe. App/repository callers
   supply metadata; domain code never generates wall-clock timestamps or unseeded save IDs.
 
@@ -102,27 +113,23 @@ not tamper-proof anti-cheat or proof that an entire historical career is authent
 scoped to the released content contract resolved by definition ID, never the caller's live arrays.
 Unknown content IDs require explicit registration/migration; future systems add a new contract.
 
-`migrateSave` upgrades validated v1 legacy saves to v3. It explicitly maps ten-team IDs,
-preserves earned development state/HQ/history and initializes Caldera plus DriverWorld. Opaque
-pending project IDs stay unchanged so their keyed outcomes remain unchanged. V2 is validated
-against `legacyDriverGame.ts` and upgraded by `alignmentMigration.ts`: retain existing abilities,
-contracts/options, history and observer knowledge; add source snapshots and the reserve only.
-V3 is identity plus validation; missing/future versions fail safely. See development-notes/MILESTONE-B.md for exact mapping.
-Original input is not mutated. C0 pins both validation and migration target content under
-`persistence/contracts`: immutable v1/v2/v3 JSON snapshots, closed identity lists, pre-calendar
-validation semantics and frozen v3 initialization for added migration entities. Legacy aliases
-point to these snapshots. `assertHistoricalSave(input,version)` is the source validation boundary.
-Historical validators have no runtime dependency on live game registries or engine rules.
+`migrateSave` validates frozen source v1/v2/v3 contracts before any transform. V1/V2 first
+reach the immutable canonical v3 boundary, then the explicit v3→v4 migration maps old progress
+to currentDate, removes current season/week mirrors and converts option deadlines to dates.
+It retains all other earned state, contracts/decisions, knowledge, IDs, history and HQ. New
+careers start March2; old careers are not reset to that date. Original inputs remain unchanged.
 
-**Permanent rule:** an old save validates against the content contract released with it. On a
-persistent change, bump schema version, freeze the previous contract, retain its fixture, add
-and test an explicit migration, and validate transformed output. Never rewrite historical input
-fixtures/contracts to match live content. Existing v1/v2 fixtures stay byte-identical; the new
-meaningful v3 fixture captures a mid-career state for future v3→v4 proof.
+Historical JSON contracts and fixtures are unchanged. Type-only preCalendarTypes preserves the
+old clock shapes for frozen validators while live types remove them. V4 has its own immutable
+content snapshot and meaningful migrated fixture. V4 validation rejects duplicate current clocks
+and legacy deadline fields; it uses ephemeral date-derived projections for unchanged structural/
+content checks, plus the shared explicit-date deadline predicate. These views are never saved.
 
-CURRENT_SAVE_VERSION stays 3 in C0. C must validate raw v3 through the frozen boundary, migrate
-once real clock/calendar fields are introduced, then validate v4 against its own contract.
-No placeholder calendar, speculative v4 envelope or track data is added by C0.
+Permanent migration rule: when persistent structure changes, increment the schema, freeze the
+prior contract/semantics, preserve its fixture, implement and test migration, and validate source
+and final output. Never edit historical fixtures/contracts just to match live content. Future
+changes to C0.1's provisional phase/week interpretation must retain its released mapping and
+validation semantics for old data rather than quietly changing the meaning of a saved date.
 
 `SaveStorage` transports raw strings via write/read/list/delete; it imports no React Native or
 platform APIs. `SaveRepository` validates before writing/after reading, checks slot identity and
@@ -240,15 +247,8 @@ build a car or evaluate compatibility. The dead DTO `fit` placeholder is removed
 has no circuit/event input: driver/car fit remains separate from future car/track fit. Existing
 race/reserve behavior and fit thresholds are unchanged; L9 remains deferred.
 
-The current development season/week and driver year/week are still stored twice. Universe week/
-rollover commands maintain the guarded +2025 adapter, and released validation rejects skew.
-C0 tests every step, no-op, deadline and rollover plus no campaign advancement from visual HQ
-or driver commands. This is temporary compatibility, not a claim of final ownership consolidation.
-
-Before C content begins, the owner must approve actual calendar dates (with start/week/season
-mapping) or a canonical logical season/week/day model. The recommended architecture is one root
-GameUniverse CampaignTime, derived development/contract views, and explicit time inputs for
-independent headless engines. V4 removes both persisted mirrors, preserves history/deadlines/
-RNG keys and migrates only validated synchronized v3 input. HQ milliseconds stay independent.
-See `development-notes/MILESTONE-C0.md` for the complete field/adapter/UI/deadline inventory,
-precise migration steps and deferred M1–M8 register. C is NOT STARTED / NOT READY pending decision.
+C0 identified duplicated clocks; C0.1 removes both persisted mirrors after the owner's approval
+of actual calendar dates. The allowed architecture boundary is now implemented in v4. Current
+state has one root date; all source-era schema validation and C0 fixtures remain immutable.
+See development-notes/MILESTONE-C01.md for mapping, interval processing, option dates, the
+standings-driven transition and remaining compatibility-phase limitations. C is NOT STARTED.

@@ -1,3 +1,6 @@
+import type {GameUniverse as HistoricalUniverse} from '../../persistence/contracts/preCalendarTypes';
+import frozenV1 from '../../persistence/__tests__/fixtures/foundation-v1.json';
+import {NEW_CAREER_DATE,legacyWeekDate,campaignContext} from '../campaignTime';
 import {test,expect} from '@jest/globals';
 import {DEFAULT_GAME_DEFINITION as definition} from '../../game/defaultGame';
 import {LEGACY_GAME_DEFINITION as legacy} from '../../game/legacyGame';
@@ -5,7 +8,7 @@ import {TEAM_BRANDS,LEGACY_TEAM_MAP} from '../../game/brandRegistry';
 import {BUCKETS,TRAITS} from '../../game/drivers/types';
 import {createGameUniverse,advanceUniverseWeek,advanceUniverseHeadquarters,startUniverseSeason} from '../universe';
 import {createDriverWorld,driverView,observeDriver,gradeFor,GRADES,activeContracts,decideTeamOption,
- updateDriverCalendar,signDriverContract,annualSalary,carCompatibility,marketValue} from '../drivers';
+ refreshDriverStatuses,signDriverContract,annualSalary,carCompatibility,marketValue} from '../drivers';
 import {computeCarProfile} from '../development';
 import {createSaveEnvelope,serializeSave,deserializeSave,validateSave,CURRENT_SAVE_VERSION,type SaveResult} from '../../persistence/saveEnvelope';
 import {createGameSave,restoreGameSave} from '../../persistence/gameSave';
@@ -24,11 +27,11 @@ test('canonical 2026 world has eleven organizations, twenty-two distinct seats a
  expect(Object.values(world.drivers).filter(d=>d.category==='RESERVE')).toHaveLength(11);
  expect(new Set(Object.values(world.drivers).map(d=>d.id)).size).toBe(43);
  for(const team of TEAM_BRANDS) {
-   const seats=activeContracts(world,team.id);
+   const seats=activeContracts(world,NEW_CAREER_DATE,team.id);
    expect(seats).toHaveLength(2);expect(new Set(seats.map(c=>c.seat)).size).toBe(2);
    expect(seats.every(c=>world.drivers[c.driverId]?.familiarity.teamId===team.id)).toBe(true);
  }
- expect(activeContracts(world,observer).map(c=>world.drivers[c.driverId]!.name)).toEqual(['Carlos Sainor','Alex Alburn']);
+ expect(activeContracts(world,NEW_CAREER_DATE,observer).map(c=>world.drivers[c.driverId]!.name)).toEqual(['Carlos Sainor','Alex Alburn']);
  expect(value(createSaveEnvelope(universe,meta,definition)).universe).toEqual(universe);
 });
 
@@ -52,7 +55,7 @@ test('central grades cover all bounded ability values without an overall score',
  for(let n=0;n<=100;n++) expect(GRADES).toContain(gradeFor(n));
  expect([0,39,40,54,55,89,90,100].map(gradeFor)).toEqual(['F','F','D','C-','C','A','A+','A+']);
  for(const n of [-1,101,NaN,Infinity]) expect(()=>gradeFor(n)).toThrow();
- const view=driverView(createDriverWorld(),observer,'driver.verhoeven');
+ const view=driverView(createDriverWorld(),observer,'driver.verhoeven',NEW_CAREER_DATE);
  expect(view.grades.talent).toBe('A');expect(view.confidence).toBe('High');
  for(const key of ['ability','hidden','personality','overall','potentialRaw']) expect(view).not.toHaveProperty(key);
 });
@@ -61,9 +64,9 @@ test('scouting belongs to observer, narrows conservatively, and never changes ab
  const initial=createDriverWorld(),id='driver.stenmark';
  const truth=initial.drivers[id]!.ability;
  let world=initial;
- expect(driverView(world,observer,id).grades.adaptability).toBe('Unknown');
+ expect(driverView(world,observer,id,NEW_CAREER_DATE).grades.adaptability).toBe('Unknown');
  for(let reports=0;reports<4;reports++) {
-   const view=driverView(world,observer,id);
+   const view=driverView(world,observer,id,NEW_CAREER_DATE);
    for(const key of BUCKETS) {
      const observed=view.grades[key],actual=gradeFor(truth[key]);
      if(observed==='Unknown')continue;
@@ -71,31 +74,31 @@ test('scouting belongs to observer, narrows conservatively, and never changes ab
      expect(GRADES.indexOf(low as typeof GRADES[number])).toBeLessThanOrEqual(GRADES.indexOf(actual));
      expect(GRADES.indexOf(high as typeof GRADES[number])).toBeGreaterThanOrEqual(GRADES.indexOf(actual));
    }
-   const next=observeDriver(world,observer,id);
+   const next=observeDriver(world,observer,id,NEW_CAREER_DATE);
    const width=(grade:string)=>{if(grade==='Unknown')return 11;const [low,high=low]=grade.split(' to ');return GRADES.indexOf(high as typeof GRADES[number])-GRADES.indexOf(low as typeof GRADES[number]);};
-   for(const key of BUCKETS) expect(width(driverView(next,observer,id).grades[key])).toBeLessThanOrEqual(width(view.grades[key]));
+   for(const key of BUCKETS) expect(width(driverView(next,observer,id,NEW_CAREER_DATE).grades[key])).toBeLessThanOrEqual(width(view.grades[key]));
    expect(next.drivers).toBe(initial.drivers);
    expect(next.knowledge['team.ferano']).toBe(initial.knowledge['team.ferano']);
    expect(next.knowledge[observer]![id]!.precision).toBeGreaterThan(world.knowledge[observer]![id]!.precision);
    world=next;
  }
- expect(driverView(world,observer,id).grades.talent).toBe(gradeFor(truth.talent));
+ expect(driverView(world,observer,id,NEW_CAREER_DATE).grades.talent).toBe(gradeFor(truth.talent));
  expect(initial.knowledge[observer]![id]!.precision).toBe(20);
- expect(driverView(initial,observer,id).commercial).toContain('under review');
+ expect(driverView(initial,observer,id,NEW_CAREER_DATE).commercial).toContain('under review');
 });
 
 test('contract conflicts cover driver ownership, seat occupancy and invalid terms',()=>{
  const world=createDriverWorld();
  const request={teamId:observer,driverId:'driver.vale',seat:1 as const,startSeason:2026,endSeason:2027,annualSalaryM:3,performanceBonusM:0.2,option:null};
- expect(signDriverContract(world,request)).toMatchObject({ok:false,reason:'CONFLICT'});
- expect(signDriverContract(world,{...request,driverId:'driver.sainor',teamId:'team.ferano'})).toMatchObject({ok:false,reason:'CONFLICT'});
- expect(signDriverContract(world,{...request,startSeason:2029,endSeason:2028})).toMatchObject({ok:false});
- expect(signDriverContract(world,{...request,annualSalaryM:NaN})).toMatchObject({ok:false});
- expect(signDriverContract(world,{...request,teamId:'unknown'})).toMatchObject({ok:false});
- const signed=signDriverContract(world,{...request,startSeason:2028,endSeason:2029});
+ expect(signDriverContract(world,request,NEW_CAREER_DATE)).toMatchObject({ok:false,reason:'CONFLICT'});
+ expect(signDriverContract(world,{...request,driverId:'driver.sainor',teamId:'team.ferano'},NEW_CAREER_DATE)).toMatchObject({ok:false,reason:'CONFLICT'});
+ expect(signDriverContract(world,{...request,startSeason:2029,endSeason:2028},NEW_CAREER_DATE)).toMatchObject({ok:false});
+ expect(signDriverContract(world,{...request,annualSalaryM:NaN},NEW_CAREER_DATE)).toMatchObject({ok:false});
+ expect(signDriverContract(world,{...request,teamId:'unknown'},NEW_CAREER_DATE)).toMatchObject({ok:false});
+ const signed=signDriverContract(world,{...request,startSeason:2028,endSeason:2029},NEW_CAREER_DATE);
  expect(signed.ok).toBe(true);
  if(signed.ok) {
-   expect(signDriverContract(signed.world,{...request,startSeason:2028,endSeason:2029}).ok).toBe(false);
+   expect(signDriverContract(signed.world,{...request,startSeason:2028,endSeason:2029},NEW_CAREER_DATE).ok).toBe(false);
    expect(createSaveEnvelope({...createGameUniverse(definition,7),drivers:signed.world},meta,definition).ok).toBe(true);
    expect(signed.world.nextContractNumber).toBe(world.nextContractNumber+1);
  }
@@ -103,26 +106,26 @@ test('contract conflicts cover driver ownership, seat occupancy and invalid term
 
 test('team options enforce ownership, deadline, conflicts, idempotence and option-year salary',()=>{
  const observer='team.ferano';
- const initial=createDriverWorld(),contract=activeContracts(initial,observer).find(c=>c.driverId==='driver.harlton')!;
- expect(decideTeamOption(initial,'team.wellington',contract.id,true).ok).toBe(false);
- const exercised=decideTeamOption(initial,observer,contract.id,true);
+ const initial=createDriverWorld(),contract=activeContracts(initial,NEW_CAREER_DATE,observer).find(c=>c.driverId==='driver.harlton')!;
+ expect(decideTeamOption(initial,'team.wellington',contract.id,true,NEW_CAREER_DATE).ok).toBe(false);
+ const exercised=decideTeamOption(initial,observer,contract.id,true,NEW_CAREER_DATE);
  expect(exercised.ok).toBe(true);
  if(!exercised.ok)throw new Error('option failed');
- expect(decideTeamOption(exercised.world,observer,contract.id,true)).toEqual({ok:true,world:exercised.world});
- expect(decideTeamOption(exercised.world,observer,contract.id,false).ok).toBe(false);
- const future=updateDriverCalendar(exercised.world,2028,0);
- const current=activeContracts(future,observer).find(c=>c.id===contract.id)!;
+ expect(decideTeamOption(exercised.world,observer,contract.id,true,NEW_CAREER_DATE)).toEqual({ok:true,world:exercised.world});
+ expect(decideTeamOption(exercised.world,observer,contract.id,false,NEW_CAREER_DATE).ok).toBe(false);
+ const future=refreshDriverStatuses(exercised.world,legacyWeekDate((2028)-2025,0));
+ const current=activeContracts(future,legacyWeekDate(3,0),observer).find(c=>c.id===contract.id)!;
  expect(annualSalary(current,2028)).toBe(current.option!.salaryM);
- expect(activeContracts(updateDriverCalendar(future,2029,0),observer).some(c=>c.id===contract.id)).toBe(false);
- const boundary=updateDriverCalendar(initial,2027,40);
- expect(decideTeamOption(boundary,observer,contract.id,true).ok).toBe(true);
- const late=updateDriverCalendar(initial,2027,41);
- expect(decideTeamOption(late,observer,contract.id,true).ok).toBe(false);
+ expect(activeContracts(refreshDriverStatuses(future,legacyWeekDate((2029)-2025,0)),legacyWeekDate(4,0),observer).some(c=>c.id===contract.id)).toBe(false);
+ const boundary=refreshDriverStatuses(initial,legacyWeekDate((2027)-2025,40));
+ expect(decideTeamOption(boundary,observer,contract.id,true,legacyWeekDate(2,40)).ok).toBe(true);
+ const late=refreshDriverStatuses(initial,legacyWeekDate((2027)-2025,41));
+ expect(decideTeamOption(late,observer,contract.id,true,legacyWeekDate(2,41)).ok).toBe(false);
  expect(late.contracts.find(c=>c.id===contract.id)!.option!.state).toBe('LAPSED');
- expect(updateDriverCalendar(late,2027,41)).toBe(late);
- const booked=signDriverContract(initial,{teamId:observer,driverId:'driver.vale',seat:contract.seat,startSeason:2028,endSeason:2028,annualSalaryM:3,performanceBonusM:0,option:null});
+ expect(refreshDriverStatuses(late,legacyWeekDate((2027)-2025,41))).toBe(late);
+ const booked=signDriverContract(initial,{teamId:observer,driverId:'driver.vale',seat:contract.seat,startSeason:2028,endSeason:2028,annualSalaryM:3,performanceBonusM:0,option:null},NEW_CAREER_DATE);
  if(!booked.ok)throw new Error('fixture failed');
- expect(decideTeamOption(booked.world,observer,contract.id,true)).toMatchObject({ok:false,reason:'CONFLICT'});
+ expect(decideTeamOption(booked.world,observer,contract.id,true,NEW_CAREER_DATE)).toMatchObject({ok:false,reason:'CONFLICT'});
 });
 
 test('car fit and market value are distinct from true driving talent',()=>{
@@ -135,28 +138,27 @@ test('car fit and market value are distinct from true driving talent',()=>{
  expect(JSON.stringify(d.ability)).toBe(before);
 });
 
-test('driver knowledge/contracts and stable IDs survive v3 save/load with deterministic continuation',()=>{
+test('driver knowledge/contracts and stable IDs survive v4 save/load with deterministic continuation',()=>{
  let a=createGameUniverse(definition,7);
- a={...a,drivers:observeDriver(a.drivers!,observer,'driver.cordeiro')};
+ a={...a,drivers:observeDriver(a.drivers!,observer,'driver.cordeiro',NEW_CAREER_DATE)};
  let b=value(deserializeSave(value(serializeSave(value(createSaveEnvelope(a,meta,definition)),definition)),definition)).universe;
- expect(b).toEqual(a);expect(CURRENT_SAVE_VERSION).toBe(3);
+ expect(b).toEqual(a);expect(CURRENT_SAVE_VERSION).toBe(4);
  expect(restoreGameSave(createGameSave(a),definition)).toEqual(a);
  for(let i=0;i<52;i++){a=advanceUniverseWeek(advanceUniverseHeadquarters(a,definition,500),definition);b=advanceUniverseWeek(advanceUniverseHeadquarters(b,definition,500),definition);}
  expect(b).toEqual(a);
  const standings=TEAM_BRANDS.map(t=>t.id);
  a=startUniverseSeason(a,definition,standings);b=startUniverseSeason(b,definition,standings);
- expect(a).toEqual(b);expect(a.drivers!.season).toBe(2027);
+ expect(a).toEqual(b);expect(campaignContext(a.currentDate).season).toBe(2027);
  expect(value(createSaveEnvelope(a,meta,definition)).universe).toEqual(a);
 });
 
 test('v1 ten-team migration preserves earned state/history and rejects unknown legacy references',()=>{
- let old=createGameUniverse(legacy,17);
- for(let i=0;i<16;i++)old=advanceUniverseWeek(old,legacy);
+ const old=JSON.parse(JSON.stringify(frozenV1.universe)) as HistoricalUniverse;
  const source={...meta,saveVersion:1,universe:old};
  const json=JSON.stringify(source);
  const migrated=value(deserializeSave(json,definition));
  expect(JSON.stringify(source)).toBe(json);
- expect(migrated.saveVersion).toBe(3);expect(Object.keys(migrated.universe.development.teams)).toHaveLength(11);
+ expect(migrated.saveVersion).toBe(4);expect(Object.keys(migrated.universe.development.teams)).toHaveLength(11);
  for(const [id,mapped] of Object.entries(LEGACY_TEAM_MAP)) {
    expect(migrated.universe.development.teams[mapped]).toEqual({...old.development.teams[id]!,teamId:mapped});
  }
@@ -185,7 +187,7 @@ test.each([
 test('frozen foundation v1 fixture migrates without erasing pending projects or history',()=>{
   const fixture=require('../../persistence/__tests__/fixtures/foundation-v1.json') as {universe:ReturnType<typeof createGameUniverse>};
   const result=value(deserializeSave(JSON.stringify(fixture),definition));
-  expect(result.universe.development.week).toBe(16);
+  expect(campaignContext(result.universe.currentDate).week).toBe(16);
   expect(result.universe.development.teams['team.vortex']!.projects).toEqual(fixture.universe.development.teams.aurora!.projects);
   expect(result.universe.development.submissions.length).toBe(fixture.universe.development.submissions.length);
   const continued=advanceUniverseWeek(result.universe,definition);
@@ -194,8 +196,8 @@ test('frozen foundation v1 fixture migrates without erasing pending projects or 
 
 test('option decisions and automatic expiry remain save-valid',()=>{
  let universe=createGameUniverse(definition,2);
- const c=activeContracts(universe.drivers!,'team.ferano').find(c=>c.driverId==='driver.harlton')!;
- const option=decideTeamOption(universe.drivers!,'team.ferano',c.id,true);
+ const c=activeContracts(universe.drivers!,NEW_CAREER_DATE,'team.ferano').find(c=>c.driverId==='driver.harlton')!;
+ const option=decideTeamOption(universe.drivers!,'team.ferano',c.id,true,NEW_CAREER_DATE);
  if(!option.ok)throw new Error('option');
  universe={...universe,drivers:option.world};
  for(let year=0;year<3;year++) {
@@ -205,18 +207,18 @@ test('option decisions and automatic expiry remain save-valid',()=>{
    }
    universe=startUniverseSeason(universe,definition,TEAM_BRANDS.map(t=>t.id));
  }
- expect(universe.drivers!.season).toBe(2029);
- expect(activeContracts(universe.drivers!,observer)).toHaveLength(0); // No invented offseason AI.
+ expect(campaignContext(universe.currentDate).season).toBe(2029);
+ expect(activeContracts(universe.drivers!,universe.currentDate,observer)).toHaveLength(0); // No invented offseason AI.
  expect(createSaveEnvelope(universe,meta,definition).ok).toBe(true);
 });
 
 test('public driver commands reject inherited IDs and unsupported calendar/contract bounds',()=>{
  const world=createDriverWorld();
  for(const id of ['missing','__proto__','constructor']) {
-   expect(()=>driverView(world,observer,id)).toThrow('Unknown');
-   expect(()=>observeDriver(world,observer,id)).toThrow('Unknown');
-   expect(signDriverContract(world,{teamId:observer,driverId:id,seat:1,startSeason:2028,endSeason:2029,annualSalaryM:1,performanceBonusM:0,option:null}).ok).toBe(false);
+   expect(()=>driverView(world,observer,id,NEW_CAREER_DATE)).toThrow('Unknown');
+   expect(()=>observeDriver(world,observer,id,NEW_CAREER_DATE)).toThrow('Unknown');
+   expect(signDriverContract(world,{teamId:observer,driverId:id,seat:1,startSeason:2028,endSeason:2029,annualSalaryM:1,performanceBonusM:0,option:null},NEW_CAREER_DATE).ok).toBe(false);
  }
- expect(()=>updateDriverCalendar(world,10000,0)).toThrow('Invalid');
- expect(signDriverContract(world,{teamId:observer,driverId:'driver.vale',seat:1,startSeason:10000,endSeason:10001,annualSalaryM:1,performanceBonusM:0,option:null}).ok).toBe(false);
+ expect(()=>refreshDriverStatuses(world,legacyWeekDate((10000)-2025,0))).toThrow('Invalid');
+ expect(signDriverContract(world,{teamId:observer,driverId:'driver.vale',seat:1,startSeason:10000,endSeason:10001,annualSalaryM:1,performanceBonusM:0,option:null},NEW_CAREER_DATE).ok).toBe(false);
 });

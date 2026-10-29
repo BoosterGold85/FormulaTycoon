@@ -1,10 +1,9 @@
 /**
  * Placeholder presentation data for the HUD. Development has team/calendar definitions,
- * but the HUD is not connected to campaign progression yet. These are not game state.
+ * day/date come from CampaignTime. Team/next-event placeholders below are not game state.
  */
 export const HUD_PLACEHOLDERS = {
   teamName: 'Your Team',
-  day: 'Monday',
   nextEvent: 'Preseason'
 } as const;
 

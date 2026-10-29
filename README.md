@@ -113,6 +113,14 @@ See [fictional brand policy](docs/BRAND_IDENTITY.md) for future canonical identi
 New games use eleven canonical fictional teams, 22 fixed 2026 starters, ten prospects and eleven
 reserve/free agents. DRIVERS shows grade-only profiles and team-owned scouting; TEAM compares
 Wellington's two contracts; options appear only where the driver has one. No race simulation or overall driver score.
-Validated save schema v3 migrates v1 ten-team data and v2 driver careers explicitly.
+Validated save schema v4 migrates v1 ten-team data and v2/v3 driver careers explicitly.
 New 2026 games use the canonical performance/contract dataset; see [Player Manual](docs/PLAYER_MANUAL.md). Storage remains memory-only.
 Read `docs/development-notes/MILESTONE-B.md` and `docs/DEV_STATUS.md` before extending it.
+
+## Milestone C0.1 — campaign date
+
+New careers begin Monday, March 2, 2026. One root calendar date drives development and driver
+queries, with explicit option decision dates. Older saves retain their completed progress through
+the v4 migration. HQ NEW DAY still replays the morning without advancing the career.
+The full event calendar and campaign advancement controls are future work. See
+[C0.1 handoff](docs/development-notes/MILESTONE-C01.md) for compatibility policy and evidence.

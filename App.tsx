@@ -11,7 +11,7 @@ export default function App() {
  const [tab,setTab]=useState<NavTab>('HQ');
  return <View style={{flex:1}}>
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>
-     <HeadquartersScreen state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
+     <HeadquartersScreen currentDate={session.universe.currentDate} state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
    </View>
    {tab!=='HQ'&&session.universe.drivers&&session.universe.playerTeamId?<DriversScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} world={session.universe.drivers} observer={session.universe.playerTeamId} tab={tab} onNavigate={setTab} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
  </View>;
