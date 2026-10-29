@@ -7,8 +7,9 @@ MILESTONE A.1 — FOUNDATION HARDENING: COMPLETE (see branch history for the A.1
 MILESTONE B — NOT STARTED.
 
 Branch: `feature/game-universe-foundation`, originally based on main `333eec4`.
-Read this file plus GAME_ARCHITECTURE.md and MILESTONES.md at every milestone. Preserve the
-COMPLETED / IN PROGRESS / TESTED / NOT VERIFIED / KNOWN ISSUES / NEXT MILESTONE headings.
+Read this file plus DEVELOPMENT_GUARDRAILS.md, GAME_ARCHITECTURE.md, GAME_LOOP.md,
+SYSTEM_MAP.md and MILESTONES.md at every milestone. Preserve COMPLETED / IN PROGRESS /
+TESTED / NOT VERIFIED / KNOWN ISSUES / TECHNICAL DEBT / ARCHITECTURAL RISK / NEXT MILESTONE.
 
 ## COMPLETED
 
@@ -35,6 +36,15 @@ A.1 adds:
   Existing ten-team runtime data is NOT renamed/rebalanced/expanded without explicit migration.
 - No new gameplay, UI, simulation rules, native storage dependency, cloud saving or authentication.
 
+### Permanent guardrails integration
+
+Documentation/process integration complete: the supplied 31 guardrails are preserved in
+DEVELOPMENT_GUARDRAILS.md. AGENTS.md now requires the six-document reading list, five
+pre-feature questions, validation/handoff/commit workflow and explicit stop rule. Reviewed
+GAME_ARCHITECTURE, GAME_LOOP, SYSTEM_MAP, MILESTONES, DEV_STATUS and BRAND_IDENTITY for
+contradictions. Existing pillars, facility dual-effect rule and fictional registry policy remain
+intact; no runtime source, dependencies, tests, simulation, RNG or save semantics changed.
+
 ## IN PROGRESS
 
 None within A.1 at handoff. No Milestone B implementation begun. The app is still an HQ slice
@@ -55,7 +65,11 @@ with headless development, not a playable campaign or a shipped save/load UI.
 - A browser interaction check at 390 × 844 previously passed during A: eight working workers,
   cards/dismissal, placeholder TEAM navigation, NEW DAY, zero page errors/overflow. No UI or
   simulation code changed in A.1; this is prior evidence, not a new native-device test.
-- Logs: `/workspace/artifacts/milestone-a1/`. No deployment performed.
+- A.1 logs: `/workspace/artifacts/milestone-a1/`. No deployment performed.
+- Guardrails integration validation reran `npm test -- --runInBand` (76/76 PASS in 4 suites),
+  `npm run typecheck` (PASS) and `EXPO_NO_TELEMETRY=1 npm run build:web` (PASS).
+  Verified all 31 supplied guardrails verbatim; diff contains documentation/agent instructions only.
+  Logs: `/workspace/artifacts/development-guardrails/`. No source/test/package changes needed.
 
 ## NOT VERIFIED
 
@@ -91,6 +105,23 @@ with headless development, not a playable campaign or a shipped save/load UI.
   years; archival/pruning policy is future work. Planning pace is not a universal race rating.
 - RNG uses stable namespace/event/entity keys, no saved live generator objects. Keep legacy key
   hashing/tokens (no `|` in new tokens) until a versioned encoding replaces it.
+
+## TECHNICAL DEBT / ARCHITECTURAL RISK
+
+No new immediate functionality/save-integrity blocker was identified in this documentation
+alignment review. Existing documented constraints remain:
+
+- Only a volatile storage adapter exists; device durability, atomic writes/backups and recovery
+  must be deliberately implemented before players depend on persistent careers.
+- Future schema/content changes need migration fixtures; strict validation and stable IDs must
+  evolve together. Do not bypass the validated repository with trusted checkpoints.
+- Historical submissions grow over seasons; measure save/history growth and execution cost
+  as long-career gameplay matures. No 20/50/100-season campaign validation exists yet.
+- The eleven proposed fictional identities are not the current ten-team fixture. Adoption needs
+  explicit registry/mapping/content migration and balance review, not scattered renames.
+
+These are carry-forward infrastructure/product work, not authorization to refactor or introduce
+new gameplay during this guardrails task.
 
 ## NEXT MILESTONE
 

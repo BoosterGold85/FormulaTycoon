@@ -1,7 +1,8 @@
 # Milestones and acceptance gates
 
 Every milestone updates DEV_STATUS.md under COMPLETED, IN PROGRESS, TESTED, NOT VERIFIED,
-KNOWN ISSUES and NEXT MILESTONE. Read GAME_ARCHITECTURE.md before changing ownership.
+KNOWN ISSUES, TECHNICAL DEBT / ARCHITECTURAL RISK and NEXT MILESTONE. Read
+DEVELOPMENT_GUARDRAILS.md and GAME_ARCHITECTURE.md before changing ownership.
 Use vertical slices; finish one gate before moving on. Test simulation separately from presentation.
 
 | Milestone | Meaningful slice | Required evidence |
