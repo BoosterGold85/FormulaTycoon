@@ -7,6 +7,23 @@ B — 2026 fictional driver world, contracts and scouting: COMPLETE at `e065ebd`
 B.1 — **Canonical 2026 Driver Data Alignment**: COMPLETE as a separate commit on
 `feature/milestone-b-driver-world`. B/B.1 were pushed to the feature branch with owner approval; neither is merged. C/racing: NOT STARTED.
 
+## POST-MILESTONE B AUDIT
+
+Status: **COMPLETE**. The audited commit is `e87aa06`, the branch tip: B.1 `335f0b7` plus the Cloudflare preview fix.
+The full report is in `docs/development-notes/POST-B-AUDIT.md`. Milestone C is NOT started.
+
+- **Blockers found:** none. **Blockers fixed:** none needed; the audit changed documentation only.
+- **High risk (H1):** the legacy v1/v2 validation definitions reuse live content (development context, calendar,
+  parts, HQ layout, driver ID lists) and are not true snapshots. C must snapshot the released content and add a
+  v4 schema before editing the calendar, tracks, parts or teams. This is not required before merge.
+- **Deferred debt:** M1 scouting ranges are centred on the true grade; M2 duplicate driver/development clock (validated);
+  M3 player team stored in both state and definition (validated); M4 car fit composed in `DriversScreen`; M5 duplicated
+  contract deadline and overlap predicates; M6 cohort label used as roster grouping; M7 development upgrade history
+  grows ~41KB per season; M8 real-name proximity and IP release review; L1–L10 cleanup.
+- **Validation:** 161/161 tests, typecheck and web build PASS. The 390 × 844 browser pass over HQ, drivers, prospects,
+  market, options, TEAM and navigation found no page errors and no overflow. Native, device and remote deploy remain unverified.
+- **Merge recommendation:** READY TO MERGE WITH DOCUMENTED DEBT, pending owner approval.
+
 Read AGENTS.md and the six required architecture/guardrail documents before further work.
 Ownership, derivation and migration decisions are in `docs/development-notes/MILESTONE-B1.md`.
 `docs/PLAYER_MANUAL.md` is the living player guide; update it whenever a major player-facing
@@ -139,6 +156,10 @@ Wellington remains the initial player team; choosing another team/hiring UI is o
 - Broad market/pay balancing, history growth and multi-decade simulation remain future work.
 
 ## NEXT MILESTONE
+
+The post-B audit is complete; see above. Recommended next milestone: Milestone C — Calendar, Track Profiles &
+Car-to-Track Performance. It should open with audit H1 (content snapshots plus schema v4) and fold in M2 and M4.
+C remains NOT STARTED.
 
 Review B/B.1 and assumptions before authorizing push/merge. C — track profiles and characteristic
 translation — remains the next planned feature, not begun. No racing/qualifying/form/finance/
