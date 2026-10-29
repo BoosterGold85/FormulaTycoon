@@ -931,3 +931,24 @@ If the game is fun, stable and maintainable, implementation has succeeded.
 **WE ARE NOT TRYING TO PROVE THAT WE CAN WRITE PERFECT SOFTWARE.**
 
 **WE ARE TRYING TO BUILD A GREAT TYCOON GAME THAT CAN SURVIVE YEARS OF DEVELOPMENT AND HUNDREDS OF PLAYER SEASONS.**
+
+
+# 32. RELEASED SAVE CONTRACTS ARE IMMUTABLE
+
+An old save version must validate against the content contract that existed when that version
+was released. Historical validators must not import mutable live calendar, parts, regulations,
+HQ layout, worker/driver lists or registries. Preserve the historical validation semantics too.
+
+When persistent structure changes:
+
+1. Increment the save version.
+2. Freeze the previous save/content contract.
+3. Preserve a fixture from that version.
+4. Add an explicit migration.
+5. Test source validation, migration, final validation and deterministic continuation.
+6. Never rewrite historical fixtures or contracts merely to match current content.
+
+C0 retains v3 and prepares the historical v3 boundary. Introduce v4 only when actual persistent
+calendar state is implemented. The future GameUniverse campaign clock must be the sole current
+campaign-time owner; other systems derive their views. The final time representation requires
+project-owner approval. HQ animation time and historical/deadline timestamps remain separate.

@@ -1,12 +1,3 @@
-import { CANONICAL_DEVELOPMENT_CONTEXT } from './canonicalDevelopment';
-import { HEADQUARTERS_LAYOUT, STARTING_STAFF } from './headquartersData';
-import type { GameDefinition } from '../simulation/universe/types';
-
-/** Application composition only; individual engines can still run with custom definitions. */
-export const LEGACY_DRIVER_GAME_DEFINITION: GameDefinition = {
-  version: 'driver-world-2026-v2',
-  driverEra: 2026,
-  driverDataVersion: 1,
-  headquarters: { layout: HEADQUARTERS_LAYOUT, roster: STARTING_STAFF },
-  development: CANONICAL_DEVELOPMENT_CONTEXT
-};
+import { SAVE_V2 } from '../persistence/contracts';
+/** Compatibility alias; never import live development/HQ/driver content into released schemas. */
+export const LEGACY_DRIVER_GAME_DEFINITION = SAVE_V2.definition;

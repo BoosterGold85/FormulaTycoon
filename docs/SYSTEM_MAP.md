@@ -22,6 +22,10 @@ flowchart TD
     Envelope --> Repo[SaveRepository]
     Repo --> Memory[MemorySaveStorage: volatile]
     Memory -->|raw strings| Decode[JSON decode / migration dispatch / validation]
+    Frozen[Immutable released v1 v2 v3 contracts] --> Decode
+    State --> Fit[Domain driver-car fit selector]
+    Definition --> Fit
+    Fit --> DriverUI
     Decode -->|success only, detached state| State
     RNG[SeededRandom / shared keyed streams] --> Dev
 ```
@@ -37,7 +41,7 @@ flowchart TD
 
 Future integrations:
 
-- Driver/scouting/contract commands -> people/contract state -> player-visible estimates.
+- Expanded driver growth/offseason -> people/contract state -> player-visible estimates.
 - Part specs -> car characteristic vector -> track-weighted performance -> qualifying/race engines.
 - Weekend commands + forecast/tyres/traffic -> simulation events/results -> standings/history.
 - Development commitments, salaries and sponsor obligations -> one finance ledger.
@@ -72,3 +76,20 @@ B integration: DriverWorld calendar follows development season/week through an e
 adapter. Contract queries derive seats and future salary obligations. Car fit reads car attributes,
 feedback/commercial interfaces await later consumers. Scouting commands update observer knowledge
 only; all public grades are centralized. No event feed, payroll or race-result rules are added.
+
+## C0 readiness boundaries
+
+`persistence/contracts` stores released content, IDs and validation semantics independently from
+live registries. `historicalSaveValidation` validates each source schema, v1/v2 migrations target
+frozen v3 data, and final validation resolves a registered released definition. The v3 fixture
+is ready for future v4 migration tests; saveVersion remains 3. Unknown content does not fall back
+to mutable arrays. The live new-game definition remains the new-game owner, not these snapshots.
+
+Driver UI -> `selectDriverCarFit` -> employment + car profile -> compatibility label/null.
+No UI-owned composition, duplicate fit field or car/track-fit implementation.
+
+Temporary current time: development season/week -> universe adapter -> driver year/week;
+validation rejects disagreement. Proposed future ownership (NOT IMPLEMENTED): approved root
+CampaignTime -> derived driver/development/display/deadline queries. HQ animation milliseconds
+remain separate. Owner must approve date-vs-logical-time representation before C content;
+the v3→v4 steps and exhaustive inventory are in `development-notes/MILESTONE-C0.md`.

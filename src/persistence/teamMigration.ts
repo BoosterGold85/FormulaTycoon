@@ -1,8 +1,7 @@
 import { LEGACY_GAME_DEFINITION } from '../game/legacyGame';
-import { DEFAULT_GAME_DEFINITION } from '../game/defaultGame';
-import { LEGACY_TEAM_MAP } from '../game/brandRegistry';
-import { createDevelopmentWorld } from '../simulation/development';
-import { createDriverWorld, updateDriverCalendar } from '../simulation/drivers';
+import { SAVE_V3, INITIAL_V3 } from './contracts';
+import { initialReleasedDrivers } from './contracts/preCalendarRules';
+
 import type { GameUniverse } from '../simulation/universe';
 import { validateUniverse } from './universeValidation';
 
@@ -10,15 +9,15 @@ import { validateUniverse } from './universeValidation';
 export function migrateTenTeamUniverse(input:unknown):GameUniverse {
  validateUniverse(input,LEGACY_GAME_DEFINITION);
  const old=JSON.parse(JSON.stringify(input)) as GameUniverse;
- const fresh=createDevelopmentWorld(DEFAULT_GAME_DEFINITION.development,old.seed);
- const mapped:typeof fresh.teams={};
+ const LEGACY_TEAM_MAP=SAVE_V3.legacyTeamMap;
+ const mapped:GameUniverse['development']['teams']={};
  for(const [id,team] of Object.entries(old.development.teams)) {
    const next=LEGACY_TEAM_MAP[id];
    if(!next) throw new Error(`Unmapped legacy team: ${id}`);
    mapped[next]={...team,teamId:next}; // Project IDs stay opaque/stable: pending RNG outcomes are preserved.
  }
- mapped['team.caldera']={...fresh.teams['team.caldera']!,aeroAllowance:1.2};
- const drivers=updateDriverCalendar(createDriverWorld(),2025+old.development.season,old.development.week);
- return {...old,definitionVersion:DEFAULT_GAME_DEFINITION.version,playerTeamId:'team.wellington',drivers,
+ mapped['team.caldera']=JSON.parse(JSON.stringify(INITIAL_V3.caldera));
+ const drivers=initialReleasedDrivers(2025+old.development.season,old.development.week);
+ return {...old,definitionVersion:SAVE_V3.definition.version,playerTeamId:'team.wellington',drivers,
    development:{...old.development,teams:mapped,submissions:old.development.submissions.map(s=>({...s,teamId:LEGACY_TEAM_MAP[s.teamId]!}))}};
 }

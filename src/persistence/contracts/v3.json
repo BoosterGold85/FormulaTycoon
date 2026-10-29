@@ -1,0 +1,1482 @@
+{
+  "saveVersion": 3,
+  "definition": {
+    "version": "driver-world-2026-aligned-v3",
+    "driverEra": 2026,
+    "driverDataVersion": 2,
+    "headquarters": {
+      "layout": {
+        "width": 10,
+        "depth": 10,
+        "departments": [
+          {
+            "id": "AERO",
+            "name": "Aero & Design",
+            "shortName": "Aero",
+            "area": {
+              "x": 0.15,
+              "y": 0.15,
+              "width": 3.85,
+              "depth": 3.1
+            },
+            "labelPoint": {
+              "x": 0.05,
+              "y": 1.7
+            },
+            "labelHeight": 2.05,
+            "floorColor": "#2C4560"
+          },
+          {
+            "id": "STRATEGY",
+            "name": "Strategy",
+            "shortName": "Strategy",
+            "area": {
+              "x": 0.15,
+              "y": 3.45,
+              "width": 3.85,
+              "depth": 3
+            },
+            "labelPoint": {
+              "x": 0.05,
+              "y": 4.95
+            },
+            "labelHeight": 2.05,
+            "floorColor": "#33405E"
+          },
+          {
+            "id": "SIMULATOR",
+            "name": "Driver Simulator",
+            "shortName": "Simulator",
+            "area": {
+              "x": 0.15,
+              "y": 6.65,
+              "width": 3.85,
+              "depth": 3.2
+            },
+            "labelPoint": {
+              "x": 0.05,
+              "y": 8.2
+            },
+            "labelHeight": 2.05,
+            "floorColor": "#41365A"
+          },
+          {
+            "id": "WORKSHOP",
+            "name": "Main Workshop",
+            "shortName": "Workshop",
+            "area": {
+              "x": 5,
+              "y": 0.15,
+              "width": 4.85,
+              "depth": 4.25
+            },
+            "labelPoint": {
+              "x": 7.45,
+              "y": 0.05
+            },
+            "labelHeight": 2.05,
+            "floorColor": "#3A4552"
+          },
+          {
+            "id": "MANUFACTURING",
+            "name": "Parts & Manufacturing",
+            "shortName": "Manufacturing",
+            "area": {
+              "x": 5,
+              "y": 5.6,
+              "width": 2.6,
+              "depth": 4.25
+            },
+            "labelPoint": {
+              "x": 5.4,
+              "y": 10
+            },
+            "labelHeight": 0,
+            "floorColor": "#3F4A3C"
+          },
+          {
+            "id": "LOGISTICS",
+            "name": "Logistics",
+            "shortName": "Logistics",
+            "area": {
+              "x": 7.8,
+              "y": 5.6,
+              "width": 2.05,
+              "depth": 4.25
+            },
+            "labelPoint": {
+              "x": 7.95,
+              "y": 10
+            },
+            "labelHeight": 0,
+            "floorColor": "#54473A"
+          }
+        ],
+        "stations": [
+          {
+            "id": "CAR_BAY_1",
+            "name": "Car Bay 1",
+            "departmentId": "WORKSHOP",
+            "position": {
+              "x": 6.5,
+              "y": 2
+            },
+            "accessNodeId": "BAY_WEST",
+            "activity": "CAR_SERVICE",
+            "slots": [
+              {
+                "spot": {
+                  "x": 7.35,
+                  "y": 2.3
+                },
+                "approach": [
+                  {
+                    "x": 7.35,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "spot": {
+                  "x": 6.5,
+                  "y": 3.8
+                },
+                "approach": []
+              }
+            ]
+          },
+          {
+            "id": "CAR_BAY_2",
+            "name": "Car Bay 2",
+            "departmentId": "WORKSHOP",
+            "position": {
+              "x": 8.7,
+              "y": 2
+            },
+            "accessNodeId": "BAY_EAST",
+            "activity": "CAR_SERVICE",
+            "slots": [
+              {
+                "spot": {
+                  "x": 9.55,
+                  "y": 2.3
+                },
+                "approach": [
+                  {
+                    "x": 9.55,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "spot": {
+                  "x": 8.7,
+                  "y": 3.8
+                },
+                "approach": []
+              }
+            ]
+          },
+          {
+            "id": "AERO_DESK",
+            "name": "Aero Design Desks",
+            "departmentId": "AERO",
+            "position": {
+              "x": 2,
+              "y": 1
+            },
+            "accessNodeId": "HALL_AERO",
+            "activity": "TYPING",
+            "slots": [
+              {
+                "spot": {
+                  "x": 2.9,
+                  "y": 1.85
+                },
+                "approach": []
+              },
+              {
+                "spot": {
+                  "x": 1.2,
+                  "y": 1.85
+                },
+                "approach": []
+              }
+            ]
+          },
+          {
+            "id": "STRATEGY_DESK",
+            "name": "Strategy Desk",
+            "departmentId": "STRATEGY",
+            "position": {
+              "x": 1.3,
+              "y": 4.95
+            },
+            "accessNodeId": "HALL_JUNCTION",
+            "activity": "TYPING",
+            "slots": [
+              {
+                "spot": {
+                  "x": 2.25,
+                  "y": 4.5
+                },
+                "approach": []
+              },
+              {
+                "spot": {
+                  "x": 2.25,
+                  "y": 5.5
+                },
+                "approach": []
+              }
+            ]
+          },
+          {
+            "id": "SIMULATOR",
+            "name": "Simulator",
+            "departmentId": "SIMULATOR",
+            "position": {
+              "x": 1.3,
+              "y": 8.1
+            },
+            "accessNodeId": "HALL_SIM",
+            "activity": "SIMULATOR",
+            "slots": [
+              {
+                "spot": {
+                  "x": 3.5,
+                  "y": 7.65
+                },
+                "approach": []
+              },
+              {
+                "spot": {
+                  "x": 2.2,
+                  "y": 8.1
+                },
+                "approach": [
+                  {
+                    "x": 3,
+                    "y": 9.2
+                  },
+                  {
+                    "x": 2.2,
+                    "y": 9.2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "MANUFACTURING_BENCH",
+            "name": "Manufacturing Bench",
+            "departmentId": "MANUFACTURING",
+            "position": {
+              "x": 5.65,
+              "y": 6.8
+            },
+            "accessNodeId": "BAY_WEST",
+            "activity": "FABRICATING",
+            "slots": [
+              {
+                "spot": {
+                  "x": 6.55,
+                  "y": 6.8
+                },
+                "approach": []
+              },
+              {
+                "spot": {
+                  "x": 6.95,
+                  "y": 8.9
+                },
+                "approach": []
+              }
+            ]
+          },
+          {
+            "id": "LOGISTICS_AREA",
+            "name": "Logistics Area",
+            "departmentId": "LOGISTICS",
+            "position": {
+              "x": 8.6,
+              "y": 6.45
+            },
+            "accessNodeId": "BAY_EAST",
+            "activity": "HAULING",
+            "slots": [
+              {
+                "spot": {
+                  "x": 8.6,
+                  "y": 7.55
+                },
+                "approach": [
+                  {
+                    "x": 9.65,
+                    "y": 5.7
+                  },
+                  {
+                    "x": 9.65,
+                    "y": 7.55
+                  }
+                ]
+              },
+              {
+                "spot": {
+                  "x": 9.2,
+                  "y": 8.6
+                },
+                "approach": [
+                  {
+                    "x": 9.65,
+                    "y": 5.7
+                  },
+                  {
+                    "x": 9.65,
+                    "y": 8.6
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "nav": {
+          "nodes": {
+            "ENTRANCE_OUTSIDE": {
+              "x": 4.5,
+              "y": 10.9
+            },
+            "ENTRANCE": {
+              "x": 4.5,
+              "y": 9.9
+            },
+            "HALL_SIM": {
+              "x": 4.5,
+              "y": 8
+            },
+            "HALL_JUNCTION": {
+              "x": 4.5,
+              "y": 5
+            },
+            "HALL_AERO": {
+              "x": 4.5,
+              "y": 1.9
+            },
+            "BAY_WEST": {
+              "x": 6.5,
+              "y": 5
+            },
+            "BAY_EAST": {
+              "x": 8.7,
+              "y": 5
+            }
+          },
+          "edges": [
+            [
+              "ENTRANCE_OUTSIDE",
+              "ENTRANCE"
+            ],
+            [
+              "ENTRANCE",
+              "HALL_SIM"
+            ],
+            [
+              "HALL_SIM",
+              "HALL_JUNCTION"
+            ],
+            [
+              "HALL_JUNCTION",
+              "HALL_AERO"
+            ],
+            [
+              "HALL_JUNCTION",
+              "BAY_WEST"
+            ],
+            [
+              "BAY_WEST",
+              "BAY_EAST"
+            ]
+          ]
+        },
+        "props": [
+          {
+            "id": "bay-1",
+            "kind": "carBay",
+            "area": {
+              "x": 5.8,
+              "y": 0.5,
+              "width": 1.4,
+              "depth": 3.1
+            }
+          },
+          {
+            "id": "bay-2",
+            "kind": "carBay",
+            "area": {
+              "x": 8,
+              "y": 0.5,
+              "width": 1.4,
+              "depth": 3.1
+            }
+          },
+          {
+            "id": "car-1",
+            "kind": "raceCar",
+            "area": {
+              "x": 6.1,
+              "y": 0.75,
+              "width": 0.8,
+              "depth": 2.6
+            },
+            "color": "#D92D44"
+          },
+          {
+            "id": "car-2",
+            "kind": "raceCar",
+            "area": {
+              "x": 8.3,
+              "y": 0.75,
+              "width": 0.8,
+              "depth": 2.6
+            },
+            "color": "#D92D44"
+          },
+          {
+            "id": "tools-1",
+            "kind": "toolChest",
+            "area": {
+              "x": 7.45,
+              "y": 0.25,
+              "width": 0.4,
+              "depth": 0.7
+            }
+          },
+          {
+            "id": "tools-2",
+            "kind": "toolChest",
+            "area": {
+              "x": 9.5,
+              "y": 0.25,
+              "width": 0.35,
+              "depth": 0.7
+            }
+          },
+          {
+            "id": "aero-desk-1",
+            "kind": "desk",
+            "area": {
+              "x": 0.6,
+              "y": 0.65,
+              "width": 1.2,
+              "depth": 0.65
+            }
+          },
+          {
+            "id": "aero-desk-2",
+            "kind": "desk",
+            "area": {
+              "x": 2.3,
+              "y": 0.65,
+              "width": 1.2,
+              "depth": 0.65
+            }
+          },
+          {
+            "id": "aero-model",
+            "kind": "windTunnelModel",
+            "area": {
+              "x": 0.5,
+              "y": 2.35,
+              "width": 1.3,
+              "depth": 0.6
+            }
+          },
+          {
+            "id": "strategy-desk",
+            "kind": "pitWallDesk",
+            "area": {
+              "x": 0.9,
+              "y": 3.9,
+              "width": 0.75,
+              "depth": 2.15
+            }
+          },
+          {
+            "id": "sim-rig",
+            "kind": "simRig",
+            "area": {
+              "x": 0.55,
+              "y": 7.35,
+              "width": 1.3,
+              "depth": 1.5
+            }
+          },
+          {
+            "id": "sim-console",
+            "kind": "desk",
+            "area": {
+              "x": 2.55,
+              "y": 7.25,
+              "width": 0.6,
+              "depth": 0.85
+            }
+          },
+          {
+            "id": "mfg-bench",
+            "kind": "workbench",
+            "area": {
+              "x": 5.3,
+              "y": 6,
+              "width": 0.7,
+              "depth": 1.6
+            }
+          },
+          {
+            "id": "mfg-cnc",
+            "kind": "cncMachine",
+            "area": {
+              "x": 5.3,
+              "y": 8.3,
+              "width": 1.1,
+              "depth": 1.2
+            }
+          },
+          {
+            "id": "log-crates",
+            "kind": "crates",
+            "area": {
+              "x": 7.95,
+              "y": 5.95,
+              "width": 1.35,
+              "depth": 0.9
+            }
+          },
+          {
+            "id": "log-tyres",
+            "kind": "tyreStack",
+            "area": {
+              "x": 8,
+              "y": 8.8,
+              "width": 0.6,
+              "depth": 0.6
+            }
+          },
+          {
+            "id": "transporter",
+            "kind": "transporter",
+            "area": {
+              "x": 10.5,
+              "y": 6.3,
+              "width": 1.4,
+              "depth": 3.4
+            }
+          }
+        ],
+        "walkSpeed": 1.5
+      },
+      "roster": [
+        {
+          "id": "james-walker",
+          "name": "James Walker",
+          "role": "Race Engineer",
+          "uniform": "navy",
+          "stationId": "CAR_BAY_1",
+          "spawn": {
+            "x": 4.1,
+            "y": 11
+          },
+          "spawnNodeId": "ENTRANCE_OUTSIDE",
+          "startDelayMs": 400
+        },
+        {
+          "id": "tom-becker",
+          "name": "Tom Becker",
+          "role": "Mechanic",
+          "uniform": "red",
+          "stationId": "CAR_BAY_1",
+          "spawn": {
+            "x": 4.9,
+            "y": 11.05
+          },
+          "spawnNodeId": "ENTRANCE_OUTSIDE",
+          "startDelayMs": 1000
+        },
+        {
+          "id": "luca-moretti",
+          "name": "Luca Moretti",
+          "role": "Mechanic",
+          "uniform": "red",
+          "stationId": "CAR_BAY_2",
+          "spawn": {
+            "x": 5.5,
+            "y": 11.25
+          },
+          "spawnNodeId": "ENTRANCE_OUTSIDE",
+          "startDelayMs": 1600
+        },
+        {
+          "id": "kenji-sato",
+          "name": "Kenji Sato",
+          "role": "Simulator Engineer",
+          "uniform": "navy",
+          "stationId": "SIMULATOR",
+          "spawn": {
+            "x": 3.5,
+            "y": 11.2
+          },
+          "spawnNodeId": "ENTRANCE_OUTSIDE",
+          "startDelayMs": 2200
+        },
+        {
+          "id": "ana-costa",
+          "name": "Ana Costa",
+          "role": "Manufacturing Technician",
+          "uniform": "orange",
+          "stationId": "MANUFACTURING_BENCH",
+          "spawn": {
+            "x": 6.1,
+            "y": 11.1
+          },
+          "spawnNodeId": "ENTRANCE_OUTSIDE",
+          "startDelayMs": 2800
+        },
+        {
+          "id": "marcus-reid",
+          "name": "Marcus Reid",
+          "role": "Logistics Technician",
+          "uniform": "orange",
+          "stationId": "LOGISTICS_AREA",
+          "spawn": {
+            "x": 2.9,
+            "y": 11.05
+          },
+          "spawnNodeId": "ENTRANCE_OUTSIDE",
+          "startDelayMs": 3400
+        },
+        {
+          "id": "priya-nair",
+          "name": "Priya Nair",
+          "role": "Aero Engineer",
+          "uniform": "white",
+          "stationId": "AERO_DESK",
+          "spawn": {
+            "x": 4.3,
+            "y": 5.75
+          },
+          "spawnNodeId": "HALL_JUNCTION",
+          "startDelayMs": 4200
+        },
+        {
+          "id": "hannah-cole",
+          "name": "Hannah Cole",
+          "role": "Strategist",
+          "uniform": "white",
+          "stationId": "STRATEGY_DESK",
+          "spawn": {
+            "x": 4.75,
+            "y": 6
+          },
+          "spawnNodeId": "HALL_JUNCTION",
+          "startDelayMs": 5000
+        }
+      ]
+    },
+    "development": {
+      "parts": [
+        {
+          "id": "FRONT_WING",
+          "name": "Front wing",
+          "area": "AERO",
+          "researchMethod": "WIND_TUNNEL",
+          "researchWeeks": 3,
+          "designWeeks": 2,
+          "manufactureWeeks": 2,
+          "cost": 2,
+          "maxGain": 8.8,
+          "reliabilityRisk": 2,
+          "descriptions": {
+            "PERFORMANCE": [
+              "Revised flap profiles to increase local load",
+              "Modified endplate to improve outwash around the front tyre",
+              "New mainplane leading edge for better flow conditioning"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Trimmed flap for a lower-downforce balance"
+            ],
+            "RELIABILITY": [
+              "Reinforced flap mounting brackets"
+            ]
+          }
+        },
+        {
+          "id": "NOSE",
+          "name": "Nose",
+          "area": "AERO",
+          "researchMethod": "WIND_TUNNEL",
+          "researchWeeks": 4,
+          "designWeeks": 2,
+          "manufactureWeeks": 3,
+          "cost": 2.6,
+          "maxGain": 5.6,
+          "reliabilityRisk": 3,
+          "maxUpgradesPerSeason": 2,
+          "descriptions": {
+            "PERFORMANCE": [
+              "Narrower nose tip to feed more flow under the chassis",
+              "Revised nose underside to condition flow to the floor"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Nose cooling inlet for hot conditions"
+            ],
+            "RELIABILITY": [
+              "Revised crash structure layup"
+            ]
+          }
+        },
+        {
+          "id": "FRONT_SUSPENSION",
+          "name": "Front suspension",
+          "area": "VEHICLE_DYNAMICS",
+          "researchMethod": "RIG",
+          "researchWeeks": 5,
+          "designWeeks": 3,
+          "manufactureWeeks": 3,
+          "cost": 3.5,
+          "maxGain": 8,
+          "reliabilityRisk": 5,
+          "maxUpgradesPerSeason": 2,
+          "descriptions": {
+            "PERFORMANCE": [
+              "Revised wishbone fairings to improve flow to the sidepods",
+              "New upright geometry for better front-end response"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Softer setup range for kerb riding"
+            ],
+            "RELIABILITY": [
+              "Stiffened pushrod to remove a fatigue issue"
+            ]
+          }
+        },
+        {
+          "id": "FLOOR",
+          "name": "Floor",
+          "area": "AERO",
+          "researchMethod": "WIND_TUNNEL",
+          "researchWeeks": 5,
+          "designWeeks": 3,
+          "manufactureWeeks": 3,
+          "cost": 4.8,
+          "maxGain": 12.8,
+          "reliabilityRisk": 3,
+          "descriptions": {
+            "PERFORMANCE": [
+              "Revised floor fences to strengthen the underfloor vortices",
+              "New floor edge geometry to seal the underfloor",
+              "Modified Venturi throat to increase local load"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Floor edge trim for a bumpy circuit"
+            ],
+            "RELIABILITY": [
+              "Added floor stays to limit flexing"
+            ]
+          }
+        },
+        {
+          "id": "BODYWORK_COOLING",
+          "name": "Bodywork & cooling",
+          "area": "AERO",
+          "researchMethod": "WIND_TUNNEL",
+          "researchWeeks": 4,
+          "designWeeks": 3,
+          "manufactureWeeks": 3,
+          "cost": 4,
+          "maxGain": 9.6,
+          "reliabilityRisk": 6,
+          "circuitPackage": "HIGH_COOLING",
+          "descriptions": {
+            "PERFORMANCE": [
+              "Tighter sidepod packaging to reduce drag",
+              "Revised engine cover downwash ramp",
+              "New sidepod inlet for improved flow to the rear"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Enlarged cooling louvres for hot conditions"
+            ],
+            "RELIABILITY": [
+              "Revised radiator ducting to lower temperatures"
+            ]
+          }
+        },
+        {
+          "id": "REAR_WING",
+          "name": "Rear wing",
+          "area": "AERO",
+          "researchMethod": "WIND_TUNNEL",
+          "researchWeeks": 3,
+          "designWeeks": 2,
+          "manufactureWeeks": 2,
+          "cost": 2,
+          "maxGain": 8,
+          "reliabilityRisk": 2,
+          "circuitPackage": "LOW_DRAG",
+          "descriptions": {
+            "PERFORMANCE": [
+              "New rear wing profiles for better load efficiency",
+              "Revised endplate tip to reduce induced drag"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Low-downforce rear wing for high-speed circuits"
+            ],
+            "RELIABILITY": [
+              "Strengthened DRS actuator mounting"
+            ]
+          }
+        },
+        {
+          "id": "REAR_SUSPENSION",
+          "name": "Rear suspension",
+          "area": "VEHICLE_DYNAMICS",
+          "researchMethod": "RIG",
+          "researchWeeks": 5,
+          "designWeeks": 3,
+          "manufactureWeeks": 3,
+          "cost": 3.5,
+          "maxGain": 8,
+          "reliabilityRisk": 5,
+          "maxUpgradesPerSeason": 2,
+          "descriptions": {
+            "PERFORMANCE": [
+              "Revised rear geometry to reduce tyre degradation",
+              "New wishbone fairings to clean up flow to the diffuser"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Ride height range for a high-speed circuit"
+            ],
+            "RELIABILITY": [
+              "Revised bearing housing to cure overheating"
+            ]
+          }
+        },
+        {
+          "id": "DIFFUSER_REAR_EDGE",
+          "name": "Diffuser & rear edge",
+          "area": "AERO",
+          "researchMethod": "WIND_TUNNEL",
+          "researchWeeks": 4,
+          "designWeeks": 2,
+          "manufactureWeeks": 3,
+          "cost": 3.1,
+          "maxGain": 10.4,
+          "reliabilityRisk": 2,
+          "descriptions": {
+            "PERFORMANCE": [
+              "Revised diffuser kick-up to increase rear load",
+              "New rear floor edge to improve diffuser expansion"
+            ],
+            "CIRCUIT_SPECIFIC": [
+              "Diffuser trim to rebalance the car"
+            ],
+            "RELIABILITY": [
+              "Reinforced diffuser strakes"
+            ]
+          }
+        }
+      ],
+      "regulations": {
+        "developmentCap": 60,
+        "ratingFloor": 40,
+        "ratingCeiling": 100,
+        "seasonWeeks": 52,
+        "aeroTestingAllowance": [
+          0.7,
+          0.75,
+          0.8,
+          0.85,
+          0.9,
+          0.95,
+          1,
+          1.05,
+          1.1,
+          1.15,
+          1.2
+        ]
+      },
+      "calendar": [
+        {
+          "id": "BHR",
+          "name": "Bahrain GP",
+          "week": 10,
+          "downforce": "MEDIUM",
+          "hot": true
+        },
+        {
+          "id": "SAU",
+          "name": "Saudi Arabian GP",
+          "week": 12,
+          "downforce": "LOW",
+          "hot": true
+        },
+        {
+          "id": "AUS",
+          "name": "Australian GP",
+          "week": 14,
+          "downforce": "MEDIUM",
+          "hot": false
+        },
+        {
+          "id": "JPN",
+          "name": "Japanese GP",
+          "week": 15,
+          "downforce": "HIGH",
+          "hot": false
+        },
+        {
+          "id": "CHN",
+          "name": "Chinese GP",
+          "week": 17,
+          "downforce": "MEDIUM",
+          "hot": false
+        },
+        {
+          "id": "MIA",
+          "name": "Miami GP",
+          "week": 18,
+          "downforce": "MEDIUM",
+          "hot": true
+        },
+        {
+          "id": "EMI",
+          "name": "Emilia-Romagna GP",
+          "week": 20,
+          "downforce": "MEDIUM",
+          "hot": false
+        },
+        {
+          "id": "MON",
+          "name": "Monaco GP",
+          "week": 21,
+          "downforce": "HIGH",
+          "hot": false
+        },
+        {
+          "id": "CAN",
+          "name": "Canadian GP",
+          "week": 23,
+          "downforce": "LOW",
+          "hot": false
+        },
+        {
+          "id": "ESP",
+          "name": "Spanish GP",
+          "week": 24,
+          "downforce": "HIGH",
+          "hot": false
+        },
+        {
+          "id": "AUT",
+          "name": "Austrian GP",
+          "week": 26,
+          "downforce": "MEDIUM",
+          "hot": false
+        },
+        {
+          "id": "GBR",
+          "name": "British GP",
+          "week": 27,
+          "downforce": "HIGH",
+          "hot": false
+        },
+        {
+          "id": "HUN",
+          "name": "Hungarian GP",
+          "week": 29,
+          "downforce": "HIGH",
+          "hot": true
+        },
+        {
+          "id": "BEL",
+          "name": "Belgian GP",
+          "week": 34,
+          "downforce": "LOW",
+          "hot": false
+        },
+        {
+          "id": "NED",
+          "name": "Dutch GP",
+          "week": 35,
+          "downforce": "HIGH",
+          "hot": false
+        },
+        {
+          "id": "ITA",
+          "name": "Italian GP",
+          "week": 36,
+          "downforce": "LOW",
+          "hot": false
+        },
+        {
+          "id": "AZE",
+          "name": "Azerbaijan GP",
+          "week": 38,
+          "downforce": "LOW",
+          "hot": false
+        },
+        {
+          "id": "SGP",
+          "name": "Singapore GP",
+          "week": 39,
+          "downforce": "HIGH",
+          "hot": true
+        },
+        {
+          "id": "USA",
+          "name": "United States GP",
+          "week": 42,
+          "downforce": "MEDIUM",
+          "hot": false
+        },
+        {
+          "id": "MEX",
+          "name": "Mexico City GP",
+          "week": 43,
+          "downforce": "HIGH",
+          "hot": false
+        },
+        {
+          "id": "BRA",
+          "name": "Sao Paulo GP",
+          "week": 45,
+          "downforce": "MEDIUM",
+          "hot": false
+        },
+        {
+          "id": "LVG",
+          "name": "Las Vegas GP",
+          "week": 46,
+          "downforce": "LOW",
+          "hot": false
+        },
+        {
+          "id": "QAT",
+          "name": "Qatar GP",
+          "week": 48,
+          "downforce": "HIGH",
+          "hot": true
+        },
+        {
+          "id": "ABU",
+          "name": "Abu Dhabi GP",
+          "week": 49,
+          "downforce": "MEDIUM",
+          "hot": false
+        }
+      ],
+      "teams": [
+        {
+          "id": "team.mclarin",
+          "name": "Mclarin Racing",
+          "controlledBy": "AI",
+          "developmentBudget": 58,
+          "facilities": {
+            "windTunnel": 4,
+            "cfd": 4,
+            "rig": 4,
+            "manufacturing": 4
+          },
+          "staff": {
+            "aero": 88,
+            "vehicleDynamics": 80
+          },
+          "correlation": 85,
+          "aggression": 0.6,
+          "focus": {
+            "AERO": 1.15,
+            "VEHICLE_DYNAMICS": 0.85
+          },
+          "carLevel": 76,
+          "partOffsets": {
+            "FRONT_WING": 2
+          },
+          "powerUnit": {
+            "supplier": "Vortex Power",
+            "rating": 84
+          }
+        },
+        {
+          "id": "team.ferano",
+          "name": "Ferano Corse",
+          "controlledBy": "AI",
+          "developmentBudget": 60,
+          "facilities": {
+            "windTunnel": 4,
+            "cfd": 5,
+            "rig": 5,
+            "manufacturing": 5
+          },
+          "staff": {
+            "aero": 86,
+            "vehicleDynamics": 88
+          },
+          "correlation": 74,
+          "aggression": 0.7,
+          "focus": {
+            "AERO": 1,
+            "VEHICLE_DYNAMICS": 1
+          },
+          "carLevel": 78,
+          "partOffsets": {
+            "REAR_SUSPENSION": 2
+          },
+          "powerUnit": {
+            "supplier": "Helix Motori",
+            "rating": 81
+          }
+        },
+        {
+          "id": "team.mercurion",
+          "name": "Mercurion GP",
+          "controlledBy": "AI",
+          "developmentBudget": 60,
+          "facilities": {
+            "windTunnel": 5,
+            "cfd": 4,
+            "rig": 5,
+            "manufacturing": 4
+          },
+          "staff": {
+            "aero": 84,
+            "vehicleDynamics": 90
+          },
+          "correlation": 66,
+          "aggression": 0.5,
+          "focus": {
+            "AERO": 0.9,
+            "VEHICLE_DYNAMICS": 1.1
+          },
+          "carLevel": 77,
+          "powerUnit": {
+            "supplier": "Vortex Power",
+            "rating": 84
+          }
+        },
+        {
+          "id": "team.vortex",
+          "name": "Vortex Racing",
+          "controlledBy": "AI",
+          "developmentBudget": 60,
+          "facilities": {
+            "windTunnel": 5,
+            "cfd": 5,
+            "rig": 4,
+            "manufacturing": 5
+          },
+          "staff": {
+            "aero": 92,
+            "vehicleDynamics": 86
+          },
+          "correlation": 88,
+          "aggression": 0.55,
+          "focus": {
+            "AERO": 1.1,
+            "VEHICLE_DYNAMICS": 0.9
+          },
+          "carLevel": 80,
+          "partOffsets": {
+            "FLOOR": 3
+          },
+          "powerUnit": {
+            "supplier": "Vortex Power",
+            "rating": 84
+          }
+        },
+        {
+          "id": "team.arden",
+          "name": "Arden Motorsport",
+          "controlledBy": "AI",
+          "developmentBudget": 50,
+          "facilities": {
+            "windTunnel": 3,
+            "cfd": 4,
+            "rig": 3,
+            "manufacturing": 4
+          },
+          "staff": {
+            "aero": 78,
+            "vehicleDynamics": 76
+          },
+          "correlation": 70,
+          "aggression": 0.45,
+          "focus": {
+            "AERO": 1,
+            "VEHICLE_DYNAMICS": 1
+          },
+          "carLevel": 72,
+          "powerUnit": {
+            "supplier": "Vortex Power",
+            "rating": 84
+          }
+        },
+        {
+          "id": "team.wellington",
+          "name": "Wellington Racing",
+          "controlledBy": "PLAYER",
+          "developmentBudget": 45,
+          "facilities": {
+            "windTunnel": 3,
+            "cfd": 3,
+            "rig": 2,
+            "manufacturing": 3
+          },
+          "staff": {
+            "aero": 74,
+            "vehicleDynamics": 68
+          },
+          "correlation": 72,
+          "aggression": 0.4,
+          "focus": {
+            "AERO": 1.1,
+            "VEHICLE_DYNAMICS": 0.9
+          },
+          "carLevel": 69,
+          "powerUnit": {
+            "supplier": "Kanto Dynamics",
+            "rating": 79
+          }
+        },
+        {
+          "id": "team.alpinor",
+          "name": "Alpinor GP",
+          "controlledBy": "AI",
+          "developmentBudget": 48,
+          "facilities": {
+            "windTunnel": 3,
+            "cfd": 3,
+            "rig": 3,
+            "manufacturing": 3
+          },
+          "staff": {
+            "aero": 72,
+            "vehicleDynamics": 74
+          },
+          "correlation": 62,
+          "aggression": 0.6,
+          "focus": {
+            "AERO": 1,
+            "VEHICLE_DYNAMICS": 1
+          },
+          "carLevel": 70,
+          "powerUnit": {
+            "supplier": "Stratus Engines",
+            "rating": 76
+          }
+        },
+        {
+          "id": "team.hartman",
+          "name": "Hartman Racing",
+          "controlledBy": "AI",
+          "developmentBudget": 44,
+          "facilities": {
+            "windTunnel": 3,
+            "cfd": 3,
+            "rig": 3,
+            "manufacturing": 2
+          },
+          "staff": {
+            "aero": 70,
+            "vehicleDynamics": 72
+          },
+          "correlation": 68,
+          "aggression": 0.65,
+          "focus": {
+            "AERO": 1,
+            "VEHICLE_DYNAMICS": 1
+          },
+          "carLevel": 69,
+          "powerUnit": {
+            "supplier": "Kanto Dynamics",
+            "rating": 79
+          }
+        },
+        {
+          "id": "team.veloce",
+          "name": "Veloce Racing",
+          "controlledBy": "AI",
+          "developmentBudget": 38,
+          "facilities": {
+            "windTunnel": 2,
+            "cfd": 3,
+            "rig": 2,
+            "manufacturing": 2
+          },
+          "staff": {
+            "aero": 66,
+            "vehicleDynamics": 70
+          },
+          "correlation": 60,
+          "aggression": 0.5,
+          "focus": {
+            "AERO": 0.9,
+            "VEHICLE_DYNAMICS": 1.1
+          },
+          "carLevel": 67,
+          "powerUnit": {
+            "supplier": "Helix Motori",
+            "rating": 81
+          }
+        },
+        {
+          "id": "team.auden",
+          "name": "Auden Motorsport",
+          "controlledBy": "AI",
+          "developmentBudget": 36,
+          "facilities": {
+            "windTunnel": 2,
+            "cfd": 2,
+            "rig": 2,
+            "manufacturing": 2
+          },
+          "staff": {
+            "aero": 64,
+            "vehicleDynamics": 62
+          },
+          "correlation": 58,
+          "aggression": 0.35,
+          "focus": {
+            "AERO": 1,
+            "VEHICLE_DYNAMICS": 1
+          },
+          "carLevel": 65,
+          "powerUnit": {
+            "supplier": "Helix Motori",
+            "rating": 81
+          }
+        },
+        {
+          "id": "team.caldera",
+          "name": "Caldera Racing",
+          "controlledBy": "AI",
+          "developmentBudget": 40,
+          "facilities": {
+            "windTunnel": 2,
+            "cfd": 2,
+            "rig": 2,
+            "manufacturing": 2
+          },
+          "staff": {
+            "aero": 64,
+            "vehicleDynamics": 62
+          },
+          "correlation": 65,
+          "aggression": 0.45,
+          "focus": {
+            "AERO": 1,
+            "VEHICLE_DYNAMICS": 1
+          },
+          "carLevel": 62,
+          "powerUnit": {
+            "supplier": "Helix Motori",
+            "rating": 81
+          }
+        }
+      ]
+    }
+  },
+  "legacyTeamMap": {
+    "aurora": "team.vortex",
+    "rossa": "team.ferano",
+    "silverline": "team.mercurion",
+    "papaya": "team.mclarin",
+    "emerald": "team.arden",
+    "azure": "team.alpinor",
+    "northstar": "team.wellington",
+    "falcon": "team.hartman",
+    "ironworks": "team.veloce",
+    "kestrel": "team.auden"
+  },
+  "drivers": {
+    "ids": [
+      "driver.ronnis",
+      "driver.piastra",
+      "driver.leclair",
+      "driver.harlton",
+      "driver.roussel",
+      "driver.antonello",
+      "driver.verhoeven",
+      "driver.hadrian",
+      "driver.alvarro",
+      "driver.sterling",
+      "driver.sainor",
+      "driver.alburn",
+      "driver.gasson",
+      "driver.colavita",
+      "driver.ortez",
+      "driver.bearford",
+      "driver.larsen",
+      "driver.lindholm",
+      "driver.hollenberg",
+      "driver.bortelli",
+      "driver.peralta",
+      "driver.botten",
+      "driver.cordeiro",
+      "driver.stoyanov",
+      "driver.dunley",
+      "driver.minaro",
+      "driver.bergman",
+      "driver.leones",
+      "driver.stenmark",
+      "driver.durand",
+      "driver.mainor",
+      "driver.van-hoven",
+      "driver.vale",
+      "driver.okada",
+      "driver.moreau",
+      "driver.duarte",
+      "driver.mensah",
+      "driver.zheng",
+      "driver.varga",
+      "driver.bellini",
+      "driver.sayed",
+      "driver.navarro",
+      "driver.takase"
+    ],
+    "teamIds": [
+      "team.mclarin",
+      "team.ferano",
+      "team.mercurion",
+      "team.vortex",
+      "team.arden",
+      "team.wellington",
+      "team.alpinor",
+      "team.hartman",
+      "team.veloce",
+      "team.auden",
+      "team.caldera"
+    ],
+    "buckets": [
+      "talent",
+      "racecraft",
+      "adaptability",
+      "composure",
+      "feedback",
+      "marketability"
+    ],
+    "traits": [
+      "Wet Weather Specialist",
+      "Qualifying Specialist",
+      "Tire Whisperer",
+      "Aggressive Defender",
+      "Late Braker",
+      "Setup Expert",
+      "Technical Leader",
+      "Street Circuit Specialist",
+      "High-Speed Specialist",
+      "Low-Grip Specialist",
+      "Comeback Racer",
+      "Calm Under Pressure",
+      "Sponsor Favorite"
+    ],
+    "aligned": true
+  }
+}
