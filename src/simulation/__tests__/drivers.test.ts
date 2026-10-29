@@ -14,15 +14,15 @@ const meta={gameVersion:'0.2.0',saveId:'driver-career',createdAt:'2026-10-29T12:
 const value=<T,>(r:SaveResult<T>)=>{if(!r.ok)throw new Error(r.error.message);return r.value;};
 const envelope=()=>value(createSaveEnvelope(createGameUniverse(definition,7),meta,definition));
 
-test('canonical 2026 world has eleven organizations, twenty-two distinct seats and forty-two people',()=>{
+test('canonical 2026 world has eleven organizations, twenty-two distinct seats and forty-three people',()=>{
  const universe=createGameUniverse(definition,7),world=universe.drivers!;
  expect(TEAM_BRANDS).toHaveLength(11);
  expect(Object.keys(universe.development.teams)).toHaveLength(11);
- expect(Object.values(world.drivers)).toHaveLength(42);
+ expect(Object.values(world.drivers)).toHaveLength(43);
  expect(Object.values(world.drivers).filter(d=>d.category==='GRID')).toHaveLength(22);
  expect(Object.values(world.drivers).filter(d=>d.category==='PROSPECT')).toHaveLength(10);
- expect(Object.values(world.drivers).filter(d=>d.category==='RESERVE')).toHaveLength(10);
- expect(new Set(Object.values(world.drivers).map(d=>d.id)).size).toBe(42);
+ expect(Object.values(world.drivers).filter(d=>d.category==='RESERVE')).toHaveLength(11);
+ expect(new Set(Object.values(world.drivers).map(d=>d.id)).size).toBe(43);
  for(const team of TEAM_BRANDS) {
    const seats=activeContracts(world,team.id);
    expect(seats).toHaveLength(2);expect(new Set(seats.map(c=>c.seat)).size).toBe(2);
@@ -50,10 +50,10 @@ test('starting cast and hidden profiles are fixed across world seeds and obey bo
 
 test('central grades cover all bounded ability values without an overall score',()=>{
  for(let n=0;n<=100;n++) expect(GRADES).toContain(gradeFor(n));
- expect([0,39,40,54,55,94,95,100].map(gradeFor)).toEqual(['F','F','D','D','C-','A','A+','A+']);
+ expect([0,39,40,54,55,89,90,100].map(gradeFor)).toEqual(['F','F','D','C-','C','A','A+','A+']);
  for(const n of [-1,101,NaN,Infinity]) expect(()=>gradeFor(n)).toThrow();
  const view=driverView(createDriverWorld(),observer,'driver.verhoeven');
- expect(view.grades.talent).toBe('A+');expect(view.confidence).toBe('High');
+ expect(view.grades.talent).toBe('A');expect(view.confidence).toBe('High');
  for(const key of ['ability','hidden','personality','overall','potentialRaw']) expect(view).not.toHaveProperty(key);
 });
 
@@ -102,24 +102,25 @@ test('contract conflicts cover driver ownership, seat occupancy and invalid term
 });
 
 test('team options enforce ownership, deadline, conflicts, idempotence and option-year salary',()=>{
- const initial=createDriverWorld(),contract=activeContracts(initial,observer)[0]!;
- expect(decideTeamOption(initial,'team.ferano',contract.id,true).ok).toBe(false);
+ const observer='team.ferano';
+ const initial=createDriverWorld(),contract=activeContracts(initial,observer).find(c=>c.driverId==='driver.harlton')!;
+ expect(decideTeamOption(initial,'team.wellington',contract.id,true).ok).toBe(false);
  const exercised=decideTeamOption(initial,observer,contract.id,true);
  expect(exercised.ok).toBe(true);
  if(!exercised.ok)throw new Error('option failed');
  expect(decideTeamOption(exercised.world,observer,contract.id,true)).toEqual({ok:true,world:exercised.world});
  expect(decideTeamOption(exercised.world,observer,contract.id,false).ok).toBe(false);
  const future=updateDriverCalendar(exercised.world,2028,0);
- const current=activeContracts(future,observer)[0]!;
+ const current=activeContracts(future,observer).find(c=>c.id===contract.id)!;
  expect(annualSalary(current,2028)).toBe(current.option!.salaryM);
- expect(activeContracts(updateDriverCalendar(future,2029,0),observer)).toHaveLength(0);
+ expect(activeContracts(updateDriverCalendar(future,2029,0),observer).some(c=>c.id===contract.id)).toBe(false);
  const boundary=updateDriverCalendar(initial,2027,40);
  expect(decideTeamOption(boundary,observer,contract.id,true).ok).toBe(true);
  const late=updateDriverCalendar(initial,2027,41);
  expect(decideTeamOption(late,observer,contract.id,true).ok).toBe(false);
  expect(late.contracts.find(c=>c.id===contract.id)!.option!.state).toBe('LAPSED');
  expect(updateDriverCalendar(late,2027,41)).toBe(late);
- const booked=signDriverContract(initial,{teamId:observer,driverId:'driver.vale',seat:1,startSeason:2028,endSeason:2028,annualSalaryM:3,performanceBonusM:0,option:null});
+ const booked=signDriverContract(initial,{teamId:observer,driverId:'driver.vale',seat:contract.seat,startSeason:2028,endSeason:2028,annualSalaryM:3,performanceBonusM:0,option:null});
  if(!booked.ok)throw new Error('fixture failed');
  expect(decideTeamOption(booked.world,observer,contract.id,true)).toMatchObject({ok:false,reason:'CONFLICT'});
 });
@@ -134,11 +135,11 @@ test('car fit and market value are distinct from true driving talent',()=>{
  expect(JSON.stringify(d.ability)).toBe(before);
 });
 
-test('driver knowledge/contracts and stable IDs survive v2 save/load with deterministic continuation',()=>{
+test('driver knowledge/contracts and stable IDs survive v3 save/load with deterministic continuation',()=>{
  let a=createGameUniverse(definition,7);
  a={...a,drivers:observeDriver(a.drivers!,observer,'driver.cordeiro')};
  let b=value(deserializeSave(value(serializeSave(value(createSaveEnvelope(a,meta,definition)),definition)),definition)).universe;
- expect(b).toEqual(a);expect(CURRENT_SAVE_VERSION).toBe(2);
+ expect(b).toEqual(a);expect(CURRENT_SAVE_VERSION).toBe(3);
  expect(restoreGameSave(createGameSave(a),definition)).toEqual(a);
  for(let i=0;i<52;i++){a=advanceUniverseWeek(advanceUniverseHeadquarters(a,definition,500),definition);b=advanceUniverseWeek(advanceUniverseHeadquarters(b,definition,500),definition);}
  expect(b).toEqual(a);
@@ -155,7 +156,7 @@ test('v1 ten-team migration preserves earned state/history and rejects unknown l
  const json=JSON.stringify(source);
  const migrated=value(deserializeSave(json,definition));
  expect(JSON.stringify(source)).toBe(json);
- expect(migrated.saveVersion).toBe(2);expect(Object.keys(migrated.universe.development.teams)).toHaveLength(11);
+ expect(migrated.saveVersion).toBe(3);expect(Object.keys(migrated.universe.development.teams)).toHaveLength(11);
  for(const [id,mapped] of Object.entries(LEGACY_TEAM_MAP)) {
    expect(migrated.universe.development.teams[mapped]).toEqual({...old.development.teams[id]!,teamId:mapped});
  }
@@ -193,8 +194,8 @@ test('frozen foundation v1 fixture migrates without erasing pending projects or 
 
 test('option decisions and automatic expiry remain save-valid',()=>{
  let universe=createGameUniverse(definition,2);
- const c=activeContracts(universe.drivers!,observer)[0]!;
- const option=decideTeamOption(universe.drivers!,observer,c.id,true);
+ const c=activeContracts(universe.drivers!,'team.ferano').find(c=>c.driverId==='driver.harlton')!;
+ const option=decideTeamOption(universe.drivers!,'team.ferano',c.id,true);
  if(!option.ok)throw new Error('option');
  universe={...universe,drivers:option.world};
  for(let year=0;year<3;year++) {

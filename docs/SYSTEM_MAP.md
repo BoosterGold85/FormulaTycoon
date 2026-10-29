@@ -18,7 +18,7 @@ flowchart TD
     State -->|display snapshots| UI[HQ scene, HUD, cards]
     State --> Checkpoint[Version 1 trusted checkpoint]
     Checkpoint -->|version + content checks| State
-    State --> Envelope[Validated v2 serialized envelope]
+    State --> Envelope[Validated v3 serialized envelope]
     Envelope --> Repo[SaveRepository]
     Repo --> Memory[MemorySaveStorage: volatile]
     Memory -->|raw strings| Decode[JSON decode / migration dispatch / validation]

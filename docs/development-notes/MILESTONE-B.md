@@ -1,5 +1,8 @@
 # Milestone B implementation notes
 
+Historical record of B (`e065ebd`). B.1 supersedes its generic starting ratings/contracts,
+42-person count and current save version. See MILESTONE-B1.md for the aligned content/migration.
+
 ## Five questions (recorded before delivery)
 
 1. **Owner:** `simulation/drivers` owns driver initialization, contracts, calendar expiry, scouting

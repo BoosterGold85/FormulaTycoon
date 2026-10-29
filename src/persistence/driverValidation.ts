@@ -6,12 +6,15 @@ import { TEAM_BRANDS } from '../game/brandRegistry';
 import { effectiveEnd } from '../simulation/drivers/contracts';
 import { array, choice, nullable, number, object, requireValid, text } from './validation';
 
-export function validateDriverWorld(input:unknown, season:number, week:number):asserts input is DriverWorld {
- const driverIds=[...GRID,...MARKET].map(d=>d.id),teamIds=TEAM_BRANDS.map(t=>t.id);
+export function validateDriverWorld(input:unknown, season:number, week:number, aligned = true):asserts input is DriverWorld {
+ const driverIds=[...GRID,...MARKET.filter(d=>aligned||d.id!=='driver.takase')].map(d=>d.id),teamIds=TEAM_BRANDS.map(t=>t.id);
  const driverId=choice(driverIds),teamId=choice(teamIds),rating=number(0,100),int=number(0,Number.MAX_SAFE_INTEGER,true);
  const year=number(2026,9999,true);
  const seatSeason=object({season:year,teamId,starts:int,wins:int,podiums:int,poles:int,championships:int,points:number()});
- const driver=object({id:driverId,name:text,nationality:text,ageAt2026:number(16,65,true),
+ const source=object({dataset:choice(['P2P 2026']),season:number(2026,2026,true),overallReference:rating,
+   pace:rating,racecraft:rating,tyreManagement:rating,qualifying:rating,consistency:rating,discipline:rating,
+   rankingContext:object({gradedRounds:number(13,13,true),totalRounds:number(18,18,true),ranked:choice([false])})},['rankingContext']);
+ const driver=object({...(aligned?{sourcePerformance:source,affiliatedTeamIds:array(teamId)}:{}),id:driverId,name:text,nationality:text,ageAt2026:number(16,65,true),
    stage:choice(['ROOKIE','DEVELOPING','PRIME','VETERAN','LATE_CAREER']),category:choice(['GRID','PROSPECT','RESERVE']),
    ability:object(Object.fromEntries(BUCKETS.map(k=>[k,rating]))),traits:array(choice(TRAITS)),
    hidden:object({potential:rating,peakAge:number(20,45,true),growth:choice(['EARLY','STEADY','LATE']),decline:number(0,5)}),
@@ -20,10 +23,10 @@ export function validateDriverWorld(input:unknown, season:number, week:number):a
    commercial:object({home:text,region:text,globalAppeal:rating}),
    comfort:object(Object.fromEntries(['frontResponse','rearStability','braking','downforce'].map(k=>[k,rating]))),
    familiarity:object({teamId:nullable(teamId),organization:rating,car:rating}),experience:rating,summary:text,
-   history:object({seasons:array(seatSeason),contractIds:array(text)})});
- const contract=object({id:text,teamId,driverId,seat:choice([1,2]),startSeason:year,endSeason:year,
+   history:object({seasons:array(seatSeason),contractIds:array(text)})},aligned?['sourcePerformance','affiliatedTeamIds']:[]);
+ const contract=object({...(aligned?{role:choice(['RACE','RESERVE']),provenance:object({status:choice(['CONFIRMED','REPORTED']),context:choice(['new deal','2026 base'])})}:{}),id:text,teamId,driverId,seat:aligned?nullable(choice([1,2])):choice([1,2]),startSeason:year,endSeason:year,
    annualSalaryM:number(0,250),performanceBonusM:number(0,50),status:choice(['SIGNED','EXPIRED','RELEASED']),
-   option:nullable(object({season:year,deadlineSeason:year,deadlineWeek:number(0,52,true),salaryM:number(0,250),state:choice(['PENDING','EXERCISED','DECLINED','LAPSED'])}))});
+   option:nullable(object({season:year,deadlineSeason:year,deadlineWeek:number(0,52,true),salaryM:number(0,250),state:choice(['PENDING','EXERCISED','DECLINED','LAPSED'])}))},aligned?['role','provenance']:[]);
  const observation=object({precision:rating,lastSeason:year,lastWeek:number(0,52,true),reports:int});
  object({season:year,week:number(0,52,true),drivers:object(Object.fromEntries(driverIds.map(id=>[id,driver]))),
    contracts:array(contract),knowledge:object(Object.fromEntries(teamIds.map(id=>[id,object(Object.fromEntries(driverIds.map(d=>[d,observation])))]))),nextContractNumber:number(23,Number.MAX_SAFE_INTEGER,true)})(input,'drivers');
@@ -35,6 +38,7 @@ export function validateDriverWorld(input:unknown, season:number, week:number):a
    for(const s of d.history.seasons) requireValid(s.season<world.season&&s.wins<=s.podiums&&s.podiums<=s.starts&&s.poles<=s.starts,'driver.history');
  }
  for(const c of world.contracts) {
+   requireValid(c.role==='RESERVE' ? c.seat===null&&c.option===null : c.seat!==null,'contract.role/seat');
    requireValid(!ids.has(c.id)&&c.endSeason>=c.startSeason&&c.endSeason-c.startSeason<=5,'contract.identity/term');ids.add(c.id);
    if(c.option) requireValid(c.option.season===c.endSeason+1&&c.option.deadlineSeason>=c.startSeason&&c.option.deadlineSeason<=c.endSeason,'contract.option');
    requireValid(c.status!=='EXPIRED'||effectiveEnd(c)<world.season,'contract.expiry');
@@ -49,7 +53,7 @@ export function validateDriverWorld(input:unknown, season:number, week:number):a
  for(let i=0;i<world.contracts.length;i++) for(let j=i+1;j<world.contracts.length;j++) {
    const a=world.contracts[i]!,b=world.contracts[j]!;
    if(a.status==='RELEASED'||b.status==='RELEASED') continue;
-   if(a.startSeason<=effectiveEnd(b)&&b.startSeason<=effectiveEnd(a)) requireValid(a.driverId!==b.driverId&&!(a.teamId===b.teamId&&a.seat===b.seat),'contract.overlap');
+   if(a.startSeason<=effectiveEnd(b)&&b.startSeason<=effectiveEnd(a)) requireValid(a.driverId!==b.driverId&&!(a.seat!==null&&b.seat!==null&&a.teamId===b.teamId&&a.seat===b.seat),'contract.overlap');
  }
  for(const observations of Object.values(world.knowledge)) for(const o of Object.values(observations)) {
    requireValid(o.lastSeason<world.season||(o.lastSeason===world.season&&o.lastWeek<=world.week),'scouting.date');

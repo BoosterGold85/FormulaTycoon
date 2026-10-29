@@ -9,6 +9,7 @@ export type GameDefinition = {
   /** Bump when content/rules change in a way that needs a saved-state migration. */
   version: string;
   driverEra?: 2026;
+  driverDataVersion?: 1 | 2;
   headquarters: { layout: HeadquartersLayout; roster: WorkerDefinition[] };
   development: DevelopmentContext;
 };

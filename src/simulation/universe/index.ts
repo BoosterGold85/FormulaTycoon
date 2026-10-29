@@ -18,7 +18,7 @@ export function createGameUniverse(definition: GameDefinition, seed: number): Ga
     definitionVersion: definition.version,
     seed,
     playerTeamId: definition.driverEra ? 'team.wellington' : null,
-    ...(definition.driverEra ? { drivers: createDriverWorld() } : {}),
+    ...(definition.driverEra ? { drivers: createDriverWorld(definition.driverDataVersion !== 1) } : {}),
     headquarters: createHeadquartersState(definition.headquarters.layout, definition.headquarters.roster),
     development: createDevelopmentWorld(definition.development, seed)
   };

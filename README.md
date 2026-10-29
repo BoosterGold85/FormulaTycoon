@@ -91,5 +91,6 @@ See [fictional brand policy](docs/BRAND_IDENTITY.md) for future canonical identi
 New games use eleven canonical fictional teams, 22 fixed 2026 starters, ten prospects and ten
 reserve/free agents. DRIVERS shows grade-only profiles and team-owned scouting; TEAM compares
 Wellington's two contracts and fixed options. No race simulation or overall driver score.
-Validated save schema v2 migrates v1 ten-team data explicitly. Storage remains memory-only.
+Validated save schema v3 migrates v1 ten-team data and v2 driver careers explicitly.
+New 2026 games use the canonical performance/contract dataset; see [Player Manual](docs/PLAYER_MANUAL.md). Storage remains memory-only.
 Read `docs/development-notes/MILESTONE-B.md` and `docs/DEV_STATUS.md` before extending it.

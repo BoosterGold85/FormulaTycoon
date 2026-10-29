@@ -84,7 +84,7 @@ Two intentionally distinct contracts exist:
 
 - `gameSave.ts`: A's trusted internal checkpoint API, unchanged for compatibility. Its old
   `GameSaveStorage` is deprecated; it is not an imported-file decoder.
-- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 2`, containing
+- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 3`, containing
   gameVersion, saveId, canonical UTC createdAt/updatedAt, and universe. App/repository callers
   supply metadata; domain code never generates wall-clock timestamps or unseeded save IDs.
 
@@ -101,10 +101,12 @@ progress/sequence, budget bounds and event chronology. This is structural/domain
 not tamper-proof anti-cheat or proof that an entire historical career is authentic. Validation is
 scoped to the loaded definition; future systems must extend it and their migration fixtures.
 
-`migrateSave` now upgrades validated v1 legacy saves to v2. It explicitly maps ten-team IDs,
+`migrateSave` upgrades validated v1 legacy saves to v3. It explicitly maps ten-team IDs,
 preserves earned development state/HQ/history and initializes Caldera plus DriverWorld. Opaque
-pending project IDs stay unchanged so their keyed outcomes remain unchanged. v2 is identity;
-missing/future versions fail safely. See development-notes/MILESTONE-B.md for exact mapping.
+pending project IDs stay unchanged so their keyed outcomes remain unchanged. V2 is validated
+against `legacyDriverGame.ts` and upgraded by `alignmentMigration.ts`: retain existing abilities,
+contracts/options, history and observer knowledge; add source snapshots and the reserve only.
+V3 is identity plus validation; missing/future versions fail safely. See development-notes/MILESTONE-B.md for exact mapping.
 Original input is not mutated. Future transforms require fixtures and final semantic validation.
 
 `SaveStorage` transports raw strings via write/read/list/delete; it imports no React Native or
@@ -170,7 +172,7 @@ fictional commercial policies and ID/migration rules. No runtime team identity c
 ## Milestone B: driver/contract/scouting boundary
 
 Canonical identity lives in `src/game/brandRegistry.ts`; fixed profiles live under `game/drivers`.
-`simulation/drivers` owns transitions/disclosure, not React. DriverWorld stores 42 profiles,
+`simulation/drivers` owns transitions/disclosure, not React. DriverWorld stores 43 profiles,
 contracts and observer-owned knowledge. Seats/current team are DERIVED from signed date-valid
 contracts; there is no second authoritative roster table. Age derives from ageAt2026 and calendar
 year. History arrays are empty initially, with fictional reputation summaries, not real records.
@@ -194,3 +196,23 @@ salary estimate, not shown as a universal player-facing score. Grades are centra
 
 `useGameUniverse` owns report/option commands at app lifetime. DRIVERS/TEAM consume disclosure views;
 HQ remains mounted and its simulation/assignments remain intact when navigating. No new dependency.
+
+## Canonical 2026 alignment (B.1)
+
+`game/drivers/performance2026.ts` owns exact source subskills and reference-only overall metadata.
+`simulation/drivers/performance.ts` derives the three source-backed starting buckets; the other
+three remain authored. Source snapshots and mutable ability/form are separate facts. Grade
+conversion stays centralized in disclosure selectors. Raw sources/reference overall never enter
+the public driver DTO. No dynamic form, growth or race engine was introduced.
+
+`contracts2026.ts` owns new-career salary/end/option/provenance content. Contract timelines remain
+authoritative; years remaining are derived. Optional role `RESERVE` uses a null seat; absence of
+role means the existing race contract. Race contracts require seat 1 or 2. `activeContracts` returns
+only race seats, preserving two-person TEAM comparison. Reserve employment still prevents
+overlapping driver contracts, but a null reserve seat never occupies a numbered seat. Optional
+affiliated team IDs are informational associations, not additional employment/seat assignments.
+
+Default definition is `driver-world-2026-aligned-v3`; `driverDataVersion: 1` identifies the frozen
+B definition for validation/compatibility. V3 validates 43 drivers (22 starters, ten prospects,
+eleven reserves). V2 validates the original 42. Existing career terms are not retroactively
+replaced with the new starting content. Frozen v1/v2 fixtures protect both migration paths.

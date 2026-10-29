@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useRef,useEffect} from 'react';
 import {SafeAreaView,ScrollView,View,Text,Pressable,StyleSheet} from 'react-native';
 import type {DriverWorld} from '../game/drivers/types';
 import {BUCKETS} from '../game/drivers/types';
@@ -20,20 +20,22 @@ function Action({label,onPress}:{label:string;onPress:()=>void}) {
 }
 /** Consumes disclosure selectors only; hidden numeric ability/potential never renders. */
 export function DriversScreen({universe,definition,world,observer,tab,onNavigate,onScout,onOption}:Props) {
+ const scroll=useRef<ScrollView>(null);
  const [filter,setFilter]=useState<'GRID'|'PROSPECT'|'RESERVE'>('GRID');
  const [selected,setSelected]=useState<string|null>(null);
  const [notice,setNotice]=useState('');
+ useEffect(()=>{scroll.current?.scrollTo({y:0,animated:false});},[selected,filter,tab]);
  const all=Object.keys(world.drivers).map(id=>driverView(world,observer,id));
  const selectedDriver=selected?driverView(world,observer,selected):null;
  const fit=selectedDriver?.teamId ? carCompatibility(world.drivers[selectedDriver.id]!,computeCarProfile(universe.development.teams[selectedDriver.teamId]!,definition.development.teams.find(t=>t.id===selectedDriver.teamId)!)) : null;
  const comparison=tab==='TEAM';
- const visible=comparison?all.filter(d=>d.teamId===observer):all.filter(d=>d.category===filter);
+ const visible=comparison?all.filter(d=>d.raceSeat&&d.teamId===observer):all.filter(d=>d.category===filter);
  const navigate=(next:NavTab,available:boolean)=>{if(available){setSelected(null);setNotice('');onNavigate(next);}else setNotice(`${next} · Coming soon`);};
  return <SafeAreaView style={s.safe}>
    <View style={s.header}><Text style={s.kicker}>FORMULA TYCOON / {world.season}</Text><Text style={s.title}>{comparison?'Your driver pairing':'Driver world'}</Text>
    <Text style={s.subtitle}>{comparison?teamBrand(observer).name:'22 seats. Distinct strengths. No single overall rating.'}</Text></View>
    {notice?<Text accessibilityRole="alert" style={s.notice}>{notice}</Text>:null}
-   <ScrollView style={s.scroll} contentContainerStyle={s.content}>
+   <ScrollView ref={scroll} style={s.scroll} contentContainerStyle={s.content}>
     {selectedDriver ? <>
       <Action label="Back to drivers" onPress={()=>setSelected(null)}/>
       <View style={s.card}>
@@ -43,8 +45,12 @@ export function DriversScreen({universe,definition,world,observer,tab,onNavigate
        <Text style={s.body}>{selectedDriver.summary}</Text>
        <Text style={s.label}>SPECIALTIES</Text><Text style={s.body}>{selectedDriver.specialties.join(' · ')}{selectedDriver.unknownTraits?' · Other traits unconfirmed':''}</Text>
        <Text style={s.label}>CONTRACT</Text><Text style={s.body}>{selectedDriver.contract}</Text>
+       {selectedDriver.contractEnd!==null?<Text style={s.body}>Guaranteed through {selectedDriver.contractEnd} · {selectedDriver.futureGuaranteedYears} future guaranteed {selectedDriver.futureGuaranteedYears===1?'year':'years'} after this season{selectedDriver.futureEffectiveYears!==selectedDriver.futureGuaranteedYears?` · ${selectedDriver.futureEffectiveYears} including exercised option`:''}.</Text>:null}
+       {selectedDriver.sourceStatus?<Text style={s.small}>Source: {selectedDriver.sourceStatus==='CONFIRMED'?'Confirmed':'Reported'} · Binding career contract.</Text>:null}
+       {selectedDriver.affiliations.length?<Text style={s.body}>Driver system: {selectedDriver.affiliations.join(' / ')}</Text>:null}
        {selectedDriver.option?<Text style={s.body}>{selectedDriver.option}</Text>:null}
-       {selectedDriver.teamId===observer&&selectedDriver.option?.includes('pending')&&selectedDriver.contractId?<Action label="Exercise 2028 team option" onPress={()=>onOption(selectedDriver.contractId!)}/>:null}
+       {selectedDriver.teamId===observer&&selectedDriver.option?.includes('pending')&&selectedDriver.contractId?<Action label={`Exercise ${selectedDriver.optionYear} team option`} onPress={()=>onOption(selectedDriver.contractId!)}/>:null}
+       <Text style={s.label}>CURRENT FORM</Text><Text style={s.body}>{selectedDriver.form}</Text>
        <Text style={s.label}>COMMERCIAL REACH</Text><Text style={s.body}>{selectedDriver.commercial}</Text>
        <Text style={s.label}>TEAM & CAR KNOWLEDGE</Text><Text style={s.body}>{selectedDriver.familiarity} · Current car: {fit??'No assigned car'}. Coarse comfort estimate; no race effects yet.</Text>
        <Text style={s.label}>CAREER</Text><Text style={s.body}>Fictional reputation summary above. {selectedDriver.history.length} recorded Formula Tycoon seasons. Future results belong to this career.</Text>
@@ -56,7 +62,7 @@ export function DriversScreen({universe,definition,world,observer,tab,onNavigate
        </>:null}
       </View>
     </> : <>
-      {!comparison?<View style={s.filters}>{(['GRID','PROSPECT','RESERVE'] as const).map(category=><Pressable key={category} accessibilityRole="button" accessibilityLabel={category==='GRID'?'Starting grid':category==='PROSPECT'?'Prospects':'Reserves'} onPress={()=>setFilter(category)} style={[s.filter,filter===category&&s.activeFilter]}><Text style={s.actionText}>{category==='GRID'?'Grid · 22':category==='PROSPECT'?'Prospects · 10':'Market · 10'}</Text></Pressable>)}</View>:<Text style={s.body}>Compare the whole driver: execution, feedback and commercial value can matter as much as raw pace. Contract figures are obligations only; payroll is not simulated.</Text>}
+      {!comparison?<View style={s.filters}>{(['GRID','PROSPECT','RESERVE'] as const).map(category=><Pressable key={category} accessibilityRole="button" accessibilityLabel={category==='GRID'?'Starting grid':category==='PROSPECT'?'Prospects':'Reserves'} onPress={()=>setFilter(category)} style={[s.filter,filter===category&&s.activeFilter]}><Text style={s.actionText}>{`${category==='GRID'?'Grid':category==='PROSPECT'?'Prospects':'Market'} · ${all.filter(d=>d.category===category).length}`}</Text></Pressable>)}</View>:<Text style={s.body}>Compare the whole driver: execution, feedback and commercial value can matter as much as raw pace. Contract figures are obligations only; payroll is not simulated.</Text>}
       <Text style={s.small}>{comparison?'YOUR TWO CONTRACTED DRIVERS':filter==='GRID'?'2026 STARTING GRID':filter==='PROSPECT'?'PROSPECTS · ESTIMATES, NOT TRUE ABILITY':'RESERVES & FREE AGENTS'}</Text>
       {visible.map(driver=><Pressable key={driver.id} accessibilityRole="button" accessibilityLabel={`View ${driver.name}`} onPress={()=>setSelected(driver.id)} style={s.card}>
        <Text style={[s.kicker,{color:driver.teamId?teamBrand(driver.teamId).color:theme.textMuted}]}>{driver.team}</Text>

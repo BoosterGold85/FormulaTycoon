@@ -1,8 +1,9 @@
+import {formLabel} from './performance';
 import { BUCKETS, type Bucket, type Driver, type DriverWorld } from '../../game/drivers/types';
 import { teamBrand } from '../../game/brandRegistry';
 import { activeContracts, effectiveEnd, annualSalary } from './contracts';
 export const GRADES=['F','D','C-','C','C+','B-','B','B+','A-','A','A+'] as const;
-const FLOORS=[0,40,55,60,65,70,75,80,85,90,95];
+const FLOORS=[0,40,50,55,60,65,70,75,80,85,90];
 export function gradeIndex(raw:number):number {
  if (!Number.isFinite(raw)||raw<0||raw>100) throw new Error('Ability outside 0–100');
  return FLOORS.reduce((index,floor,i)=>raw>=floor?i:index,0);
@@ -13,7 +14,8 @@ export const BUCKET_LABELS:Record<Bucket,string>={talent:'Talent',racecraft:'Rac
 export function driverView(world:DriverWorld,observer:string,id:string) {
  const d=world.drivers[id]; const known=world.knowledge[observer]?.[id];
  if (!Object.hasOwn(world.drivers,id)||!Object.hasOwn(world.knowledge,observer)||!Object.hasOwn(world.knowledge[observer]!,id)||!d||!known) throw new Error('Unknown driver/observer');
- const contract=activeContracts(world).find(c=>c.driverId===id);
+ const race=activeContracts(world).find(c=>c.driverId===id);
+ const contract=race??world.contracts.find(c=>c.driverId===id&&c.role==='RESERVE'&&c.status==='SIGNED'&&c.startSeason<=world.season&&effectiveEnd(c)>=world.season);
  const bounds=Object.fromEntries(BUCKETS.map((key,i)=>{
    if (d.category==='PROSPECT'&&known.precision<30&&key==='adaptability') return [key,'Unknown'];
    const center=gradeIndex(d.ability[key]);
@@ -22,8 +24,13 @@ export function driverView(world:DriverWorld,observer:string,id:string) {
  })) as Record<Bucket,string>;
  return {id:d.id,name:d.name,nationality:d.nationality,age:d.ageAt2026+world.season-2026,stage:d.stage,category:d.category,
    grades:bounds,team:contract?teamBrand(contract.teamId).name:'Available',teamId:contract?.teamId??null,
-   contractId:contract?.id??null,
-   contract:contract ? `${contract.startSeason}–${effectiveEnd(contract)} · $${annualSalary(contract,world.season)}M / year` : 'No race-seat contract',
+   contractId:contract?.id??null,raceSeat:!!race,form:formLabel(d.dynamic.form),
+   contractEnd:contract?.endSeason??null,optionYear:contract?.option?.season??null,
+   futureGuaranteedYears:contract?Math.max(0,contract.endSeason-world.season):null,
+   futureEffectiveYears:contract?Math.max(0,effectiveEnd(contract)-world.season):null,
+   sourceStatus:contract?.provenance?.status??null,
+   affiliations:(d.affiliatedTeamIds??[]).map(id=>teamBrand(id).name),
+   contract:contract ? `${contract.role==='RESERVE'?'Reserve · ':''}${contract.startSeason}–${contract.endSeason} guaranteed · $${annualSalary(contract,world.season)}M / year` : 'No race-seat contract',
    option:contract?.option ? `${contract.option.season} team option · ${contract.option.state.toLowerCase()} · decide by ${contract.option.deadlineSeason} W${contract.option.deadlineWeek}` : null,
    specialties:known.precision>=75?d.traits:d.traits.slice(0,1),unknownTraits:known.precision<75,
    familiarity:contract&&d.familiarity.teamId===contract.teamId?(d.familiarity.organization>=80?'Established':'Adapting'):'New organization',

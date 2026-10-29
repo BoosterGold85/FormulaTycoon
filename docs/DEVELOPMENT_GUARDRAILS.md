@@ -720,8 +720,13 @@ The following documents must remain current:
 - `MILESTONES`
 - `DEV_STATUS`
 - `DEVELOPMENT_GUARDRAILS`
+- `PLAYER_MANUAL` (player-facing mechanics, without hidden formulas)
 
 When significant architecture changes occur, update relevant documentation.
+
+Whenever a major player-facing gameplay system reaches Definition of Done, update
+`docs/PLAYER_MANUAL.md` with the mechanics the player needs to understand. Do not expose hidden
+numerical formulas. Clearly distinguish implemented behavior from planned effects.
 
 A new coding agent should be able to enter the repository and understand the project without reverse-engineering every file or old conversation.
 

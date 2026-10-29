@@ -58,7 +58,7 @@ export function validateUniverse(input: unknown, definition: GameDefinition): as
   })(input, 'universe');
   const universe = input as GameUniverse; // Base fields checked; canonical driver validation follows immediately.
   requireValid(universe.seed === universe.development.seed, 'universe.seed');
-  if(definition.driverEra) validateDriverWorld(universe.drivers,2025+universe.development.season,universe.development.week);
+  if(definition.driverEra) validateDriverWorld(universe.drivers,2025+universe.development.season,universe.development.week,definition.driverDataVersion!==1);
   if (universe.playerTeamId !== null) {
     requireValid(context.teams.find(t => t.id === universe.playerTeamId)?.controlledBy === 'PLAYER', 'universe.playerTeamId');
   }

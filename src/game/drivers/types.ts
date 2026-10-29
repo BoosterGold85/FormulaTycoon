@@ -1,3 +1,4 @@
+import type {SourcePerformance} from './performance2026';
 export const BUCKETS = ['talent', 'racecraft', 'adaptability', 'composure', 'feedback', 'marketability'] as const;
 export type Bucket = typeof BUCKETS[number];
 export type Abilities = Record<Bucket, number>;
@@ -15,11 +16,14 @@ export type Driver = {
   commercial: { home: string; region: string; globalAppeal: number };
   comfort: { frontResponse: number; rearStability: number; braking: number; downforce: number };
   familiarity: { teamId: string | null; organization: number; car: number };
+  sourcePerformance?: SourcePerformance;
+  affiliatedTeamIds?: string[];
   experience: number; summary: string;
   history: { seasons: Array<{ season: number; teamId: string; starts: number; wins: number; podiums: number; poles: number; championships: number; points: number }>; contractIds: string[] };
 };
 export type DriverContract = {
-  id: string; teamId: string; driverId: string; seat: 1 | 2; startSeason: number; endSeason: number;
+  id: string; teamId: string; driverId: string; seat: 1 | 2 | null; role?: 'RACE' | 'RESERVE';
+  provenance?: {status:'CONFIRMED'|'REPORTED';context:'new deal'|'2026 base'}; startSeason: number; endSeason: number;
   annualSalaryM: number; performanceBonusM: number; status: 'SIGNED' | 'EXPIRED' | 'RELEASED';
   option: null | { season: number; deadlineSeason: number; deadlineWeek: number; salaryM: number;
     state: 'PENDING' | 'EXERCISED' | 'DECLINED' | 'LAPSED' };

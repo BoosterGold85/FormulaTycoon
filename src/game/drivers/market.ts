@@ -19,7 +19,8 @@ export const MARKET: DriverSeed[] = [
  ['varga','Tomas Varga','Czech',36,[78,88,85,93,96,72],84,'Veteran engineering reference and mentor.'],
  ['bellini','Sofia Bellini','Italian',22,[84,79,83,76,75,86],97,'Fast developing junior with a strong audience.'],
  ['sayed','Amir Sayed','Emirati',27,[79,82,81,87,85,90],88,'Professional reserve with regional commercial reach.'],
- ['navarro','Elena Navarro','Spanish',29,[85,87,90,89,91,84],92,'Experienced reserve and versatile setup tester.']
+ ['navarro','Elena Navarro','Spanish',29,[85,87,90,89,91,84],92,'Experienced reserve and versatile setup tester.'],
+ ['takase','Yuto Takase','Japanese',25,[80,82,85,84,83,80],91,'Experienced reserve associated with the Vortex and Veloce driver system.']
 ].map((row,index) => {
  const [id,name,nationality,age,values,potential,summary]=row as [string,string,string,number,DriverSeed['values'],number,string];
  return {id:`driver.${id}`,name,nationality,age,values,potential,summary,traits: index%3===0 ? ['Calm Under Pressure'] : index%3===1 ? ['Setup Expert'] : ['Wet Weather Specialist']};

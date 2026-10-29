@@ -61,7 +61,8 @@ infrastructure step, before players can depend on a campaign.
 
 Open DRIVERS -> compare six letter buckets, traits, age, contract and reputation -> inspect
 prospects whose grades/potential remain uncertain -> improve a team-owned report -> compare the
-Wellington pairing in TEAM -> optionally exercise the fixed 2028 team option. No overall rating.
+Wellington pairing in TEAM. Starting options appear only for drivers with supplied option terms;
+only the owning team can exercise them. Wellington's starting pair has guaranteed-only deals. No overall rating.
 Report review is free/instant prototype learning; salaries/bonuses are terms only, not payments.
-Return to HQ without losing staff progress. Save format v2 supports these systems, but no durable
+Return to HQ without losing staff progress. Save format v3 supports these systems, but no durable
 save UI/device storage is introduced. No hiring UI, races, qualifying or full career growth yet.
