@@ -34,7 +34,19 @@ simulation's planned route with native-driver animations for smooth movement.
 ```bash
 npm run typecheck   # tsc --noEmit
 npm test            # jest (jest-expo preset)
+npm run build:web   # static web build for GitHub Pages
 ```
+
+## Play-test on your phone (no computer needed)
+
+Every push to `main` publishes the web version to GitHub Pages:
+
+**https://boostergold85.github.io/FormulaTycoon/**
+
+Open it in Safari on the iPhone, then Share → **Add to Home Screen** to launch it full screen like an app.
+The web build uses the same simulation and UI code as the native app (via react-native-web).
+
+To build the web version locally: `npm run build:web` (output in `dist/`), or `npm run web` for a dev server.
 
 ## Run on Windows + iPhone
 

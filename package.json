@@ -8,13 +8,18 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "web": "expo start --web",
+    "build:web": "expo export --platform web"
   },
   "dependencies": {
+    "@expo/metro-runtime": "~57.0.17",
     "expo": "~57.0.23",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
-    "react-native": "0.86.3"
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-web": "~0.21.4"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

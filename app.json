@@ -12,6 +12,17 @@
     },
     "android": {
       "package": "com.boostergold85.formulatycoon"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "name": "Formula Tycoon",
+      "shortName": "F. Tycoon",
+      "backgroundColor": "#0A111B",
+      "themeColor": "#0A111B"
+    },
+    "experiments": {
+      "baseUrl": "/FormulaTycoon"
     }
   }
 }
