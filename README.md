@@ -41,12 +41,34 @@ npm run build:web   # static web build (Cloudflare Pages)
 
 ## Play-test on your phone (no computer needed)
 
-The web version is deployed with Cloudflare Pages from `main`
-(build command `npm run build:web`, output directory `dist`).
-Open the `*.pages.dev` link in Safari, then Share → **Add to Home Screen** to launch it full screen like an app.
-The web build uses the same simulation and UI code as the native app (via react-native-web).
+### Cloudflare Workers preview (the current feature-branch setup)
 
-To build the web version locally: `npm run build:web` (output in `dist/`), or `npm run web` for a dev server.
+Use `feature/milestone-b-driver-world` for the B/B.1 test build. In the existing Worker's
+**Settings → Build → Branch control**, enable preview builds. Keep `main` as the production
+branch. Keep the preview command as `npx wrangler preview`.
+
+The existing Worker is `formulatycoon` (as identified by the supplied branch preview URL).
+The repository's `wrangler.json` supplies the required `previews` block, serves only Expo's
+`dist/` static export, and runs `npm run build:web` through Wrangler's custom build hook.
+The dashboard build command can stay empty for this setup; the export runs inside the preview
+command. If the dashboard already runs `npm run build:web`, it is harmless but builds twice.
+No custom Worker script, storage bindings or production routes are required.
+
+After a successful preview deployment, open the **Preview URL** printed in Cloudflare's build
+log. On iPhone, open it in Safari, then Share → **Add to Home Screen**. A GitHub branch link
+opens source code; Cloudflare's Preview URL opens the game. Wrangler 4.135.0 or newer is required
+for Worker Previews (the reported build used 4.155.0).
+
+### Existing Cloudflare Pages projects
+
+Pages uses build command `npm run build:web` and output directory `dist`; it does not run
+`wrangler preview`. For testing the feature branch, enable/select its Pages preview deployment.
+Keep the production branch as `main`. Open the preview's `*.pages.dev` URL on your phone.
+
+### Local web preview
+
+With the existing dependencies available, run `npm run web` for a development server or
+`npm run build:web` for a static export in `dist/`.
 
 ## Run on Windows + iPhone
 
@@ -75,7 +97,7 @@ As of October 2026, Expo is transitioning to SDK 58. Expo's current guidance say
 
 ## Important
 
-This is intentionally **not** the full game. Race simulation, drivers, contracts and seasons are future milestones (see `docs/ROADMAP.md`).
+This is intentionally **not** the full game. Race simulation and a complete championship career are future milestones (see `docs/ROADMAP.md`).
 
 ## Architecture and development handoff
 
@@ -88,9 +110,9 @@ See [fictional brand policy](docs/BRAND_IDENTITY.md) for future canonical identi
 
 ## Milestone B — driver world
 
-New games use eleven canonical fictional teams, 22 fixed 2026 starters, ten prospects and ten
+New games use eleven canonical fictional teams, 22 fixed 2026 starters, ten prospects and eleven
 reserve/free agents. DRIVERS shows grade-only profiles and team-owned scouting; TEAM compares
-Wellington's two contracts and fixed options. No race simulation or overall driver score.
+Wellington's two contracts; options appear only where the driver has one. No race simulation or overall driver score.
 Validated save schema v3 migrates v1 ten-team data and v2 driver careers explicitly.
 New 2026 games use the canonical performance/contract dataset; see [Player Manual](docs/PLAYER_MANUAL.md). Storage remains memory-only.
 Read `docs/development-notes/MILESTONE-B.md` and `docs/DEV_STATUS.md` before extending it.

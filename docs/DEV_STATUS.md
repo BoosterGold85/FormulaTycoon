@@ -4,8 +4,8 @@
 
 A + A.1 + permanent guardrails: COMPLETE, merged/pushed to main at `f2dab51` before B.
 B — 2026 fictional driver world, contracts and scouting: COMPLETE at `e065ebd`.
-B.1 — **Canonical 2026 Driver Data Alignment**: COMPLETE as a separate local commit on
-`feature/milestone-b-driver-world`. Neither B nor B.1 is pushed/merged. C/racing: NOT STARTED.
+B.1 — **Canonical 2026 Driver Data Alignment**: COMPLETE as a separate commit on
+`feature/milestone-b-driver-world`. B/B.1 were pushed to the feature branch with owner approval; neither is merged. C/racing: NOT STARTED.
 
 Read AGENTS.md and the six required architecture/guardrail documents before further work.
 Ownership, derivation and migration decisions are in `docs/development-notes/MILESTONE-B1.md`.
@@ -45,7 +45,9 @@ system reaches Definition of Done. Do not disclose hidden formulas in that guide
 
 ## IN PROGRESS
 
-None at handoff. B/B.1 await review; no merge/push or start of C is authorized by completion.
+B/B.1 await review. The focused Cloudflare preview configuration fix is complete and is being
+delivered to the test branch. Remote deployment confirmation remains pending. No merge or start
+of C is authorized by completion.
 Wellington remains the initial player team; choosing another team/hiring UI is outside this slice.
 
 ## TESTED
@@ -73,10 +75,32 @@ Wellington remains the initial player team; choosing another team/hiring UI is o
 - Logs/browser reproduction script: `/workspace/artifacts/milestone-b1/`; tracked screenshot
   evidence and file manifest: `docs/screenshots/milestone-b1/`, `docs/development-notes/MILESTONE-B1.md`.
 
+## Cloudflare preview configuration follow-up
+
+- Reported failure: Workers Builds ran `npx wrangler preview`, but the repository had no Wrangler
+  config or `previews` block. The log also showed no Expo export before the deploy command.
+  npm's dependency deprecation warnings were not the fatal error.
+- Added `wrangler.json` for existing Worker `formulatycoon`, inferred from the owner's branch URL:
+  empty `previews`, top-level `assets.directory=./dist`, SPA fallback and compatibility date.
+  `build.command=npm run build:web` generates the Expo export before upload. No Worker script,
+  dependency installation, bindings or production routes added. README now separates Workers
+  preview settings from the older Pages instructions.
+- PASS: executed the actual configured build command with `EXPO_NO_TELEMETRY=1`; confirmed
+  `dist/index.html` and every JS bundle it references exist. `npm run typecheck` and
+  `git diff --check` pass. Game code did not change; prior 161-test results above remain the last
+  full simulation run. Logs: `/workspace/artifacts/cloudflare-preview/`.
+- Reference: Cloudflare's official [Preview configuration](https://developers.cloudflare.com/workers/previews/configuration/)
+  and [Wrangler custom builds](https://developers.cloudflare.com/workers/wrangler/custom-builds/).
+- NOT VERIFIED: executing Wrangler locally or a successful remote upload/runtime. Wrangler is
+  absent locally and this cloud environment has no Cloudflare credentials; nothing was installed.
+  A push should trigger the configured preview build; use Cloudflare's resulting Preview URL.
+
 ## NOT VERIFIED
 
 - Native iPhone/Safari/Expo Go, device safe areas, hardware frame rate, battery/memory.
-- Cloudflare deployment or remote publication; web build is not deployment.
+- Live Cloudflare deployment: the supplied Workers build failed before upload because no
+  Wrangler `previews` configuration existed. The fix is prepared/validated locally; successful
+  remote upload remains pending. A static web build alone is not deployment.
 - Real-device save persistence/restart recovery. Memory storage remains volatile, with no player
   save/load/import/export/autosave screen. Do not depend on the prototype for a durable career.
 - Racing, track/weather/strategy effects, evolving form, growth/retirement, actual feedback-driven
