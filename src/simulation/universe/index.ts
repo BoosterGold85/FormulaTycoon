@@ -1,3 +1,4 @@
+import { createDriverWorld, updateDriverCalendar } from '../drivers';
 import { advanceDevelopmentWeek, createDevelopmentWorld, startNextSeason } from '../development';
 import { advanceHeadquarters, createHeadquartersState } from '../headquarters';
 import type { GameDefinition, GameUniverse } from './types';
@@ -16,7 +17,8 @@ export function createGameUniverse(definition: GameDefinition, seed: number): Ga
   return {
     definitionVersion: definition.version,
     seed,
-    playerTeamId: null,
+    playerTeamId: definition.driverEra ? 'team.wellington' : null,
+    ...(definition.driverEra ? { drivers: createDriverWorld(definition.driverDataVersion !== 1) } : {}),
     headquarters: createHeadquartersState(definition.headquarters.layout, definition.headquarters.roster),
     development: createDevelopmentWorld(definition.development, seed)
   };
@@ -42,7 +44,8 @@ export function restartUniverseHeadquarters(universe: GameUniverse, definition: 
 export function advanceUniverseWeek(universe: GameUniverse, definition: GameDefinition): GameUniverse {
   assertDefinition(universe, definition);
   const development = advanceDevelopmentWeek(universe.development, definition.development);
-  return development === universe.development ? universe : { ...universe, development };
+  return development === universe.development ? universe : { ...universe, development,
+    ...(universe.drivers ? {drivers:updateDriverCalendar(universe.drivers,2025+development.season,development.week)} : {}) };
 }
 
 /** Actual standings must be supplied; the integration never invents race results from car pace. */
@@ -58,5 +61,6 @@ export function startUniverseSeason(
   if (standings.length !== ids.length || new Set(standings).size !== ids.length || standings.some(id => !ids.includes(id))) {
     throw new Error('Standings must contain every team exactly once');
   }
-  return { ...universe, development: startNextSeason(universe.development, definition.development, standings, options) };
+  const development=startNextSeason(universe.development, definition.development, standings, options);
+  return { ...universe, development, ...(universe.drivers ? {drivers:updateDriverCalendar(universe.drivers,2025+development.season,0)} : {}) };
 }

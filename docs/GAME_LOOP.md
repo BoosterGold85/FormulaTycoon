@@ -3,7 +3,8 @@
 ## What can be played now
 
 Open HQ -> watch eight staff arrive -> inspect workers/departments -> NEW DAY replays arrivals.
-HQ cards and placeholder tabs work. HUD team/day/next-event values remain display placeholders.
+HQ cards work. DRIVERS opens grid/details/prospects/reserves; TEAM compares the Wellington pairing.
+RACE/HISTORY remain placeholders; the HQ HUD team/day/next-event remains display-only.
 Development can run headlessly, but there is no player development UI or campaign-time button.
 Milestone A adds no new player-facing loop, travel, qualifying, drivers or racing.
 
@@ -34,7 +35,7 @@ Wet upsets and midfield wins must be plausible, explainable and repeatable under
 replacing racing rules. Optimize with incomplete information; never expose all hidden attributes.
 
 Navigation stays HQ / TEAM / DRIVERS / RACE / HISTORY. A tab gets depth only when its simulation
-slice exists. No empty UI-first screen rollout. See MILESTONES.md for the gates.
+slice exists; B makes DRIVERS and the limited TEAM view functional. No empty UI-first screen rollout. See MILESTONES.md for the gates.
 
 ## Permanent pillars and HQ evolution (future)
 
@@ -48,9 +49,20 @@ No facility construction gameplay exists yet.
 Teams must become original fictional organizations with distinct philosophies, risk appetite,
 resources and histories, not identical AI with alternate colors. Use the canonical brand-policy
 and working identities in BRAND_IDENTITY.md; do not copy real logos/liveries/commercial identities.
-The new eleven-team proposals do not yet replace the ten-team development dataset.
+B adopts the eleven-team grid via an explicit content/save migration; the ten-team dataset is
+retained for legacy validation and regression only.
 
 Save-envelope serialization and a volatile in-memory repository exist after A.1. There is still
 no save/load button or persistent browser/native save slot; closing the app still loses progress.
 Do not imply that an autosave occurred. Real-device persistence and recovery are a later explicit
 infrastructure step, before players can depend on a campaign.
+
+## Milestone B player decisions
+
+Open DRIVERS -> compare six letter buckets, traits, age, contract and reputation -> inspect
+prospects whose grades/potential remain uncertain -> improve a team-owned report -> compare the
+Wellington pairing in TEAM. Starting options appear only for drivers with supplied option terms;
+only the owning team can exercise them. Wellington's starting pair has guaranteed-only deals. No overall rating.
+Report review is free/instant prototype learning; salaries/bonuses are terms only, not payments.
+Return to HQ without losing staff progress. Save format v3 supports these systems, but no durable
+save UI/device storage is introduced. No hiring UI, races, qualifying or full career growth yet.

@@ -7,13 +7,18 @@ flowchart TD
     Definition[GameDefinition: existing content and rules] --> Universe[Pure universe transitions]
     Universe --> HQ[Existing headquarters engine]
     Universe --> Dev[Existing development engine]
+    Universe --> Drivers[DriverWorld: profiles, contracts, knowledge]
+    Drivers --> State
+    Drivers --> Disclosure[Grade-only disclosure selectors]
+    Disclosure --> DriverUI[Drivers and Team screens]
+    DriverUI -->|report and option commands| Universe
     HQ --> State[GameUniverse state]
     Dev --> State
     App[App lifetime useGameUniverse] -->|commands / 50ms HQ steps| Universe
     State -->|display snapshots| UI[HQ scene, HUD, cards]
     State --> Checkpoint[Version 1 trusted checkpoint]
     Checkpoint -->|version + content checks| State
-    State --> Envelope[Validated v1 serialized envelope]
+    State --> Envelope[Validated v3 serialized envelope]
     Envelope --> Repo[SaveRepository]
     Repo --> Memory[MemorySaveStorage: volatile]
     Memory -->|raw strings| Decode[JSON decode / migration dispatch / validation]
@@ -53,11 +58,17 @@ variant selector -> construction/commissioned/active appearance. Finance ledger 
 construction/upkeep charges. No second copy of capability in the renderer and no duplicate
 charges/bonuses in legacy development. EVERY major upgrade needs simulation AND visible effects.
 
-The future canonical registry is `src/game/brandRegistry`; the working grid and sponsor/other
+The canonical registry is `src/game/brandRegistry.ts`; the working grid and sponsor/other
 brand policy live in BRAND_IDENTITY.md. Saves/history use entity IDs, registry lookups supply
 names/art. Track geography/profile IDs are independent from commercial event branding.
-The existing ten-team development fixture is intentionally not renamed during A.1.
+B retains the ten-team fixture for v1 validation and maps its runtime references into the
+canonical eleven-team definition. See the B migration notes; new games do not use the old grid.
 
 Only the memory adapter is implemented today. Native/browser storage belongs behind SaveStorage;
 the simulation imports neither platform storage nor persistence. Repository decode never mutates
 an active session; a future explicit application load action may replace state only after success.
+
+B integration: DriverWorld calendar follows development season/week through an explicit 2026-year
+adapter. Contract queries derive seats and future salary obligations. Car fit reads car attributes,
+feedback/commercial interfaces await later consumers. Scouting commands update observer knowledge
+only; all public grades are centralized. No event feed, payroll or race-result rules are added.

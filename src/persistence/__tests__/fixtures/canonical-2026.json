@@ -1,0 +1,504 @@
+{
+  "performance": {
+    "driver.antonello": {
+      "overallReference": 89.1,
+      "pace": 91.0,
+      "racecraft": 95.0,
+      "tyreManagement": 90.1,
+      "qualifying": 90.9,
+      "consistency": 85.3,
+      "discipline": 90.6,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.verhoeven": {
+      "overallReference": 85.1,
+      "pace": 92.3,
+      "racecraft": 86.9,
+      "tyreManagement": 85.0,
+      "qualifying": 86.6,
+      "consistency": 70.8,
+      "discipline": 95.2,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.ronnis": {
+      "overallReference": 82.8,
+      "pace": 87.5,
+      "racecraft": 81.2,
+      "tyreManagement": 82.6,
+      "qualifying": 83.7,
+      "consistency": 78.5,
+      "discipline": 94.8,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.harlton": {
+      "overallReference": 82.7,
+      "pace": 83.2,
+      "racecraft": 85.9,
+      "tyreManagement": 88.4,
+      "qualifying": 84.3,
+      "consistency": 86.2,
+      "discipline": 89.4,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.leclair": {
+      "overallReference": 82.4,
+      "pace": 85.7,
+      "racecraft": 86.3,
+      "tyreManagement": 82.6,
+      "qualifying": 85.5,
+      "consistency": 73.9,
+      "discipline": 93.8,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.roussel": {
+      "overallReference": 81.5,
+      "pace": 78.4,
+      "racecraft": 87.9,
+      "tyreManagement": 86.6,
+      "qualifying": 86.9,
+      "consistency": 76.1,
+      "discipline": 90.7,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.piastra": {
+      "overallReference": 76.7,
+      "pace": 76.3,
+      "racecraft": 76.5,
+      "tyreManagement": 80.1,
+      "qualifying": 79.7,
+      "consistency": 84.7,
+      "discipline": 91.3,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.gasson": {
+      "overallReference": 73.6,
+      "pace": 77.9,
+      "racecraft": 67.7,
+      "tyreManagement": 71.5,
+      "qualifying": 74.3,
+      "consistency": 86.6,
+      "discipline": 88.3,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.larsen": {
+      "overallReference": 71.8,
+      "pace": 72.2,
+      "racecraft": 73.4,
+      "tyreManagement": 69.1,
+      "qualifying": 69.0,
+      "consistency": 88.3,
+      "discipline": 92.0,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.hadrian": {
+      "overallReference": 71.3,
+      "pace": 68.3,
+      "racecraft": 70.4,
+      "tyreManagement": 77.5,
+      "qualifying": 78.5,
+      "consistency": 75.8,
+      "discipline": 92.7,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.lindholm": {
+      "overallReference": 68.2,
+      "pace": 64.9,
+      "racecraft": 69.8,
+      "tyreManagement": 71.1,
+      "qualifying": 67.7,
+      "consistency": 85.5,
+      "discipline": 90.4,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.hollenberg": {
+      "overallReference": 66.9,
+      "pace": 70.8,
+      "racecraft": 60.9,
+      "tyreManagement": 67.8,
+      "qualifying": 65.3,
+      "consistency": 84.3,
+      "discipline": 83.4,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.bearford": {
+      "overallReference": 64.9,
+      "pace": 65.3,
+      "racecraft": 57.9,
+      "tyreManagement": 66.3,
+      "qualifying": 68.4,
+      "consistency": 79.5,
+      "discipline": 91.4,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.ortez": {
+      "overallReference": 64.8,
+      "pace": 63.1,
+      "racecraft": 68.9,
+      "tyreManagement": 62.0,
+      "qualifying": 59.4,
+      "consistency": 82.3,
+      "discipline": 91.9,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.bortelli": {
+      "overallReference": 64.6,
+      "pace": 64.4,
+      "racecraft": 58.4,
+      "tyreManagement": 63.6,
+      "qualifying": 66.5,
+      "consistency": 82.6,
+      "discipline": 89.5,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.takase": {
+      "overallReference": 64.5,
+      "pace": 68.6,
+      "racecraft": 56.8,
+      "tyreManagement": 70.1,
+      "qualifying": 56.8,
+      "consistency": 78.0,
+      "discipline": 92.0,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.sainor": {
+      "overallReference": 64.0,
+      "pace": 62.5,
+      "racecraft": 64.7,
+      "tyreManagement": 59.4,
+      "qualifying": 65.8,
+      "consistency": 82.6,
+      "discipline": 82.9,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.colavita": {
+      "overallReference": 61.7,
+      "pace": 59.9,
+      "racecraft": 63.1,
+      "tyreManagement": 65.9,
+      "qualifying": 62.1,
+      "consistency": 79.0,
+      "discipline": 80.8,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.alburn": {
+      "overallReference": 59.9,
+      "pace": 59.8,
+      "racecraft": 62.7,
+      "tyreManagement": 53.0,
+      "qualifying": 55.7,
+      "consistency": 78.0,
+      "discipline": 89.5,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.peralta": {
+      "overallReference": 59.7,
+      "pace": 58.9,
+      "racecraft": 63.3,
+      "tyreManagement": 55.6,
+      "qualifying": 56.4,
+      "consistency": 77.6,
+      "discipline": 81.7,
+      "season": 2026,
+      "dataset": "P2P 2026"
+    },
+    "driver.alvarro": {
+      "overallReference": 59.4,
+      "pace": 56.6,
+      "racecraft": 58.8,
+      "tyreManagement": 56.4,
+      "qualifying": 61.4,
+      "consistency": 78.1,
+      "discipline": 89.2,
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "rankingContext": {
+        "gradedRounds": 13,
+        "totalRounds": 18,
+        "ranked": false
+      }
+    },
+    "driver.sterling": {
+      "overallReference": 58.9,
+      "pace": 56.8,
+      "racecraft": 62.3,
+      "tyreManagement": 57.5,
+      "qualifying": 51.0,
+      "consistency": 77.9,
+      "discipline": 91.0,
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "rankingContext": {
+        "gradedRounds": 13,
+        "totalRounds": 18,
+        "ranked": false
+      }
+    },
+    "driver.botten": {
+      "overallReference": 51.5,
+      "pace": 45.8,
+      "racecraft": 49.8,
+      "tyreManagement": 47.6,
+      "qualifying": 53.9,
+      "consistency": 71.4,
+      "discipline": 89.1,
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "rankingContext": {
+        "gradedRounds": 13,
+        "totalRounds": 18,
+        "ranked": false
+      }
+    }
+  },
+  "contracts": {
+    "driver.verhoeven": {
+      "teamId": "team.vortex",
+      "annualSalaryM": 107.0,
+      "endSeason": 2030,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.harlton": {
+      "teamId": "team.ferano",
+      "annualSalaryM": 60.0,
+      "endSeason": 2027,
+      "optionSeason": 2028,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.leclair": {
+      "teamId": "team.ferano",
+      "annualSalaryM": 53.0,
+      "endSeason": 2030,
+      "optionSeason": null,
+      "provenance": {
+        "status": "REPORTED",
+        "context": "new deal"
+      }
+    },
+    "driver.alvarro": {
+      "teamId": "team.arden",
+      "annualSalaryM": 40.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.ronnis": {
+      "teamId": "team.mclarin",
+      "annualSalaryM": 35.0,
+      "endSeason": 2030,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.roussel": {
+      "teamId": "team.mercurion",
+      "annualSalaryM": 34.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.sainor": {
+      "teamId": "team.wellington",
+      "annualSalaryM": 30.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.piastra": {
+      "teamId": "team.mclarin",
+      "annualSalaryM": 27.0,
+      "endSeason": 2028,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.sterling": {
+      "teamId": "team.arden",
+      "annualSalaryM": 17.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.gasson": {
+      "teamId": "team.alpinor",
+      "annualSalaryM": 15.0,
+      "endSeason": 2028,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.alburn": {
+      "teamId": "team.wellington",
+      "annualSalaryM": 12.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.peralta": {
+      "teamId": "team.caldera",
+      "annualSalaryM": 10.0,
+      "endSeason": 2029,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "new deal"
+      }
+    },
+    "driver.ortez": {
+      "teamId": "team.hartman",
+      "annualSalaryM": 7.0,
+      "endSeason": 2026,
+      "optionSeason": 2027,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.hollenberg": {
+      "teamId": "team.auden",
+      "annualSalaryM": 7.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.hadrian": {
+      "teamId": "team.vortex",
+      "annualSalaryM": 5.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.takase": {
+      "teamId": "team.vortex",
+      "annualSalaryM": 5.0,
+      "endSeason": 2026,
+      "optionSeason": null,
+      "provenance": {
+        "status": "REPORTED",
+        "context": "2026 base"
+      }
+    },
+    "driver.botten": {
+      "teamId": "team.caldera",
+      "annualSalaryM": 5.0,
+      "endSeason": 2027,
+      "optionSeason": 2028,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.antonello": {
+      "teamId": "team.mercurion",
+      "annualSalaryM": 2.0,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.bortelli": {
+      "teamId": "team.auden",
+      "annualSalaryM": 2.0,
+      "endSeason": 2028,
+      "optionSeason": null,
+      "provenance": {
+        "status": "REPORTED",
+        "context": "2026 base"
+      }
+    },
+    "driver.bearford": {
+      "teamId": "team.hartman",
+      "annualSalaryM": 1.0,
+      "endSeason": 2026,
+      "optionSeason": 2027,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.larsen": {
+      "teamId": "team.veloce",
+      "annualSalaryM": 1.0,
+      "endSeason": 2026,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.colavita": {
+      "teamId": "team.alpinor",
+      "annualSalaryM": 0.75,
+      "endSeason": 2027,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    },
+    "driver.lindholm": {
+      "teamId": "team.veloce",
+      "annualSalaryM": 0.75,
+      "endSeason": 2026,
+      "optionSeason": null,
+      "provenance": {
+        "status": "CONFIRMED",
+        "context": "2026 base"
+      }
+    }
+  }
+}

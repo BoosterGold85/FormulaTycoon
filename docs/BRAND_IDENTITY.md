@@ -12,20 +12,19 @@ inspiration's crest, wordmark, sponsor layout or car graphics.
 
 ## Canonical registry contract
 
-The single future content registry belongs at `src/game/brandRegistry` (equivalent to
+The canonical team registry is now `src/game/brandRegistry.ts` (equivalent to
 `src/data/brandRegistry` under the existing plain-data convention). Teams, sponsors, power-unit
 and tyre manufacturers, media, broadcasters, equipment suppliers, series, awards and commercial
 partners reference its stable IDs. Resolve display names/art from it in selectors/presentation,
 not by scattering name strings through simulation. History and saves retain entity IDs, not
 only display names, so rebranding never changes historical identity.
 
-The runtime registry is NOT introduced in A.1. Existing ten-team development IDs and ratings
-remain unchanged. The eleven-team working grid is a later content release requiring an explicit
-legacy-ID mapping, added-team initialization, aero-allowance/standings review, definition-version
-change and save migration fixtures. Do not infer a one-to-one mapping from colors or inspiration.
+The runtime registry was not introduced in A.1; B now implements the canonical eleven-team grid. The legacy ten-team definition remains frozen for validation/regression. B explicitly maps its IDs,
+preserves earned development state, initializes Caldera, extends allowances to eleven entries and
+adds schema v1 -> v2 migration. See development-notes/MILESTONE-B.md for mapping/assumptions. Do not infer a one-to-one mapping from colors or inspiration.
 Archived upgrade descriptions/names are historical snapshots, not canonical foreign keys.
 
-## Working grid (proposed identities, not the current runtime roster)
+## Canonical working grid (runtime identities as of Milestone B)
 
 | Proposed stable ID | Display name | Organization/archetype | Visual direction |
 |---|---|---|---|

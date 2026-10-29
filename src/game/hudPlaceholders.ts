@@ -12,8 +12,8 @@ export type NavTab = 'HQ' | 'TEAM' | 'DRIVERS' | 'RACE' | 'HISTORY';
 
 export const NAV_TABS: Array<{ id: NavTab; label: string; available: boolean }> = [
   { id: 'HQ', label: 'HQ', available: true },
-  { id: 'TEAM', label: 'TEAM', available: false },
-  { id: 'DRIVERS', label: 'DRIVERS', available: false },
+  { id: 'TEAM', label: 'TEAM', available: true },
+  { id: 'DRIVERS', label: 'DRIVERS', available: true },
   { id: 'RACE', label: 'RACE', available: false },
   { id: 'HISTORY', label: 'HISTORY', available: false }
 ];

@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals';
-import { DEFAULT_GAME_DEFINITION as definition } from '../../game/defaultGame';
+import { LEGACY_GAME_DEFINITION as definition } from '../../game/legacyGame';
 import { createGameSave, restoreGameSave, type GameSave } from '../../persistence/gameSave';
 import { advanceDevelopmentWeek, createDevelopmentWorld } from '../development';
 import { advanceHeadquarters, createHeadquartersState } from '../headquarters';

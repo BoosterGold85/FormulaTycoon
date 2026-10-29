@@ -1,0 +1,2135 @@
+{
+  "saveVersion": 1,
+  "gameVersion": "0.1.0",
+  "saveId": "legacy-fixture",
+  "createdAt": "2026-10-29T12:00:00.000Z",
+  "updatedAt": "2026-10-29T12:00:00.000Z",
+  "universe": {
+    "definitionVersion": "hq-development-v1",
+    "seed": 17,
+    "playerTeamId": null,
+    "headquarters": {
+      "timeMs": 0,
+      "workers": [
+        {
+          "id": "james-walker",
+          "name": "James Walker",
+          "role": "Race Engineer",
+          "uniform": "navy",
+          "state": "IDLE",
+          "position": {
+            "x": 4.1,
+            "y": 11
+          },
+          "facing": "right",
+          "assignment": {
+            "stationId": "CAR_BAY_1",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 10.9
+              },
+              "nodeId": "ENTRANCE_OUTSIDE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 9.9
+              },
+              "nodeId": "ENTRANCE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 8
+              },
+              "nodeId": "HALL_SIM"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 6.5,
+                "y": 5
+              },
+              "nodeId": "BAY_WEST"
+            },
+            {
+              "point": {
+                "x": 7.35,
+                "y": 4
+              }
+            },
+            {
+              "point": {
+                "x": 7.35,
+                "y": 2.3
+              }
+            }
+          ],
+          "routeId": 1,
+          "location": {
+            "kind": "node",
+            "nodeId": "ENTRANCE_OUTSIDE"
+          },
+          "idleUntilMs": 400
+        },
+        {
+          "id": "tom-becker",
+          "name": "Tom Becker",
+          "role": "Mechanic",
+          "uniform": "red",
+          "state": "IDLE",
+          "position": {
+            "x": 4.9,
+            "y": 11.05
+          },
+          "facing": "left",
+          "assignment": {
+            "stationId": "CAR_BAY_1",
+            "slotIndex": 1
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 10.9
+              },
+              "nodeId": "ENTRANCE_OUTSIDE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 9.9
+              },
+              "nodeId": "ENTRANCE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 8
+              },
+              "nodeId": "HALL_SIM"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 6.5,
+                "y": 5
+              },
+              "nodeId": "BAY_WEST"
+            },
+            {
+              "point": {
+                "x": 6.5,
+                "y": 3.8
+              }
+            }
+          ],
+          "routeId": 2,
+          "location": {
+            "kind": "node",
+            "nodeId": "ENTRANCE_OUTSIDE"
+          },
+          "idleUntilMs": 1000
+        },
+        {
+          "id": "luca-moretti",
+          "name": "Luca Moretti",
+          "role": "Mechanic",
+          "uniform": "red",
+          "state": "IDLE",
+          "position": {
+            "x": 5.5,
+            "y": 11.25
+          },
+          "facing": "left",
+          "assignment": {
+            "stationId": "CAR_BAY_2",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 10.9
+              },
+              "nodeId": "ENTRANCE_OUTSIDE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 9.9
+              },
+              "nodeId": "ENTRANCE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 8
+              },
+              "nodeId": "HALL_SIM"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 6.5,
+                "y": 5
+              },
+              "nodeId": "BAY_WEST"
+            },
+            {
+              "point": {
+                "x": 8.7,
+                "y": 5
+              },
+              "nodeId": "BAY_EAST"
+            },
+            {
+              "point": {
+                "x": 9.55,
+                "y": 4
+              }
+            },
+            {
+              "point": {
+                "x": 9.55,
+                "y": 2.3
+              }
+            }
+          ],
+          "routeId": 3,
+          "location": {
+            "kind": "node",
+            "nodeId": "ENTRANCE_OUTSIDE"
+          },
+          "idleUntilMs": 1600
+        },
+        {
+          "id": "kenji-sato",
+          "name": "Kenji Sato",
+          "role": "Simulator Engineer",
+          "uniform": "navy",
+          "state": "IDLE",
+          "position": {
+            "x": 3.5,
+            "y": 11.2
+          },
+          "facing": "right",
+          "assignment": {
+            "stationId": "SIMULATOR",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 10.9
+              },
+              "nodeId": "ENTRANCE_OUTSIDE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 9.9
+              },
+              "nodeId": "ENTRANCE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 8
+              },
+              "nodeId": "HALL_SIM"
+            },
+            {
+              "point": {
+                "x": 3.5,
+                "y": 7.65
+              }
+            }
+          ],
+          "routeId": 4,
+          "location": {
+            "kind": "node",
+            "nodeId": "ENTRANCE_OUTSIDE"
+          },
+          "idleUntilMs": 2200
+        },
+        {
+          "id": "ana-costa",
+          "name": "Ana Costa",
+          "role": "Manufacturing Technician",
+          "uniform": "orange",
+          "state": "IDLE",
+          "position": {
+            "x": 6.1,
+            "y": 11.1
+          },
+          "facing": "left",
+          "assignment": {
+            "stationId": "MANUFACTURING_BENCH",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 10.9
+              },
+              "nodeId": "ENTRANCE_OUTSIDE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 9.9
+              },
+              "nodeId": "ENTRANCE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 8
+              },
+              "nodeId": "HALL_SIM"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 6.5,
+                "y": 5
+              },
+              "nodeId": "BAY_WEST"
+            },
+            {
+              "point": {
+                "x": 6.55,
+                "y": 6.8
+              }
+            }
+          ],
+          "routeId": 5,
+          "location": {
+            "kind": "node",
+            "nodeId": "ENTRANCE_OUTSIDE"
+          },
+          "idleUntilMs": 2800
+        },
+        {
+          "id": "marcus-reid",
+          "name": "Marcus Reid",
+          "role": "Logistics Technician",
+          "uniform": "orange",
+          "state": "IDLE",
+          "position": {
+            "x": 2.9,
+            "y": 11.05
+          },
+          "facing": "right",
+          "assignment": {
+            "stationId": "LOGISTICS_AREA",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 10.9
+              },
+              "nodeId": "ENTRANCE_OUTSIDE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 9.9
+              },
+              "nodeId": "ENTRANCE"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 8
+              },
+              "nodeId": "HALL_SIM"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 6.5,
+                "y": 5
+              },
+              "nodeId": "BAY_WEST"
+            },
+            {
+              "point": {
+                "x": 8.7,
+                "y": 5
+              },
+              "nodeId": "BAY_EAST"
+            },
+            {
+              "point": {
+                "x": 9.65,
+                "y": 5.7
+              }
+            },
+            {
+              "point": {
+                "x": 9.65,
+                "y": 7.55
+              }
+            },
+            {
+              "point": {
+                "x": 8.6,
+                "y": 7.55
+              }
+            }
+          ],
+          "routeId": 6,
+          "location": {
+            "kind": "node",
+            "nodeId": "ENTRANCE_OUTSIDE"
+          },
+          "idleUntilMs": 3400
+        },
+        {
+          "id": "priya-nair",
+          "name": "Priya Nair",
+          "role": "Aero Engineer",
+          "uniform": "white",
+          "state": "IDLE",
+          "position": {
+            "x": 4.3,
+            "y": 5.75
+          },
+          "facing": "right",
+          "assignment": {
+            "stationId": "AERO_DESK",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 4.5,
+                "y": 1.9
+              },
+              "nodeId": "HALL_AERO"
+            },
+            {
+              "point": {
+                "x": 2.9,
+                "y": 1.85
+              }
+            }
+          ],
+          "routeId": 7,
+          "location": {
+            "kind": "node",
+            "nodeId": "HALL_JUNCTION"
+          },
+          "idleUntilMs": 4200
+        },
+        {
+          "id": "hannah-cole",
+          "name": "Hannah Cole",
+          "role": "Strategist",
+          "uniform": "white",
+          "state": "IDLE",
+          "position": {
+            "x": 4.75,
+            "y": 6
+          },
+          "facing": "right",
+          "assignment": {
+            "stationId": "STRATEGY_DESK",
+            "slotIndex": 0
+          },
+          "route": [
+            {
+              "point": {
+                "x": 4.5,
+                "y": 5
+              },
+              "nodeId": "HALL_JUNCTION"
+            },
+            {
+              "point": {
+                "x": 2.25,
+                "y": 4.5
+              }
+            }
+          ],
+          "routeId": 8,
+          "location": {
+            "kind": "node",
+            "nodeId": "HALL_JUNCTION"
+          },
+          "idleUntilMs": 5000
+        }
+      ],
+      "stations": {
+        "CAR_BAY_1": {
+          "id": "CAR_BAY_1",
+          "slots": [
+            "james-walker",
+            "tom-becker"
+          ]
+        },
+        "CAR_BAY_2": {
+          "id": "CAR_BAY_2",
+          "slots": [
+            "luca-moretti",
+            null
+          ]
+        },
+        "AERO_DESK": {
+          "id": "AERO_DESK",
+          "slots": [
+            "priya-nair",
+            null
+          ]
+        },
+        "STRATEGY_DESK": {
+          "id": "STRATEGY_DESK",
+          "slots": [
+            "hannah-cole",
+            null
+          ]
+        },
+        "SIMULATOR": {
+          "id": "SIMULATOR",
+          "slots": [
+            "kenji-sato",
+            null
+          ]
+        },
+        "MANUFACTURING_BENCH": {
+          "id": "MANUFACTURING_BENCH",
+          "slots": [
+            "ana-costa",
+            null
+          ]
+        },
+        "LOGISTICS_AREA": {
+          "id": "LOGISTICS_AREA",
+          "slots": [
+            "marcus-reid",
+            null
+          ]
+        }
+      },
+      "nextRouteId": 9
+    },
+    "development": {
+      "seed": 17,
+      "season": 1,
+      "week": 16,
+      "teams": {
+        "aurora": {
+          "teamId": "aurora",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 81.30367043631773,
+              "reliability": 98,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "NOSE": {
+              "rating": 80,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 81.53818884784799,
+              "reliability": 96.59436198931229,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "FLOOR": {
+              "rating": 83,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 80,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 83.55817317586855,
+              "reliability": 97.46532540717753,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "REAR_SUSPENSION": {
+              "rating": 81.04833199833816,
+              "reliability": 94.49207506710556,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 80,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "aurora-S1-7",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 2.512282384135898,
+              "ambition": 0.4643268587948242,
+              "expectedGain": 1.4401488830302556,
+              "cost": 2.8876008040473193,
+              "startedWeek": 11
+            },
+            {
+              "id": "aurora-S1-8",
+              "partId": "DIFFUSER_REAR_EDGE",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.4510084577653757,
+              "ambition": 0.5164050352356424,
+              "expectedGain": 2.3630694412382995,
+              "cost": 2.670598926461344,
+              "startedWeek": 12
+            },
+            {
+              "id": "aurora-S1-9",
+              "partId": "FRONT_WING",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.443357136043833,
+              "ambition": 0.48112194970303546,
+              "expectedGain": 1.74147353338926,
+              "cost": 1.6735707295842497,
+              "startedWeek": 13
+            },
+            {
+              "id": "aurora-S1-10",
+              "partId": "REAR_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 4.800000000000001,
+              "ambition": 0.608921988251748,
+              "expectedGain": 1.9387346765235056,
+              "cost": 3.241858871216783,
+              "startedWeek": 13
+            }
+          ],
+          "spent": 23.34868456304976,
+          "circuitPackages": [
+            "HIGH_COOLING",
+            "LOW_DRAG"
+          ],
+          "aeroAllowance": 0.7,
+          "nextProjectNumber": 11
+        },
+        "rossa": {
+          "teamId": "rossa",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 78,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "NOSE": {
+              "rating": 78,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 78,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FLOOR": {
+              "rating": 80.97035171688137,
+              "reliability": 95.29239401623369,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "BODYWORK_COOLING": {
+              "rating": 78,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 80.28890869436476,
+              "reliability": 98,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "REAR_SUSPENSION": {
+              "rating": 83.10694740492775,
+              "reliability": 89.08346902219643,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 78,
+              "reliability": 98,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "rossa-S1-5",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.8635259289748974,
+              "expectedGain": 3.242252021324415,
+              "cost": 3.865638525988498,
+              "startedWeek": 7
+            },
+            {
+              "id": "rossa-S1-7",
+              "partId": "DIFFUSER_REAR_EDGE",
+              "reason": "PERFORMANCE",
+              "stage": "MANUFACTURING",
+              "progress": 0.6292568252165409,
+              "ambition": 0.5509228221251125,
+              "expectedGain": 2.6470739757467396,
+              "cost": 2.7455025240114943,
+              "startedWeek": 11
+            },
+            {
+              "id": "rossa-S1-8",
+              "partId": "REAR_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 0.5150660741549913,
+              "ambition": 0.646552959762824,
+              "expectedGain": 1.864064538414595,
+              "cost": 3.334054751418919,
+              "startedWeek": 13
+            },
+            {
+              "id": "rossa-S1-9",
+              "partId": "FRONT_WING",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 2.9250000000000003,
+              "ambition": 0.7216965102122662,
+              "expectedGain": 2.9341293319189896,
+              "cost": 2.0103751142971724,
+              "startedWeek": 14
+            },
+            {
+              "id": "rossa-S1-10",
+              "partId": "REAR_WING",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 0.9750000000000001,
+              "ambition": 0.6903806156147667,
+              "expectedGain": 2.2861700988039195,
+              "cost": 1.9665328618606734,
+              "startedWeek": 16
+            }
+          ],
+          "spent": 27.707532912854976,
+          "circuitPackages": [
+            "HIGH_COOLING",
+            "LOW_DRAG"
+          ],
+          "aeroAllowance": 0.75,
+          "nextProjectNumber": 11
+        },
+        "silverline": {
+          "teamId": "silverline",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 78.61542857746856,
+              "reliability": 96,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "NOSE": {
+              "rating": 77,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 81.08877744063624,
+              "reliability": 90.25428072969652,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "FLOOR": {
+              "rating": 77,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 77,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 77,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_SUSPENSION": {
+              "rating": 78.74514012823403,
+              "reliability": 92.34298510160988,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 77,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "silverline-S1-6",
+              "partId": "FLOOR",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.4936026509657359,
+              "ambition": 0.5896758974102385,
+              "expectedGain": 3.587745406749868,
+              "cost": 4.381311015298401,
+              "startedWeek": 11
+            },
+            {
+              "id": "silverline-S1-7",
+              "partId": "DIFFUSER_REAR_EDGE",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 2.028507735393096,
+              "ambition": 0.7675946792894492,
+              "expectedGain": 3.7945787105780835,
+              "cost": 3.2156804540581048,
+              "startedWeek": 11
+            },
+            {
+              "id": "silverline-S1-8",
+              "partId": "REAR_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.8557108459525011,
+              "ambition": 0.5531545992992488,
+              "expectedGain": 2.037918739224921,
+              "cost": 3.1052287682831596,
+              "startedWeek": 12
+            },
+            {
+              "id": "silverline-S1-9",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 4.199999999999999,
+              "ambition": 0.46535377812233525,
+              "expectedGain": 1.5254042035981261,
+              "cost": 2.8901167563997214,
+              "startedWeek": 14
+            },
+            {
+              "id": "silverline-S1-10",
+              "partId": "REAR_WING",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 2.08,
+              "ambition": 0.6758853219292036,
+              "expectedGain": 2.5701665841894514,
+              "cost": 1.9462394507008849,
+              "startedWeek": 15
+            }
+          ],
+          "spent": 27.483932743713986,
+          "circuitPackages": [
+            "HIGH_COOLING",
+            "LOW_DRAG"
+          ],
+          "aeroAllowance": 0.8,
+          "nextProjectNumber": 11
+        },
+        "papaya": {
+          "teamId": "papaya",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 80.33979463597893,
+              "reliability": 96,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "NOSE": {
+              "rating": 76,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 78.58836240990806,
+              "reliability": 87.96397124128606,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "FLOOR": {
+              "rating": 76,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 76,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 78.48255965989081,
+              "reliability": 96,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "REAR_SUSPENSION": {
+              "rating": 80.36650508108707,
+              "reliability": 86.54355179861074,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 76,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "papaya-S1-7",
+              "partId": "FRONT_WING",
+              "reason": "PERFORMANCE",
+              "stage": "MANUFACTURING",
+              "progress": 0.593676273162396,
+              "ambition": 0.5732849521101908,
+              "expectedGain": 2.1159236061266378,
+              "cost": 1.802598932954267,
+              "startedWeek": 12
+            },
+            {
+              "id": "papaya-S1-8",
+              "partId": "FLOOR",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 4.08,
+              "ambition": 0.5255369457833129,
+              "expectedGain": 3.44415892788552,
+              "cost": 4.165804137831931,
+              "startedWeek": 13
+            },
+            {
+              "id": "papaya-S1-9",
+              "partId": "DIFFUSER_REAR_EDGE",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 1.02,
+              "ambition": 0.6256018649181845,
+              "expectedGain": 3.3312048103163487,
+              "cost": 2.90755604687246,
+              "startedWeek": 16
+            },
+            {
+              "id": "papaya-S1-10",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 1.2000000000000002,
+              "ambition": 0.6782704778921397,
+              "expectedGain": 2.3236610657095946,
+              "cost": 3.411762670835742,
+              "startedWeek": 16
+            }
+          ],
+          "spent": 26.263455787979783,
+          "circuitPackages": [
+            "HIGH_COOLING",
+            "LOW_DRAG"
+          ],
+          "aeroAllowance": 0.85,
+          "nextProjectNumber": 11
+        },
+        "emerald": {
+          "teamId": "emerald",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 72,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "NOSE": {
+              "rating": 72,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 74.18752714084384,
+              "reliability": 92.3867291934603,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "FLOOR": {
+              "rating": 72,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 72,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 72,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_SUSPENSION": {
+              "rating": 73.79100025593188,
+              "reliability": 91.76118870091858,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 72,
+              "reliability": 96,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "emerald-S1-5",
+              "partId": "REAR_WING",
+              "reason": "PERFORMANCE",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.3464760385820146,
+              "expectedGain": 1.5263424419666352,
+              "cost": 1.4850664540148204,
+              "startedWeek": 11
+            },
+            {
+              "id": "emerald-S1-6",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.4818699037010814,
+              "ambition": 0.49801155023676125,
+              "expectedGain": 1.9882260218503887,
+              "cost": 2.970128298080065,
+              "startedWeek": 11
+            },
+            {
+              "id": "emerald-S1-7",
+              "partId": "REAR_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.8982310170780325,
+              "ambition": 0.35696781264294286,
+              "expectedGain": 1.4470256533108479,
+              "cost": 2.62457114097521,
+              "startedWeek": 11
+            },
+            {
+              "id": "emerald-S1-8",
+              "partId": "DIFFUSER_REAR_EDGE",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 0.914705611853276,
+              "ambition": 0.6859370609885469,
+              "expectedGain": 3.9283158191440095,
+              "cost": 3.0384834223451467,
+              "startedWeek": 12
+            }
+          ],
+          "spent": 19.676756059333343,
+          "circuitPackages": [
+            "HIGH_COOLING",
+            "LOW_DRAG"
+          ],
+          "aeroAllowance": 0.9,
+          "nextProjectNumber": 9
+        },
+        "azure": {
+          "teamId": "azure",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 72.87053491156937,
+              "reliability": 94,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "NOSE": {
+              "rating": 70,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 74.52263007648263,
+              "reliability": 83.88287510474284,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "FLOOR": {
+              "rating": 70,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 70,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 70,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_SUSPENSION": {
+              "rating": 74.05622790918518,
+              "reliability": 87.89977744994034,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 70,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "azure-S1-5",
+              "partId": "REAR_WING",
+              "reason": "CIRCUIT_SPECIFIC",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.5,
+              "expectedGain": 0,
+              "cost": 1.2,
+              "startedWeek": 11,
+              "circuitPackage": "LOW_DRAG"
+            },
+            {
+              "id": "azure-S1-6",
+              "partId": "DIFFUSER_REAR_EDGE",
+              "reason": "PERFORMANCE",
+              "stage": "DESIGN",
+              "progress": 1.7233871795821643,
+              "ambition": 0.6554070760359283,
+              "expectedGain": 3.8170908108332466,
+              "cost": 2.9722333549979645,
+              "startedWeek": 11
+            },
+            {
+              "id": "azure-S1-7",
+              "partId": "REAR_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 4,
+              "ambition": 0.43780571986342154,
+              "expectedGain": 1.7264664360611426,
+              "cost": 2.822624013665383,
+              "startedWeek": 13
+            }
+          ],
+          "spent": 17.922984120994727,
+          "circuitPackages": [
+            "HIGH_COOLING"
+          ],
+          "aeroAllowance": 0.95,
+          "nextProjectNumber": 8
+        },
+        "northstar": {
+          "teamId": "northstar",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "NOSE": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FLOOR": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 71.08781227218978,
+              "reliability": 94,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "REAR_SUSPENSION": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 69,
+              "reliability": 94,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "northstar-S1-3",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.6982738987115301,
+              "expectedGain": 3.1170946838482707,
+              "cost": 3.4607710518432486,
+              "startedWeek": 4
+            },
+            {
+              "id": "northstar-S1-5",
+              "partId": "FRONT_WING",
+              "reason": "PERFORMANCE",
+              "stage": "MANUFACTURING",
+              "progress": 1.3781610899148804,
+              "ambition": 0.5632690431170259,
+              "expectedGain": 2.919536104284169,
+              "cost": 1.788576660363836,
+              "startedWeek": 11
+            }
+          ],
+          "spent": 10.48897502900997,
+          "circuitPackages": [
+            "HIGH_COOLING",
+            "LOW_DRAG"
+          ],
+          "aeroAllowance": 1.05,
+          "nextProjectNumber": 6
+        },
+        "falcon": {
+          "teamId": "falcon",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 69,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "NOSE": {
+              "rating": 69,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 69,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FLOOR": {
+              "rating": 69,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 69,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 71.73605788814075,
+              "reliability": 91.22678841385961,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "REAR_SUSPENSION": {
+              "rating": 70.9161695419136,
+              "reliability": 85.02505768997842,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 69,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "falcon-S1-4",
+              "partId": "FRONT_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.8814253851939987,
+              "expectedGain": 4.080411916524752,
+              "cost": 3.909492193725297,
+              "startedWeek": 3
+            },
+            {
+              "id": "falcon-S1-5",
+              "partId": "REAR_WING",
+              "reason": "CIRCUIT_SPECIFIC",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.5,
+              "expectedGain": 0,
+              "cost": 1.2,
+              "startedWeek": 11,
+              "circuitPackage": "LOW_DRAG"
+            },
+            {
+              "id": "falcon-S1-6",
+              "partId": "FRONT_WING",
+              "reason": "PERFORMANCE",
+              "stage": "MANUFACTURING",
+              "progress": 0.780068713393331,
+              "ambition": 0.6260160475574992,
+              "expectedGain": 3.130914925850907,
+              "cost": 1.876422466580499,
+              "startedWeek": 11
+            }
+          ],
+          "spent": 14.4915712743754,
+          "circuitPackages": [
+            "HIGH_COOLING"
+          ],
+          "aeroAllowance": 1,
+          "nextProjectNumber": 7
+        },
+        "ironworks": {
+          "teamId": "ironworks",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 67,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "NOSE": {
+              "rating": 67,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 67,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FLOOR": {
+              "rating": 67,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 67,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 69.22041158624202,
+              "reliability": 92,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "REAR_SUSPENSION": {
+              "rating": 69.75069111350346,
+              "reliability": 86.43184723947927,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 67,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "ironworks-S1-4",
+              "partId": "REAR_WING",
+              "reason": "CIRCUIT_SPECIFIC",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.5,
+              "expectedGain": 0,
+              "cost": 1.2,
+              "startedWeek": 11,
+              "circuitPackage": "LOW_DRAG"
+            },
+            {
+              "id": "ironworks-S1-5",
+              "partId": "FLOOR",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 4.95,
+              "ambition": 0.6645078847767665,
+              "expectedGain": 4.958823639358143,
+              "cost": 4.632746492849935,
+              "startedWeek": 12
+            },
+            {
+              "id": "ironworks-S1-6",
+              "partId": "REAR_SUSPENSION",
+              "reason": "PERFORMANCE",
+              "stage": "RESEARCH",
+              "progress": 1.6,
+              "ambition": 0.5228328643045855,
+              "expectedGain": 2.3195821452263004,
+              "cost": 3.0309405175462345,
+              "startedWeek": 15
+            }
+          ],
+          "spent": 15.775609634850497,
+          "circuitPackages": [
+            "HIGH_COOLING"
+          ],
+          "aeroAllowance": 1.1,
+          "nextProjectNumber": 7
+        },
+        "kestrel": {
+          "teamId": "kestrel",
+          "parts": {
+            "FRONT_WING": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "NOSE": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FRONT_SUSPENSION": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "FLOOR": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "BODYWORK_COOLING": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_WING": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            },
+            "REAR_SUSPENSION": {
+              "rating": 69.4157510617222,
+              "reliability": 82.3978619749419,
+              "spec": 2,
+              "upgradesThisSeason": 1
+            },
+            "DIFFUSER_REAR_EDGE": {
+              "rating": 65,
+              "reliability": 92,
+              "spec": 1,
+              "upgradesThisSeason": 0
+            }
+          },
+          "projects": [
+            {
+              "id": "kestrel-S1-4",
+              "partId": "REAR_WING",
+              "reason": "CIRCUIT_SPECIFIC",
+              "stage": "READY",
+              "progress": 0,
+              "ambition": 0.5,
+              "expectedGain": 0,
+              "cost": 1.2,
+              "startedWeek": 11,
+              "circuitPackage": "LOW_DRAG"
+            },
+            {
+              "id": "kestrel-S1-5",
+              "partId": "FRONT_WING",
+              "reason": "PERFORMANCE",
+              "stage": "MANUFACTURING",
+              "progress": 0.9422166968843919,
+              "ambition": 0.44969072648413316,
+              "expectedGain": 2.4007488917899593,
+              "cost": 1.6295670170777865,
+              "startedWeek": 11
+            },
+            {
+              "id": "kestrel-S1-6",
+              "partId": "REAR_SUSPENSION",
+              "reason": "RELIABILITY",
+              "stage": "RESEARCH",
+              "progress": 1.6,
+              "ambition": 0.3,
+              "expectedGain": 0,
+              "cost": 1.05,
+              "startedWeek": 15
+            }
+          ],
+          "spent": 11.707904880777907,
+          "circuitPackages": [
+            "HIGH_COOLING"
+          ],
+          "aeroAllowance": 1.15,
+          "nextProjectNumber": 7
+        }
+      },
+      "submissions": [
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "aurora",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "aurora",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "Revised endplate tip to reduce induced drag",
+          "expectedGain": 2.7776757611225245,
+          "actualGain": 3.5581731758685455,
+          "outcome": "DELIVERED",
+          "cost": 2.104757404991913
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "aurora",
+          "partId": "FRONT_WING",
+          "reason": "PERFORMANCE",
+          "description": "New mainplane leading edge for better flow conditioning",
+          "expectedGain": 2.00352734616832,
+          "actualGain": 1.303670436317728,
+          "outcome": "DELIVERED",
+          "cost": 1.7244158792963966
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "aurora",
+          "partId": "FRONT_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "Revised wishbone fairings to improve flow to the sidepods",
+          "expectedGain": 1.255662914394049,
+          "actualGain": 1.538188847847987,
+          "outcome": "DELIVERED",
+          "cost": 2.665587541745661
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "rossa",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "rossa",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "New rear wing profiles for better load efficiency",
+          "expectedGain": 2.2463483019055386,
+          "actualGain": 2.288908694364763,
+          "outcome": "DELIVERED",
+          "cost": 1.8508895082975525
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "silverline",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "silverline",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New wishbone fairings to clean up flow to the diffuser",
+          "expectedGain": 2.247686626327679,
+          "actualGain": 1.745140128234024,
+          "outcome": "DELIVERED",
+          "cost": 3.131312433403715
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "silverline",
+          "partId": "REAR_WING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Low-downforce rear wing for high-speed circuits",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 1.2
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "silverline",
+          "partId": "FRONT_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "Revised wishbone fairings to improve flow to the sidepods",
+          "expectedGain": 2.802817832729544,
+          "actualGain": 4.08877744063623,
+          "outcome": "DELIVERED",
+          "cost": 3.4724674808162335
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "silverline",
+          "partId": "FRONT_WING",
+          "reason": "PERFORMANCE",
+          "description": "Modified endplate to improve outwash around the front tyre",
+          "expectedGain": 2.215688984999543,
+          "actualGain": 1.6154285774685577,
+          "outcome": "DELIVERED",
+          "cost": 1.7415763847537675
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "papaya",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "papaya",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "New rear wing profiles for better load efficiency",
+          "expectedGain": 2.042962716612251,
+          "actualGain": 2.4825596598908075,
+          "outcome": "DELIVERED",
+          "cost": 1.698278272279578
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "papaya",
+          "partId": "FRONT_WING",
+          "reason": "PERFORMANCE",
+          "description": "Modified endplate to improve outwash around the front tyre",
+          "expectedGain": 1.8713963277099683,
+          "actualGain": 2.339794635978928,
+          "outcome": "DELIVERED",
+          "cost": 1.634351157055613
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "emerald",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "emerald",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New wishbone fairings to clean up flow to the diffuser",
+          "expectedGain": 2.2631519199481196,
+          "actualGain": 1.7910002559318796,
+          "outcome": "DELIVERED",
+          "cost": 3.03033917884996
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "emerald",
+          "partId": "FRONT_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New upright geometry for better front-end response",
+          "expectedGain": 2.082551429301407,
+          "actualGain": 2.187527140843836,
+          "outcome": "DELIVERED",
+          "cost": 2.9281675650681445
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "emerald",
+          "partId": "REAR_WING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Low-downforce rear wing for high-speed circuits",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 1.2
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "azure",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "azure",
+          "partId": "FRONT_WING",
+          "reason": "PERFORMANCE",
+          "description": "Modified endplate to improve outwash around the front tyre",
+          "expectedGain": 2.785352543645668,
+          "actualGain": 2.870534911569366,
+          "outcome": "DELIVERED",
+          "cost": 1.7912933362629735
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "northstar",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "northstar",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "Revised endplate tip to reduce induced drag",
+          "expectedGain": 2.152802797696571,
+          "actualGain": 2.0878122721897836,
+          "outcome": "DELIVERED",
+          "cost": 1.6396273168028859
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "falcon",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "falcon",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "New rear wing profiles for better load efficiency",
+          "expectedGain": 3.313922557497472,
+          "actualGain": 2.73605788814075,
+          "outcome": "DELIVERED",
+          "cost": 2.0204160367660835
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "ironworks",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "ironworks",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "Revised endplate tip to reduce induced drag",
+          "expectedGain": 1.7516351829955448,
+          "actualGain": 2.220411586242024,
+          "outcome": "DELIVERED",
+          "cost": 1.5257910069026077
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "kestrel",
+          "partId": "BODYWORK_COOLING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Enlarged cooling louvres for hot conditions",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 2.4
+        },
+        {
+          "season": 1,
+          "week": 10,
+          "eventId": "BHR",
+          "teamId": "kestrel",
+          "partId": "REAR_WING",
+          "reason": "PERFORMANCE",
+          "description": "Revised endplate tip to reduce induced drag",
+          "expectedGain": 3.281738441305306,
+          "actualGain": 0,
+          "outcome": "REVERTED",
+          "cost": 1.9466553196072995
+        },
+        {
+          "season": 1,
+          "week": 12,
+          "eventId": "SAU",
+          "teamId": "aurora",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New wishbone fairings to clean up flow to the diffuser",
+          "expectedGain": 1.4129751849683574,
+          "actualGain": 1.0483319983381507,
+          "outcome": "DELIVERED",
+          "cost": 2.780294405706094
+        },
+        {
+          "season": 1,
+          "week": 12,
+          "eventId": "SAU",
+          "teamId": "rossa",
+          "partId": "FLOOR",
+          "reason": "PERFORMANCE",
+          "description": "New floor edge geometry to seal the underfloor",
+          "expectedGain": 3.8816909717333736,
+          "actualGain": 2.9703517168813645,
+          "outcome": "DELIVERED",
+          "cost": 4.605506233939416
+        },
+        {
+          "season": 1,
+          "week": 12,
+          "eventId": "SAU",
+          "teamId": "rossa",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "Revised rear geometry to reduce tyre degradation",
+          "expectedGain": 2.7571839380601895,
+          "actualGain": 3.106947404927757,
+          "outcome": "DELIVERED",
+          "cost": 3.7290333930412487
+        },
+        {
+          "season": 1,
+          "week": 12,
+          "eventId": "SAU",
+          "teamId": "papaya",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "Revised rear geometry to reduce tyre degradation",
+          "expectedGain": 3.1376507395556548,
+          "actualGain": 4.366505081087074,
+          "outcome": "DELIVERED",
+          "cost": 3.751886539560248
+        },
+        {
+          "season": 1,
+          "week": 12,
+          "eventId": "SAU",
+          "teamId": "azure",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New wishbone fairings to clean up flow to the diffuser",
+          "expectedGain": 2.5840676552181296,
+          "actualGain": 4.056227909185183,
+          "outcome": "DELIVERED",
+          "cost": 3.138369683176407
+        },
+        {
+          "season": 1,
+          "week": 12,
+          "eventId": "SAU",
+          "teamId": "ironworks",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "Revised rear geometry to reduce tyre degradation",
+          "expectedGain": 2.441990624061357,
+          "actualGain": 2.750691113503464,
+          "outcome": "DELIVERED",
+          "cost": 2.98613161755172
+        },
+        {
+          "season": 1,
+          "week": 14,
+          "eventId": "AUS",
+          "teamId": "papaya",
+          "partId": "FRONT_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New upright geometry for better front-end response",
+          "expectedGain": 2.415623362230771,
+          "actualGain": 2.588362409908059,
+          "outcome": "DELIVERED",
+          "cost": 3.2912180305899446
+        },
+        {
+          "season": 1,
+          "week": 14,
+          "eventId": "AUS",
+          "teamId": "azure",
+          "partId": "FRONT_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New upright geometry for better front-end response",
+          "expectedGain": 3.4404059681581756,
+          "actualGain": 4.5226300764826295,
+          "outcome": "DELIVERED",
+          "cost": 3.598463732892002
+        },
+        {
+          "season": 1,
+          "week": 14,
+          "eventId": "AUS",
+          "teamId": "falcon",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New wishbone fairings to clean up flow to the diffuser",
+          "expectedGain": 2.522968862257321,
+          "actualGain": 1.9161695419136056,
+          "outcome": "DELIVERED",
+          "cost": 3.085240577303521
+        },
+        {
+          "season": 1,
+          "week": 14,
+          "eventId": "AUS",
+          "teamId": "kestrel",
+          "partId": "REAR_SUSPENSION",
+          "reason": "PERFORMANCE",
+          "description": "New wishbone fairings to clean up flow to the diffuser",
+          "expectedGain": 3.3644117999517698,
+          "actualGain": 4.4157510617222,
+          "outcome": "DELIVERED",
+          "cost": 3.481682544092822
+        },
+        {
+          "season": 1,
+          "week": 15,
+          "eventId": "JPN",
+          "teamId": "aurora",
+          "partId": "REAR_WING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Low-downforce rear wing for high-speed circuits",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 1.2
+        },
+        {
+          "season": 1,
+          "week": 15,
+          "eventId": "JPN",
+          "teamId": "rossa",
+          "partId": "REAR_WING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Low-downforce rear wing for high-speed circuits",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 1.2
+        },
+        {
+          "season": 1,
+          "week": 15,
+          "eventId": "JPN",
+          "teamId": "papaya",
+          "partId": "REAR_WING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Low-downforce rear wing for high-speed circuits",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 1.2
+        },
+        {
+          "season": 1,
+          "week": 15,
+          "eventId": "JPN",
+          "teamId": "northstar",
+          "partId": "REAR_WING",
+          "reason": "CIRCUIT_SPECIFIC",
+          "description": "Low-downforce rear wing for high-speed circuits",
+          "expectedGain": 0,
+          "actualGain": 0,
+          "outcome": "DELIVERED",
+          "cost": 1.2
+        }
+      ]
+    }
+  }
+}

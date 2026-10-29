@@ -47,8 +47,8 @@ or empty screen scaffolding.
 
 ## State ownership
 
-`GameUniverse` currently contains definition version, seed, null player selection, HQ runtime
-and DevelopmentWorld. `GameDefinition` supplies layout/roster/development context. It is treated
+`GameUniverse` contains definition version, seed, player selection, HQ runtime, DevelopmentWorld
+and (for the canonical B definition) DriverWorld. Legacy definitions omit DriverWorld. `GameDefinition` supplies layout/roster/development context. It is treated
 as immutable. Version strings must change when content/rules need migration; they are not an
 automatic content hash. A changed definition cannot be applied to an old universe silently.
 
@@ -56,8 +56,9 @@ DevelopmentWorld currently owns season/week, runtime cars/parts/projects, spendi
 history. Queries should derive calendar/team/car views from those owners instead of mirroring
 values. Universe HQ ticks and NEW DAY never advance/reset development. Weekly advancement is
 explicit; end-of-season advancement requires complete caller-supplied standings. No race results
-are invented from development pace. The default context remains ten AI teams; no player takeover
-or staff-to-development bonus is silently introduced.
+are invented from development pace. The canonical B definition has eleven teams and Wellington as the documented initial player
+organization. The original ten-team context remains a legacy fixture, not the new-game default.
+No staff/driver-to-development bonuses are silently introduced.
 
 ## Future universe domains (design only)
 
@@ -83,7 +84,7 @@ Two intentionally distinct contracts exist:
 
 - `gameSave.ts`: A's trusted internal checkpoint API, unchanged for compatibility. Its old
   `GameSaveStorage` is deprecated; it is not an imported-file decoder.
-- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 1`, containing
+- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 3`, containing
   gameVersion, saveId, canonical UTC createdAt/updatedAt, and universe. App/repository callers
   supply metadata; domain code never generates wall-clock timestamps or unseeded save IDs.
 
@@ -94,16 +95,19 @@ fallback new game. Metadata gameVersion is informational; schema and definitionV
 compatibility. Root/development seed, clocks, routes/assignments, teams/parts/projects and upgrade
 history are serialized. No live PRNG/timer/React object enters the format.
 
-Private validators check the complete v1 field shape, reject extra/missing keys and nonfinite or
+Private validators check the complete schema field shape, reject extra/missing keys and nonfinite or
 out-of-range numbers, and check IDs, slot/worker correspondence, route references, project
 progress/sequence, budget bounds and event chronology. This is structural/domain consistency,
 not tamper-proof anti-cheat or proof that an entire historical career is authentic. Validation is
 scoped to the loaded definition; future systems must extend it and their migration fixtures.
 
-`migrateSave` dispatches known schemas. V1 is identity; missing/malformed versions fail, future
-versions fail UNSUPPORTED_VERSION. No fictitious v0 is invented from A's trusted checkpoints.
-Future v1 -> v2 -> v3 transforms belong here, with fixtures and semantic validation of the final
-result. Content identity must be preserved or explicitly migrated; names are never foreign keys.
+`migrateSave` upgrades validated v1 legacy saves to v3. It explicitly maps ten-team IDs,
+preserves earned development state/HQ/history and initializes Caldera plus DriverWorld. Opaque
+pending project IDs stay unchanged so their keyed outcomes remain unchanged. V2 is validated
+against `legacyDriverGame.ts` and upgraded by `alignmentMigration.ts`: retain existing abilities,
+contracts/options, history and observer knowledge; add source snapshots and the reserve only.
+V3 is identity plus validation; missing/future versions fail safely. See development-notes/MILESTONE-B.md for exact mapping.
+Original input is not mutated. Future transforms require fixtures and final semantic validation.
 
 `SaveStorage` transports raw strings via write/read/list/delete; it imports no React Native or
 platform APIs. `SaveRepository` validates before writing/after reading, checks slot identity and
@@ -164,3 +168,51 @@ facilities, development and driver philosophy, commercial strength, risk toleran
 personality. Different AI choices must follow these traits rather than just colors/names. See
 [BRAND_IDENTITY.md](BRAND_IDENTITY.md) for the canonical future registry, working eleven-team grid,
 fictional commercial policies and ID/migration rules. No runtime team identity changes in A.1.
+
+## Milestone B: driver/contract/scouting boundary
+
+Canonical identity lives in `src/game/brandRegistry.ts`; fixed profiles live under `game/drivers`.
+`simulation/drivers` owns transitions/disclosure, not React. DriverWorld stores 43 profiles,
+contracts and observer-owned knowledge. Seats/current team are DERIVED from signed date-valid
+contracts; there is no second authoritative roster table. Age derives from ageAt2026 and calendar
+year. History arrays are empty initially, with fictional reputation summaries, not real records.
+
+Six raw ability buckets remain independent of part/car strength. Public `driverView` returns
+letter grades/ranges/Unknown and qualitative disclosure, never raw ability/hidden personality or
+exact potential. Knowledge stores precision/date/report count per observer/driver, not truth copies.
+The current conservative uncertainty model always encloses the true grade; report reviews are free
+prototype actions. Different observers remain independent. Future growth must version this model.
+
+Contract V1 protects driver/seat overlap across guaranteed and exercised-option windows. Fixed
+starting options are callable through a team-authorized transition, have deadlines and idempotent
+repeat decisions. Calendar advancement lapses missed options and expires ended contracts without
+paying anything. Contract history preserves IDs. No automatic roster refill or offseason AI exists.
+
+Technical contribution and commercial contribution interfaces are available for future engineering/
+sponsors; they apply no bonuses/payouts. Coarse carCompatibility uses existing downforce/mechanical
+grip proxies and driver comfort, not a race model. The future race engine must consume the full
+ability/car/track/weather/strategy/form interaction, not an overall rating. MarketValue is an initial
+salary estimate, not shown as a universal player-facing score. Grades are centralized in selectors.
+
+`useGameUniverse` owns report/option commands at app lifetime. DRIVERS/TEAM consume disclosure views;
+HQ remains mounted and its simulation/assignments remain intact when navigating. No new dependency.
+
+## Canonical 2026 alignment (B.1)
+
+`game/drivers/performance2026.ts` owns exact source subskills and reference-only overall metadata.
+`simulation/drivers/performance.ts` derives the three source-backed starting buckets; the other
+three remain authored. Source snapshots and mutable ability/form are separate facts. Grade
+conversion stays centralized in disclosure selectors. Raw sources/reference overall never enter
+the public driver DTO. No dynamic form, growth or race engine was introduced.
+
+`contracts2026.ts` owns new-career salary/end/option/provenance content. Contract timelines remain
+authoritative; years remaining are derived. Optional role `RESERVE` uses a null seat; absence of
+role means the existing race contract. Race contracts require seat 1 or 2. `activeContracts` returns
+only race seats, preserving two-person TEAM comparison. Reserve employment still prevents
+overlapping driver contracts, but a null reserve seat never occupies a numbered seat. Optional
+affiliated team IDs are informational associations, not additional employment/seat assignments.
+
+Default definition is `driver-world-2026-aligned-v3`; `driverDataVersion: 1` identifies the frozen
+B definition for validation/compatibility. V3 validates 43 drivers (22 starters, ten prospects,
+eleven reserves). V2 validates the original 42. Existing career terms are not retroactively
+replaced with the new starting content. Frozen v1/v2 fixtures protect both migration paths.

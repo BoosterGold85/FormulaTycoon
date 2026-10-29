@@ -1,8 +1,10 @@
+import { LEGACY_TEAM_MAP } from '../game/brandRegistry';
+import { validateDriverWorld } from './driverValidation';
 import type { GameDefinition, GameUniverse } from '../simulation/universe';
 import { stageWork, spendingLimit } from '../simulation/development';
 import { array, choice, nullable, number, object, requireValid, text, type Check } from './validation';
 
-/** Complete v1 structural validation, followed by reference and state-consistency checks. */
+/** Base structural validation plus optional canonical driver schema validation, followed by reference and state-consistency checks. */
 export function validateUniverse(input: unknown, definition: GameDefinition): asserts input is GameUniverse {
   const { layout, roster } = definition.headquarters;
   const context = definition.development;
@@ -47,13 +49,16 @@ export function validateUniverse(input: unknown, definition: GameDefinition): as
   });
   object({
     definitionVersion: choice([definition.version]), seed: number(0, 0xffffffff, true), playerTeamId: nullable(teamId),
+    ...(definition.driverEra ? { drivers: (v:unknown) => { /* cross-clock check follows the structural pass */
+      requireValid(v && typeof v==='object', 'drivers'); } } : {}),
     headquarters: object({ timeMs: number(), workers: array(worker), nextRouteId: number(1, Number.MAX_SAFE_INTEGER, true),
       stations: object(Object.fromEntries(layout.stations.map(s => [s.id, object({ id: choice([s.id]), slots: array(nullable(choice(roster.map(w => w.id)))) })]))) }),
     development: object({ seed: number(0, 0xffffffff, true), season: number(1, Number.MAX_SAFE_INTEGER, true),
       week: number(0, context.regulations.seasonWeeks, true), teams: object(Object.fromEntries(context.teams.map(t => [t.id, team]))), submissions: array(submission) })
   })(input, 'universe');
-  const universe = input as GameUniverse; // Cast only AFTER all fields have been structurally checked.
+  const universe = input as GameUniverse; // Base fields checked; canonical driver validation follows immediately.
   requireValid(universe.seed === universe.development.seed, 'universe.seed');
+  if(definition.driverEra) validateDriverWorld(universe.drivers,2025+universe.development.season,universe.development.week,definition.driverDataVersion!==1);
   if (universe.playerTeamId !== null) {
     requireValid(context.teams.find(t => t.id === universe.playerTeamId)?.controlledBy === 'PLAYER', 'universe.playerTeamId');
   }
@@ -106,8 +111,9 @@ export function validateUniverse(input: unknown, definition: GameDefinition): as
       requireValid(!ids.has(project.id) && !parts.has(project.partId), 'project.duplicate');
       ids.add(project.id); parts.add(project.partId);
       requireValid(project.startedWeek <= universe.development.week, 'project.startedWeek');
-      const prefix = `${profile.id}-S${universe.development.season}-`;
-      const sequence = project.id.startsWith(prefix) ? Number(project.id.slice(prefix.length)) : NaN;
+      const legacy=Object.keys(LEGACY_TEAM_MAP).find(id=>LEGACY_TEAM_MAP[id]===profile.id);
+      const prefix = [profile.id, ...(legacy?[legacy]:[])].map(id=>`${id}-S${universe.development.season}-`).find(p=>project.id.startsWith(p));
+      const sequence = prefix ? Number(project.id.slice(prefix.length)) : NaN;
       requireValid(Number.isSafeInteger(sequence) && sequence >= 1 && sequence < state.nextProjectNumber, 'project.sequence');
       const part = context.parts.find(p => p.id === project.partId)!;
       requireValid(project.stage === 'READY' ? project.progress === 0 : project.progress < stageWork(project, part), 'project.progress');

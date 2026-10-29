@@ -10,6 +10,7 @@ Use vertical slices; finish one gate before moving on. Test simulation separatel
 | A — foundation integration | HQ + development under one universe; versioned checkpoint contract; documentation | Existing tests, engine equivalence, resume/isolation tests, types, web build, HQ interaction smoke |
 | A.1 — foundation hardening | Versioned serialized envelope, strict validation, migration boundary, memory repository; facility/brand contracts | Save round trips, rejection/adapter failure tests, deterministic continuation, existing tests/types/web build |
 | B — fictional people and organization | Driver generation, canonical teams, contracts and imperfect scouting foundation | Seeded identities/curves, valid team references, hidden-vs-revealed information, contract dates/options, checkpoint evolution |
+| B.1 — Canonical 2026 Driver Data Alignment | Exact source subskills and individualized terms, reserve support, player manual | Exact 23-row data tests, 11 teams/22 seats, no public overall/raw values, v1/v2→v3 migration, mobile profile/contract/HQ checks |
 | C — track fit | Data-driven track profiles and development-to-performance translation | Multiple characteristic strengths, no universal race rating or circuit-name branches; track-specific comparisons |
 | D — qualifying | Interactive tyre/run/traffic/weather-timing choices | Repeatable sessions, valid grids, meaningful timing tradeoffs, bounded variance and causal logs |
 | E — race V1 | Headless race plus dots/timing/tyres/pit stops | Valid finishing order, no double pit/results, strategy impacts, readable mobile presentation |
@@ -41,3 +42,12 @@ explicit old/new entity mapping, content/save migration and allowance/standings 
 Do not rename stable historical IDs or silently expand the roster in A.1. Original organization
 personality and differentiated AI must be reflected in B–I; sponsors and other brands follow
 BRAND_IDENTITY.md. Sponsor/brand generation remains later work.
+
+## Current milestone gate
+
+A, A.1 and permanent guardrails were merged to main at `f2dab51` before B began. B is implemented
+on `feature/milestone-b-driver-world` at `e065ebd`. B.1 is complete as a separate local commit
+on the same branch; B/B.1 are not merged or pushed. See DEV_STATUS.md for actual validation. The canonical
+registry and ten-to-eleven content/save migration are now implemented. Legacy fixtures remain
+only for compatibility tests. Next is C (track profiles/characteristic translation), NOT begun.
+Full driver growth, offseason AI, real finances and durable device saving remain outside B.

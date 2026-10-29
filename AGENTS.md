@@ -64,3 +64,9 @@ Facilities are a core pillar: every major upgrade must have both a simulation ef
 visible HQ evolution. Follow `docs/BRAND_IDENTITY.md`: canonical fictional IDs, original
 brands, no silent legacy-grid rename/expansion. Save imports must go through the validated
 envelope/repository boundary, never the older trusted-checkpoint API.
+
+## Player documentation
+
+Whenever a major player-facing gameplay system reaches Definition of Done, update
+`docs/PLAYER_MANUAL.md` with the mechanics the player needs to understand. Keep it player-facing;
+do not reveal hidden numerical formulas, and distinguish available mechanics from future plans.
