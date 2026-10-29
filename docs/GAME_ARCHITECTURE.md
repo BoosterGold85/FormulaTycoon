@@ -99,7 +99,8 @@ Private validators check the complete schema field shape, reject extra/missing k
 out-of-range numbers, and check IDs, slot/worker correspondence, route references, project
 progress/sequence, budget bounds and event chronology. This is structural/domain consistency,
 not tamper-proof anti-cheat or proof that an entire historical career is authentic. Validation is
-scoped to the loaded definition; future systems must extend it and their migration fixtures.
+scoped to the released content contract resolved by definition ID, never the caller's live arrays.
+Unknown content IDs require explicit registration/migration; future systems add a new contract.
 
 `migrateSave` upgrades validated v1 legacy saves to v3. It explicitly maps ten-team IDs,
 preserves earned development state/HQ/history and initializes Caldera plus DriverWorld. Opaque
@@ -107,7 +108,21 @@ pending project IDs stay unchanged so their keyed outcomes remain unchanged. V2 
 against `legacyDriverGame.ts` and upgraded by `alignmentMigration.ts`: retain existing abilities,
 contracts/options, history and observer knowledge; add source snapshots and the reserve only.
 V3 is identity plus validation; missing/future versions fail safely. See development-notes/MILESTONE-B.md for exact mapping.
-Original input is not mutated. Future transforms require fixtures and final semantic validation.
+Original input is not mutated. C0 pins both validation and migration target content under
+`persistence/contracts`: immutable v1/v2/v3 JSON snapshots, closed identity lists, pre-calendar
+validation semantics and frozen v3 initialization for added migration entities. Legacy aliases
+point to these snapshots. `assertHistoricalSave(input,version)` is the source validation boundary.
+Historical validators have no runtime dependency on live game registries or engine rules.
+
+**Permanent rule:** an old save validates against the content contract released with it. On a
+persistent change, bump schema version, freeze the previous contract, retain its fixture, add
+and test an explicit migration, and validate transformed output. Never rewrite historical input
+fixtures/contracts to match live content. Existing v1/v2 fixtures stay byte-identical; the new
+meaningful v3 fixture captures a mid-career state for future v3→v4 proof.
+
+CURRENT_SAVE_VERSION stays 3 in C0. C must validate raw v3 through the frozen boundary, migrate
+once real clock/calendar fields are introduced, then validate v4 against its own contract.
+No placeholder calendar, speculative v4 envelope or track data is added by C0.
 
 `SaveStorage` transports raw strings via write/read/list/delete; it imports no React Native or
 platform APIs. `SaveRepository` validates before writing/after reading, checks slot identity and
@@ -216,3 +231,24 @@ Default definition is `driver-world-2026-aligned-v3`; `driverDataVersion: 1` ide
 B definition for validation/compatibility. V3 validates 43 drivers (22 starters, ten prospects,
 eleven reserves). V2 validates the original 42. Existing career terms are not retroactively
 replaced with the new starting content. Frozen v1/v2 fixtures protect both migration paths.
+
+## C0: driver/car fit and campaign-clock preparation
+
+`simulation/drivers/carFit.ts::selectDriverCarFit` composes current employment, the team's car
+profile and qualitative driver compatibility. `DriversScreen` requests the result and does not
+build a car or evaluate compatibility. The dead DTO `fit` placeholder is removed. The selector
+has no circuit/event input: driver/car fit remains separate from future car/track fit. Existing
+race/reserve behavior and fit thresholds are unchanged; L9 remains deferred.
+
+The current development season/week and driver year/week are still stored twice. Universe week/
+rollover commands maintain the guarded +2025 adapter, and released validation rejects skew.
+C0 tests every step, no-op, deadline and rollover plus no campaign advancement from visual HQ
+or driver commands. This is temporary compatibility, not a claim of final ownership consolidation.
+
+Before C content begins, the owner must approve actual calendar dates (with start/week/season
+mapping) or a canonical logical season/week/day model. The recommended architecture is one root
+GameUniverse CampaignTime, derived development/contract views, and explicit time inputs for
+independent headless engines. V4 removes both persisted mirrors, preserves history/deadlines/
+RNG keys and migrates only validated synchronized v3 input. HQ milliseconds stay independent.
+See `development-notes/MILESTONE-C0.md` for the complete field/adapter/UI/deadline inventory,
+precise migration steps and deferred M1–M8 register. C is NOT STARTED / NOT READY pending decision.

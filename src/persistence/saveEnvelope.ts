@@ -1,7 +1,6 @@
 import { migrateDriverAlignment } from './alignmentMigration';
-import { LEGACY_DRIVER_GAME_DEFINITION } from '../game/legacyDriverGame';
+import { assertHistoricalSave } from './historicalSaveValidation';
 import { migrateTenTeamUniverse } from './teamMigration';
-import { LEGACY_GAME_DEFINITION } from '../game/legacyGame';
 import type { GameDefinition, GameUniverse } from '../simulation/universe';
 import { validateUniverse } from './universeValidation';
 import { object, number, saveId, text, timestamp, requireValid } from './validation';
@@ -33,21 +32,19 @@ export function migrateSave(input: unknown, definition?: GameDefinition): SaveRe
     if (version === 1) {
       const raw=input as Record<string,unknown>;
       // Fully validate v1 fields and legacy state BEFORE renaming any references.
-      object({saveVersion:number(1,1,true),gameVersion:text,saveId,createdAt:timestamp,updatedAt:timestamp,
-        universe:v=>validateUniverse(v,LEGACY_GAME_DEFINITION)})(input,'legacySave');
+      assertHistoricalSave(input,1);
       const universe=definition?.driverEra ? migrateTenTeamUniverse(raw.universe) : raw.universe;
       return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe}};
     }
     if (version === 2) {
       const raw=input as Record<string,unknown>;
-      const oldDefinition=definition?.driverEra?LEGACY_DRIVER_GAME_DEFINITION:LEGACY_GAME_DEFINITION;
-      object({saveVersion:number(2,2,true),gameVersion:text,saveId,createdAt:timestamp,updatedAt:timestamp,
-        universe:v=>validateUniverse(v,oldDefinition)})(input,'driverSaveV2');
+      assertHistoricalSave(input,2);
       const universe=definition?.driverEra&&definition.driverDataVersion!==1?migrateDriverAlignment(raw.universe):raw.universe;
       return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe}};
     }
     if (version !== CURRENT_SAVE_VERSION) return failure('UNSUPPORTED_VERSION', `Unsupported save version: ${version}`);
-    // Current schema is validated by the caller; released older schemas have frozen fixtures.
+    // C introduces v4 only with real persistent clock state: assertHistoricalSave(input,3),
+    // then an explicit v3 -> v4 transform. Never pass old data to a future live validator.
     return { ok: true, value: input };
   } catch { return failure('INVALID_DATA', 'Invalid save version or legacy content'); }
 }

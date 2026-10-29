@@ -1,13 +1,11 @@
-import type { DriverWorld } from '../game/drivers/types';
-import { BUCKETS, TRAITS } from '../game/drivers/types';
-import { GRID } from '../game/drivers/grid';
-import { MARKET } from '../game/drivers/market';
-import { TEAM_BRANDS } from '../game/brandRegistry';
-import { effectiveEnd } from '../simulation/drivers/contracts';
-import { array, choice, nullable, number, object, requireValid, text } from './validation';
+/** Released pre-calendar driver schema; no dependency on live driver/team registries. */
+import type { DriverWorld } from '../../game/drivers/types';
+import type { ReleasedDriverContent } from './index';
+import { releasedEffectiveEnd as effectiveEnd } from './preCalendarRules';
+import { array, choice, nullable, number, object, requireValid, text } from '../validation';
 
-export function validateDriverWorld(input:unknown, season:number, week:number, aligned = true):asserts input is DriverWorld {
- const driverIds=[...GRID,...MARKET.filter(d=>aligned||d.id!=='driver.takase')].map(d=>d.id),teamIds=TEAM_BRANDS.map(t=>t.id);
+export function validateReleasedDrivers(input:unknown, season:number, week:number, content:ReleasedDriverContent):asserts input is DriverWorld {
+ const {ids:driverIds,teamIds,buckets:BUCKETS,traits:TRAITS,aligned}=content;
  const driverId=choice(driverIds),teamId=choice(teamIds),rating=number(0,100),int=number(0,Number.MAX_SAFE_INTEGER,true);
  const year=number(2026,9999,true);
  const seatSeason=object({season:year,teamId,starts:int,wins:int,podiums:int,poles:int,championships:int,points:number()});

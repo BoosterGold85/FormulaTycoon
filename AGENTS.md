@@ -70,3 +70,12 @@ envelope/repository boundary, never the older trusted-checkpoint API.
 Whenever a major player-facing gameplay system reaches Definition of Done, update
 `docs/PLAYER_MANUAL.md` with the mechanics the player needs to understand. Keep it player-facing;
 do not reveal hidden numerical formulas, and distinguish available mechanics from future plans.
+
+## Released save contracts
+
+An old save version must validate against the content contract that existed when it was released.
+Use immutable, version-specific definitions and validation semantics, never mutable live content.
+When persistent structure changes: increment the save version, freeze the previous contract,
+retain its fixture, add a migration, test it, and validate both source and transformed output.
+Never rewrite historical fixtures/contracts just to match current content. C0 keeps save v3;
+calendar state requires an explicit v3→v4 boundary and one approved campaign-clock owner.

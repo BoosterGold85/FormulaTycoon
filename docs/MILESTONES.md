@@ -11,7 +11,8 @@ Use vertical slices; finish one gate before moving on. Test simulation separatel
 | A.1 — foundation hardening | Versioned serialized envelope, strict validation, migration boundary, memory repository; facility/brand contracts | Save round trips, rejection/adapter failure tests, deterministic continuation, existing tests/types/web build |
 | B — fictional people and organization | Driver generation, canonical teams, contracts and imperfect scouting foundation | Seeded identities/curves, valid team references, hidden-vs-revealed information, contract dates/options, checkpoint evolution |
 | B.1 — Canonical 2026 Driver Data Alignment | Exact source subskills and individualized terms, reserve support, player manual | Exact 23-row data tests, 11 teams/22 seats, no public overall/raw values, v1/v2→v3 migration, mobile profile/contract/HQ checks |
-| C — track fit | Data-driven track profiles and development-to-performance translation | Multiple characteristic strengths, no universal race rating or circuit-name branches; track-specific comparisons |
+| C0 — calendar readiness | Immutable historical contracts/v3 fixture; driver/car-fit domain selector; clock inventory and migration plan | Live drift isolation, v1/v2 preservation, deterministic v3 continuation, fit parity, synchronized temporary clocks; owner time-model gate before C |
+| C — calendar, tracks and car/track fit | Approved single campaign clock/calendar, track profiles and development-to-performance translation | Validated v3→v4/one persisted clock; multiple characteristic strengths, no universal race rating or circuit-name branches; track-specific comparisons |
 | D — qualifying | Interactive tyre/run/traffic/weather-timing choices | Repeatable sessions, valid grids, meaningful timing tradeoffs, bounded variance and causal logs |
 | E — race V1 | Headless race plus dots/timing/tyres/pit stops | Valid finishing order, no double pit/results, strategy impacts, readable mobile presentation |
 | F — pit wall | Important decisions, weather, safety cars | Timing effects, forecasts vs actual weather, undercut/overcut/double-stack tests |
@@ -45,9 +46,16 @@ BRAND_IDENTITY.md. Sponsor/brand generation remains later work.
 
 ## Current milestone gate
 
-A, A.1 and permanent guardrails were merged to main at `f2dab51` before B began. B is implemented
-on `feature/milestone-b-driver-world` at `e065ebd`. B.1 is complete as a separate local commit
-on the same branch; B/B.1 are not merged or pushed. See DEV_STATUS.md for actual validation. The canonical
-registry and ten-to-eleven content/save migration are now implemented. Legacy fixtures remain
-only for compatibility tests. Next is C (track profiles/characteristic translation), NOT begun.
-Full driver growth, offseason AI, real finances and durable device saving remain outside B.
+A/A.1/guardrails reached main at `f2dab51`. B/B.1 plus independent audit `6b7e894` merged and
+pushed to main at **`88ef974`**; merged main passed 161 tests, TypeScript and web export.
+The separate graphics branch remains unmerged and is not part of B or C0.
+
+C0 is implemented on `feature/milestone-c0-calendar-readiness`, with immutable v1/v2/v3 contracts,
+frozen migration targets, a meaningful v3 fixture, domain driver/car-fit selection and a complete
+clock inventory/ownership migration plan. See DEV_STATUS for current verification.
+
+**NOT READY FOR MILESTONE C** until the owner approves the canonical time model (actual date
+with defined start/week/season mapping, or a logical season/week/day model). Before calendar/
+track content, C must implement one authoritative persisted GameUniverse clock and the explicit
+validated v3→v4 migration. C0 adds no clock/calendar fields and keeps saveVersion3. C is NOT
+STARTED. Growth/offseason AI, finances, race simulation and durable storage remain later work.

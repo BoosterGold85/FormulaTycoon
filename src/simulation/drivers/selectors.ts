@@ -10,12 +10,17 @@ export function gradeIndex(raw:number):number {
 }
 export const gradeFor=(raw:number)=>GRADES[gradeIndex(raw)]!;
 export const BUCKET_LABELS:Record<Bucket,string>={talent:'Talent',racecraft:'Racecraft',adaptability:'Adaptability',composure:'Composure',feedback:'Technical Feedback',marketability:'Marketability'};
+/** Existing race/reserve employment lookup shared by disclosure and car-fit selection. */
+export function currentDriverContract(world:DriverWorld,id:string) {
+ const race=activeContracts(world).find(c=>c.driverId===id);
+ return race??world.contracts.find(c=>c.driverId===id&&c.role==='RESERVE'&&c.status==='SIGNED'&&c.startSeason<=world.season&&effectiveEnd(c)>=world.season);
+}
 /** Grade-only disclosure DTO. No raw ability, hidden potential, personality numbers or universal rating. */
 export function driverView(world:DriverWorld,observer:string,id:string) {
  const d=world.drivers[id]; const known=world.knowledge[observer]?.[id];
  if (!Object.hasOwn(world.drivers,id)||!Object.hasOwn(world.knowledge,observer)||!Object.hasOwn(world.knowledge[observer]!,id)||!d||!known) throw new Error('Unknown driver/observer');
- const race=activeContracts(world).find(c=>c.driverId===id);
- const contract=race??world.contracts.find(c=>c.driverId===id&&c.role==='RESERVE'&&c.status==='SIGNED'&&c.startSeason<=world.season&&effectiveEnd(c)>=world.season);
+ const contract=currentDriverContract(world,id);
+ const race=contract?.role!=='RESERVE'?contract:undefined;
  const bounds=Object.fromEntries(BUCKETS.map((key,i)=>{
    if (d.category==='PROSPECT'&&known.precision<30&&key==='adaptability') return [key,'Unknown'];
    const center=gradeIndex(d.ability[key]);
@@ -37,7 +42,6 @@ export function driverView(world:DriverWorld,observer:string,id:string) {
    potential:known.precision<40?'Uncertain':d.hidden.potential>=96?'Very High':d.hidden.potential>=90?'High':'Established ceiling',
    confidence:known.precision>=90?'High':known.precision>=50?'Medium':'Low',reports:known.reports,
    summary:d.summary,commercial:`${d.commercial.home} · ${d.commercial.region} · ${known.precision>=100?gradeFor(d.commercial.globalAppeal)+' global reach':'Commercial reach under review'}`,
-   fit:'Car comfort profile recorded; race effects not simulated',
    history:d.history.seasons.map(s=>({...s,team:teamBrand(s.teamId).name})), lastObserved:`${known.lastSeason} W${known.lastWeek}`};
 }
 export function observeDriver(world:DriverWorld,observer:string,id:string):DriverWorld {
