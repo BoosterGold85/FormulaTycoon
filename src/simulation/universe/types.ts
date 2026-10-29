@@ -9,6 +9,7 @@ import type { HeadquartersState } from '../headquarters';
 export type GameDefinition = {
   /** Bump when content/rules change in a way that needs a saved-state migration. */
   version: string;
+  calendarId?: string;
   driverEra?: 2026;
   driverDataVersion?: 1 | 2;
   headquarters: { layout: HeadquartersLayout; roster: WorkerDefinition[] };
@@ -19,6 +20,8 @@ export type GameDefinition = {
 export type GameUniverse = {
   definitionVersion: string;
   readonly currentDate: CampaignDate;
+  /** Immutable content identity, not another clock or copied calendar. */
+  readonly calendarId: string;
   seed: number;
   /** Null until the player selects a team. No rival is silently converted to player control. */
   playerTeamId: string | null;

@@ -12,7 +12,7 @@ import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { theme } from './theme';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate }: { currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -40,7 +40,7 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate }
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar style="light" />
-      <GameHud currentDate={currentDate} />
+      <GameHud currentDate={currentDate} nextEvent={nextEvent} />
 
       <View style={styles.viewport} onLayout={onLayout}>
         {size ? (

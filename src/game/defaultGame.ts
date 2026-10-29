@@ -4,7 +4,8 @@ import type { GameDefinition } from '../simulation/universe/types';
 
 /** Application composition only; individual engines can still run with custom definitions. */
 export const DEFAULT_GAME_DEFINITION: GameDefinition = {
-  version: 'campaign-date-2026-v4',
+  version: 'calendar-track-2026-v5',
+  calendarId: 'calendar.2026.v1',
   driverEra: 2026,
   driverDataVersion: 2,
   headquarters: { layout: HEADQUARTERS_LAYOUT, roster: STARTING_STAFF },

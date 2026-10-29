@@ -13,7 +13,7 @@ Use vertical slices; finish one gate before moving on. Test simulation separatel
 | B.1 — Canonical 2026 Driver Data Alignment | Exact source subskills and individualized terms, reserve support, player manual | Exact 23-row data tests, 11 teams/22 seats, no public overall/raw values, v1/v2→v3 migration, mobile profile/contract/HQ checks |
 | C0 — calendar readiness | Immutable historical contracts/v3 fixture; driver/car-fit domain selector; clock inventory and migration plan | Live drift isolation, v1/v2 preservation, deterministic v3 continuation, fit parity, synchronized temporary clocks; owner time-model gate before C |
 | C0.1 — single campaign clock | Root plain-date ownership, v4 migration, date deadlines and minimal day/date HUD | Immutable v1/v2/v3 inputs; timezone proof; preserved RNG/progress; no persisted mirrors; deadline and interval tests |
-| C — calendar, tracks and car/track fit | Approved single campaign clock/calendar, track profiles and development-to-performance translation | Validated v3→v4/one persisted clock; multiple characteristic strengths, no universal race rating or circuit-name branches; track-specific comparisons |
+| C — calendar, tracks and car/track fit | Approved single campaign clock/calendar, track profiles and development-to-performance translation | Validated historical→v5/calendar identity; one persisted clock; researched circuit profiles; multiple characteristic strengths, no universal race rating or circuit-name branches; track-specific comparisons |
 | D — qualifying | Interactive tyre/run/traffic/weather-timing choices | Repeatable sessions, valid grids, meaningful timing tradeoffs, bounded variance and causal logs |
 | E — race V1 | Headless race plus dots/timing/tyres/pit stops | Valid finishing order, no double pit/results, strategy impacts, readable mobile presentation |
 | F — pit wall | Important decisions, weather, safety cars | Timing effects, forecasts vs actual weather, undercut/overcut/double-stack tests |
@@ -47,16 +47,15 @@ BRAND_IDENTITY.md. Sponsor/brand generation remains later work.
 
 ## Current milestone gate
 
-Audited B/B.1 reached main at `88ef974`; C0 `e6a479c` was pushed/merged to main at **`a057daf`**.
-Merged main passed 220 tests, TypeScript and web export before C0.1. The graphics branch remains
-separate and unmerged.
+C0.1 `b1b7dab` was pushed and merged/pushed into main at **36e7df0**. Merged main passed261 tests,
+TypeScript and web export before `feature/milestone-c-track-performance` began. Graphics remain
+separate at1cfb07d, unmerged.
 
-The owner approved actual calendar dates and the new-career start of **2026-03-02**. C0.1 is
-complete on `feature/milestone-c01-single-clock`: root currentDate, clock-free subsystem states,
-central Gregorian operations, ordered advancement, explicit decision dates and validated v4
-migration. V1/v2/v3 historical inputs remain intact. See DEV_STATUS for verification.
+C implementation provides the owner-approved23-round/six-Sprint registry, all23 initial circuit
+profiles, domain technical translation/matching, RACE calendar/detail UI, real HQ next event and
+save5 calendar identity with V1–V4 migration protection. Full tests/types/build/browser pass.
 
-**READY FOR MILESTONE C after C0.1 review/integration.** The clock prerequisite is resolved;
-C itself is NOT STARTED. Its real event registry/phase definitions must explicitly replace the
-provisional compatibility policy without silently reinterpreting saved dates or deadlines.
-No full 2026 calendar, tracks, car/track fit, qualifying/racing or offseason engine was added.
+**C is NOT COMPLETE / HOLD MERGE** until required reliable technical-source research for all23
+circuits is completed. The current proxy blocks those domains; a limited network draft is saved
+but not applied. CIRCUIT-RESEARCH documents actual access failure, assumptions and research targets.
+Passing game-model tests does not certify real-world data. Do not begin qualifying (D).

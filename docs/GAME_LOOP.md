@@ -4,7 +4,8 @@
 
 Open HQ -> watch eight staff arrive -> inspect workers/departments -> NEW DAY replays arrivals.
 HQ cards work. DRIVERS opens grid/details/prospects/reserves; TEAM compares the Wellington pairing.
-RACE/HISTORY remain placeholders; the HQ HUD team/day/next-event remains display-only.
+RACE opens the calendar/circuit briefings; HISTORY remains a placeholder. The HQ HUD shows
+the date-backed next event; its team-name placeholder is still display-only.
 Development can run headlessly, but there is no player development UI or campaign-time button.
 Milestone A adds no new player-facing loop, travel, qualifying, drivers or racing.
 
@@ -64,7 +65,7 @@ prospects whose grades/potential remain uncertain -> improve a team-owned report
 Wellington pairing in TEAM. Starting options appear only for drivers with supplied option terms;
 only the owning team can exercise them. Wellington's starting pair has guaranteed-only deals. No overall rating.
 Report review is free/instant prototype learning; salaries/bonuses are terms only, not payments.
-Return to HQ without losing staff progress. Save format v3 supports these systems, but no durable
+Return to HQ without losing staff progress. Current save format v5 supports these systems, but no durable
 save UI/device storage is introduced. No hiring UI, races, qualifying or full career growth yet.
 
 ## C0.1 calendar date (before the real event registry)
@@ -78,3 +79,17 @@ Drivers/contracts/scouting consume the root date; observations/history retain th
 Team options display explicit decision dates. The prototype 24-event development fixture remains
 an internal compatibility fixture, not the actual 2026 championship calendar. No race or track
 performance behavior was introduced. External saves use v4; older careers migrate their progress.
+
+
+## Milestone C preparation loop
+
+HQ next-event/date -> RACE calendar -> select circuit -> inspect demands and your fitted car's
+qualitative suitability/strengths/concerns -> compare a different circuit -> return to HQ/Drivers.
+The same universe/session remains active. Sprint markers describe scheduled weekend format only.
+COMPLETED is a passed date, not a result. No qualifying, race button or campaign-advance UI exists.
+
+Track differences come from data-driven matching; no universal car overall or finishing-position
+forecast is shown. Upgrade value varies by venue, but pending/reverted work creates no fitted
+improvement. Driver/car comfort remains a separate Driver Detail concept. The initial technical
+weights await required external source verification; research is not complete merely because
+calendar/model/browser tests pass. See development-notes/CIRCUIT-RESEARCH.md.

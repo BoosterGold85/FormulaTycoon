@@ -1,3 +1,4 @@
+import {DEFAULT_CALENDAR_ID,calendarById} from '../../game/calendar';
 import {createDriverWorld,refreshDriverStatuses} from '../drivers';
 import {advanceDevelopmentWeek,createDevelopmentWorld,startNextSeason} from '../development';
 import {advanceHeadquarters,createHeadquartersState} from '../headquarters';
@@ -11,7 +12,8 @@ export function assertDefinition(universe:GameUniverse,definition:GameDefinition
 }
 export function createGameUniverse(definition:GameDefinition,seed:number):GameUniverse {
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new Error('Universe seed must be a uint32');
- return {definitionVersion:definition.version,currentDate:NEW_CAREER_DATE,seed,playerTeamId:definition.driverEra?'team.wellington':null,
+ const calendarId=definition.calendarId??DEFAULT_CALENDAR_ID;calendarById(calendarId);
+ return {definitionVersion:definition.version,calendarId,currentDate:NEW_CAREER_DATE,seed,playerTeamId:definition.driverEra?'team.wellington':null,
   ...(definition.driverEra?{drivers:createDriverWorld(definition.driverDataVersion!==1)}:{}),
   headquarters:createHeadquartersState(definition.headquarters.layout,definition.headquarters.roster),
   development:developmentState(createDevelopmentWorld(definition.development,seed))};
