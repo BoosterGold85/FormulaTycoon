@@ -1,11 +1,15 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Pressable, StyleSheet, View } from 'react-native';
 import type { GridPoint, Uniform, WorkActivity } from '../../game/models';
 import type { HeadquartersWorker } from '../../simulation/headquarters';
+import { sceneDepth } from '../scene/depth';
+import { WorkerFigure, spriteSize } from './WorkerFigure';
+import { workerAppearance } from './workerAppearance';
 import { gridToScreen, type Projection } from '../isometric';
 
 type Props = {
   worker: HeadquartersWorker;
+  reducedMotion: boolean;
   activity: WorkActivity | null;
   walkSpeed: number;
   projection: Projection;
@@ -19,8 +23,6 @@ const UNIFORM: Record<Uniform, string> = {
   white: '#E9EEF5',
   orange: '#F08A2C'
 };
-
-const STATE_COLOR = { IDLE: '#8C9AAD', WALKING: '#F2B544', WORKING: '#63E6A8' } as const;
 
 /** How each activity moves the body and arm during the working loop. */
 const WORK_MOTION: Record<WorkActivity, { period: number; bob: number; arm: [string, string] }> = {
@@ -37,6 +39,7 @@ const WORK_MOTION: Record<WorkActivity, { period: number; bob: number; arm: [str
  */
 export const WorkerSprite = React.memo(function WorkerSprite({
   worker,
+  reducedMotion,
   activity,
   walkSpeed,
   projection,
@@ -44,6 +47,8 @@ export const WorkerSprite = React.memo(function WorkerSprite({
   onPress
 }: Props) {
   const k = projection.tileX / 17;
+  const look = useMemo(() => workerAppearance(worker.id, worker.role), [worker.id, worker.role]);
+  const [depthBand, setDepthBand] = useState(() => sceneDepth(worker.position.x, worker.position.y));
   const toScreen = (point: GridPoint) => gridToScreen(point, projection);
 
   const position = useRef(new Animated.ValueXY(toScreen(worker.position))).current;
@@ -110,6 +115,19 @@ export const WorkerSprite = React.memo(function WorkerSprite({
 
   useEffect(() => () => walkRef.current?.animation.stop(), []);
 
+  // Translation stays animated; only this sprite re-renders when crossing a quarter-tile depth band.
+  useEffect(() => {
+    let band = sceneDepth(latest.current.position.x, latest.current.position.y);
+    const listener = position.y.addListener(({ value }) => {
+      const next = sceneDepth((value - projection.originY) / projection.tileY, 0);
+      if (next !== band) {
+        band = next;
+        setDepthBand(next);
+      }
+    });
+    return () => position.y.removeListener(listener);
+  }, [position, projection]);
+
   // Standing still: make sure the sprite matches the simulation exactly.
   useEffect(() => {
     if (worker.state === 'WALKING' || walkRef.current) return;
@@ -122,15 +140,16 @@ export const WorkerSprite = React.memo(function WorkerSprite({
 
   useEffect(() => {
     cycle.setValue(0);
+    if (reducedMotion) return;
     const loop = Animated.loop(
       Animated.sequence([
-        Animated.timing(cycle, { toValue: 1, duration: period / 2, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(cycle, { toValue: 1, duration: period / 2, easing: Easing.inOut(Easing.sin), useNativeDriver: true, isInteraction: false }),
         Animated.timing(cycle, { toValue: 0, duration: period / 2, easing: Easing.inOut(Easing.sin), useNativeDriver: true })
       ])
     );
     loop.start();
     return () => loop.stop();
-  }, [cycle, period]);
+  }, [cycle, period, reducedMotion]);
 
   const animated = useMemo(() => {
     const walking = worker.state === 'WALKING';
@@ -139,22 +158,23 @@ export const WorkerSprite = React.memo(function WorkerSprite({
       body: cycle.interpolate({ inputRange: [0, 1], outputRange: [0, walking ? -bob : bob] }),
       legA: cycle.interpolate({ inputRange: [0, 1], outputRange: [0, walking ? -2 * k : 0] }),
       legB: cycle.interpolate({ inputRange: [0, 1], outputRange: [walking ? -2 * k : 0, 0] }),
+      lean: cycle.interpolate({ inputRange: [0, 0.65, 1], outputRange: walking ? ['0deg', '0deg', '0deg'] : activity === 'CAR_SERVICE' ? ['0deg', '12deg', '4deg'] : activity === 'FABRICATING' ? ['2deg', '8deg', '2deg'] : ['0deg', '0deg', '0deg'] }),
+      carry: cycle.interpolate({ inputRange: [0, 1], outputRange: [0, activity === 'HAULING' && !walking ? -2 * k : 0] }),
       arm: cycle.interpolate({
         inputRange: [0, 1],
         outputRange: walking ? ['-20deg', '20deg'] : motion?.arm ?? ['0deg', '0deg']
       })
     };
-  }, [cycle, k, motion, worker.state]);
+  }, [cycle, k, motion, worker.state, activity]);
 
   const size = useMemo(() => spriteSize(k), [k]);
-  const depth = worker.position.x + worker.position.y;
 
   return (
     <Animated.View
       style={[
         styles.anchor,
         {
-          zIndex: worker.state === 'WALKING' ? 1000 : Math.round(depth * 10),
+          zIndex: depthBand,
           left: -size.box / 2,
           top: -size.height,
           width: size.box,
@@ -177,78 +197,12 @@ export const WorkerSprite = React.memo(function WorkerSprite({
             { width: size.body * 1.7, height: size.shadow * 2, bottom: 0, borderRadius: size.body }
           ]}
         />
-        <Animated.View
-          style={[
-            styles.figure,
-            { width: size.box, height: size.height, transform: [{ translateY: animated.body }, { scaleX: facing }] }
-          ]}
-        >
-          <View
-            style={[
-              styles.statusDot,
-              {
-                width: size.dot,
-                height: size.dot,
-                borderRadius: size.dot / 2,
-                backgroundColor: STATE_COLOR[worker.state]
-              }
-            ]}
-          />
-          <View style={[styles.head, { width: size.head, height: size.head, borderRadius: size.head / 2 }]} />
-          <View
-            style={[
-              styles.torso,
-              {
-                width: size.body,
-                height: size.torso,
-                borderRadius: size.body * 0.35,
-                backgroundColor: UNIFORM[worker.uniform]
-              }
-            ]}
-          >
-            <Animated.View
-              style={[
-                styles.arm,
-                {
-                  width: size.arm,
-                  height: size.torso * 0.85,
-                  right: -size.arm * 0.6,
-                  top: size.torso * 0.08,
-                  borderRadius: size.arm / 2,
-                  backgroundColor: UNIFORM[worker.uniform],
-                  transform: [{ rotate: animated.arm }]
-                }
-              ]}
-            />
-          </View>
-          <View style={[styles.legs, { gap: size.arm * 0.6 }]}>
-            <Animated.View style={[styles.leg, { width: size.leg, height: size.legHeight, transform: [{ translateY: animated.legA }] }]} />
-            <Animated.View style={[styles.leg, { width: size.leg, height: size.legHeight, transform: [{ translateY: animated.legB }] }]} />
-          </View>
-        </Animated.View>
+        <WorkerFigure worker={worker} activity={activity} k={k} size={size} look={look} animated={animated} facing={facing} uniform={UNIFORM[worker.uniform]} />
       </Pressable>
     </Animated.View>
   );
 });
 
-function spriteSize(k: number) {
-  const head = 7.5 * k;
-  const torso = 9 * k;
-  const legHeight = 5 * k;
-  const dot = Math.max(4, 3.5 * k);
-  return {
-    head,
-    torso,
-    legHeight,
-    dot,
-    body: 9 * k,
-    arm: 3 * k,
-    leg: 3 * k,
-    box: 18 * k,
-    shadow: 2.5 * k,
-    height: head + torso + legHeight + dot + 3 * k
-  };
-}
 
 const styles = StyleSheet.create({
   anchor: {
@@ -268,37 +222,4 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#F2B544'
   },
-  figure: {
-    alignItems: 'center',
-    justifyContent: 'flex-end'
-  },
-  statusDot: {
-    marginBottom: 2,
-    borderWidth: 1,
-    borderColor: '#0B1119'
-  },
-  head: {
-    backgroundColor: '#E9B996',
-    borderWidth: 1,
-    borderColor: '#7E5A46'
-  },
-  torso: {
-    marginTop: 0.5,
-    borderWidth: 1,
-    borderColor: '#141B25'
-  },
-  arm: {
-    position: 'absolute',
-    transformOrigin: 'top',
-    borderWidth: 0.5,
-    borderColor: '#141B25'
-  },
-  legs: {
-    flexDirection: 'row'
-  },
-  leg: {
-    backgroundColor: '#1A222D',
-    borderBottomLeftRadius: 1.5,
-    borderBottomRightRadius: 1.5
-  }
 });

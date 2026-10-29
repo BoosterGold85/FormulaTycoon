@@ -4,6 +4,7 @@ import type { DepartmentDefinition, HeadquartersLayout } from '../../game/models
 import { departmentAtPoint, getStation, type HeadquartersState } from '../../simulation/headquarters';
 import { DepartmentSign } from '../components/DepartmentSign';
 import { WorkerSprite } from '../components/WorkerSprite';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { fitProjection, screenToGrid } from '../isometric';
 import { HeadquartersBuilding, sceneExtents } from './HeadquartersBuilding';
 
@@ -25,6 +26,7 @@ type Props = {
 
 /** The isometric headquarters viewport: static building plus live workers. */
 export function HeadquartersScene({ layout, state, width, height, selection, onSelect }: Props) {
+  const reducedMotion = useReducedMotion();
   const projection = useMemo(() => {
     // Keep clear of the status strip and leave spare room below for info cards.
     const fitted = fitProjection(sceneExtents(layout), width, height - TOP_INSET, 10, 0.3);
@@ -59,9 +61,9 @@ export function HeadquartersScene({ layout, state, width, height, selection, onS
 
   return (
     <View ref={rootRef} onLayout={measure} style={StyleSheet.absoluteFill}>
-      <HeadquartersBuilding layout={layout} projection={projection} />
-      <Pressable style={StyleSheet.absoluteFill} onPress={onFloorPress} accessible={false} />
-      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+      <HeadquartersBuilding layout={layout} projection={projection} reducedMotion={reducedMotion} />
+      <Pressable style={[StyleSheet.absoluteFill, { zIndex: 1 }]} onPress={onFloorPress} accessible={false} />
+      <View style={[StyleSheet.absoluteFill, { zIndex: 2000 }]} pointerEvents="box-none">
         {layout.departments.map(department => (
           <DepartmentSign
             key={department.id}
@@ -72,11 +74,11 @@ export function HeadquartersScene({ layout, state, width, height, selection, onS
           />
         ))}
       </View>
-      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-        {state.workers.map(worker => (
+      {state.workers.map(worker => (
           <WorkerSprite
             key={worker.id}
             worker={worker}
+            reducedMotion={reducedMotion}
             activity={worker.assignment ? getStation(layout, worker.assignment.stationId).activity : null}
             walkSpeed={layout.walkSpeed}
             projection={projection}
@@ -84,7 +86,6 @@ export function HeadquartersScene({ layout, state, width, height, selection, onS
             onPress={onWorkerPress}
           />
         ))}
-      </View>
     </View>
   );
 }

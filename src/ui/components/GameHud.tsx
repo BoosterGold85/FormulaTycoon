@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
   },
   title: {
     color: theme.text,
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: '900',
     fontStyle: 'italic',
-    letterSpacing: 1,
+    letterSpacing: 1.4,
     textAlign: 'center'
   },
   titleAccent: {
@@ -56,19 +56,20 @@ const styles = StyleSheet.create({
     backgroundColor: theme.panel,
     borderColor: theme.panelBorder,
     borderWidth: 1,
-    borderRadius: 10,
-    paddingVertical: 7,
+    borderRadius: 8,
+    borderTopColor: '#415267',
+    paddingVertical: 9,
     paddingHorizontal: 10
   },
   chipLabel: {
     color: theme.textMuted,
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '800',
     letterSpacing: 1
   },
   chipValue: {
     color: theme.text,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '800',
     marginTop: 2
   },
