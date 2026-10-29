@@ -20,6 +20,8 @@ team HQ where staff arrive for the day, walk to their assigned workstations and 
 ```
 src/game/                    data: models, HQ layout (departments, stations, nav graph, props), starting staff
 src/simulation/headquarters/  headless, deterministic HQ rules: worker creation, assignment, routing, clock tick
+src/game/development/        car development data: 8 FIA upgrade areas, regulations, calendar, rival teams
+src/simulation/development/  headless, seeded car development engine (see docs/DEVELOPMENT_ENGINE.md)
 src/simulation/__tests__/     Jest tests for the simulation (no rendering)
 src/ui/                      rendering only: isometric projection, diorama shapes, worker sprites, HUD, cards
 ```

@@ -14,6 +14,12 @@
 - Placeholder HUD and bottom navigation
 - Jest tests for the headquarters simulation
 
+## Car development engine v1 (done)
+- 8 FIA upgrade areas, research → design → manufacturing → race introduction
+- Cost cap, aero testing sliding scale, homologation limits, correlation risk
+- Rival team AI, circuit packages, reliability, per-race upgrade documents
+- Headless and seeded; see docs/DEVELOPMENT_ENGINE.md
+
 ## Milestone 1 — Fictional racing universe
 - 10 teams
 - 20 generated drivers
