@@ -16,7 +16,7 @@ export function BottomNav({ active, onSelect }: Props) {
         return (
           <Pressable
             key={tab.id}
-            style={styles.item}
+            style={[styles.item, isActive && styles.itemActive]}
             onPress={() => onSelect(tab.id, tab.available)}
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive, disabled: !tab.available }}
@@ -39,12 +39,20 @@ const styles = StyleSheet.create({
     borderTopColor: '#1C293A',
     backgroundColor: theme.background,
     paddingTop: 8,
+    paddingHorizontal: 8,
+    gap: 4,
     paddingBottom: 6
   },
   item: {
     flex: 1,
     alignItems: 'center',
     paddingVertical: 4
+  },
+  itemActive: {
+    backgroundColor: '#192333',
+    borderRadius: 8,
+    borderTopWidth: 2,
+    borderTopColor: theme.accent
   },
   icon: {
     width: 22,

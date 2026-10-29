@@ -4,6 +4,9 @@ import type { HeadquartersLayout } from '../../game/models';
 import type { Point3, Projection } from '../isometric';
 import { IsoBox, IsoFace, IsoPlane, IsoPlanePrimitive } from './IsoShapes';
 import { propArt } from './propArt';
+import { ARCHITECTURE, DRESSING, EQUIPMENT, FLOOR_DETAILS } from './dressing';
+import { sceneDepth } from './depth';
+import { AmbientDetails } from './AmbientDetails';
 import { sortBoxes, type PlanePrimitive } from './primitives';
 
 export const WALL_HEIGHT = 2.3;
@@ -35,17 +38,20 @@ const OUTDOOR: PlanePrimitive[] = [
 /** Static diorama: floor, rooms, walls and furniture. Rendered once per projection. */
 export const HeadquartersBuilding = React.memo(function HeadquartersBuilding({
   layout,
-  projection
+  projection,
+  reducedMotion
 }: {
+  reducedMotion: boolean;
   layout: HeadquartersLayout;
   projection: Projection;
 }) {
   const { width: w, depth: d } = layout;
-  const art = useMemo(() => layout.props.map(propArt), [layout]);
-  const boxes = useMemo(() => sortBoxes(art.flatMap(item => item.boxes)), [art]);
-  const planes = useMemo(() => art.flatMap(item => item.planes), [art]);
+  const props = useMemo(() => [...layout.props, ...DRESSING], [layout]);
+  const art = useMemo(() => props.map(prop => { const recipe = propArt(prop); return { prop, art: { ...recipe, boxes: sortBoxes(recipe.boxes) } }; }), [props]);
+  const planes = useMemo(() => art.flatMap(item => item.art.planes), [art]);
 
   return (
+    <>
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       {OUTDOOR.map((plane, index) => (
         <IsoPlanePrimitive key={`out-${index}`} item={plane} projection={projection} />
@@ -70,13 +76,40 @@ export const HeadquartersBuilding = React.memo(function HeadquartersBuilding({
       {planes.map((plane, index) => (
         <IsoPlanePrimitive key={`plane-${index}`} item={plane} projection={projection} />
       ))}
+      {/* Low-contrast contact shadows are static and never tick with workers. */}
+      {props.filter(prop => prop.kind !== 'carBay').map(prop => (
+        <IsoPlane key={`shadow-${prop.id}`} rect={{ ...prop.area, x: prop.area.x + 0.12, y: prop.area.y + 0.12 }} color="rgba(0,0,0,0.25)" projection={projection} />
+      ))}
+      {EQUIPMENT.map(item => <IsoPlane key={`shade-${item.id}`} rect={{ x: item.x - 0.2, y: item.y - 0.1, width: 0.65, depth: 0.6 }} color="rgba(0,0,0,0.18)" projection={projection} />)}
+      {FLOOR_DETAILS.map((item, index) => <IsoPlanePrimitive key={`mark-${index}`} item={item} projection={projection} />)}
+
 
       <BackWalls width={w} depth={d} projection={projection} />
 
-      {boxes.map((item, index) => (
-        <IsoBox key={`box-${index}`} item={item} projection={projection} />
-      ))}
+      <AmbientDetails projection={projection} reducedMotion={reducedMotion} />
     </View>
+    {/* Props and workers are siblings in a shared floor-depth space. The prop recipes stay memoized. */}
+    {art.map(({ prop, art: recipe }) => (
+      <View key={prop.id} pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: sceneDepth(prop.area.x + prop.area.width / 2, prop.area.y + prop.area.depth / 2) }]}>
+        {recipe.boxes.map((item, index) => <IsoBox key={index} item={item} projection={projection} />)}
+        {prop.kind === 'transporter' ? (
+          <IsoFace axis="y" from={{ x: prop.area.x + prop.area.width + 0.025, y: prop.area.y + 0.35 }} length={1.6} z={0.98} height={0.35} color="#243347" projection={projection}>
+            <Text numberOfLines={1} style={{ color: '#F0F4F8', fontWeight: '900', fontStyle: 'italic', textAlign: 'center', fontSize: Math.max(6, projection.tileX * 0.34) }}>FT RACING</Text>
+          </IsoFace>
+        ) : null}
+      </View>
+    ))}
+    {EQUIPMENT.map(item => (
+      <View key={item.id} pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: sceneDepth(item.x, item.y) }]}>
+        {sortBoxes(item.art.boxes).map((part, index) => <IsoBox key={index} item={part} projection={projection} />)}
+      </View>
+    ))}
+    {ARCHITECTURE.map((item, index) => (
+      <View key={`structure-${index}`} pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: sceneDepth(item.x + item.width / 2, item.y + item.depth / 2) }]}>
+        <IsoBox item={item} projection={projection} />
+      </View>
+    ))}
+    </>
   );
 });
 
@@ -95,7 +128,7 @@ function BackWalls({
     <>
       {/* Wall along the back-right edge (y = 0). Local x runs with grid x. */}
       <IsoFace axis="x" from={{ x: 0, y: 0 }} length={width} z={0} height={WALL_HEIGHT} color="#1C2633" projection={projection}>
-        <View style={[styles.banner, { left: 0.5 * unit, top: wallPx * 0.3, width: 3.7 * unit, height: wallPx * 0.3 }]}>
+        <View style={[styles.banner, { left: 0.5 * unit, top: wallPx * 0.08, width: 3.7 * unit, height: wallPx * 0.24 }]}>
           <Text style={[styles.bannerText, { fontSize: Math.max(7, unit * 0.42) }]} numberOfLines={1}>
             FT RACING
           </Text>
@@ -103,6 +136,10 @@ function BackWalls({
         <View style={[styles.window, { left: 5.3 * unit, top: wallPx * 0.3, width: 4.3 * unit, height: wallPx * 0.36 }]} />
         <View style={[styles.stripe, { top: wallPx * 0.74 }]} />
         <View style={styles.skirting} />
+        {[0.12, 0.24, 0.36, 0.48, 0.60].map(top => (
+          <View key={top} style={{ position: 'absolute', left: 5.1 * unit, width: 4.5 * unit, top: wallPx * top, height: 1, backgroundColor: '#4B6074', opacity: 0.5 }} />
+        ))}
+        <View style={{ position: 'absolute', left: 5.2 * unit, width: 4.4 * unit, top: wallPx * 0.09, height: 2, backgroundColor: '#C5E4E8' }} />
       </IsoFace>
 
       {/* Wall along the back-left edge (x = 0). Local x runs from y = depth back to y = 0. */}
@@ -119,8 +156,8 @@ function BackWalls({
       </IsoFace>
 
       {/* Wall tops and exposed ends give the walls some thickness. */}
-      <IsoPlane rect={{ x: -WALL_THICKNESS, y: -WALL_THICKNESS, width: width + WALL_THICKNESS, depth: WALL_THICKNESS }} z={WALL_HEIGHT} color="#4B5A6D" projection={projection} />
-      <IsoPlane rect={{ x: -WALL_THICKNESS, y: 0, width: WALL_THICKNESS, depth }} z={WALL_HEIGHT} color="#4B5A6D" projection={projection} />
+      <IsoPlane rect={{ x: -WALL_THICKNESS, y: -WALL_THICKNESS, width: width + WALL_THICKNESS, depth: WALL_THICKNESS }} z={WALL_HEIGHT} color="#6C8092" projection={projection} />
+      <IsoPlane rect={{ x: -WALL_THICKNESS, y: 0, width: WALL_THICKNESS, depth }} z={WALL_HEIGHT} color="#6C8092" projection={projection} />
       <IsoFace axis="y" from={{ x: width, y: -WALL_THICKNESS }} length={WALL_THICKNESS} z={0} height={WALL_HEIGHT} color="#27313E" projection={projection} />
       <IsoFace axis="x" from={{ x: -WALL_THICKNESS, y: depth }} length={WALL_THICKNESS} z={0} height={WALL_HEIGHT} color="#323D4B" projection={projection} />
     </>
