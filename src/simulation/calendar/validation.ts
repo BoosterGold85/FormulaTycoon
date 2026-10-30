@@ -8,7 +8,9 @@ export function validateCalendarDefinition(input:unknown):asserts input is Calen
  assert(c&&typeof c==='object'&&!Array.isArray(c),'object');
  assert(typeof c.id==='string'&&/^calendar\.\d{4}\.v\d+$/.test(c.id),'id');
  assert(Number.isInteger(c.season)&&c.season>=2026&&c.season<=9999,'season');
- assert(typeof c.profileVersion==='string'&&c.profileVersion.length>0,'profileVersion');
+ assert(c.id.split('.')[1]===String(c.season),'id/season');
+ // Profile revisions may evolve separately from schedule revisions, but must identify this season.
+ assert(typeof c.profileVersion==='string'&&new RegExp(`^track-profiles\\.${c.season}\\.v[1-9]\\d*$`).test(c.profileVersion),'profileVersion');
  assert(c.tracks&&typeof c.tracks==='object'&&!Array.isArray(c.tracks),'tracks');
  const unit=(v:unknown)=>typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=1;
  for(const [id,t] of Object.entries(c.tracks)){
@@ -38,4 +40,16 @@ export function validateCalendarDefinition(input:unknown):asserts input is Calen
   assert(typeof e.sprint==='boolean','sprint');
  }
  assert(usedTracks.size===Object.keys(c.tracks).length,'unused track');
+}
+
+/** Small startup authoring check: accepted save IDs and resolvable content must agree exactly. */
+export function validateCalendarCatalog(calendars:readonly CalendarDefinition[],registeredIds:readonly string[]):void {
+ const ids=new Set<string>(),registered=new Set(registeredIds);
+ if(registered.size!==registeredIds.length)throw new Error('Duplicate calendar registration');
+ for(const calendar of calendars){
+  validateCalendarDefinition(calendar);
+  if(ids.has(calendar.id))throw new Error('Duplicate calendar content ID');
+  ids.add(calendar.id);
+ }
+ if(ids.size!==registered.size||[...ids].some(id=>!registered.has(id)))throw new Error('Calendar content/registration mismatch');
 }

@@ -264,7 +264,7 @@ canonical dates/order/overlaps, round/ID uniqueness, references and bounded tech
 
 A career persists only its versioned calendarId alongside its one root currentDate (new
 careers select v2; saved v1 careers retain v1). The
-content ID pins both dates and `track-profiles.2026.v1`; later edits require a new content ID and
+content ID pins dates and the revision's technical profiles; later edits require a new content ID and
 explicit migration policy. No event statuses, next-event index, track data, car vectors or field
 scores are duplicated in saves. External schema is5; internal trusted checkpoint is3.
 
@@ -280,7 +280,8 @@ next future start. Completed means date passed, not a generated result. After th
 queries return no next event; no next season/offseason is fabricated. The C0.1 annual March2
 compatibility phase and old weekly development/introduction schedule are deliberately unchanged.
 The old24-event engine fixture is not the playable23-round race calendar and is never rendered.
-Connecting introduction scheduling to real weekends is future deliberate migration/balance work.
+D0 explicitly retains this cadence for both revisions and routes it through the ordered date-event
+pipeline below. Moving fitting onto playable weekends remains deliberate versioned policy work.
 
 `simulation/trackPerformance` reads the existing `computeCarProfile` attributes, never its average
 pace, and derives eleven coarse technical characteristics. Existing part-contribution truth,
@@ -296,7 +297,7 @@ RACE now hosts calendar/detail views under the same App-lifetime universe. HQ st
 next-event HUD uses a domain selector. No player date-advance UX, qualifying or race engine added.
 Native/durable storage remain unimplemented. **Circuit research is externally verified through the owner handoff; Codex did not retrieve the
 underlying pages.**
-See MILESTONE-C and CIRCUIT-RESEARCH notes for evidence and the outstanding gate.
+See MILESTONE-C and CIRCUIT-RESEARCH notes for the completed gate and provenance limits.
 
 
 ### Researched content revision
@@ -310,3 +311,53 @@ ID registry extends validation to the newly released ID, independently of the li
 Existing V5 saves retain their ID; frozen V1–V4→V5 migration still attaches v1. No implicit
 migration to new profiles or optional upgrade UI is added. The same core definition ID remains
 valid because the already-versioned calendarId owns these content semantics independently.
+
+## D0: race-weekend integration foundation
+
+Permanent rule: **TECHNICAL CAR/TRACK SUITABILITY IS DERIVED INFORMATION, NOT A SECOND
+PERFORMANCE BONUS.** `simulation/trackPerformance::technicalPerformanceAtTrack` is the canonical
+domain boundary. It returns the circuit ID, already contextualized fitted `car` and its derived
+`suitability`. The old briefing/debug query delegates to it. No lap time or universal overall is
+introduced; no technical balance or cubic formula changes.
+
+Car values are 0..100; circuit demands are 0..1. Future sessions consume technical characteristics
+versus circuit demands once. Suitability labels/explanations and the existing mixed-readiness
+score disclose that comparison; they are not an additional independent input to lap performance.
+The score includes reliability/cooling readiness and is not calibrated potential speed. Driver
+ability, driver/car comfort, form, conditions, session decisions and seeded uncertainty remain
+separate domain inputs. The old development `pace` must not be added again.
+
+`computeCarProfile` remains the sole owner of LOW_DRAG/HIGH_COOLING package adjustments and
+the existing static hot-track cooling/reliability consequence. `technicalCar` translates those
+values once; future sessions must not reapply them. Reliability is a capability, not failure odds
+or a free speed bonus. Future mechanical-risk logic owns failures/lost running; future conditions
+logic owns ambient consequences. Introducing those systems must explicitly reconcile/replace
+overlapping static heat effects, with compatibility review rather than another hidden penalty.
+
+Permanent rule: **ADVANCING THE CAMPAIGN TO AN EVENT MUST PROCESS EVERY DUE GAME EVENT
+BETWEEN THE OLD DATE AND NEW DATE.** All date/day/week/reset commands use `universe::advanceTo`.
+It discovers current due work again on each entered date, sorts instructions explicitly, then
+executes the existing subsystem transitions. No frozen long-jump plan can hide newly scheduled
+work on a later date. `universe/campaignEvents.ts` owns the typed discovery/ordering boundary;
+it is not another engine, mutable registration bus or persisted event queue.
+
+Interval semantics are `(oldDate, targetDate]`: effects execute when entering their date, including
+the target. Same-date priority 10 is development work or the explicit season reset (mutually
+exclusive); priority 20 is the existing daily contract-status check. Date, priority, then stable
+instruction ID define order. The development kernel still owns AI planning → project work →
+reliability maturation → fitting. Options remain callable through their inclusive decision date
+and lapse the following day. Season resets still require supplied standings; no results appear
+because a calendar date passed. Future event kinds require explicit priority and a typed handler.
+
+Both calendar.2026.v1 and v2 retain the frozen annual March-2/completed-week mapping and old
+development fitting content. One ephemeral `developmentView` bridges the previous day's root
+date into that kernel. First fitting remains BHR/week10, May 11, 2026, not Melbourne March 6.
+Changing technical profile revisions never reschedules work/history or RNG keys. Future calendars
+must state their cadence policy explicitly; any retiming needs versioned compatibility review.
+
+Root currentDate is the processed-through watermark. Repeating a target is a no-op; backward
+commands reject. Saves contain no new queue, current-week mirror or processed-event ledger, so
+external schema stays v5/checkpoint v3 with unchanged historical contracts/fixtures. Future
+persisted sessions/results require their own completion identity including calendarId/event ID,
+validation/migration and exactly-once consequences. Current date-only COMPLETED is not that state.
+Detailed ownership, evidence and limitations: [MILESTONE-D0](development-notes/MILESTONE-D0.md).

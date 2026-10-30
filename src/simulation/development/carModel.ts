@@ -10,7 +10,7 @@ import type { TeamDevelopmentState } from './types';
 
 export type CarProfile = {
   attributes: Record<CarAttribute, number>;
-  /** Weighted lap-time strength, 0-100. */
+  /** Legacy development-planning proxy, 0-100; never a session lap time or extra race bonus. */
   pace: number;
   /** 0-100; the weakest part drags this down. */
   reliability: number;

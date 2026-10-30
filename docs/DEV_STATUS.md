@@ -2,160 +2,124 @@
 
 ## Milestone
 
-**Milestone C — implementation and externally verified research gate COMPLETE.**
-**POST-C AUDIT: READY TO MERGE WITH DEBT. No blockers/high findings.**
-This recommendation does not authorize a merge or qualifying work.
+**D0 — Race weekend integration foundation COMPLETE. READY FOR QUALIFYING DESIGN.**
+Qualifying has NOT started. No Practice/Qualifying screen, lap model or race result exists.
 
-Branch: feature/milestone-c-track-performance. Implementation34e486a and research-blocked record
-46e1e47 are both preserved. Main remains C0.1 at36e7df0. Worker-art1cfb07d remains separate.
-Post-C audit target: 1290bb3e8485a441477a495cc4443f56e9e36edf. Actual source, persistence, data,
-tests and browser behavior were reviewed independently of the handoff claims. The separate audit
-documentation commit is local/unpushed; no production code, data, tests, dependencies or rules
-were changed. Full findings: [POST-C-AUDIT](development-notes/POST-C-AUDIT.md).
-
-## EXTERNAL RESEARCH HANDOFF
-
-> Source content was verified externally by the project owner/research assistant because the Codex runtime returned HTTP 403. Codex did not directly retrieve these pages.
-
-Evidence: **FORMULA TYCOON — COMPLETE MILESTONE C RESEARCH GATE**, October29,2026, preserved in
-[CIRCUIT-RESEARCH-HANDOFF](development-notes/CIRCUIT-RESEARCH-HANDOFF.md). The
-[ledger](development-notes/CIRCUIT-RESEARCH.md) reviews all23 circuits:19 HIGH-confidence,
-4 MEDIUM-confidence. The late-season four use stable official/recent technical material while
-2026 event-specific previews were pending in the handoff. Exact article titles/URLs were not
-provided and are not invented. Codex proxy access remains unavailable; it no longer blocks the
-accepted external evidence. Confidence supports supplied facts, not every authored metadata number.
+Branch: `feature/milestone-d0-race-weekend-foundation`, from validated merged main
+**884459e50e3e29053d6e0e9e62c14659cdc9d3c8**. D0 is a separate local review commit, unpushed
+and unmerged. Main contains audited C and its Post-C audit. Worker art at `1cfb07d` stays separate.
+Details: [MILESTONE-D0](development-notes/MILESTONE-D0.md).
 
 ## COMPLETED
 
-- Immutable owner-approved23-round/six-Sprint calendar, geographic IDs, date/status/countdown
-  queries, RACE calendar/circuit briefing and HQ real next event from the same root date.
-- Domain fitted-car technical translation and generic demand matching, qualitative explanations,
-  no universal car overall/finishing forecast. Driver/car comfort remains separate and unchanged.
-- External research review:14 profiles confirmed numerically unchanged,7 minor adjustments,
-  2 material adjustments (Madrid and Singapore). New profiles are CONFIRMED with explicit
-  HIGH/MEDIUM confidence. Exact changes/provenance are in the ledger, not claimed official weights.
-- Madrid now has supported fast/mixed sectors, heavy braking, banked-corner tyre-energy demand;
-  CONFIRMED/HIGH, no new-career provisional warning. Sepang's balanced fast-aero/thermal profile
-  is confirmed unchanged. Singapore cooling stays high while car stress/tyre severity decrease.
-- Minor changes: lower Melbourne/Miami tyre severity; stronger Melbourne/Montreal/Budapest grip
-  evolution; Spielberg660m; Baku meaningful medium-speed sections; Mexico2250m/maximum cooling.
-  Monaco/Lusail tyre values and LasVegas wear versus warm-up interpretation confirmed without retune.
-- New immutable calendar.2026.v2/track-profiles.2026.v2 selected for new careers. Original v1
-  remains byte-identical/available. Event dates/IDs/Sprints are identical across revisions.
-- Save schema stays5, checkpoint3: no persistent shape change. A frozen append-only static-ID
-  registry accepts both versions. Existing V5 careers retain their identity; frozen V1–V4→V5
-  migration retains its original v1 target. New defaults never change historical migration output.
-- All historical snapshots/fixtures remain unchanged; both saved IDs roundtrip/continue correctly.
-  No automatic saved-content upgrade UI/policy was added.
-- No starter-car/development balance/RNG/car-vector or fit-algorithm changes; no named-track
-  bonuses. HQ routes/assignments/timing/art and driver data/logic remain unchanged.
-- Player manual corrects Madrid and cooling/stress/wear/warm-up interpretation, without exposing
-  weights. Existing imported careers' pinned content is explained.
+- Published C feature/audit `22f0a97` without production changes, preserving implementation `34e486a`,
+  research record `46e1e47` and audited `1290bb3`. Merged to main `884459e`, validated and pushed main.
+  Merge tree equals the audited feature tree; no behavioral merge changes.
+- C-M1: canonical technicalPerformanceAtTrack returns one configured fitted car and its derived
+  suitability. Existing briefing/debug API delegates to it. Suitability is disclosure, never an
+  extra pace bonus. Package/static-heat effects retain one owner in computeCarProfile. Reliability
+  capability, circuit cooling demand and future ambient/risk effects are distinguished.
+- C-M2: typed transient due-work discovery and explicit ordering in universe/campaignEvents.
+  All campaign commands use one pathway, refreshing discovery on every entered date. Interval
+  (old,target] includes target; same-date development/reset precedes daily contract status.
+  Both calendar revisions deliberately retain the released weekly bridge/fitting cadence.
+- Root currentDate is the sole clock and processed-through watermark. No queue/processed ledger
+  or current-time mirror is stored. Save stays v5/checkpoint v3; historical contracts unchanged.
+- C-L1: unique catalog IDs/registration, lookup agreement, season/ID/profile coherence; existing
+  event uniqueness retained. Profile and calendar revision suffixes need not match.
+- C-L2: actual specialist reversal assertions and pending/READY/fitting/reversion/all-part tests.
+- C-L3: GAME_LOOP research wording corrected to accepted external provenance.
+- Architecture, system map, loop and milestone gates updated. Player Manual unchanged because
+  no new player-facing mechanic or formula disclosure is introduced.
 
 ## IN PROGRESS
 
-Audit complete. Await owner merge decision; no Milestone D work is in progress. Two MEDIUM
-integration gates (C-M1/C-M2) and three LOW items are scheduled below. No immediate production fix
-was required under the audit policy. No branch push, PR, merge or installation was performed.
+None. Await D0 review and a separate instruction for qualifying design. No D0 push, merge or
+qualifying implementation is authorized by completion. Graphics stay separate.
 
 ## TESTED
 
-- Main36e7df0 integration previously passed261 tests/types/export before C.
-- Researched C: `npm test -- --runInBand` **PASS317/14 suites**, zero failed/skipped;
-  `npm run typecheck` PASS; `EXPO_NO_TELEMETRY=1 npm run build:web` PASS,678KB JS.
-- Original development/HQ/driver/contract/scouting/calendar/profile/vector/fit/save tests pass.
-  New regressions protect researched revision confidence, unchanged event data, Madrid's confirmed
-  character, Singapore heat/stress separation, low tyre severity, altitude/cooling, both content
-  IDs and V5 restore/continuation. V1–V4→V5 migration remains tested with immutable source fixtures.
-- Eleven original snapshot/fixture/calendar-v1 SHA checks PASS, including frozen V5 contract.
-  Both calendar revisions are separately hash-pinned. Unknown future IDs still rejected.
-- All11 canonical starters re-compared on Monaco/Monza/Suzuka/LasVegas/Sepang: same ordering,
-  Wellington/Alpinor swap6/7. Mostly hierarchical, tiny margins, no forced/randomized movement.
-  Generic rear-wing/diffuser/suspension upgrade-response comparisons remain valid.
-- Existing Chromium390×844 browser script now covers9 details, including corrected
-  Madrid/Melbourne/Singapore/Mexico, scrolled car fit and all prior HQ/NewDay/cards/8-of-8,
-  Drivers/Team/options/scouting/navigation checks: **PASS**, no page errors/horizontal overflow.
-- `git diff --check` PASS. No packages/lockfiles changed. Existing npm/color notices nonblocking.
-  Artifacts: `/workspace/artifacts/milestone-c-complete/`.
+Merged main `884459e`, before D0:
 
-## POST-C AUDIT EVIDENCE
+- `npm test -- --runInBand`: **317/317 tests, 14/14 suites PASS**.
+- `npm run typecheck` and `EXPO_NO_TELEMETRY=1 npm run build:web`: **PASS**.
+- Existing 390×844 browser script: **PASS**, zero page errors/overflow.
+- Original historical hashes: **11/11 PASS**. Audited-feature tree equality confirmed.
 
-- Fresh execution on 1290bb3:317 tests/14 suites, TypeScript and web export PASS. Local390×844
-  browser PASS across9 circuit details and existing HQ/NewDay/cards/Drivers/Team/scouting flows;
-  zero page errors/horizontal overflow. No failing or skipped required tests.
-- Seven independent public-API probe groups PASS: both content IDs, all eight fitted part areas,
-  pending/READY exclusion, name/driver/form independence, no Math.random, mutation protection,
-  field/upgrade contrasts, public numeric-disclosure exclusion and save continuation.
-- All11 historical hashes independently match original Git objects (e6a479c/36e7df0/34e486a),
-  rather than relying solely on the earlier artifact hash list. V2 also remains hash-pinned.
-- Cubic sensitivity sweep: maximum one-axis share25.94%; demands≥.4 retain at least1.166% share.
-  A single demand±.05 changes actual starting-car scores by at most.60082 points in the sampled
-  canonical field. No current instability or reason to retune was found.
-- Cloudflare build check for1290bb3 succeeded. No confirmed live-preview URL was exposed; a
-  derived candidate hostname was denied by the proxy with CONNECT403. Remote runtime NOT RUN,
-  not an application failure or an architecture-review blocker.
-- Evidence/logs/screenshots: `/workspace/artifacts/post-c-audit/`. No native/device/long-career
-  guarantee is inferred from these checks. The audit report records coverage gaps explicitly.
+D0:
+
+- `npm test -- --runInBand`: **341/341 tests, 16/16 suites PASS**, zero failed/skipped.
+- `npm run typecheck`: **PASS**.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: **PASS**, 680KB JS export.
+- `FORMULA_PREVIEW_URL=http://127.0.0.1:8779 FORMULA_ARTIFACT_DIR=/workspace/artifacts/milestone-d0/final/browser node scripts/check-milestone-c.cjs`:
+  **PASS 390×844**, 23 rounds/six Sprints/nine details, worker/department cards, repeated 8/8,
+  NEW DAY, Drivers/Team/contracts/scouting/navigation, zero page errors/horizontal overflow.
+- Independent original-Git-object comparison: **11/11 historical hashes PASS**. Both immutable
+  calendar hash regressions pass; no calendar/driver data changes.
+- Both calendar IDs: daily == jump == released 40-week kernel with real project, seeded fitting,
+  AI/option deadlines; save before fitting/reload/continue; before/on/after and multi-date
+  boundaries; no duplicate submissions; no-op repeats and backward rejection.
+- Actual same-date engine call traces and reversed-list/tie sorting pass. Explicit reset,
+  no implicit rollover and no second stored clock stay protected.
+- Canonical technical result: no stacked bonus, mutation/unseeded RNG/driver/form contribution;
+  pending/READY excluded, fitting included, failure retains prior truth; all eight fitted areas
+  matter; packages/static heat once; repair changes reliability capability only.
+- Initial test-harness failures corrected; targeted rerun 65/65 PASS before full 341/341. No
+  production workaround or assertion disabling. Details in MILESTONE-D0.
+- `git diff --check` PASS. No packages/lockfiles changed or installs. Existing npm update/color
+  notices are nonblocking. Evidence: `/workspace/artifacts/milestone-d0/main/` and `final/`.
 
 ## NOT VERIFIED
 
-- Direct Codex retrieval of underlying technical pages; source/article-level bibliography beyond
-  the owner-supplied handoff. These are provenance limits, not an outstanding research gate.
-- Any live-preview browser behavior not explicitly recorded after push; a Cloudflare build check
-  alone proves no runtime behavior. Native iPhone/Safari/hardware profiling is optional/unverified.
-- Durable saves/import UI/restart recovery (memory adapter stays volatile), calibrated lap time,
-  detailed tyre/altitude/drag physics and decades of balance/performance.
-- Qualifying/races/strategy/weather/incidents/results/finances/offseason/future calendars: not built.
+- Future qualifying pace/risk calibration, sessions/results/rewards, dynamic conditions,
+  actual-weekend fitting, season-calendar generation or 20–50-season gameplay.
+- Durable device storage/import UI/restart recovery: adapter stays volatile.
+- Native iPhone/Safari performance and live D0 runtime/deployment; D0 is unpublished.
+- Direct source-page retrieval or missing article bibliography. Research remains the accepted
+  external handoff: 19 HIGH/four MEDIUM; no invented titles/URLs or new direct verification claim.
+  See [CIRCUIT-RESEARCH](development-notes/CIRCUIT-RESEARCH.md).
 
 ## KNOWN ISSUES
 
-- C-M1: define the future consume-once performance/context contract before D; do not add derived
-  car/track fit as a second bonus to already weighted car traits, reapply packages/heat, or treat
-  correlated proxies/mixed reliability suitability as independent lap-speed gains.
-- C-M2: old development fitting and dated event progression are deliberately separate. The first
-  old fitting event is BHR/week10 (2026-05-11) while playable Melbourne starts2026-03-06. Choose a
-  versioned integration/processing policy before D event advancement; do not rewrite old histories.
-- Low audit items: catalog/ID/season authoring invariants, a specialist-test title/assertion gap,
-  direct pending/all-part regression coverage, and a stale research-awaiting GAME_LOOP paragraph.
-
-- Existing24-event weekly development/introduction fixture remains internal compatibility truth;
-  actual race-date fitting integration needs a later deliberate migration/balance decision.
-- Existing V5/v1 careers intentionally retain original profiles, including provisional Madrid.
-  Only new careers select researched v2; no implicit content rewrite or upgrade action exists.
-- Correlated scalar-derived technical characteristics are coarse proxies, not physical telemetry.
-  Heat, car stress, tyre energy/wear/warm-up are distinguished in content; warm-up/altitude physics
-  are not implemented. Metadata outside the supplied evidence remains authored design data.
-- Initial field is strongly hierarchical; Monza Wellington/Alpinor gap~.078, LasVegas~.001 internal
-  points. No race competitiveness or lap-time precision is claimed.
-- Annual March2 compatibility phase, no offseason recruitment, fixed cohorts/free immediate
-  scouting, expiry vacancies, starter-bonus assumption and lack of payroll remain as before.
+- Fitting remains historical 24-event compatibility content, distinct from playable 23-event
+  schedule. First fitting is BHR/week10 on 2026-05-11; Melbourne begins March 6. Future retiming
+  must version policy and preserve histories/RNG.
+- C's comparison score includes reliability/cooling readiness, not lap pace/failure probability.
+  D must design separate once-only pace/risk/ambient consequences before implementing laps.
+- Eleven scalar-derived characteristics are coarse correlated proxies. The starter field stays
+  hierarchical; Wellington/Alpinor swap 6/7 by circuit without retuning.
+- Existing V5/v1 careers retain original profiles/provisional Madrid; new careers select v2.
+  No silent content upgrade. Both retain the same development bridge.
+- No campaign-advance UI/results. Date-only COMPLETED is not processed session state.
+- Annual March-2 phase, no offseason recruiting, fixed cohorts/instant free scouting, expiry
+  vacancies, starter-bonus assumptions and lack of payroll remain carried limitations.
 
 ## TECHNICAL DEBT / ARCHITECTURAL RISK
 
 | Finding | Status / due gate |
 |---|---|
-| H1 | Historical V1–V5 snapshots/fixtures and calendar-v1 retained; new content gets a new ID |
-| M1 | Deferred: imperfect seeded scouting before expansion |
-| M2 | Root date resolved by C0.1; no new current clock |
-| M3 | Deferred: playerTeamId-derived control before team chooser |
-| M4 | Domain driver/car-fit selector unchanged |
-| M5 | Shared deadline retained; broader overlap cleanup before expansion |
-| M6 | Deferred: role grouping before multi-season/offseason |
-| M7 | Deferred: history growth/archive by G |
-| M8 | Deferred: originality/source rights before public/commercial release |
-| C research | COMPLETE through accepted external handoff; exact bibliography/late previews can refine later |
-| C-M1 | MEDIUM: consume-once/context/units and pace-vs-hazard contract before first D lap consumer |
-| C-M2 | MEDIUM: dated advancement/fitting compatibility before D event advance; version identity on session records |
-| C-L1 | LOW: catalog/registration/ID-year invariants before next revision or new season |
-| C-L2 | LOW: reversal/pending/all-part test assertions before next vector/performance change |
-| C-L3 | LOW: update stale current GAME_LOOP research paragraph at next handoff, before D |
-| C integration | Weekly fitting vs dated race weekends deliberately separate; future explicit policy |
+| C-M1 | RESOLVED: canonical boundary/ownership and no-double-counting rule; D must calibrate pace/risk before lap implementation |
+| C-M2 | RESOLVED: ordered pipeline and explicit retained cadence; later retiming requires versioned compatibility review |
+| C-L1 | RESOLVED: catalog/registration/ID-season invariants and tests |
+| C-L2 | RESOLVED: reversal and unfitted/fitted/reverted/all-part coverage |
+| C-L3 | RESOLVED: current research wording corrected |
+| Session identity | Before persisted sessions/results: calendarId/event identity, lifecycle validation/migration and exactly-once consequences |
+| H1 | Historical V1–V5 snapshots/fixtures/calendar-v1 retained; new content gets new identity |
+| M1 | Imperfect seeded scouting before expansion |
+| M2 | Root date resolved by C0.1; D0 adds no clock |
+| M3 | playerTeamId-derived control before team chooser |
+| M4 | Separate driver/car-fit selector retained |
+| M5 | Broader contract-rule overlap cleanup before expansion |
+| M6 | Role grouping before multi-season/offseason |
+| M7 | Archive/history growth by G |
+| M8 | Originality/source rights and bibliography before public/commercial release |
+| Persistence | Durable storage/atomic recovery before users depend on campaigns, no later than G |
 
-L1–L10, durable storage/recovery, closed driver schema, balance and device profiling remain carried
-work. Do not edit released IDs or saved decision dates. No unrelated cleanup sprint.
+L1–L10, balance and device/long-career profiling remain carried work. No broad cleanup or
+starter retuning. Research/audit provenance stays in CIRCUIT-RESEARCH and POST-C-AUDIT.
 
 ## NEXT MILESTONE
 
-**READY TO MERGE WITH DEBT.** Audit found no BLOCKER/HIGH defect. Await owner approval to merge;
-complete C-M1/C-M2 before their qualifying/event integration gates. Qualifying has NOT started.
-Main remains36e7df0 and the graphics workstream remains separate/unmerged.
+**READY FOR QUALIFYING DESIGN.** Review D0 first. Do not begin qualifying implementation or
+merge/publish D0 without separate instruction. Main remains merged C at `884459e`; graphics stay
+independent/unmerged. Stop after this foundation milestone.

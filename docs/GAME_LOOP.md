@@ -18,7 +18,8 @@ Decision -> uncertainty -> result -> consequence -> new decision is the product 
 - HQ: inspect needs, choose development risks and allocations, hire/scout/renew when systems exist.
 - Preparation/practice: track fit and forecasts inform setup, tyres, reliability and preparation.
 - Qualifying: send either driver, choose tyres/run count/timing, manage traffic/weather and save tyres.
-  Pace, car-track fit, consistency and small seeded variance determine laps; a bad grid position
+  Circuit-specific technical response, driver ability/comfort, consistency and small seeded variance
+  determine laps; derived car-track fit is disclosure, never another bonus. A bad grid position
   creates alternative race strategies, not an unavoidable loss.
 - Race: track map + colored dots + timing tower + event feed first. Give meaningful pit-now/stay-out,
   compound, undercut/overcut, push/conserve, double-stack and weather/safety-car decisions. No driving,
@@ -90,6 +91,20 @@ COMPLETED is a passed date, not a result. No qualifying, race button or campaign
 
 Track differences come from data-driven matching; no universal car overall or finishing-position
 forecast is shown. Upgrade value varies by venue, but pending/reverted work creates no fitted
-improvement. Driver/car comfort remains a separate Driver Detail concept. The initial technical
-weights await required external source verification; research is not complete merely because
-calendar/model/browser tests pass. See development-notes/CIRCUIT-RESEARCH.md.
+improvement. Driver/car comfort remains a separate Driver Detail concept. The circuit research
+gate is complete through the accepted externally verified owner handoff. New careers use pinned
+v2 profiles; existing careers retain their saved revision. Codex did not retrieve blocked source
+pages, and authored game weights are not official measured ratings. See development-notes/CIRCUIT-RESEARCH.md.
+
+## D0 integration rules (domain only)
+
+The canonical technical result contains a configured fitted car and its derived suitability.
+Future sessions must not stack the suitability label/score as an extra bonus or reapply packages
+and static heat. Driver ability, comfort, form and future session/conditions decisions stay separate.
+No Practice/Qualifying screen, lap times or new advance button is implemented by D0.
+
+Any future advance-to-event command must use the existing campaign advancement owner: process
+every due instruction in `(old date, target date]` in date/priority/ID order, then arrive. Development
+precedes contract status checks on the same date. The released weekly fitting cadence remains
+unchanged for both calendar revisions; advancing to a displayed weekend does not imply fitting
+there or generate session results. See development-notes/MILESTONE-D0.md before designing qualifying.

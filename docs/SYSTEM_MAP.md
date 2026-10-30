@@ -7,15 +7,17 @@ flowchart TD
     Definition[GameDefinition: existing content and rules] --> Universe[Pure universe transitions]
     Universe --> HQ[Existing headquarters engine]
     Universe --> Clock[One root currentDate / CampaignTime]
-    Clock -->|derived temporal view| Dev[Existing development kernel]
-    Clock -->|date context| Drivers
+    Clock --> Events[Ordered due-work discovery and execution]
+    Events -->|derived temporal view| Dev[Existing development kernel]
+    Events -->|daily status checks| Drivers
     Catalog[Versioned calendar and circuit content] --> Calendar[Pure date/event queries]
     Clock --> Calendar
     State -->|calendarId| Calendar
     Dev --> Vector[Fitted technical car translation]
     Catalog --> TrackFit[Generic car-track technical matching]
     Vector --> TrackFit
-    TrackFit --> CalendarUI[Calendar and circuit briefing]
+    TrackFit --> Technical[Canonical contextual car and derived suitability]
+    Technical --> CalendarUI[Calendar and circuit briefing]
     Calendar --> CalendarUI
     Calendar --> UI
     Universe --> Drivers[DriverWorld: profiles, contracts, knowledge]
@@ -53,7 +55,8 @@ flowchart TD
 Future integrations:
 
 - Expanded driver growth/offseason -> people/contract state -> player-visible estimates.
-- Existing technical vector/track suitability -> future qualifying/race engines.
+- Canonical contextual technical result -> future qualifying/race engines; suitability is
+  disclosure of the technical response, never another stacked bonus.
 - Weekend commands + forecast/tyres/traffic -> simulation events/results -> standings/history.
 - Development commitments, salaries and sponsor obligations -> one finance ledger.
 - Results/personnel changes -> morale/market/world events -> choices and news projections.
@@ -113,8 +116,27 @@ calendar/phase definitions replace it through an explicit compatibility step. C 
   semantics -> technical vector -> generic demand comparison -> qualitative briefing.
 - Driver/car comfort is separate and unchanged. No performance logic in CalendarScreen or HUD.
 - Save4 source semantics/fixture -> validated ID attachment -> save5; no source fixture edits.
-- Old weekly development fixture remains internal compatibility content; connecting actual race
-  weekends to fitting/development processing requires a later explicit policy/migration decision.
+- D0 retains the old weekly development cadence for both content IDs and owns one ordered
+  date-event bridge. Fitting at actual race weekends would require a later versioned policy.
 - Research gate COMPLETE through externally verified owner handoff. New careers choose v2
   profiles; saved v1 identity and original migrations remain unchanged. No direct Codex source
   retrieval is claimed. Frozen static-ID registration is separate from the live default.
+
+## D0 ownership and extension points
+
+`universe/campaignEvents.ts`: root date + current subsystem presence -> transient due instructions;
+`universe::advanceTo` executes them through the existing engines. Discovery refreshes every entered
+date. Order is date → explicit priority (development/reset 10; daily contracts 20) → stable ID.
+Normal date/day/week commands and the standings-driven reset share this path. No sessions,
+facility completions, scouting delays or sponsor events are invented for an empty framework.
+
+`trackPerformance::technicalPerformanceAtTrack`: fitted parts + required circuit -> existing
+package/static-heat context once -> technical car + derived suitability. Briefing/debug selectors
+project that result. Future session pace/risk/conditions consumers must define their distinct
+effects without counting the same car trait twice. Driver/car comfort is still its own selector.
+
+The date interval is open at the old date, closed at the target. Same-target calls do nothing;
+save/load resumes from root currentDate. Weekly work/fitting dates remain the frozen compatibility
+mapping for v1/v2; no content-ID change rewrites development history. Schema stays v5 because no
+persistent state changes. Future session archives must retain calendar/event identity and completion
+state before processing results/rewards. See development-notes/MILESTONE-D0.md.

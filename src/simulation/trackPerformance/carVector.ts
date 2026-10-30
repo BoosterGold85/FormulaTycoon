@@ -5,6 +5,8 @@ import {computeCarProfile,type TeamDevelopmentState} from '../development';
 export type TechnicalCar={values:TechnicalVector};
 /** Coarse translation v1. Reads the existing six attribute truths, never averages part specs anew.
  * No drag penalty/tradeoff can honestly be inferred from a scalar part rating; none is invented.
+ * computeCarProfile owns matching LOW_DRAG/HIGH_COOLING and static heat/reliability effects.
+ * Session consumers use technicalPerformanceAtTrack: its car is already contextualized.
  */
 export function technicalCar(team:TeamDevelopmentState,profile:TeamDevelopmentProfile,track?:CircuitDefinition):TechnicalCar {
  const car=computeCarProfile(team,profile,track?{id:track.id,name:track.name,week:0,...track.packageContext}:undefined);

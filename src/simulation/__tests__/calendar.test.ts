@@ -5,7 +5,8 @@ import {join} from 'node:path';
 import {calendarById,DEFAULT_CALENDAR_ID,type CalendarDefinition} from '../../game/calendar';
 import {parseCampaignDate as date,daysBetween} from '../campaignTime';
 import {calendarWindow,calendarEventViews,eventDateLabel,eventStatus,selectNextEvent} from '../calendar';
-import {validateCalendarDefinition} from '../calendar/validation';
+import {validateCalendarCatalog,validateCalendarDefinition} from '../calendar/validation';
+import {RELEASED_CALENDAR_IDS} from '../../game/calendar/releasedIds';
 import {selectEventDetail} from '../calendar/eventDetail';
 import {createGameUniverse} from '../universe';
 import {DEFAULT_GAME_DEFINITION as definition} from '../../game/defaultGame';
@@ -61,6 +62,8 @@ test('status is date-derived, inclusive across weekend, and completed implies no
 test.each([
  ['duplicate event',(c:any)=>{c.events[1].id=c.events[0].id;}],
  ['duplicate round',(c:any)=>{c.events[1].round=1;}],
+ ['calendar season mismatch',(c:any)=>{c.id='calendar.2027.v99';}],
+ ['profile season mismatch',(c:any)=>{c.profileVersion='track-profiles.2027.v1';}],
  ['unknown track',(c:any)=>{c.events[0].trackId='track.unknown';}],
  ['bad date',(c:any)=>{c.events[0].raceDate='2026-02-30';}],
  ['backward weekend',(c:any)=>{c.events[0].raceDate='2026-03-05';}],
@@ -74,6 +77,17 @@ test.each([
  ['bad metadata',(c:any)=>{c.tracks['track.monza'].metadata.safetyCarTendency=-1;}],
  ['bad altitude',(c:any)=>{c.tracks['track.mexico_city'].metadata.altitudeM=Infinity;}]
 ])('authoring validation rejects %s',(_label,mutate)=>{const c=copy();mutate(c);expect(()=>validateCalendarDefinition(c)).toThrow();});
+
+test('catalog IDs are unique and exactly registered; profile revision need not equal schedule revision',()=>{
+ const calendars=RELEASED_CALENDAR_IDS.map(calendarById);
+ expect(()=>validateCalendarCatalog(calendars,RELEASED_CALENDAR_IDS)).not.toThrow();
+ expect(()=>validateCalendarCatalog([...calendars,calendars[0]!],RELEASED_CALENDAR_IDS)).toThrow('Duplicate calendar content ID');
+ expect(()=>validateCalendarCatalog(calendars,[...RELEASED_CALENDAR_IDS,RELEASED_CALENDAR_IDS[0]])).toThrow('Duplicate calendar registration');
+ expect(()=>validateCalendarCatalog(calendars,[RELEASED_CALENDAR_IDS[0]])).toThrow('registration mismatch');
+ expect(()=>validateCalendarCatalog(calendars,[...RELEASED_CALENDAR_IDS,'calendar.2027.v1'])).toThrow('registration mismatch');
+ const next=copy();next.id='calendar.2026.v3';
+ expect(()=>validateCalendarDefinition(next)).not.toThrow();
+});
 
 test('released calendar and profiles are recursively frozen, unknown versions never silently fall back',()=>{
  const frozen=(v:unknown):boolean=>!v||typeof v!=='object'||(Object.isFrozen(v)&&Object.values(v).every(frozen));
