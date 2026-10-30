@@ -53,10 +53,12 @@ fs.mkdirSync(root,{recursive:true});
  await page.getByText(/Reports: 1\./).waitFor();await shot('03-scouting-detail');await back();
  await button('Reserves').click();if(await page.getByTestId('driver-market-list').getByRole('button').count()!==11)throw new Error('Reserves11');
  await contract('Yuto Takase');text=await body();if(!text.includes('Reserve · 2026–2026 guaranteed · $5M / year')||!text.includes('Reported')||!text.includes('Vortex Racing / Veloce Racing')||text.includes('team option'))throw new Error('Reserve');
- await tab('TEAM');await page.getByRole('heading',{name:'Your team',exact:true}).waitFor();await shot('06-team-dashboard');
+ await tab('TEAM');await page.getByRole('heading',{name:'Your team',exact:true}).waitFor();
+ const suitability=await page.getByTestId('team-car-suitability').boundingBox();if(!suitability||suitability.height>26)throw new Error('Team suitability wraps at mobile width');
+ await shot('06-team-dashboard');
  await button('View car').click();await button('Fitted components').click();await page.getByText('Spec 1',{exact:true}).first().waitFor();await check();await button('Back to team').click();
  await button('View development').click();await must('No active projects');if((await body()).includes('62%'))throw new Error('Invented project');await button('Back to team').click();
- await button('View organization').click();await must('Your headquarters');await check();await button('Back to team').click();
+ await button('View organization').click();await must('Your headquarters');await must('Independent dynasty rebuilding');await check();await button('Back to team').click();
  await driver('Carlos Sainor');await button('Contract details').click();if(!(await body()).includes('$30M / year'))throw new Error('Team profile');await button('Back to team').click();
  await button('Manage drivers').click();await button('Prospects').click();await driver('Rafael Cordeiro');await button('Scouting report').click();await page.getByText(/Reports: 1\./).waitFor();
  await tab('RACE');await must('March 2026');await must('4 DAYS');await shot('04-race-calendar');
@@ -73,7 +75,10 @@ fs.mkdirSync(root,{recursive:true});
   for(const row of labels){const venue=row.name.slice(5,-6);all.set(venue,true);if(row.text.includes('SPRINT'))sprints.add(venue);
    if(wanted.has(venue)){
     await button(row.name).click();await page.getByRole('heading',{name:venue,exact:true}).waitFor();
-    await page.getByRole('heading',{name:/^CAR FIT — /}).waitFor();if(venue==='Melbourne')await shot('05-event-detail');
+    await page.getByRole('heading',{name:/^CAR FIT — /}).waitFor();
+    if(await page.getByTestId('event-defining-demands').getByText(/^(HIGH|VERY HIGH)$/,{exact:true}).count()>3)throw new Error('Too many initial circuit demands');
+    if((await body()).includes('TRACK CHARACTER'))throw new Error('Deep briefing visible before disclosure');
+    if(venue==='Melbourne')await shot('05-event-detail');
     await button('More details').click();await must('TRACK CHARACTER');
     const demand=async(label,level)=>{const row=page.getByText(label,{exact:true}).last().locator('..');await row.getByText(level,{exact:true}).waitFor();};
     if(venue==='Madrid'){if((await body()).includes('Provisional profile'))throw new Error('Stale Madrid');await page.getByText(/Confirmed hybrid 22-corner layout/).waitFor();await demand('Tyre preservation','VERY HIGH');await demand('Braking stability','VERY HIGH');}

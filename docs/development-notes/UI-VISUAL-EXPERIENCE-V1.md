@@ -1,9 +1,11 @@
 # UI / Visual Experience V1
 
-## Outcome
+## Original V1 delivery — 9a95b7c
 
 **READY FOR VISUAL REVIEW.** Qualifying remains unstarted. This is a presentation and read-model
-milestone, not a new management/racing feature. No push or merge is included.
+milestone, not a new management/racing feature. V1 was initially delivered locally; the owner
+subsequently authorized preview publication and confirmed the Cloudflare preview works. V1.1
+polish is recorded below. Neither version has been merged.
 
 Branch: `feature/ui-visual-experience-v1`, created from stable main
 **200f4d61ff860537a1f5be6de1843f4888333912**. D0 a446cfa was already merged at f915c9f and
@@ -186,5 +188,149 @@ qualifying, race sessions/results, weather or long-career loop was introduced. T
 reflects these boundaries. Car/driver ratings, contracts, track-fit calculations, development
 balance, saves and RNG remain unchanged. Existing A/B/C/D0 debt remains in DEV_STATUS.
 
-The branch is committed locally for visual review. Do not publish/merge or begin qualifying merely
-because this pass is complete. **READY FOR VISUAL REVIEW.**
+V1 was delivered for visual review, then published with owner approval. The subsequent V1.1
+review below supersedes that initial recommendation. Do not merge or begin qualifying automatically.
+
+## V1.1 focused polish — READY TO MERGE
+
+Continues the reviewed 9a95b7c on the SAME feature/ui-visual-experience-v1 branch. The owner
+reported the V1 Cloudflare preview working. This pass preserves navigation, month browsing,
+roster→dossier, Team drill-downs, disclosures, History and the same HQ/universe owners.
+It changes presentation only. Main stays 200f4d6, unmerged; qualifying and the new weekly
+player-development loop remain unstarted. Publishing uses the already authorized preview branch;
+current commit/build status is reported in the delivery, not invented here.
+
+### Objects and identity, fewer containers
+
+Hero surfaces are flatter and quieter. Meaningful car/next-weekend objects can be tapped across
+their whole surface, with one accessible button and no nested button. Secondary actions and
+disclosures use open divider rows. Market/personnel lists and grade displays no longer repeat
+rounded panel borders for every value. Shared design-system ownership remains intact.
+
+The player's two personnel rows get 72px open helmet identities, team-color rails, larger names
+and one clear Talent grade. Team, form and contract horizon remain compact. Market rows are
+quieter and separated by rules. The generic promotional market card was removed; no actual
+information was removed. All grade ranges/uncertainty and group membership remain unchanged.
+
+Dossiers use a larger 140px helmet, two-line driver identity where needed, nationality/age,
+role, team, form and short car-comfort status. Stripe variation is deterministic cosmetic name
+art, not a performance trait or RNG. Six grades scan as open typography with dividers, followed
+by specialties, car fit and familiarity. Career stage joins background disclosure; all contract,
+scouting, commercial and recorded-history data remains reachable through the same controls.
+
+### Race calendar, next race and event detail
+
+The Next Race hero leads with venue, artwork, dates, prominent countdown, actual Sprint indicator
+when applicable, car suitability and the full-surface View weekend action. The month calendar
+sits on the page rather than in another enclosing card. MON–SUN headers, a circular current-date
+marker and restrained weekend/Sprint bands give the dates priority over technical information.
+All cells retain comfortable hit areas. The legend fits the initial 390×844 viewport.
+
+Event detail places a compact venue/circuit identity above suitability, the single key strength
+and main concern. Only THREE defining published demands appear initially; remaining demands,
+all strengths/concerns, status, rationale and caveats remain under More details. No normalized
+values or ranking appear. All statuses and technical answers still come from existing selectors.
+
+### Team command center and development structure
+
+The next-circuit car hero now immediately shows the major strength, concern and contextual
+suitability. It is fully tappable; suitability remains explicitly tied to the upcoming venue,
+never universal car overall. Drivers, development and organization follow as open sections and
+compact whole-row interactions. Duplicate pulse pills and repeated marketing copy were removed.
+Organization philosophy moved from the page subtitle into organization detail, where the
+existing canonical text remains available; it is not a newly invented health rating.
+
+DevelopmentSummary is a presentation component for actual project/part, current stage and
+supplied CURRENT-stage percentage, with a factory-work illustration and stage rail. It is shared
+by the overview and deeper project list, allowing future causal notes/events to extend the same
+structure without inventing systems now. No completion estimate is available in the existing
+read model, so none is fabricated. No Aero/Technical/research points, hiccups, breakthroughs,
+start-project controls or weekly-loop rules were added. The initial career honestly has no
+active projects and uses a quieter intentional factory empty state.
+
+### HQ review
+
+HQ layout, worker art and the entire renderer/animation implementation are unchanged from V1.
+At 390×844 the worker bodies, costumes, work poses and ground shadows remain readable in context;
+engineer desks, mechanics at cars and logistics/manufacturing colors/location distinguish roles.
+Individual elbow joints and small tools/headsets are tiny in the full-HQ overview. Adding more
+micro-detail would add noise, so no speculative cosmetic correction was made. Native-device
+legibility/performance remains unverified. Worker/department taps, arrivals and repeated 8/8
+working after NEW DAY passed again; NEW DAY still preserves campaign date.
+
+### Information moved deeper
+
+- Career-stage context moved into dossier background; contract/scouting/background/history
+  remain independent disclosures.
+- Event detail initially shows one strength/concern, with the full lists under More details.
+- All 11 circuit demands remain available; only three defining demands lead the briefing.
+- Detailed organization/development/fitted-part information stays in the existing drill-downs.
+- Decorative/promotional containers and duplicate summaries were removed, not underlying data.
+
+### Visual self-review
+
+This is screenshot-based author inspection, not a measured new-player usability study.
+
+| Screen | Three-second question | Obvious next action | Depth / game-feel review |
+|---|---|---|---|
+| HQ | Team workplace and working state are clear | Tap a person/department, or NEW DAY | Existing miniature campus remains the benchmark; tiny props need hardware review |
+| Drivers | These are my two named drivers | Tap the full personnel row | Helmet/name dominate, one ability only; market sits below as a quieter list |
+| Dossier | Who is this driver and what are their strengths? | Read six grades, then open contract/report | Large racing identity and open grade typography replace stacked mini-panels |
+| Race | Melbourne is next, in 4 days | Tap the full next-race hero, a marked date or month arrow | Recognizable month calendar, current date and Sprint legend; no technical wall |
+| Event | Venue, fitted-car suitability, one strength/concern | More details | Three defining demands; complete analytics preserved deeper |
+| Team | How is the car suited to the next venue, who drives, what is in progress? | Tap car, driver, development or organization | Contextual car/part imagery and open management sections; no fake financial health |
+
+Self-review caught COMPETITIVE wrapping to a lone final E in the Team hero. The art/text widths
+and label size were corrected, then a mobile one-line browser guard was added. A slightly shorter
+next-race drawing brings the calendar legend into the first viewport. Final screenshots were
+inspected again after those corrections.
+
+### V1.1 validation
+
+- `npm test -- --runInBand`: **PASS 346 tests /17 suites**, no failures or skips; no tests disabled.
+- `npm run typecheck`: **PASS**.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: **PASS**, 718KB JS,
+  `index-7b6ab765dee61a52687feb9515d5a9dc.js`.
+- `FORMULA_PREVIEW_URL=http://127.0.0.1:8783 FORMULA_ARTIFACT_DIR=/workspace/artifacts/ui-visual-v11/browser node scripts/check-milestone-c.cjs`:
+  **PASS 390×844 and 1440×1000**, no page errors/horizontal overflow. Includes all prior contract,
+  scouting, group counts, 23 rounds/six Sprints/nine researched details, all Team drill-downs,
+  History, navigation, HQ cards, date-preserving NEW DAY and repeated 8/8.
+- Additional browser guards cover the unbroken mobile suitability label and at most three initial
+  demands with deep technical background hidden before disclosure. Existing complete demand/
+  provenance assertions still execute after expanding it.
+- **111/111** tracked game/simulation/persistence files are byte-identical to reviewed 9a95b7c,
+  including both V1 read models. Historical original-Git-object checks: **PASS 11/11**.
+- `git diff --check`: **PASS**. No package/lockfile/install or save migration. External save stays
+  v5 and checkpoint v3. All gameplay, canonical content, RNG and D0 processing are unchanged.
+
+Only existing npm update/color notices. No native performance claim. Live public V1.1 browser
+behavior is unverified from this sandbox; Cloudflare build evidence is checked after publication.
+Evidence/logs: `/workspace/artifacts/ui-visual-v11/`.
+
+### Updated required review artifacts
+
+Six actual 390×844 app PNGs, captured with CSS-pixel export, plus a combined review sheet:
+
+- [HQ](../screenshots/ui-visual-v1.1/01-hq.png)
+- [Drivers roster](../screenshots/ui-visual-v1.1/02-drivers-roster.png)
+- [Driver dossier](../screenshots/ui-visual-v1.1/03-driver-dossier.png)
+- [Race calendar](../screenshots/ui-visual-v1.1/04-race-calendar.png)
+- [Event detail](../screenshots/ui-visual-v1.1/05-event-detail.png)
+- [Team dashboard](../screenshots/ui-visual-v1.1/06-team-dashboard.png)
+- [Combined review sheet](../screenshots/ui-visual-v1.1/review-sheet.png)
+- [Offline gallery](../screenshots/ui-visual-v1.1/index.html)
+
+These are actual browser renders, not generated mockups. The original V1 screenshots are retained.
+
+### Remaining visual debt and recommendation
+
+Native fonts, accessibility services, worker micro-props, phone FPS/battery and personal visual
+preferences still need real-device/human review. Helmets/cars remain symbolic and circuit outlines
+illustrative, not likenesses or surveyed maps. The initial live career has no active project;
+the active-project layout is implemented against the existing read model but is not a newly
+played weekly-development scenario. No fake test project was inserted into the player experience.
+History and unavailable management/racing systems stay honestly empty/unimplemented.
+
+The visible wrap defect is resolved and no further blocking visual defect was found in the
+reviewed phone/desktop flow. **READY TO MERGE.** This is a recommendation only: do not merge,
+start qualifying or begin the weekly development game without another instruction.

@@ -3,18 +3,22 @@ import {View,Text} from 'react-native';
 import {ui} from '../design/system';
 
 /** Original identity graphics: initials and helmets, never generated driver likenesses. */
-export function DriverIdentity({name,color=ui.accent,large=false}:{name:string;color?:string;large?:boolean}){
- const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2),size=large?104:50;
- return <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{width:size,height:size,backgroundColor:'#22364A',borderRadius:large?20:12,overflow:'hidden',justifyContent:'center',alignItems:'center',borderWidth:1,borderColor:color}}>
-  <View style={{position:'absolute',width:size*.65,height:size*.62,backgroundColor:color,borderRadius:size*.3,top:size*.14,transform:[{rotate:'-12deg'}]}}/>
-  <View style={{position:'absolute',width:size*.65,height:size*.17,backgroundColor:'#0C1723',top:size*.37,borderRadius:3,transform:[{rotate:'-12deg'}]}}/>
-  <Text style={{position:'absolute',bottom:large?6:2,right:6,fontWeight:'900',color:ui.ink,fontSize:large?22:12}}>{initials}</Text>
+export function DriverIdentity({name,color=ui.accent,large=false,size:requestedSize}:{name:string;color?:string;large?:boolean;size?:number}){
+ const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2),size=requestedSize??(large?140:50);
+ const stripe=[...name].reduce((sum,char)=>sum+char.charCodeAt(0),0)%3===0;
+ return <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{width:size,height:size,justifyContent:'center',alignItems:'center'}}>
+  <View style={{position:'absolute',width:size*.9,height:size*.17,borderRadius:size*.2,backgroundColor:'#07101A',bottom:size*.08}}/>
+  <View style={{position:'absolute',width:size*.84,height:size*.75,backgroundColor:color,borderTopLeftRadius:size*.42,borderTopRightRadius:size*.4,borderBottomLeftRadius:size*.24,borderBottomRightRadius:size*.17,top:size*.07,transform:[{rotate:'-12deg'}],borderTopWidth:size*.035,borderTopColor:'#D6E7EE'}}/>
+  <View style={{position:'absolute',width:size*.24,height:size*.65,backgroundColor:'#E5EAD9',opacity:.8,left:size*.39,top:size*.13,transform:[{rotate:stripe?'-14deg':'18deg'}]}}/>
+  <View style={{position:'absolute',width:size*.84,height:size*.2,backgroundColor:'#0A1925',top:size*.37,borderRadius:size*.06,transform:[{rotate:'-12deg'}],borderTopWidth:size*.025,borderTopColor:'#91B6C8'}}/>
+  <View style={{position:'absolute',width:size*.3,height:size*.03,backgroundColor:'#426077',top:size*.4,right:size*.2,transform:[{rotate:'-12deg'}]}}/>
+  <Text style={{position:'absolute',bottom:size*.12,right:size*.1,fontWeight:'900',color:ui.ink,fontSize:size*.22}}>{initials}</Text>
  </View>;
 }
-export function CarArt({color=ui.accent}:{color?:string}){
- return <View accessibilityLabel="Original racing car illustration" style={{height:116,width:'100%',alignItems:'center',justifyContent:'center'}}>
-  <View style={{position:'absolute',width:240,height:24,borderRadius:40,backgroundColor:'#080F18',top:77,transform:[{rotate:'-5deg'}]}}/>
-  <View style={{width:230,height:80,transform:[{rotate:'-5deg'}]}}>
+export function CarArt({color=ui.accent,compact=false}:{color?:string;compact?:boolean}){
+ return <View accessibilityLabel="Original racing car illustration" style={{height:compact?84:116,width:compact?150:'100%',alignItems:'center',justifyContent:'center'}}>
+  <View style={{position:'absolute',width:compact?150:240,height:compact?16:24,borderRadius:40,backgroundColor:'#080F18',top:compact?57:77,transform:[{rotate:'-5deg'}]}}/>
+  <View style={{width:230,height:80,transform:[{rotate:'-5deg'},{scale:compact?.64:1}]}}>
    {[25,167].map(x=><React.Fragment key={x}><View style={{position:'absolute',left:x,top:3,width:32,height:22,borderRadius:5,backgroundColor:'#060C13',borderWidth:2,borderColor:'#354859'}}/><View style={{position:'absolute',left:x,top:57,width:32,height:22,borderRadius:5,backgroundColor:'#060C13',borderWidth:2,borderColor:'#354859'}}/></React.Fragment>)}
    <View style={{position:'absolute',top:27,left:20,width:184,height:30,borderRadius:16,backgroundColor:color,transform:[{skewX:'-12deg'}]}}/>
    <View style={{position:'absolute',left:68,top:20,width:76,height:42,borderRadius:18,backgroundColor:color,borderWidth:2,borderColor:'#A3D1F0'}}/>

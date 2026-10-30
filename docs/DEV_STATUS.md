@@ -2,15 +2,32 @@
 
 ## Milestone
 
-**UI / VISUAL EXPERIENCE V1 COMPLETE — READY FOR VISUAL REVIEW.**
+**UI / VISUAL EXPERIENCE V1.1 POLISH COMPLETE — READY TO MERGE (recommendation only).**
 The owner paused feature expansion after D0. Qualifying has NOT started.
 
 Branch: `feature/ui-visual-experience-v1`, from validated/published main
 **200f4d61ff860537a1f5be6de1843f4888333912**. Main already contains C, its audit and D0; it is
-unchanged by this UI branch. This milestone is committed locally, unpushed/unmerged for review.
+unchanged by this UI branch. Reviewed V1 commit 9a95b7c was pushed with owner approval and the
+owner reports its Cloudflare preview working. V1.1 continues the same authorized preview branch;
+publication/build status is reported in delivery. No merge is authorized or performed.
 Full handoff: [UI-VISUAL-EXPERIENCE-V1](development-notes/UI-VISUAL-EXPERIENCE-V1.md).
 
 ## COMPLETED
+
+V1.1 focused refinements:
+
+- Featured own-driver personnel rows and larger, differentiated helmet identity; market rows are
+  quieter. Dossier hero leads with identity/form/status; six grades use open typography.
+- Full-surface Next Race/car actions, flatter hero surfaces and open divider-based sections.
+  Calendar dates/legend take precedence over nested boxes. Existing navigation/owners preserved.
+- Event detail now leads with three defining demands and one key strength/concern; all remaining
+  data stays under More details. Team exposes next-circuit strengths/weaknesses immediately.
+- Reusable real-project stage summary/illustration, honest no-project state and open Team sections.
+  No new project commands, progress model, ETA, points or weekly gameplay.
+- HQ and worker implementation unchanged after phone review. Seven updated review PNGs include
+  the required six screens and combined sheet under docs/screenshots/ui-visual-v1.1.
+
+Original V1 foundation retained:
 
 - Shared presentation tokens, icons, headers, cards, rows, chips, grades, actions, disclosures and
   empty/detail treatment. Dark HQ-inspired layers, warm text, team accents and original graphics.
@@ -31,10 +48,22 @@ Full handoff: [UI-VISUAL-EXPERIENCE-V1](development-notes/UI-VISUAL-EXPERIENCE-V
 
 ## IN PROGRESS
 
-None. Await human visual review. Do not begin qualifying, publish or merge this branch merely
-because validation passes. Main and the preserved worker-art worktree stay unchanged.
+None. V1.1 is ready for owner review/merge decision; do not merge automatically. Publishing
+continues the previously authorized preview branch only. Do not begin qualifying or the weekly
+player-development loop. Main and the preserved worker-art worktree stay unchanged.
 
 ## TESTED
+
+- V1.1 fresh validation: 346 tests/17 suites PASS, TypeScript PASS, web export PASS (718KB).
+- Phone 390×844 and desktop 1440×1000 browser PASS, no page errors or horizontal overflow.
+  Added guards for the Team label wrap found during visual review and three initial circuit
+  demands; all original data/disclosure/navigation/HQ regressions remain active.
+- 111 tracked game/simulation/persistence files, including the V1 read models, match reviewed
+  9a95b7c byte-for-byte. Historical hashes 11/11 PASS. No gameplay/save/calendar/RNG/D0 changes.
+- Six exact 390×844 screenshots plus combined sheet captured and self-reviewed. The three-second
+  review is author inspection, not a timed human usability study. Logs: /workspace/artifacts/ui-visual-v11/.
+
+V1 regression foundation, rerun through V1.1:
 
 - `npm test -- --runInBand`: **346/346 tests, 17/17 suites PASS**, zero failed/skipped. All C/D0
   clock, progression, performance, driver/contract/HQ and v1–v5 migration regression remains green.
@@ -59,9 +88,10 @@ because validation passes. Main and the preserved worker-art worktree stay uncha
 
 ## NOT VERIFIED
 
-- Human visual acceptance; native iPhone/Safari, native font rendering, accessibility services,
+- Native iPhone/Safari, native font rendering, accessibility services,
   FPS/battery and small worker-prop readability on hardware.
-- Live branch deployment; branch remains unpublished. Local Chromium smoke is not live/native proof.
+- Live V1.1 public-browser behavior. The owner verified the prior V1 preview; local Chromium smoke
+  and a Cloudflare build check are not native/public-runtime proof.
 - Qualifying/race controllers, pace/risk calibration, dynamic conditions, results, actual-weekend
   fitting, future season calendars and 20–50-season gameplay.
 - Durable device storage/import/recovery; adapter remains volatile.
@@ -86,7 +116,7 @@ because validation passes. Main and the preserved worker-art worktree stay uncha
 
 | Finding | Status / due gate |
 |---|---|
-| UI review | Human visual review before further feature expansion |
+| UI review | V1.1 self-review complete; READY TO MERGE recommendation, owner decision still required |
 | Native profiling | Worker/shape depth, fonts, accessibility and performance on hardware before release |
 | C-M1 | Resolved in D0: canonical technical boundary/no-double-counting contract; calibrate pace/risk before laps |
 | C-M2 | Resolved in D0: ordered due-work pipeline/retained cadence; later retiming requires versioned review |
@@ -107,5 +137,6 @@ and missing payroll remain carried debt. No unrelated cleanup, retuning or gamep
 
 ## NEXT MILESTONE
 
-**READY FOR VISUAL REVIEW.** Review the screenshots and UI first. Qualifying remains paused.
-Do not push/merge or implement qualifying without a separate instruction. Stop after this pass.
+**READY TO MERGE — recommendation only.** Review updated screenshots/preview; do not merge
+automatically. Qualifying and the weekly player-development loop remain paused. Stop after the
+focused polish pass and its authorized branch-preview publication.

@@ -12,15 +12,16 @@ export function DriverProfile({universe,definition,world,observer,id,onBack,onSc
  const d=driverView(world,observer,id,universe.currentDate),fit=selectDriverCarFit(universe,definition,id),color=d.teamId?teamBrand(d.teamId).color:ui.accent;
  return <>
   <Action label={backLabel} onPress={onBack} secondary/>
-  <Card accent={color}>
-   <View style={styles.row}><DriverIdentity name={d.name} color={color} large/><View style={{flex:1,gap:8}}><Text style={styles.eyebrow}>{d.team}</Text><Text accessibilityRole="header" style={[styles.title,{fontSize:27}]}>{d.name}</Text><Chip text={d.raceSeat?'RACE DRIVER':d.teamId?'RESERVE':'AVAILABLE'} tone="accent"/></View></View>
-   <Text style={styles.muted}>{d.nationality} · Age {d.age} · {d.stage.replaceAll('_',' ')}</Text>
+  <Card accent={color} hero>
+   <Text style={[styles.eyebrow,{color}]}>{d.team}</Text>
+   <View style={styles.row}><View style={{flex:1,minWidth:0,gap:7}}><Text accessibilityRole="header" style={[styles.title,{fontSize:32,lineHeight:34}]}>{d.name}</Text><Text style={styles.muted}>{d.nationality} · Age {d.age}</Text><Text style={[styles.eyebrow,{fontSize:10}]}>{d.raceSeat?'RACE DRIVER':d.teamId?'RESERVE':'AVAILABLE'}</Text></View><DriverIdentity name={d.name} color={color} large/></View>
+   <View style={[styles.between,{borderTopWidth:1,borderTopColor:ui.line,paddingTop:12}]}><Chip text={d.form} tone="green"/><Text style={styles.muted}>Car · {fit??'Unassigned'}</Text></View>
   </Card>
-  <Section title="Driver strengths" meta="Six distinct categories"/>
+  <Section title="Driver profile"/>
   <View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>{BUCKETS.map(key=><GradeBadge key={key} label={BUCKET_LABELS[key]} grade={d.grades[key]} large/>)}</View>
-  <Card><Text style={styles.eyebrow}>CURRENT STATUS</Text><View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}><Chip text={d.form} tone="green"/><Chip text={`Car · ${fit??'Unassigned'}`} tone="accent"/><Chip text={d.familiarity}/></View><Text style={styles.muted}>Driver comfort is separate from circuit suitability.</Text></Card>
   <Section title="Specialties"/>
   <View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>{d.specialties.map(trait=><Chip key={trait} text={trait} tone="gold"/>)}{d.unknownTraits?<Chip text="Other traits unconfirmed"/>:null}</View>
+  <View style={{gap:8,paddingVertical:8}}><Fact label="Driver / car fit" value={fit??'Unassigned'}/><Fact label="Familiarity" value={d.familiarity}/></View>
   <Disclosure title="Contract details">
    <Text style={styles.body}>{d.contract}</Text>
    {d.contractEnd!==null?<Text style={styles.muted}>Guaranteed through {d.contractEnd} · {d.futureGuaranteedYears} future guaranteed {d.futureGuaranteedYears===1?'year':'years'} after this season{d.futureEffectiveYears!==d.futureGuaranteedYears?` · ${d.futureEffectiveYears} including exercised option`:''}.</Text>:null}
@@ -37,8 +38,9 @@ export function DriverProfile({universe,definition,world,observer,id,onBack,onSc
    <Text style={styles.muted}>Report review is currently free and instant. Estimates narrow as knowledge improves.</Text>
   </Disclosure>:null}
   <Disclosure title="Background & commercial">
-   <Text style={styles.body}>{d.summary}</Text><Text style={styles.eyebrow}>COMMERCIAL REACH</Text><Text style={styles.body}>{d.commercial}</Text>
+   <Fact label="Career stage" value={d.stage.replaceAll('_',' ')}/><Text style={styles.body}>{d.summary}</Text><Text style={styles.eyebrow}>COMMERCIAL REACH</Text><Text style={styles.body}>{d.commercial}</Text>
    <Text style={styles.body}>{d.familiarity} · Current car: {fit??'No assigned car'}.</Text>
+   <Text style={styles.muted}>Driver comfort is separate from circuit suitability.</Text>
   </Disclosure>
   <Disclosure title="Career history"><Text style={styles.body}>{d.history.length?`${d.history.length} recorded Formula Tycoon seasons.`:'No recorded Formula Tycoon seasons yet.'}</Text><Text style={styles.muted}>Race, qualifying and championship records will belong to this career when those systems are available.</Text></Disclosure>
  </>;
