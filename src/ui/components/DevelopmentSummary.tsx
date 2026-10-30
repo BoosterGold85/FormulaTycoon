@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text,View} from 'react-native';
-import {styles,ui} from '../design/system';
+import {useDesign} from '../design/system';
 
 /** Factory artwork and current-stage disclosure only; all progress is supplied by the read model. */
 export function WorkshopArt(){return <View accessible={false} style={{width:76,height:64,justifyContent:'center',alignItems:'center'}}>
@@ -10,7 +10,7 @@ export function WorkshopArt(){return <View accessible={false} style={{width:76,h
  <View style={{position:'absolute',width:5,height:19,backgroundColor:'#304A5C',left:10,bottom:1}}/>
  <View style={{position:'absolute',width:5,height:19,backgroundColor:'#304A5C',right:10,bottom:1}}/>
  </View>;}
-export function DevelopmentSummary({project}:{project:{name:string;stage:string;progress:number}}){
+export function DevelopmentSummary({project}:{project:{name:string;stage:string;progress:number}}){const {ui,styles}=useDesign();
  return <View style={{gap:12,paddingVertical:12}}>
   <View style={styles.row}><View style={{flex:1,gap:5}}><Text style={styles.heading}>{project.name}</Text><Text style={styles.muted}>{project.stage} · {project.progress}% of current stage</Text></View><WorkshopArt/></View>
   <View accessibilityLabel={`${project.progress}% of current stage`} style={{height:5,backgroundColor:ui.line}}><View style={{width:`${project.progress}%`,height:5,backgroundColor:ui.accent}}/></View>

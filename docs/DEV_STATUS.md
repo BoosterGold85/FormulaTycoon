@@ -2,7 +2,7 @@
 
 ## Milestone
 
-**UI V1.1 + PERMANENT GRAPHIC DESIGN BIBLE / PORTRAIT SYSTEM COMPLETE — OWNER REVIEW.**
+**UI V1.1 + DEFAULT LIGHT / ALTERNATE DARK THEME COMPLETE — OWNER REVIEW.**
 The owner paused feature expansion after D0. Qualifying has NOT started.
 
 Branch: `feature/ui-visual-experience-v1`, from validated/published main
@@ -13,6 +13,20 @@ publication/build status is reported in delivery. No merge is authorized or perf
 Full handoff: [UI-VISUAL-EXPERIENCE-V1](development-notes/UI-VISUAL-EXPERIENCE-V1.md).
 
 ## COMPLETED
+
+Default light theme continuation (base96ae582, same branch):
+
+- Permanent Bible direction: dark racing shell + warm light content + strong accent colors.
+  One shared semantic token contract and ThemeProvider; same screens/art/layout in both modes.
+- Light default, real dark alternate via top-right control; web remembers appearance locally.
+  Valid dark preference respected; invalid/denied storage safe. Theme is not campaign save state.
+- Dark shared branded header, wide-screen side rail and phone bottom navigation. Existing five
+  routes only; all Team/car/development/organization details use the same management treatment.
+- HQ physical world unchanged; overlays/controls follow the theme. Team palettes unchanged,
+  readable team-text correction only; portrait backing/car grounding fit either canvas.
+- Native durable preference storage not implemented. No dependencies, gameplay/save changes,
+  qualifying, weekly development loop or automatic merge.
+
 
 Permanent visual infrastructure follow-up (base af80f34, same branch):
 
@@ -69,6 +83,18 @@ player-development loop. Main and the preserved worker-art worktree stay unchang
 
 ## TESTED
 
+Default light / alternate dark final validation:
+
+- 354 tests/19 suites PASS; TypeScript PASS; web export PASS. Four new theme behavior/contrast
+  tests; existing portrait transfers, game rules and released save regressions remain active.
+- Actual app theme checks PASS390×844/1440×1000: default and stored preference, reload, denied
+  storage, scouting/HQ/date surviving live toggles, canonical art colors unchanged, no errors/overflow.
+- Full existing browser suite PASS in BOTH themes: data/disclosures, contracts/scouting/calendar,
+  Team details, HQ taps, routes,8/8 and NEW DAY date preservation. No tests disabled.
+- All game/simulation/persistence files unchanged from96ae582. `git diff --check` PASS.
+  Screenshots: docs/screenshots/default-light-theme. Evidence: /workspace/artifacts/default-light-theme/.
+
+
 Portrait follow-up final validation:
 
 - 350 tests/18 suites PASS (four added behavioral tests), TypeScript PASS, web build PASS.
@@ -119,6 +145,11 @@ V1 regression foundation, rerun through V1.1:
 
 ## NOT VERIFIED
 
+- Native durable theme preference storage (not implemented); native appearance/accessibility/FPS.
+  Web local appearance preference persistence is tested separately from volatile campaign storage.
+- Public live-browser behavior of the new themed preview, independent of build-check status.
+
+
 - Native iPhone/Safari, native font rendering, accessibility services,
   FPS/battery and small worker-prop readability on hardware.
 - Live V1.1 public-browser behavior. The owner verified the prior V1 preview; local Chromium smoke
@@ -168,7 +199,7 @@ and missing payroll remain carried debt. No unrelated cleanup, retuning or gamep
 
 ## NEXT MILESTONE
 
-**OWNER VISUAL REVIEW — prior READY TO MERGE remains recommendation only.** Review Bible, portrait
+**OWNER VISUAL REVIEW — prior READY TO MERGE remains recommendation only.** Review Bible, light/dark
 screenshots and preview; do not merge
 automatically. Qualifying and the weekly player-development loop remain paused. Stop after the
 focused polish pass and its authorized branch-preview publication.

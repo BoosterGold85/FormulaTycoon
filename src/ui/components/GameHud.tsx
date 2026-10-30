@@ -1,81 +1,26 @@
 import React from 'react';
+import {Pressable,Text,View,useWindowDimensions} from 'react-native';
 import {weekday,formatCampaignDate,type CampaignDate} from '../../simulation/campaignTime';
-import { StyleSheet, Text, View } from 'react-native';
-import { HUD_PLACEHOLDERS } from '../../game/hudPlaceholders';
-import { theme } from '../theme';
-
-export function GameHud({currentDate,nextEvent}:{currentDate:CampaignDate;nextEvent:{venue:string;detail:string}}) {
-  return (
-    <View style={styles.wrap}>
-      <Text style={styles.title}>
-        FORMULA <Text style={styles.titleAccent}>TYCOON</Text>
-      </Text>
-      <View style={styles.row}>
-        <HudChip label="TEAM" value={HUD_PLACEHOLDERS.teamName} />
-        <HudChip label="DAY" value={weekday(currentDate)} detail={formatCampaignDate(currentDate)} />
-        <HudChip label="NEXT EVENT" value={nextEvent.venue} detail={nextEvent.detail} accent />
-      </View>
-    </View>
-  );
+import {useTheme} from '../theme';
+/** Shared dark racing shell. Date/event are supplied by the unchanged domain selectors. */
+export function GameHud({currentDate,nextEvent}:{currentDate:CampaignDate;nextEvent:{venue:string;detail:string}}){
+ const {theme:t,setMode}=useTheme(),wide=useWindowDimensions().width>=1000;
+ return <View style={{backgroundColor:t.navBackground,borderBottomWidth:1,borderColor:t.navBorder,paddingHorizontal:wide?28:16,paddingVertical:8,gap:5}}>
+  <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:12}}>
+   <Text style={{color:t.navText,fontSize:wide?27:19,fontWeight:'900',fontStyle:'italic',letterSpacing:.7}}>FORMULA <Text style={{color:t.navAccent}}>TYCOON</Text></Text>
+   {wide?<View style={{flexDirection:'row',gap:28,alignItems:'center'}}><DateSummary currentDate={currentDate}/><EventSummary nextEvent={nextEvent}/></View>:null}
+   <Pressable accessibilityRole="button" accessibilityLabel={`Switch to ${t.mode==='light'?'dark':'light'} theme`}
+    onPress={()=>setMode(t.mode==='light'?'dark':'light')}
+    style={{minWidth:64,minHeight:44,paddingHorizontal:10,justifyContent:'center',alignItems:'center',borderRadius:6,backgroundColor:t.navSurface,borderWidth:1,borderColor:t.navBorder}}>
+    <Text style={{color:t.navText,fontSize:11,fontWeight:'800'}}>{t.mode==='light'?'DARK':'LIGHT'}</Text>
+   </Pressable>
+  </View>
+  {!wide?<View style={{flexDirection:'row',justifyContent:'space-between',gap:12}}><DateSummary currentDate={currentDate}/><EventSummary nextEvent={nextEvent}/></View>:null}
+ </View>;
 }
-
-function HudChip({ label, value, accent,detail }: { label: string; value: string; accent?: boolean;detail?:string }) {
-  return (
-    <View style={styles.chip}>
-      <Text style={styles.chipLabel}>{label}</Text>
-      <Text style={[styles.chipValue, accent && styles.chipValueAccent]} numberOfLines={1}>
-        {value}
-      </Text>
-      {detail?<Text style={{color:theme.textMuted,fontSize:10,marginTop:2}}>{detail}</Text>:null}
-    </View>
-  );
+function DateSummary({currentDate}:{currentDate:CampaignDate}){
+ const {theme:t}=useTheme();return <View style={{gap:2}}><Text style={{color:t.navText,fontSize:11}}>{weekday(currentDate)}</Text><Text style={{color:t.navMuted,fontSize:11}}>{formatCampaignDate(currentDate)}</Text></View>;
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    paddingHorizontal: 16,
-    paddingTop: 6,
-    paddingBottom: 10
-  },
-  title: {
-    color: theme.text,
-    fontSize: 24,
-    fontWeight: '900',
-    fontStyle: 'italic',
-    letterSpacing: 1.4,
-    textAlign: 'center'
-  },
-  titleAccent: {
-    color: theme.accent
-  },
-  row: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 10
-  },
-  chip: {
-    flex: 1,
-    backgroundColor: theme.panel,
-    borderColor: theme.panelBorder,
-    borderWidth: 1,
-    borderRadius: 8,
-    borderTopColor: '#415267',
-    paddingVertical: 9,
-    paddingHorizontal: 10
-  },
-  chipLabel: {
-    color: theme.textMuted,
-    fontSize: 9,
-    fontWeight: '800',
-    letterSpacing: 1
-  },
-  chipValue: {
-    color: theme.text,
-    fontSize: 13,
-    fontWeight: '800',
-    marginTop: 2
-  },
-  chipValueAccent: {
-    color: theme.warning
-  }
-});
+function EventSummary({nextEvent}:{nextEvent:{venue:string;detail:string}}){
+ const {theme:t}=useTheme();return <View style={{gap:2}}><Text style={{color:t.navText,fontSize:11,fontWeight:'800'}}>{nextEvent.venue}</Text><Text style={{color:t.navMuted,fontSize:11}}>{nextEvent.detail}</Text></View>;
+}

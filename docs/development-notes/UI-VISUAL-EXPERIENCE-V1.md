@@ -390,3 +390,57 @@ shoulders-up reference file was available; the written helmeted-driver compositi
 READY FOR OWNER VISUAL REVIEW; previous READY TO MERGE recommendation remains a recommendation
 only. Main unchanged. Any branch publication continues the already-authorized same preview branch;
 Cloudflare status and actual commit hash are reported in delivery. Stop before new gameplay work.
+
+
+## Default light theme follow-up
+
+Owner-approved continuation on the same UI branch, base96ae582. Permanent visual direction now is
+**DARK RACING SHELL + WARM LIGHT CONTENT CANVAS + STRONG ACCENT COLORS**, recorded in the Bible.
+Warm cream canvas/cards, navy readable text, neutral borders/soft shadows and red interactions are
+the default. Dark remains a real alternate using identical screens, components and information.
+The supplied Drivers/Race concept is direction for surfaces/shell, not a claim of matching its
+illustration fidelity. No new art-production or gameplay milestone starts.
+
+### Ownership and scope
+
+- One semantic token contract in `ui/design/tokens.ts`; `ui/theme.tsx` owns preference/context.
+  Existing shared primitives and screens consume runtime tokens rather than module-level colors.
+- Shared dark branding/date/event header across tabs; same five existing routes with a desktop
+  side rail and mobile bottom strip. No Staff/Standings/Finances/Settings placeholders invented.
+  Existing Team car/development/organization details receive the same surface treatment.
+- Web preference only in `formula-tycoon.theme`; default light, respect valid local dark selection,
+  invalid/denied storage safe. No gameplay save change, migration or new persisted campaign field.
+  Native uses light/session-local selection; no native durable preference adapter installed.
+- Same mounted campaign and screens on theme changes. HQ physical environment/worker art untouched;
+  its controls/cards follow the theme. Canonical team colors unchanged. Text-only contrast fallback
+  keeps team labels readable; neutral portrait backing and car shadows follow their canvas.
+- Future management screens must use the same tokens/Bible. No qualifying/weekly loop or merge.
+
+### Final validation
+
+- `npm test -- --runInBand`: **354 tests /19 suites PASS**, no failures/skips. Four new theme tests
+  cover default/preference/denied storage, same-mounted-child state, semantic contrast and all11
+  team label corrections without identity mutation. Existing portrait/transfer tests retained.
+- `npm run typecheck`: PASS.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: PASS. No install, package or lockfile change.
+- `node scripts/check-themes.cjs`: PASS both390×844/1440×1000. Actual exported app checks light
+  default, saved dark, reload preference, denied storage, team colors unchanged, scouting report
+  surviving live toggles, HQ8/8/date preserved, all existing details/navigation and no errors/overflow.
+- Full existing browser regression runs in both modes via `node scripts/check-milestone-c.cjs`,
+  using `FORMULA_THEME=dark` for dark. Both PASS mobile/desktop,23 rounds/six Sprints/nine details,
+  grades/contracts/options/scouting, Team drill-downs, HQ cards/NEW DAY/8-of-8 and root date.
+- All tracked game/simulation/persistence files byte-identical to96ae582. Existing migrations,
+  released hashes and original calendars remain covered. `git diff --check` PASS.
+- Initial contrast test exposed weak selected-calendar/accent pairs; semantic colors were corrected.
+  The new screenshot harness initially tried reselecting the current Drivers tab to leave a dossier;
+  corrected it to use the existing Back action. These were reproduced and final checks rerun.
+- Evidence: `/workspace/artifacts/default-light-theme/`.
+
+[Theme screenshots](../screenshots/default-light-theme/README.md) include both modes at phone and
+desktop sizes, actual roster/dossier/calendar/event/Team/car/HQ overlay. Native iPhone/Safari,
+assistive technology, FPS/battery and live public workers.dev browser behavior remain unverified.
+Artwork is the existing lightweight symbolic/component art; this task does not redraw it to the
+reference's fidelity. Local web preference is not a durable campaign-save implementation.
+
+Stable continuation is committed/published only to the already-authorized UI preview branch.
+Main stays200f4d6. Delivery supplies exact commit/build status. Stop after the visual task.

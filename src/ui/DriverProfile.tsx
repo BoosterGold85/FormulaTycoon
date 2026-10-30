@@ -5,15 +5,15 @@ import {BUCKET_LABELS,driverView,selectDriverCarFit} from '../simulation/drivers
 import type {GameDefinition,GameUniverse} from '../simulation/universe';
 import {teamBrand} from '../game/brandRegistry';
 import {TeamDriverPortrait} from './art/DriverPortrait';
-import {Action,Card,Chip,Disclosure,Fact,GradeBadge,Section,styles,ui} from './design/system';
+import {Action,Card,Chip,Disclosure,Fact,GradeBadge,Section,useDesign} from './design/system';
 
 type Props={universe:GameUniverse;definition:GameDefinition;world:DriverWorld;observer:string;id:string;onBack:()=>void;onScout:(id:string)=>void;onOption:(id:string)=>void;backLabel?:string};
-export function DriverProfile({universe,definition,world,observer,id,onBack,onScout,onOption,backLabel='Back to drivers'}:Props){
+export function DriverProfile({universe,definition,world,observer,id,onBack,onScout,onOption,backLabel='Back to drivers'}:Props){const {ui,styles,teamInk}=useDesign();
  const d=driverView(world,observer,id,universe.currentDate),fit=selectDriverCarFit(universe,definition,id),color=d.teamId?teamBrand(d.teamId).color:ui.accent;
  return <>
   <Action label={backLabel} onPress={onBack} secondary/>
   <Card accent={color} hero>
-   <Text style={[styles.eyebrow,{color}]}>{d.team}</Text>
+   <Text style={[styles.eyebrow,{color:teamInk(color)}]}>{d.team}</Text>
    <View style={styles.row}><View style={{flex:1,minWidth:0,gap:7}}><Text accessibilityRole="header" style={[styles.title,{fontSize:32,lineHeight:34}]}>{d.name}</Text><Text style={styles.muted}>{d.nationality} · Age {d.age}</Text><Text style={[styles.eyebrow,{fontSize:10}]}>{d.raceSeat?'RACE DRIVER':d.teamId?'RESERVE':'AVAILABLE'}</Text></View><TeamDriverPortrait teamId={d.teamId} size={140}/></View>
    <View style={[styles.between,{borderTopWidth:1,borderTopColor:ui.line,paddingTop:12}]}><Chip text={d.form} tone="green"/><Text style={styles.muted}>Car · {fit??'Unassigned'}</Text></View>
   </Card>

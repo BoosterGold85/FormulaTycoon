@@ -9,14 +9,8 @@ import {
   type WorkerState
 } from '../../simulation/headquarters';
 import type { Selection } from '../scene/HeadquartersScene';
-import { theme } from '../theme';
+import { useTheme } from '../theme';
 import { InfoCard } from './InfoCard';
-
-const STATE_LABEL: Record<WorkerState, { text: string; color: string }> = {
-  IDLE: { text: 'IDLE', color: '#A9B6C6' },
-  WALKING: { text: 'WALKING', color: theme.warning },
-  WORKING: { text: 'WORKING', color: theme.success }
-};
 
 /** Read-only preview of the selected worker or department. */
 export function SelectionCard({
@@ -28,6 +22,14 @@ export function SelectionCard({
   state: HeadquartersState;
   layout: HeadquartersLayout;
 }) {
+  const {theme}=useTheme();
+  const STATE_LABEL: Record<WorkerState, { text: string; color: string }> = {
+  IDLE: { text: 'IDLE', color: theme.textSecondary },
+  WALKING: { text: 'WALKING', color: theme.warning },
+  WORKING: { text: 'WORKING', color: theme.success }
+};
+
+
   if (selection.kind === 'worker') {
     const worker = getWorker(state, selection.id);
     if (!worker) return null;
@@ -50,7 +52,7 @@ export function SelectionCard({
   const department = getDepartment(layout, selection.id);
   const summary = summarizeDepartment(state, layout, selection.id);
   const statusColor =
-    summary.status === 'Active' ? theme.success : summary.status === 'Unstaffed' ? '#A9B6C6' : theme.warning;
+    summary.status === 'Active' ? theme.success : summary.status === 'Unstaffed' ? theme.textSecondary : theme.warning;
   return (
     <InfoCard
       title={department.name}

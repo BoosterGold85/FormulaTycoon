@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {ui} from '../design/system';
+import {useTheme} from '../theme';
 /** Original stylized silhouettes only. Not surveyed layouts; never input to racing physics. */
 const OUTLINES:Record<string,number[][]>={
  melbourne:[[8,45],[17,20],[38,14],[54,29],[78,23],[92,38],[78,67],[59,69],[46,86],[22,78]],
@@ -28,7 +28,7 @@ const OUTLINES:Record<string,number[][]>={
  yas_marina:[[12,67],[21,27],[44,14],[69,27],[91,19],[85,44],[62,58],[72,76],[53,87],[36,68],[25,81]],
 };
 const DEFAULT=[[12,64],[26,25],[47,16],[68,35],[88,24],[91,51],[72,75],[50,66],[36,85],[17,81]];
-export function CircuitArt({trackId,color=ui.accent,height=130,width=220}:{trackId:string;color?:string;height?:number;width?:number}){
+export function CircuitArt({trackId,color:requestedColor,height=130,width=220}:{trackId:string;color?:string;height?:number;width?:number}){const {theme:ui}=useTheme(),color=requestedColor??ui.accent;
  const points=OUTLINES[trackId.replace('track.','')]??DEFAULT,w=width,h=height;
  return <View accessibilityLabel="Stylized circuit illustration, not to scale" style={{height:h,width:w,alignSelf:'center'}}>{points.map((a,i)=>{
   const b=points[(i+1)%points.length]!,x=a[0]!*w/100,y=a[1]!*h/100,dx=(b[0]!-a[0]!)*w/100,dy=(b[1]!-a[1]!)*h/100;

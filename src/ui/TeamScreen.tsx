@@ -3,14 +3,14 @@ import {View,Text,Pressable} from 'react-native';
 import type {NavTab} from '../game/hudPlaceholders';
 import type {GameUniverse,GameDefinition} from '../simulation/universe';
 import {selectTeamOverview} from '../simulation/managementViews';
-import {Action,Card,CompactRow,Disclosure,EmptyState,Fact,Screen,Section,styles,ui} from './design/system';
+import {Action,Card,CompactRow,Disclosure,EmptyState,Fact,Screen,Section,useDesign} from './design/system';
 import {CarArt,GarageArt} from './art/IdentityArt';
 import {TeamDriverPortrait} from './art/DriverPortrait';
 import {DevelopmentSummary,WorkshopArt} from './components/DevelopmentSummary';
 import {DriverProfile} from './DriverProfile';
 
 type Props={universe:GameUniverse;definition:GameDefinition;onNavigate:(tab:NavTab)=>void;onScout:(id:string)=>void;onOption:(id:string)=>void};
-export function TeamScreen(props:Props){
+export function TeamScreen(props:Props){const {ui,styles,teamInk}=useDesign();
  const {universe,definition,onNavigate}=props,model=selectTeamOverview(universe,definition);
  const [view,setView]=useState<'overview'|'car'|'development'|'organization'>('overview'),[driver,setDriver]=useState<string|null>(null);
  return <Screen key={driver??view} title={driver?'Driver dossier':view==='overview'?'Your team':view==='car'?'Your car':view==='development'?'Development':'Your headquarters'} kicker={model.brand.name} subtitle={view==='overview'?'Race control / Your organization':undefined} tab="TEAM" onNavigate={onNavigate}>
@@ -33,7 +33,7 @@ export function TeamScreen(props:Props){
     <Text style={styles.eyebrow}>CURRENT CAR · {model.briefing?.venue??'NO UPCOMING EVENT'}</Text>
     <View style={styles.row}><View style={{flex:1,gap:6}}><Text testID="team-car-suitability" style={[styles.heading,{fontSize:20,lineHeight:25,color:ui.green}]}>{model.briefing?.fit?.label??'UNAVAILABLE'}</Text><Text style={styles.muted}>Next-race suitability</Text></View><CarArt color={model.brand.color} compact/></View>
     <View style={{flexDirection:'row',gap:14}}><View style={{flex:1,gap:4}}><Text style={styles.eyebrow}>STRENGTH</Text><Text style={styles.muted}>{model.briefing?.fit?.strengths[0]??'No standout strength'}</Text></View><View style={{flex:1,gap:4}}><Text style={styles.eyebrow}>CONCERN</Text><Text style={styles.muted}>{model.briefing?.fit?.concerns[0]??'No major shortfall'}</Text></View></View>
-    <View style={[styles.between,{borderTopWidth:1,borderTopColor:ui.line,paddingTop:10}]}><Text style={{fontSize:12,fontWeight:'800',color:ui.ink}}>View car</Text><Text style={{fontSize:20,color:model.brand.color}}>›</Text></View>
+    <View style={[styles.between,{borderTopWidth:1,borderTopColor:ui.line,paddingTop:10}]}><Text style={{fontSize:12,fontWeight:'800',color:ui.ink}}>View car</Text><Text style={{fontSize:20,color:teamInk(model.brand.color)}}>›</Text></View>
    </Card>
    <View style={styles.between}><Section title="Your drivers"/><Pressable accessibilityRole="button" accessibilityLabel="Manage drivers" onPress={()=>onNavigate('DRIVERS')} style={{minHeight:44,justifyContent:'center'}}><Text style={{fontSize:12,color:ui.accent,fontWeight:'800'}}>Manage drivers ›</Text></Pressable></View>
    <View>{model.drivers.map(d=><CompactRow key={d.id} label={d.name} detail={`${d.form} · ${d.contractEnd?`Through ${d.contractEnd}`:'Available'}`} accessibilityLabel={`View ${d.name}`} onPress={()=>setDriver(d.id)} leading={<TeamDriverPortrait teamId={d.teamId} size={50}/>}/>)}</View>

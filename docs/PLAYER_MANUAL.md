@@ -171,3 +171,11 @@ Use **HQ** to return to the working headquarters. Tap workers or departments for
 The tested save format preserves driver details, contracts and scouting information, including
 older-format migration. A player-facing save/load screen and durable device storage do not exist
 yet. Closing or reloading the prototype should not be treated as saving a career.
+
+## Appearance
+
+The default presentation uses warm light content inside a dark racing shell. Use **DARK** in the
+top-right corner for dark content, and **LIGHT** to switch back. Web remembers this preference
+locally when browser storage is available. This remembers appearance only: it does not save your
+campaign. Switching themes preserves the current session; native persistent appearance settings
+are not implemented yet. Team colors stay the same in both modes.

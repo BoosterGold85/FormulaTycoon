@@ -1,5 +1,6 @@
 import React from 'react';
 import {View,type ViewStyle} from 'react-native';
+import {useTheme} from '../theme';
 import {portraitColorsForTeam,resolvePortraitColors,type PortraitColors} from './portraitPalette';
 
 /** One team-neutral shoulders-up template. All dimensions scale from the same 100×112 drawing. */
@@ -45,5 +46,6 @@ export function DriverPortrait({primary,secondary,accent,background,size=100}:Po
 
 /** Current employment → canonical palette. This wrapper has no visual state or memoized identity. */
 export function TeamDriverPortrait({teamId,size=100}:{teamId:string|null;size?:number}) {
- return <DriverPortrait {...portraitColorsForTeam(teamId)} size={size}/>;
+ const {theme}=useTheme();
+ return <DriverPortrait {...portraitColorsForTeam(teamId)} background={theme.artBackground} size={size}/>;
 }

@@ -7,6 +7,7 @@ fs.mkdirSync(root,{recursive:true});
  const browser=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});
  try{
  const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
+ if(process.env.FORMULA_THEME==='dark')await page.addInitScript(()=>localStorage.setItem('formula-tycoon.theme','dark'));
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const must=async(text)=>page.getByText(text,{exact:true}).waitFor();
  const body=()=>page.locator('body').innerText();

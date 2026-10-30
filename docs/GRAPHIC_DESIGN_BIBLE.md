@@ -22,6 +22,50 @@ symbolic; it is not claimed to match that reference's fidelity. Do not introduce
 Avoid giant stat panels, nested rounded cards, tiny text, excessive sponsor detail, visual noise,
 one-off art languages, elaborate gradients and duplicate baked assets when recoloring suffices.
 
+## Default theme: dark racing shell, warm light canvas
+
+Owner-approved permanent direction, October 30, 2026:
+**DARK RACING SHELL + WARM LIGHT CONTENT CANVAS + STRONG ACCENT COLORS.**
+
+Light is the default when no valid local preference exists. Keep dark navy top navigation and
+wide-screen side navigation, Formula Tycoon branding and strong red primary interactions.
+Mobile uses the same dark shell with bottom navigation. Main management content uses warm cream /
+off-white canvas, soft cream cards, dark navy text, subtle neutral borders and soft shadows.
+Avoid stark white everywhere and generic business-software styling. The supplied Drivers/Race
+concept establishes this surface/shell direction; it does not authorize unimplemented navigation,
+new gameplay or an art-production milestone.
+
+One shared theme contract lives in `ui/design/tokens.ts`; `ui/theme.tsx` owns presentation selection.
+Semantic tokens include background, surface, surfaceElevated, textPrimary, textSecondary, border,
+accent, accentMuted, success, warning, danger, navBackground, navText and shadow. Existing short
+names alias these values rather than authoring a second palette. Components consume runtime tokens
+through shared hooks/style factories. No duplicated LightScreen/DarkScreen implementations and
+no screen-specific cream/red/navy palette tables.
+
+This applies to Drivers/dossier, Race/calendar/event detail, Team/car/development/organization,
+History and all future Staff, Standings, Finances, Settings, facility and race-weekend management
+surfaces. Future systems remain unimplemented; do not create fake screens to demonstrate a theme.
+HQ retains its physical illustrated world and environmental materials. Navigation and overlays
+follow the active theme; never flatten the world into a light dashboard.
+
+Dark mode is a real alternate palette of the SAME layout, hierarchy, artwork and interactions.
+The top-right DARK/LIGHT action changes presentation without remounting the campaign. Web stores
+only the appearance preference under `formula-tycoon.theme`, outside gameplay saves. Valid local
+dark selection wins over the default; invalid or denied storage falls back safely to light.
+When storage is denied, selection still works for the mounted session. Native persistent preference
+storage is not implemented; native uses light by default and session-local selection.
+
+Canonical team palettes remain identical in both themes. Portrait backing/grounding may use
+neutral theme art tokens; do not surround every illustration with a dark rectangle. A text-only
+contrast correction may move team-colored labels toward the active theme's readable text color,
+without changing canonical palettes, helmets, suits, cars or team IDs. Intrinsic materials such
+as dark tyres, visor charcoal, workshop hardware and trophy gold are independent of UI status ink.
+
+Validate both themes at390×844 and1440×1000: text, grades, form/status, contracts, scouting ranges,
+car fit, Sprint/weekend markers, navigation selection, buttons/disclosures and artwork. Semantic
+text/button/status pairs and team labels target at least4.5:1 contrast on their rendered surfaces.
+Contrast checks and browser screenshots do not establish native accessibility/performance compliance.
+
 ## Interaction and information hierarchy
 
 **GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT.**
@@ -40,7 +84,8 @@ must not carry essential meaning: pair it with readable names, labels and silhou
 ## Shared rendering language
 
 - UI: existing shared tokens/components under `src/ui/design`; open typography/dividers, focused
-  hero objects and purposeful emphasis. Keep dark HQ-inspired surfaces and legible warm text.
+  hero objects and purposeful emphasis. Default to a dark racing shell surrounding warm light
+  management surfaces; dark mode uses the same components with alternate semantic tokens.
 - People: miniature workers in the HQ; anonymous helmeted shoulders-up portraits in personnel UI.
   Roles use poses, silhouette, restrained accessories and readable articulated limbs. No detailed anatomy.
 - Cars: original open-wheel silhouette, broad livery regions, dark tyres/visor and restrained highlights.

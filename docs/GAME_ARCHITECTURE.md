@@ -399,3 +399,18 @@ teamId to the generic `DriverPortrait`, which receives colors only. Roster, doss
 one scalable React Native View-shape template. No new authoritative state, per-driver art data,
 cache, generation framework, dependency, migration or simulation rule is introduced. Employment
 changes recolor on the next render; affiliations/familiarity never determine a portrait's team.
+
+## Shared theme presentation owner
+
+`ThemeProvider` wraps the app, without a theme-keyed remount of `useGameUniverse`. It owns only
+light/dark selection; one unchanged app-lifetime campaign remains below it. `design/tokens`
+provides semantic palettes and compatibility aliases, `useTheme`/`useDesign` supply runtime values
+and styles. Screens/art/overlays use the same components in both modes. Web preference storage is
+separate from save envelopes; no gameplay persistence or migration changes. Denied storage falls
+back to session-local selection; native durable preference storage is not implemented.
+
+The shared GameHud is the dark top shell for all tabs. The same navigation model renders a side
+rail on wide screens and a bottom strip on phones. HQ environment geometry/materials remain
+independent; its controls/cards follow the selected theme. Theme-specific backgrounds/grounding
+never alter canonical team palettes or displayed gameplay facts. Team text contrast correction is
+presentation only. See the Graphic Design Bible for the owner-approved default light direction.
