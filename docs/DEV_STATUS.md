@@ -3,12 +3,15 @@
 ## Milestone
 
 **Milestone C — implementation and externally verified research gate COMPLETE.**
-**READY FOR POST-C AUDIT. Do not merge or begin qualifying.**
+**POST-C AUDIT: READY TO MERGE WITH DEBT. No blockers/high findings.**
+This recommendation does not authorize a merge or qualifying work.
 
 Branch: feature/milestone-c-track-performance. Implementation34e486a and research-blocked record
 46e1e47 are both preserved. Main remains C0.1 at36e7df0. Worker-art1cfb07d remains separate.
-The owner now authorizes accepting the external research handoff, justified corrections,
-validation, a review commit and normal feature-branch push for Cloudflare testing only.
+Post-C audit target: 1290bb3e8485a441477a495cc4443f56e9e36edf. Actual source, persistence, data,
+tests and browser behavior were reviewed independently of the handoff claims. The separate audit
+documentation commit is local/unpushed; no production code, data, tests, dependencies or rules
+were changed. Full findings: [POST-C-AUDIT](development-notes/POST-C-AUDIT.md).
 
 ## EXTERNAL RESEARCH HANDOFF
 
@@ -51,9 +54,9 @@ accepted external evidence. Confidence supports supplied facts, not every author
 
 ## IN PROGRESS
 
-No remaining implementation work. The owner-authorized normal feature-branch push triggers
-Cloudflare; its final build status is reported in the delivery with artifact evidence. No Milestone D work.
-No dependency install, PR or merge is part of this task.
+Audit complete. Await owner merge decision; no Milestone D work is in progress. Two MEDIUM
+integration gates (C-M1/C-M2) and three LOW items are scheduled below. No immediate production fix
+was required under the audit policy. No branch push, PR, merge or installation was performed.
 
 ## TESTED
 
@@ -75,6 +78,25 @@ No dependency install, PR or merge is part of this task.
 - `git diff --check` PASS. No packages/lockfiles changed. Existing npm/color notices nonblocking.
   Artifacts: `/workspace/artifacts/milestone-c-complete/`.
 
+## POST-C AUDIT EVIDENCE
+
+- Fresh execution on 1290bb3:317 tests/14 suites, TypeScript and web export PASS. Local390×844
+  browser PASS across9 circuit details and existing HQ/NewDay/cards/Drivers/Team/scouting flows;
+  zero page errors/horizontal overflow. No failing or skipped required tests.
+- Seven independent public-API probe groups PASS: both content IDs, all eight fitted part areas,
+  pending/READY exclusion, name/driver/form independence, no Math.random, mutation protection,
+  field/upgrade contrasts, public numeric-disclosure exclusion and save continuation.
+- All11 historical hashes independently match original Git objects (e6a479c/36e7df0/34e486a),
+  rather than relying solely on the earlier artifact hash list. V2 also remains hash-pinned.
+- Cubic sensitivity sweep: maximum one-axis share25.94%; demands≥.4 retain at least1.166% share.
+  A single demand±.05 changes actual starting-car scores by at most.60082 points in the sampled
+  canonical field. No current instability or reason to retune was found.
+- Cloudflare build check for1290bb3 succeeded. No confirmed live-preview URL was exposed; a
+  derived candidate hostname was denied by the proxy with CONNECT403. Remote runtime NOT RUN,
+  not an application failure or an architecture-review blocker.
+- Evidence/logs/screenshots: `/workspace/artifacts/post-c-audit/`. No native/device/long-career
+  guarantee is inferred from these checks. The audit report records coverage gaps explicitly.
+
 ## NOT VERIFIED
 
 - Direct Codex retrieval of underlying technical pages; source/article-level bibliography beyond
@@ -86,6 +108,15 @@ No dependency install, PR or merge is part of this task.
 - Qualifying/races/strategy/weather/incidents/results/finances/offseason/future calendars: not built.
 
 ## KNOWN ISSUES
+
+- C-M1: define the future consume-once performance/context contract before D; do not add derived
+  car/track fit as a second bonus to already weighted car traits, reapply packages/heat, or treat
+  correlated proxies/mixed reliability suitability as independent lap-speed gains.
+- C-M2: old development fitting and dated event progression are deliberately separate. The first
+  old fitting event is BHR/week10 (2026-05-11) while playable Melbourne starts2026-03-06. Choose a
+  versioned integration/processing policy before D event advancement; do not rewrite old histories.
+- Low audit items: catalog/ID/season authoring invariants, a specialist-test title/assertion gap,
+  direct pending/all-part regression coverage, and a stale research-awaiting GAME_LOOP paragraph.
 
 - Existing24-event weekly development/introduction fixture remains internal compatibility truth;
   actual race-date fitting integration needs a later deliberate migration/balance decision.
@@ -113,6 +144,11 @@ No dependency install, PR or merge is part of this task.
 | M7 | Deferred: history growth/archive by G |
 | M8 | Deferred: originality/source rights before public/commercial release |
 | C research | COMPLETE through accepted external handoff; exact bibliography/late previews can refine later |
+| C-M1 | MEDIUM: consume-once/context/units and pace-vs-hazard contract before first D lap consumer |
+| C-M2 | MEDIUM: dated advancement/fitting compatibility before D event advance; version identity on session records |
+| C-L1 | LOW: catalog/registration/ID-year invariants before next revision or new season |
+| C-L2 | LOW: reversal/pending/all-part test assertions before next vector/performance change |
+| C-L3 | LOW: update stale current GAME_LOOP research paragraph at next handoff, before D |
 | C integration | Weekly fitting vs dated race weekends deliberately separate; future explicit policy |
 
 L1–L10, durable storage/recovery, closed driver schema, balance and device profiling remain carried
@@ -120,5 +156,6 @@ work. Do not edit released IDs or saved decision dates. No unrelated cleanup spr
 
 ## NEXT MILESTONE
 
-**READY FOR POST-C AUDIT.** Wait for audit/owner review before merging C or beginning D.
-Qualifying has NOT started. Main and the graphics workstream remain unchanged.
+**READY TO MERGE WITH DEBT.** Audit found no BLOCKER/HIGH defect. Await owner approval to merge;
+complete C-M1/C-M2 before their qualifying/event integration gates. Qualifying has NOT started.
+Main remains36e7df0 and the graphics workstream remains separate/unmerged.
