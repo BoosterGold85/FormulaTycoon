@@ -2,8 +2,9 @@ import {DEFAULT_CALENDAR_ID,calendarById} from '../../game/calendar';
 import {createDriverWorld,refreshDriverStatuses} from '../drivers';
 import {advanceDevelopmentWeek,createDevelopmentWorld,startNextSeason} from '../development';
 import {advanceHeadquarters,createHeadquartersState} from '../headquarters';
-import {NEW_CAREER_DATE,addCampaignDays,compareCampaignDates,campaignContext,legacyWeekDate,nextCampaignDate,seasonStart,type CampaignDate} from '../campaignTime';
+import {NEW_CAREER_DATE,addCampaignDays,campaignContext,legacyWeekDate,nextCampaignDate,seasonStart,type CampaignDate} from '../campaignTime';
 import {developmentState,developmentView} from '../campaignTime/developmentView';
+import {dueCampaignEvents} from './campaignEvents';
 import type {GameDefinition,GameUniverse} from './types';
 export * from './types';
 
@@ -31,7 +32,7 @@ export function restartUniverseHeadquarters(universe:GameUniverse,definition:Gam
 }
 
 type SeasonTransition={standings:string[];regulationReset?:boolean};
-/** The only advancement path. Ordered interval processing is the future scheduler integration point. */
+/** The only campaign advancement path. Every command consumes the same ordered due-work pipeline. */
 function advanceTo(universe:GameUniverse,definition:GameDefinition,target:CampaignDate,transition?:SeasonTransition):GameUniverse {
  assertDefinition(universe,definition);nextCampaignDate(universe.currentDate,target);
  if(target===universe.currentDate)return universe;
@@ -39,17 +40,30 @@ function advanceTo(universe:GameUniverse,definition:GameDefinition,target:Campai
  if(end.season!==old.season&&!transition)throw new Error('Season boundary requires explicit standings transition');
  if(end.season>old.season+1)throw new Error('Process season boundaries individually');
  let current=universe;
- // Existing weekly work and daily option/expiry checks are processed in order. Future dated
- // events join this interval boundary; a jump must never simply replace currentDate.
- for(let date=addCampaignDays(current.currentDate,1);compareCampaignDates(date,target)<=0;date=addCampaignDays(date,1)){
-  const before=campaignContext(current.currentDate),after=campaignContext(date);
-  let development=current.development;
-  if(after.season!==before.season){
-   development=developmentState(startNextSeason(developmentView(development,current.currentDate),definition.development,transition!.standings,{regulationReset:transition!.regulationReset}));
-  }else if(after.week!==before.week){
-   development=developmentState(advanceDevelopmentWeek(developmentView(development,current.currentDate),definition.development));
+ // Discover work again from the latest state on every entered date. A future handler that
+ // schedules later work must not be hidden behind an interval plan frozen before the jump.
+ for(let date=addCampaignDays(current.currentDate,1);;date=addCampaignDays(date,1)){
+  for(const event of dueCampaignEvents(current,date)){
+   // The previous day's temporal view is the ONE bridge into the compatibility kernel,
+   // even if another instruction shares this event's date. Never derive a second clock.
+   switch(event.kind){
+    case 'SEASON_TRANSITION':
+     current={...current,development:developmentState(startNextSeason(developmentView(current.development,addCampaignDays(event.date,-1)),definition.development,transition!.standings,{regulationReset:transition!.regulationReset}))};
+     break;
+    case 'DEVELOPMENT_WEEK':
+     current={...current,development:developmentState(advanceDevelopmentWeek(developmentView(current.development,addCampaignDays(event.date,-1)),definition.development))};
+     break;
+    case 'CONTRACT_STATUS_CHECK':
+     if(current.drivers)current={...current,drivers:refreshDriverStatuses(current.drivers,event.date)};
+     break;
+    default: {
+     const unhandled:never=event.kind;
+     throw new Error(`Unhandled campaign event: ${unhandled}`);
+    }
+   }
+   current={...current,currentDate:event.date};
   }
-  current={...current,currentDate:date,development,...(current.drivers?{drivers:refreshDriverStatuses(current.drivers,date)}:{})};
+  current={...current,currentDate:date};
   if(date===target)break;
  }
  return current;

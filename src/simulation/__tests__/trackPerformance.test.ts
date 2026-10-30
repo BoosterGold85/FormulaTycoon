@@ -109,6 +109,7 @@ test.each(['straightLine','highSpeed','mechanicalGrip'] as TechnicalAxis[])('con
  const target=axis==='straightLine'?'monza':axis==='highSpeed'?'suzuka':'monaco';
  const other=axis==='mechanicalGrip'?'monza':'monaco';
  expect(evaluateCarAtTrack(specialist,track(target)).score).toBeGreaterThan(evaluateCarAtTrack(base,track(target)).score);
+ expect(evaluateCarAtTrack(specialist,track(other)).score).toBeLessThan(evaluateCarAtTrack(base,track(other)).score);
  expect(evaluateCarAtTrack(specialist,track(target)).score-evaluateCarAtTrack(base,track(target)).score)
   .toBeGreaterThan(evaluateCarAtTrack(specialist,track(other)).score-evaluateCarAtTrack(base,track(other)).score);
 });
