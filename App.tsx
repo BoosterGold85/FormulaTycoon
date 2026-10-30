@@ -7,6 +7,8 @@ import {HeadquartersScreen} from './src/ui/HeadquartersScreen';
 import {selectNextEvent} from './src/simulation/calendar';
 import {CalendarScreen} from './src/ui/CalendarScreen';
 import {DriversScreen} from './src/ui/DriversScreen';
+import {TeamScreen} from './src/ui/TeamScreen';
+import {HistoryScreen} from './src/ui/HistoryScreen';
 
 export default function App() {
  const session=useGameUniverse(DEFAULT_GAME_DEFINITION);
@@ -16,6 +18,8 @@ export default function App() {
      <HeadquartersScreen nextEvent={selectNextEvent(session.universe)} currentDate={session.universe.currentDate} state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
    </View>
    {tab==='RACE'?<CalendarScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={setTab}/>:null}
-   {(tab==='TEAM'||tab==='DRIVERS')&&session.universe.drivers&&session.universe.playerTeamId?<DriversScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} world={session.universe.drivers} observer={session.universe.playerTeamId} tab={tab} onNavigate={setTab} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
+   {tab==='DRIVERS'&&session.universe.drivers&&session.universe.playerTeamId?<DriversScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} world={session.universe.drivers} observer={session.universe.playerTeamId} onNavigate={setTab} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
+   {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={setTab} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
+   {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
  </View>;
 }

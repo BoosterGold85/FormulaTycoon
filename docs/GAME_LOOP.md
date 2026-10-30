@@ -3,8 +3,8 @@
 ## What can be played now
 
 Open HQ -> watch eight staff arrive -> inspect workers/departments -> NEW DAY replays arrivals.
-HQ cards work. DRIVERS opens grid/details/prospects/reserves; TEAM compares the Wellington pairing.
-RACE opens the calendar/circuit briefings; HISTORY remains a placeholder. The HQ HUD shows
+HQ cards work. DRIVERS opens the player's pairing and compact market; TEAM opens the organization overview.
+RACE opens the month calendar/circuit briefings; HISTORY has a polished future-records empty state. The HQ HUD shows
 the date-backed next event; its team-name placeholder is still display-only.
 Development can run headlessly, but there is no player development UI or campaign-time button.
 Milestone A adds no new player-facing loop, travel, qualifying, drivers or racing.
@@ -108,3 +108,13 @@ every due instruction in `(old date, target date]` in date/priority/ID order, th
 precedes contract status checks on the same date. The released weekly fitting cadence remains
 unchanged for both calendar revisions; advancing to a displayed weekend does not imply fitting
 there or generate session results. See development-notes/MILESTONE-D0.md before designing qualifying.
+
+## UI / Visual Experience V1
+
+GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT. First-level views answer a player question;
+full management/analytical detail sits behind taps. Open DRIVERS → your pairing → a dossier →
+contract or scouting detail. Open RACE → next weekend/month grid → weekend → More details.
+Open TEAM → contextual car, drivers, development and headquarters → the relevant detail.
+All existing report/option actions remain domain commands. Month browsing never advances time.
+Worker proportions/poses are cosmetic; NEW DAY still replays HQ arrivals only. No qualifying,
+race sessions or new management actions were introduced. Visual review precedes further expansion.

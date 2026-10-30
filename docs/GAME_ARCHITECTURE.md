@@ -361,3 +361,30 @@ external schema stays v5/checkpoint v3 with unchanged historical contracts/fixtu
 persisted sessions/results require their own completion identity including calendarId/event ID,
 validation/migration and exactly-once consequences. Current date-only COMPLETED is not that state.
 Detailed ownership, evidence and limitations: [MILESTONE-D0](development-notes/MILESTONE-D0.md).
+
+## UI / Visual Experience V1
+
+The interaction hierarchy is GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT. First-level views
+show decision information, second-level views management detail, and deeper disclosures analysis.
+`ui/design` owns presentation tokens, icons, screen/section headers, cards, compact rows, chips,
+grade badges, actions, disclosures and empty states. `ui/art` contains original illustrative
+helmet/car/garage/trophy/circuit motifs; none contributes gameplay data or measured geometry.
+
+App retains the same single universe owner and mounted HQ. TEAM, DRIVERS, RACE and HISTORY
+display separate views below it. DriverProfile is shared between the roster and team dashboard;
+it still requests selectDriverCarFit and preserves contract/scouting commands. Screen-local state
+is selection, disclosure expansion, filters and browsed month only, never career progression.
+
+Two new read-only projections compose existing owners: calendar/monthView positions actual dates,
+cross-month weekends and existing event statuses; managementViews groups disclosed drivers and
+reads next-circuit fit, actual project stage progress, fitted specs and visible HQ staff. Neither
+changes simulation rules or persists a new value. Project progress is explicitly the CURRENT
+stage, not a whole-project estimate or a new completion forecast. Race illustration coordinates
+are unrelated to technical profiles; qualitative priority sorting controls presentation only.
+
+Roster summaries show Talent/form/contract horizon; dossiers hold six grades and deeper terms.
+RACE uses a Monday-first month grid and next-event card, with high-level event detail before
+full demands/rationale. TEAM has contextual car, drivers, real development and HQ detail. HISTORY
+is an honest future-records empty state. Five cosmetic worker files were selectively ported from
+1cfb07d; no branch merge, HQ engine, route, assignment or work cadence changes. Schema stays v5.
+Qualifying is paused for visual review. See development-notes/UI-VISUAL-EXPERIENCE-V1.md.

@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { NAV_TABS, type NavTab } from '../../game/hudPlaceholders';
 import { theme } from '../theme';
+import {Icon} from '../design/Icon';
 
 type Props = {
   active: NavTab;
@@ -19,9 +20,10 @@ export function BottomNav({ active, onSelect }: Props) {
             style={[styles.item, isActive && styles.itemActive]}
             onPress={() => onSelect(tab.id, tab.available)}
             accessibilityRole="tab"
+            accessibilityLabel={tab.label}
             accessibilityState={{ selected: isActive, disabled: !tab.available }}
           >
-            <View style={[styles.icon, isActive && styles.iconActive, !tab.available && styles.iconLocked]} />
+            <Icon name={tab.id} size={19} color={isActive?'#83BCF0':'#91A7BB'}/>
             <Text style={[styles.label, isActive && styles.labelActive, !tab.available && styles.labelLocked]}>
               {tab.label}
             </Text>
@@ -46,7 +48,8 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 4
+    paddingVertical: 7,
+    minHeight: 54
   },
   itemActive: {
     backgroundColor: '#192333',

@@ -1,77 +1,61 @@
-import React,{useEffect,useRef,useState} from 'react';
-import {SafeAreaView,ScrollView,View,Text,Pressable,StyleSheet} from 'react-native';
+import React,{useState} from 'react';
+import {View,Text,Pressable} from 'react-native';
 import {calendarById} from '../game/calendar';
 import type {NavTab} from '../game/hudPlaceholders';
 import type {GameUniverse,GameDefinition} from '../simulation/universe';
 import {formatCampaignDate} from '../simulation/campaignTime';
-import {calendarEventViews} from '../simulation/calendar';
+import {calendarWindow} from '../simulation/calendar';
+import {selectCalendarMonth} from '../simulation/calendar/monthView';
 import {selectEventDetail} from '../simulation/calendar/eventDetail';
-import {BottomNav} from './components/BottomNav';
-import {theme} from './theme';
+import {Action,Card,Chip,Disclosure,EmptyState,Screen,Section,styles,ui} from './design/system';
+import {CircuitArt} from './art/CircuitArt';
 
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 type Props={universe:GameUniverse;definition:GameDefinition;onNavigate:(tab:NavTab)=>void};
-/** Calendar browsing/technical disclosure only. No results, advance command or race prediction. */
-export function CalendarScreen({universe,definition,onNavigate}:Props) {
- const [selected,setSelected]=useState<string|null>(null),[notice,setNotice]=useState('');
- const scroll=useRef<ScrollView>(null);
- const calendar=calendarById(universe.calendarId),events=calendarEventViews(calendar,universe.currentDate);
- const detail=selected?selectEventDetail(universe,definition,selected):null;
- useEffect(()=>{scroll.current?.scrollTo({y:0,animated:false});},[selected]);
- return <SafeAreaView style={s.safe}>
-  <View style={s.header}>
-   <Text style={s.kicker}>FORMULA TYCOON / {calendar.season}</Text>
-   <Text accessibilityRole="header" style={s.title}>{detail?'Circuit briefing':'Calendar'}</Text>
-   <Text style={s.subtitle}>{formatCampaignDate(universe.currentDate)} · {events.length} rounds · {events.filter(e=>e.sprint).length} Sprint weekends</Text>
-  </View>
-  {notice?<Text accessibilityRole="alert" style={s.body}>{notice}</Text>:null}
-  <ScrollView ref={scroll} style={{flex:1}} contentContainerStyle={s.content}>
-   {detail?<>
-    <Pressable accessibilityRole="button" accessibilityLabel="Back to calendar" onPress={()=>setSelected(null)} style={s.back}><Text style={s.link}>← BACK TO CALENDAR</Text></Pressable>
-    <View style={s.card}>
-     <Text style={s.kicker}>ROUND {detail.round} · {detail.country}</Text>
-     <Text accessibilityRole="header" style={s.venue}>{detail.venue}</Text>
-     <Text style={s.body}>{detail.dates}{detail.sprint?' · SPRINT':''}</Text>
-     <Text style={s.meta}>{detail.type.charAt(0)+detail.type.slice(1).toLowerCase()} circuit · {detail.status}</Text>
-     <Text style={s.body}>{detail.rationale}</Text>
-     {detail.provisional?<Text style={s.warning}>Provisional profile · new circuit; technical balance is subject to review.</Text>:null}
-    </View>
-    <View style={s.card}>
-     <Text style={s.kicker}>TRACK CHARACTER</Text>
-     <View style={s.demands}>{detail.demands.map(d=><View key={d.axis} style={s.demand}><Text style={s.meta}>{d.label}</Text><Text style={s.level}>{d.level}</Text></View>)}</View>
-    </View>
-    <View style={s.card}>
-     <Text style={s.kicker}>{detail.playerTeam??'NO PLAYER TEAM'}</Text>
-     <Text accessibilityRole="header" style={s.fit}>CAR FIT — {detail.fit?.label??'UNAVAILABLE'}</Text>
-     <Text style={s.meta}>Technical suitability only. Driver, weather and strategy effects are not included.</Text>
-     <Text style={s.section}>STRENGTHS</Text>
-     <Text style={s.body}>{detail.fit?.strengths.length?detail.fit.strengths.join(' · '):'No standout strength against these demands yet.'}</Text>
-     <Text style={s.section}>CONCERNS</Text>
-     <Text style={s.body}>{detail.fit?.concerns.length?detail.fit.concerns.join(' · '):'No major technical shortfall at this level.'}</Text>
-    </View>
-   </>:<>
-    <Text style={s.meta}>Explore the circuits and how your fitted car suits each one. Sprint markers identify the shorter-format weekends; sessions are not simulated yet.</Text>
-    {events.map(e=><Pressable key={e.id} accessibilityRole="button" accessibilityLabel={`Open ${e.venue} event`} onPress={()=>setSelected(e.id)} style={[s.card,e.next&&s.nextCard]}>
-     <View style={s.topline}><Text style={s.kicker}>ROUND {String(e.round).padStart(2,'0')}</Text>{e.next?<Text style={s.next}>NEXT EVENT</Text>:null}{e.sprint?<Text style={s.sprint}>SPRINT</Text>:null}</View>
-     <Text style={s.venue}>{e.venue}</Text><Text style={s.meta}>{e.country}</Text>
-     <Text style={s.body}>{e.dates}</Text><Text style={s.status}>{e.status}</Text>
-    </Pressable>)}
-   </>}
-   <Text style={s.footnote}>Completed means the calendar date has passed. No race results or finishing predictions are generated.</Text>
-  </ScrollView>
-  <BottomNav active="RACE" onSelect={(tab,available)=>available?onNavigate(tab):setNotice(`${tab} · Coming soon`)}/>
- </SafeAreaView>;
+export function CalendarScreen({universe,definition,onNavigate}:Props){
+ const calendar=calendarById(universe.calendarId),window=calendarWindow(calendar,universe.currentDate);
+ const [month,setMonth]=useState(Number((window.next?.weekendStartDate??universe.currentDate).slice(5,7))),[selected,setSelected]=useState<string|null>(null);
+ const model=selectCalendarMonth(universe,month),detail=selected?selectEventDetail(universe,definition,selected):null;
+ const next=window.next?selectEventDetail(universe,definition,window.next.id):null;
+ return <Screen key={selected??'calendar'} title={detail?'Race weekend':'Race calendar'} kicker={`THE SEASON / ${calendar.season}`} subtitle={formatCampaignDate(universe.currentDate)} tab="RACE" onNavigate={onNavigate}>
+  {detail?<>
+   <Action label="Back to calendar" onPress={()=>setSelected(null)} secondary/>
+   <Card accent={ui.gold}>
+    <View style={styles.between}><Text style={styles.eyebrow}>ROUND {String(detail.round).padStart(2,'0')} · {detail.country}</Text>{detail.sprint?<Chip text="SPRINT" tone="red"/>:null}</View>
+    <Text accessibilityRole="header" style={[styles.title,{fontSize:36}]}>{detail.venue}</Text>
+    <Text style={styles.body}>{detail.dates}</Text>
+    <CircuitArt trackId={calendar.events.find(e=>e.id===detail.id)!.trackId} height={118}/>
+    <View style={styles.between}><Chip text={`${detail.type.charAt(0)+detail.type.slice(1).toLowerCase()} circuit`}/><Text style={styles.muted}>{detail.status}</Text></View>
+   </Card>
+   <Section title="What matters here"/>
+   <View style={{flexDirection:'row',flexWrap:'wrap',gap:8}}>{detail.demands.filter(d=>d.level==='VERY HIGH'||d.level==='HIGH').sort((a,b)=>Number(b.level==='VERY HIGH')-Number(a.level==='VERY HIGH')).slice(0,4).map(d=><View key={d.axis} style={{flexBasis:'47%',flexGrow:1,padding:12,borderRadius:10,backgroundColor:ui.raised,gap:5}}><Text style={styles.muted}>{d.label}</Text><Text style={{color:ui.gold,fontSize:12,fontWeight:'800'}}>{d.level}</Text></View>)}</View>
+   <Card accent={ui.accent}>
+    <Text style={styles.eyebrow}>{detail.playerTeam??'NO PLAYER TEAM'}</Text><Text accessibilityRole="header" style={[styles.heading,{color:ui.green}]}>CAR FIT — {detail.fit?.label??'UNAVAILABLE'}</Text>
+    <View style={{flexDirection:'row',gap:16}}><View style={{flex:1,gap:5}}><Text style={styles.eyebrow}>STRENGTHS</Text><Text style={styles.body}>{detail.fit?.strengths.length?detail.fit.strengths.join('\n'):'No standout strength yet'}</Text></View><View style={{flex:1,gap:5}}><Text style={styles.eyebrow}>CONCERNS</Text><Text style={styles.body}>{detail.fit?.concerns.length?detail.fit.concerns.join('\n'):'No major shortfall'}</Text></View></View>
+    <Text style={styles.muted}>Technical suitability. Not a finishing prediction.</Text>
+   </Card>
+   <Disclosure title="More details">
+    <Text style={styles.eyebrow}>TRACK CHARACTER</Text><Text style={styles.body}>{detail.rationale}</Text>
+    {detail.provisional?<Text style={{color:ui.gold,fontSize:13}}>Provisional profile · new circuit; technical balance is subject to review.</Text>:null}
+    {detail.demands.map(d=><View key={d.axis} style={styles.between}><Text style={[styles.muted,{flex:1}]}>{d.label}</Text><Text style={[styles.body,{fontWeight:'700'}]}>{d.level}</Text></View>)}
+    <Text style={styles.muted}>Driver, weather and strategy effects are not included. Illustration is stylized, not to scale.</Text>
+   </Disclosure>
+   <Text style={styles.muted}>Weekend sessions and results are not available yet.</Text>
+  </>:<>
+   {next?<Card accent={ui.gold} style={{backgroundColor:'#192C3F'}}>
+    <View style={styles.between}><Text style={[styles.eyebrow,{color:ui.gold}]}>NEXT RACE · ROUND {next.round}</Text><Chip text={window.current?'THIS WEEKEND':`${window.daysUntil} DAYS`} tone="gold"/></View>
+    <View style={styles.between}><View style={{flex:1,gap:6}}><Text accessibilityRole="header" style={[styles.title,{fontSize:32}]}>{next.venue}</Text><Text style={styles.muted}>{next.dates}</Text><Text style={{fontSize:12,fontWeight:'800',color:ui.green}}>CAR FIT · {next.fit?.label??'UNAVAILABLE'}</Text></View><CircuitArt trackId={window.next!.trackId} height={80} width={85}/></View>
+    <Action label="View weekend" onPress={()=>setSelected(next.id)}/>
+   </Card>:<EmptyState title="Season dates finished" text="Browse this season's circuits. Race results have not been generated."/>}
+   <Card style={{padding:12,gap:8}}>
+    <View style={styles.between}><Pressable accessibilityRole="button" accessibilityLabel="Previous month" accessibilityState={{disabled:month===1}} disabled={month===1} onPress={()=>setMonth(month-1)} style={{width:44,height:44,alignItems:'center',justifyContent:'center',opacity:month===1?.3:1}}><Text style={{color:ui.accent,fontSize:25}}>‹</Text></Pressable><Text accessibilityRole="header" style={[styles.heading,{fontSize:19}]}>{MONTHS[month-1]} {model.season}</Text><Pressable accessibilityRole="button" accessibilityLabel="Next month" accessibilityState={{disabled:month===12}} disabled={month===12} onPress={()=>setMonth(month+1)} style={{width:44,height:44,alignItems:'center',justifyContent:'center',opacity:month===12?.3:1}}><Text style={{color:ui.accent,fontSize:25}}>›</Text></Pressable></View>
+    <View style={{flexDirection:'row'}}>{['M','T','W','T','F','S','S'].map((d,i)=><Text key={i} style={{width:'14.285714%',textAlign:'center',fontSize:10,fontWeight:'800',color:ui.muted,paddingBottom:5}}>{d}</Text>)}</View>
+    <View style={{flexDirection:'row',flexWrap:'wrap'}}>{model.cells.map((cell,index)=><View key={index} style={{width:'14.285714%',height:46,paddingHorizontal:1,paddingVertical:1}}>{cell?<Pressable accessibilityRole={cell.event?'button':undefined} accessibilityLabel={`${cell.date}${cell.current?', current date':''}${cell.event?`, ${cell.event.venue}, ${cell.event.status}`:''}`} disabled={!cell.event} onPress={()=>cell.event&&setSelected(cell.event.id)} style={{flex:1,borderRadius:7,alignItems:'center',justifyContent:'center',borderWidth:cell.current?1:0,borderColor:ui.gold,backgroundColor:cell.event?(cell.event.status==='COMPLETED'?'#29333D':cell.event.next?'#396485':'#263E52'):'transparent'}}><Text style={{fontSize:14,fontWeight:cell.event||cell.current?'900':'500',color:cell.current?ui.gold:cell.event?.status==='COMPLETED'?ui.muted:ui.ink}}>{cell.day}</Text>{cell.event?<View style={{height:3,width:cell.event.sprint?13:5,borderRadius:2,backgroundColor:cell.event.sprint?ui.red:ui.accent,marginTop:2}}/>:null}</Pressable>:null}</View>)}</View>
+    <View style={[styles.row,{justifyContent:'center',gap:16}]}><Text style={[styles.muted,{fontSize:10}]}>◌ TODAY</Text><Text style={[styles.muted,{fontSize:10,color:ui.accent}]}>● WEEKEND</Text><Text style={[styles.muted,{fontSize:10,color:ui.red}]}>━ SPRINT</Text></View>
+   </Card>
+   <Section title="This month" meta={`${model.events.length} weekends`}/>
+   {model.events.length?model.events.map(e=><Pressable key={e.id} accessibilityRole="button" accessibilityLabel={`Open ${e.venue} event`} onPress={()=>setSelected(e.id)} style={{paddingVertical:12,paddingHorizontal:14,backgroundColor:ui.panel,borderRadius:10,borderLeftWidth:3,borderLeftColor:e.next?ui.gold:ui.line,gap:5}}><View style={styles.between}><Text style={[styles.heading,{fontSize:17}]}>{e.venue}</Text>{e.sprint?<Chip text="SPRINT" tone="red"/>:<Text style={styles.muted}>R{e.round} →</Text>}</View><Text style={styles.muted}>{e.dates} · {e.status}</Text></Pressable>):<Text style={styles.muted}>No race weekends scheduled this month.</Text>}
+   <Text style={styles.muted}>{calendar.events.length} rounds · {calendar.events.filter(e=>e.sprint).length} Sprint weekends. Passed dates do not create results.</Text>
+  </>}
+ </Screen>;
 }
-const s=StyleSheet.create({
- safe:{flex:1,backgroundColor:theme.background},header:{padding:18,borderBottomWidth:1,borderColor:theme.panelBorder},
- kicker:{fontSize:10,fontWeight:'800',letterSpacing:1,color:'#A2B5C9',textTransform:'uppercase'},
- title:{fontSize:27,fontWeight:'900',color:theme.text,marginTop:5},subtitle:{fontSize:12,color:'#A2B5C9',marginTop:6},
- content:{padding:14,gap:12,paddingBottom:24},card:{backgroundColor:theme.panel,borderWidth:1,borderColor:theme.panelBorder,borderRadius:13,padding:16,gap:5},
- nextCard:{borderColor:'#A37B2B',borderLeftWidth:3},topline:{flexDirection:'row',flexWrap:'wrap',gap:12,alignItems:'center'},
- next:{fontSize:10,fontWeight:'900',letterSpacing:.6,color:theme.warning},sprint:{fontSize:10,fontWeight:'900',color:'#F38990'},
- venue:{fontSize:23,fontWeight:'800',color:theme.text,marginTop:2},body:{fontSize:13,lineHeight:21,color:'#D5DFEA'},
- meta:{fontSize:12,lineHeight:19,color:'#A2B5C9'},status:{fontSize:10,fontWeight:'800',color:'#88C9B6',marginTop:4,letterSpacing:.8},
- back:{paddingVertical:10},link:{fontSize:11,fontWeight:'800',color:'#AFCAE5'},warning:{fontSize:12,lineHeight:19,color:theme.warning,marginTop:5},
- demands:{flexDirection:'row',flexWrap:'wrap',gap:8,marginTop:8},demand:{width:'48%',minHeight:57,backgroundColor:'#1C2A3B',padding:9,borderRadius:7},
- level:{fontSize:11,fontWeight:'900',color:'#BFD8EF',marginTop:3},fit:{fontSize:20,fontWeight:'900',color:'#8FDEC2',marginTop:4},
- section:{fontSize:10,fontWeight:'900',color:'#9EB6CE',letterSpacing:1,marginTop:12},footnote:{fontSize:11,lineHeight:18,color:'#91A4BA',padding:4}
-});

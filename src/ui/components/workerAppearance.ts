@@ -4,12 +4,14 @@ const HAIR = ['#322A2B', '#60412D', '#C2935A', '#1C2229', '#773E30'];
 export function workerAppearance(id: string, role: string) {
   const index = [...id].reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return {
-    skin: SKIN[index % SKIN.length],
-    hair: HAIR[index % HAIR.length],
+    skin: SKIN[index % SKIN.length]!,
+    hair: HAIR[index % HAIR.length]!,
     longHair: index % 3 === 0,
     headset: /engineer|strategist/i.test(role),
     cap: /mechanic|logistics/i.test(role),
     hiVis: /logistics/i.test(role),
+    manufacturing: /manufacturing/i.test(role),
+    gloves: /mechanic|manufacturing|logistics/i.test(role),
     overalls: /mechanic|manufacturing/i.test(role)
   };
 }

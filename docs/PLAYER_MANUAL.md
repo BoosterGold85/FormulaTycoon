@@ -6,8 +6,11 @@ payroll and a complete career loop are not available yet. Planned effects are id
 
 ## Drivers
 
-Open **DRIVERS** for the starting grid, prospects and reserve/free-agent market. Open **TEAM**
-to compare your current race-seat pairing. The starting organization is Wellington Racing.
+Open **DRIVERS** for your current pairing first, then browse Available, Prospects, Reserves or
+the full Grid. Compact rows show Talent, form and contract horizon. Tap a driver for the full
+dossier and six categories; expand **Contract details**, **Scouting report** or background for
+depth. Open **TEAM** for your car's next-circuit suitability, drivers, development and HQ staff.
+The starting organization is Wellington Racing. No finances or morale are invented for the overview.
 
 Drivers have six broad evaluation categories, shown as letter grades from F to A+:
 
@@ -118,8 +121,9 @@ from RACE, and the HQ next-event card follows the shared career date.
 
 ## Calendar & Race Weekends
 
-Open **RACE** to browse the 23-round starting calendar. Each card shows the round, venue,
-country, weekend dates and any **SPRINT** marker. A Sprint marker identifies a shorter-format
+Open **RACE** for the next-event card and a month calendar. Switch months to browse the
+23-round season; tap a marked date, event row or **View weekend** for its briefing. Weekends
+occupy their actual dates, including those spanning two months. A **SPRINT** marker identifies a shorter-format
 weekend; Sprint sessions and races are not simulated yet.
 
 The next event is highlighted. **THIS WEEKEND** includes the opening and race dates.
@@ -128,7 +132,9 @@ The HQ next-event card shows the same date-based schedule and countdown.
 
 ## Circuit Characteristics
 
-Tap an event for its circuit briefing. Different tracks reward different technical strengths:
+Tap an event for its main demands and fitted-car suitability first. **More details** reveals
+all demands and technical background. Circuit illustrations are stylized art, not surveyed maps.
+Different tracks reward different technical strengths:
 Monza and Las Vegas emphasize straight-line efficiency and braking; Monaco rewards low-speed
 performance, traction and mechanical grip; Suzuka and Silverstone emphasize high-speed aero.
 Sepang places broad demands on aero, tyres and cooling.
