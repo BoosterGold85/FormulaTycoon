@@ -256,13 +256,14 @@ standings-driven transition and remaining compatibility-phase limitations. C add
 
 ## Milestone C: calendar, circuits and technical car/track fit
 
-`game/calendar/calendar2026v1.json` owns the exact owner-approved 23-round starting schedule,
-six Sprint markers and all23 circuit profiles. Stable event IDs reference track IDs; geographic
+`game/calendar/calendar2026v1.json` preserves the initial content; `calendar2026v2.json` adds
+the owner-researched profiles. Both have the same approved23-round schedule and six Sprints. Stable event IDs reference track IDs; geographic
 names carry no sponsor branding. `calendarById` returns detached recursively frozen content;
 unknown versions fail rather than silently falling back. Runtime authoring validation checks
 canonical dates/order/overlaps, round/ID uniqueness, references and bounded technical metadata.
 
-A career persists only `calendarId = calendar.2026.v1` alongside its one root currentDate. The
+A career persists only its versioned calendarId alongside its one root currentDate (new
+careers select v2; saved v1 careers retain v1). The
 content ID pins both dates and `track-profiles.2026.v1`; later edits require a new content ID and
 explicit migration policy. No event statuses, next-event index, track data, car vectors or field
 scores are duplicated in saves. External schema is5; internal trusted checkpoint is3.
@@ -293,6 +294,19 @@ scores/rankings. No driver/form/strategy/weather/RNG input and no named-track/te
 
 RACE now hosts calendar/detail views under the same App-lifetime universe. HQ stays mounted;
 next-event HUD uses a domain selector. No player date-advance UX, qualifying or race engine added.
-Native/durable storage remain unimplemented. **Required circuit-source research is still blocked
-by network policy; these initial game weights do not satisfy the research release gate yet.**
+Native/durable storage remain unimplemented. **Circuit research is externally verified through the owner handoff; Codex did not retrieve the
+underlying pages.**
 See MILESTONE-C and CIRCUIT-RESEARCH notes for evidence and the outstanding gate.
+
+
+### Researched content revision
+
+The owner-supplied external research completes the gate despite direct proxy403. New careers
+select immutable calendar.2026.v2/track-profiles.2026.v2; v1 remains unchanged and available.
+Both have identical dates/events. Madrid is CONFIRMED/HIGH;23 profiles have19 HIGH/four MEDIUM
+confidence. Data corrections do not change starter cars or technical matching formulas.
+Save shape/version remains5: calendarId already identifies the revision. A frozen append-only
+ID registry extends validation to the newly released ID, independently of the live default.
+Existing V5 saves retain their ID; frozen V1–V4→V5 migration still attaches v1. No implicit
+migration to new profiles or optional upgrade UI is added. The same core definition ID remains
+valid because the already-versioned calendarId owns these content semantics independently.

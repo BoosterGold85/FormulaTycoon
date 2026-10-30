@@ -22,7 +22,9 @@ export function validateCalendarDefinition(input:unknown):asserts input is Calen
   assert(m&&['overtakingDifficulty','qualifyingImportance','safetyCarTendency','tyreSeverity','kerbSeverity','trackEvolution'].every(k=>unit(m[k as keyof typeof m])),'metadata');
   assert(m.altitudeM===null||(Number.isFinite(m.altitudeM)&&m.altitudeM>=-500&&m.altitudeM<=5000),'altitude');
   assert(typeof m.night==='boolean'&&['LOW','MEDIUM','HIGH'].includes(m.rainTendency),'conditions');
-  assert(['INITIAL','PROVISIONAL'].includes(t.profileStatus)&&typeof t.rationale==='string'&&t.rationale.length>0,'rationale');
+  if(t.profileStatus==='CONFIRMED')assert(t.profileConfidence!==undefined,'confirmed confidence');
+  if(t.profileConfidence!==undefined)assert(['HIGH','MEDIUM'].includes(t.profileConfidence),'profile confidence');
+  assert(['INITIAL','PROVISIONAL','CONFIRMED'].includes(t.profileStatus)&&typeof t.rationale==='string'&&t.rationale.length>0,'rationale');
  }
  assert(Array.isArray(c.events)&&c.events.length>0,'events');
  const ids=new Set<string>();const usedTracks=new Set<string>();

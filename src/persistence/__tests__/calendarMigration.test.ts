@@ -65,9 +65,9 @@ test('frozen V4 validator cold-loads without live registries or new calendar con
  }finally{blocked.forEach(name=>jest.dontMock(name));}
 });
 
-test('unknown/missing/changed calendar identity is rejected, never upgraded silently or defaulted',()=>{
+test('unknown/missing calendar identity is rejected, never upgraded silently or defaulted',()=>{
  const save=value(deserializeSave(JSON.stringify(v4),definition));
- for(const id of [undefined,null,'calendar.2026.v2','calendar.2027.v1','wrong']){
+ for(const id of [undefined,null,'calendar.2026.v3','calendar.2027.v1','wrong']){
   const bad=JSON.parse(JSON.stringify(save));if(id===undefined)delete bad.universe.calendarId;else bad.universe.calendarId=id;
   expect(deserializeSave(JSON.stringify(bad),definition).ok).toBe(false);
  }

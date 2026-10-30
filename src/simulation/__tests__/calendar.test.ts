@@ -79,10 +79,10 @@ test('released calendar and profiles are recursively frozen, unknown versions ne
  const frozen=(v:unknown):boolean=>!v||typeof v!=='object'||(Object.isFrozen(v)&&Object.values(v).every(frozen));
  expect(frozen(calendar)).toBe(true);expect(Reflect.set(calendar.events[0]!,'raceDate','2026-03-09')).toBe(false);
  expect(Reflect.set(calendar.tracks['track.monza']!.demands,'straightLine',0)).toBe(false);
- expect(()=>calendarById('calendar.2026.v2')).toThrow('Unknown calendar');
+ expect(()=>calendarById('calendar.2026.v3')).toThrow('Unknown calendar');
 });
 
-test('track identities express distinct technical demands and honest provisional metadata',()=>{
+test('track identities express distinct technical demands and owner-verified metadata',()=>{
  const t=calendar.tracks,m=t['track.monaco']!.demands,z=t['track.monza']!.demands;
  expect(t['track.las_vegas']!.demands.straightLine).toBeGreaterThan(m.straightLine);
  expect(m.lowSpeed).toBeGreaterThan(z.lowSpeed);expect(z.straightLine).toBe(Math.max(...Object.values(t).map(t=>t.demands.straightLine)));
@@ -91,7 +91,7 @@ test('track identities express distinct technical demands and honest provisional
  for(const axis of ['straightLine','braking','lowSpeed'] as const)expect(t['track.baku']!.demands[axis]).toBeGreaterThanOrEqual(.85);
  expect(t['track.mexico_city']!.metadata.altitudeM).toBeGreaterThan(2000);
  expect(t['track.sepang']!.demands.cooling).toBeGreaterThanOrEqual(.85);expect(t['track.sepang']!.demands.tyrePreservation).toBeGreaterThanOrEqual(.85);
- expect(t['track.sepang']!.metadata.rainTendency).toBe('HIGH');expect(t['track.madrid']!.profileStatus).toBe('PROVISIONAL');
+ expect(t['track.sepang']!.metadata.rainTendency).toBe('HIGH');expect(t['track.madrid']!.profileStatus).toBe('CONFIRMED');
 });
 
 test('event detail is domain disclosure with no numeric car score, field ranking, driver or result',()=>{

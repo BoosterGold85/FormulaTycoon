@@ -105,7 +105,7 @@ calendar/phase definitions replace it through an explicit compatibility step. C 
 
 ## C calendar/content and technical boundaries
 
-- `game/calendar`: append-only calendar.2026.v1 -> stable events/track IDs/profiles; recursive
+- `game/calendar`: append-only calendar.2026.v1/v2 -> stable events/track IDs/profiles; recursive
   freeze and authoring validation. Career stores only the ID, never a copied registry.
 - `simulation/calendar`: rootDate + ID -> current/next/previous/future/status/countdown and
   score-free detail disclosure. Calendar status cannot generate a result.
@@ -115,5 +115,6 @@ calendar/phase definitions replace it through an explicit compatibility step. C 
 - Save4 source semantics/fixture -> validated ID attachment -> save5; no source fixture edits.
 - Old weekly development fixture remains internal compatibility content; connecting actual race
   weekends to fitting/development processing requires a later explicit policy/migration decision.
-- Research gate: initial authored weights are implemented/tested; authoritative circuit-source
-  verification is blocked by the cloud allowlist. Do not confuse this with completed research.
+- Research gate COMPLETE through externally verified owner handoff. New careers choose v2
+  profiles; saved v1 identity and original migrations remain unchanged. No direct Codex source
+  retrieval is claimed. Frozen static-ID registration is separate from the live default.

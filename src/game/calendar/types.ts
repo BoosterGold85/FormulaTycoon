@@ -16,7 +16,9 @@ export type CircuitDefinition = {
     altitudeM:number|null;night:boolean;rainTendency:'LOW'|'MEDIUM'|'HIGH';
   };
   /** No inferred weather/incident/altitude physics is applied by C. */
-  profileStatus:'INITIAL'|'PROVISIONAL';rationale:string;
+  profileStatus:'INITIAL'|'PROVISIONAL'|'CONFIRMED';
+  /** External owner handoff confidence; absent on the unchanged initial v1 content. */
+  profileConfidence?:'HIGH'|'MEDIUM';rationale:string;
 };
 export type CalendarEvent = {
   id:string;trackId:string;round:number;weekendStartDate:CampaignDate;raceDate:CampaignDate;sprint:boolean;

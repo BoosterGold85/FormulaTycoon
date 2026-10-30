@@ -45,4 +45,7 @@ calendarPolicyV4. Historical source dispatch supports4 with no live registry dep
 V1/V2→V3→V4→V5 validates each source boundary; V4→V5 attaches only frozen calendarId/new definition.
 Current validation checks the identity and delegates unchanged dated structure to released rules.
 The readonly static calendar/profile registry is append-only under game/calendar; never silently
-change an existing calendar ID. Required source research for C remains an explicit pre-merge gate.
+change an existing calendar ID. The externally verified owner handoff completes C research. New careers select v2 through a
+frozen append-only ID registry; saved v1 careers and original migration targets keep v1.
+Schema stays5: no persistent structure change. Both static profile revisions are retained;
+current validation accepts the explicitly registered IDs without consulting a mutable default.

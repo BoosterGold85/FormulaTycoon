@@ -130,6 +130,7 @@ The full event calendar and campaign advancement controls are future work. See
 
 RACE now opens the owner-approved23-round calendar with six Sprint markers. Circuit briefings
 compare your fitted car with technical demands; HQ shows the actual next event/countdown.
-No qualifying or racing is simulated. Save5 pins calendar.2026.v1 and preserves old careers.
-Implementation is tested; required external circuit-source research is blocked by cloud networking
-and remains a merge gate. See [Milestone C](docs/development-notes/MILESTONE-C.md).
+No qualifying or racing is simulated. Save5 pins each career to its calendar revision and preserves older profiles.
+The research gate is complete through the externally verified owner handoff; Codex did not
+retrieve the source pages. New careers use researched v2 profiles; older saves keep their original
+content. Await post-C audit before merge. See [Milestone C](docs/development-notes/MILESTONE-C.md).

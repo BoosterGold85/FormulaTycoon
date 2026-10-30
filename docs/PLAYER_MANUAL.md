@@ -134,7 +134,8 @@ performance, traction and mechanical grip; Suzuka and Silverstone emphasize high
 Sepang places broad demands on aero, tyres and cooling.
 
 Track demands appear as LOW, MEDIUM, HIGH or VERY HIGH. These are initial game-model descriptions,
-not exact measurements. Madrid's new-circuit profile is explicitly provisional and may be revised.
+not exact measurements. Madrid's current profile reflects its confirmed mixed-speed layout and
+strong tyre-energy demands. Imported earlier careers retain their original circuit profiles.
 
 ## Car Characteristics
 
@@ -148,6 +149,9 @@ Existing low-drag and cooling packages apply only where their technical conditio
 Circuit briefings show your team's **EXCELLENT**, **STRONG**, **COMPETITIVE**, **MIXED**, **WEAK**
 or **POOR** technical suitability, with relevant strengths and concerns. A single universal car
 rating cannot describe every circuit. Upgrades may help more at some venues than others.
+
+A hot venue can demand strong cooling without unusually high mechanical stress or tyre wear.
+Cold tyre warm-up and tyre wear are different challenges; detailed warm-up is not simulated yet.
 
 Technical suitability is only one part of eventual race performance. It excludes driver ability,
 form, strategy and dynamic weather, and predicts no finishing position. It is separate from the

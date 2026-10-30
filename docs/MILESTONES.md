@@ -55,7 +55,9 @@ C implementation provides the owner-approved23-round/six-Sprint registry, all23 
 profiles, domain technical translation/matching, RACE calendar/detail UI, real HQ next event and
 save5 calendar identity with V1–V4 migration protection. Full tests/types/build/browser pass.
 
-**C is NOT COMPLETE / HOLD MERGE** until required reliable technical-source research for all23
-circuits is completed. The current proxy blocks those domains; a limited network draft is saved
-but not applied. CIRCUIT-RESEARCH documents actual access failure, assumptions and research targets.
-Passing game-model tests does not certify real-world data. Do not begin qualifying (D).
+**C implementation and research gate COMPLETE — READY FOR POST-C AUDIT.** The owner supplied
+externally verified technical research after direct Codex access was blocked. Provenance and all23
+reviews are in CIRCUIT-RESEARCH. Fourteen profiles stay numerically unchanged, seven have minor
+adjustments and Madrid/Singapore have material corrections. New immutable calendar.2026.v2 is
+selected for new games; existing careers and historical migration output stay pinned to v1.
+No persistent shape change, schema remains5. Do not merge or begin qualifying before audit/review.

@@ -79,14 +79,22 @@ fs.mkdirSync(root,{recursive:true});
  if(await page.getByRole('button',{name:/^Open .* event$/}).count()!==23)throw new Error('Calendar count');
  if(await page.getByText('SPRINT',{exact:true}).count()!==6)throw new Error('Sprint count');
  await page.getByRole('button',{name:'Open Melbourne event',exact:true}).getByText('NEXT EVENT',{exact:true}).waitFor();await shot('11-calendar');
- for(const venue of ['Monaco','Monza','Suzuka','Las Vegas','Sepang','Madrid']){
+ for(const venue of ['Monaco','Monza','Suzuka','Las Vegas','Sepang','Madrid','Melbourne','Singapore','Mexico City']){
   await page.getByRole('button',{name:'Open '+venue+' event',exact:true}).click();
   await page.getByRole('heading',{name:venue,exact:true}).waitFor();
   await must('TRACK CHARACTER');await must('STRENGTHS');await must('CONCERNS');
   await page.getByRole('heading',{name:/^CAR FIT — (EXCELLENT|STRONG|COMPETITIVE|MIXED|WEAK|POOR)$/}).waitFor();
   const heading=await page.getByRole('heading',{name:venue,exact:true}).boundingBox();
   if(!heading||heading.y<100||heading.y+heading.height>844)throw new Error('Event detail opening position '+venue);
-  if(venue==='Madrid')await must('Provisional profile · new circuit; technical balance is subject to review.');
+  const demand=async(label,level)=>page.getByText(label,{exact:true}).locator('..').getByText(level,{exact:true}).waitFor();
+  if(venue==='Madrid'){
+   if(await page.getByText('Provisional profile · new circuit; technical balance is subject to review.',{exact:true}).count())throw new Error('Stale provisional Madrid');
+   await page.getByText(/Confirmed hybrid 22-corner layout/).waitFor();
+   await demand('Tyre preservation','VERY HIGH');await demand('Braking stability','VERY HIGH');
+  }
+  if(venue==='Melbourne')await demand('Tyre preservation','LOW');
+  if(venue==='Singapore'){await demand('Cooling','VERY HIGH');await demand('Reliability','MEDIUM');await demand('Tyre preservation','MEDIUM');}
+  if(venue==='Mexico City'){await demand('Cooling','VERY HIGH');await page.getByText(/Approximately 2250 m altitude/).waitFor();}
   if(/\b(score|ranking|P[1-9] technically|finishing position)\b/i.test(await body()))throw new Error('Numeric prediction leakage');
   await shot('12-event-'+venue.toLowerCase().replace(' ','-'));
   await page.getByRole('heading',{name:/^CAR FIT —/}).scrollIntoViewIfNeeded();
@@ -98,6 +106,6 @@ fs.mkdirSync(root,{recursive:true});
  await page.getByRole('tab',{name:'HISTORY',exact:true}).click();await must('HISTORY · Coming soon');
  await page.getByRole('tab',{name:'HQ',exact:true}).click();await page.getByText('8/8 AT WORK',{exact:true}).waitFor({timeout:30000});
  if(errors.length)throw new Error(JSON.stringify(errors));
- console.log(JSON.stringify({viewport:'390x844',date:'2026-03-02',weekday:'Monday',hqResetPreservesDate:true,grid:22,prospects:10,reserves:11,pairing:2,contracts:['107M/2030','60M/2027+2028 option','7M/2026+2027 option','53M/2030 Reported','5M/2026 Reserve','30M+12M Wellington'],grades:true,rawSourceHidden:true,scoutingSurvivesNavigation:true,foreignOptionControlHidden:true,hqCards:true,newDay:true,calendarRounds:23,sprints:6,eventDetails:['Monaco','Monza','Suzuka','Las Vegas','Sepang','Madrid'],calendarNavigation:true,errors,horizontalOverflow:false}));
+ console.log(JSON.stringify({viewport:'390x844',date:'2026-03-02',weekday:'Monday',hqResetPreservesDate:true,grid:22,prospects:10,reserves:11,pairing:2,contracts:['107M/2030','60M/2027+2028 option','7M/2026+2027 option','53M/2030 Reported','5M/2026 Reserve','30M+12M Wellington'],grades:true,rawSourceHidden:true,scoutingSurvivesNavigation:true,foreignOptionControlHidden:true,hqCards:true,newDay:true,calendarRounds:23,sprints:6,eventDetails:['Monaco','Monza','Suzuka','Las Vegas','Sepang','Madrid','Melbourne','Singapore','Mexico City'],calendarNavigation:true,researchedProfiles:true,profileRevision:'calendar.2026.v2',errors,horizontalOverflow:false}));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
