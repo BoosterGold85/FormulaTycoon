@@ -5,9 +5,11 @@
 **D0 — Race weekend integration foundation COMPLETE. READY FOR QUALIFYING DESIGN.**
 Qualifying has NOT started. No Practice/Qualifying screen, lap model or race result exists.
 
-Branch: `feature/milestone-d0-race-weekend-foundation`, from validated merged main
-**884459e50e3e29053d6e0e9e62c14659cdc9d3c8**. D0 is a separate local review commit, unpushed
-and unmerged. Main contains audited C and its Post-C audit. Worker art at `1cfb07d` stays separate.
+Current branch: `main`. The owner authorized D0 integration after its completion. D0 commit
+**a446cfa1c438414db83ae5d65cb02e9c50733da1** is merged at
+**f915c9f411783a1d000a2e242238df2aec85a66c**. Main contains Milestone C, the Post-C audit and D0.
+The merge tree equals the completed D0 feature tree; no production changes were added.
+Worker art at `1cfb07d` stays separate/unmerged.
 Details: [MILESTONE-D0](development-notes/MILESTONE-D0.md).
 
 ## COMPLETED
@@ -34,10 +36,17 @@ Details: [MILESTONE-D0](development-notes/MILESTONE-D0.md).
 
 ## IN PROGRESS
 
-None. Await D0 review and a separate instruction for qualifying design. No D0 push, merge or
-qualifying implementation is authorized by completion. Graphics stay separate.
+None. D0 integration was explicitly authorized by the owner. Await a separate instruction for
+qualifying design/implementation. Graphics stay separate.
 
 ## TESTED
+
+Merged D0 main `f915c9f`:
+
+- Fresh341 tests/16 suites, TypeScript, web build and390×844 browser smoke all PASS.
+- All11 historical hashes match original Git objects. No page errors/horizontal overflow.
+- Merge tree equals feature commit a446cfa. Subsequent integration-status edits are docs only.
+- Logs/screenshots: `/workspace/artifacts/d0-main-integration/`.
 
 Merged main `884459e`, before D0:
 
@@ -74,7 +83,8 @@ D0:
 - Future qualifying pace/risk calibration, sessions/results/rewards, dynamic conditions,
   actual-weekend fitting, season-calendar generation or 20–50-season gameplay.
 - Durable device storage/import UI/restart recovery: adapter stays volatile.
-- Native iPhone/Safari performance and live D0 runtime/deployment; D0 is unpublished.
+- Native iPhone/Safari performance and live deployed runtime behavior; a Git push/build alone
+  does not establish live application behavior.
 - Direct source-page retrieval or missing article bibliography. Research remains the accepted
   external handoff: 19 HIGH/four MEDIUM; no invented titles/URLs or new direct verification claim.
   See [CIRCUIT-RESEARCH](development-notes/CIRCUIT-RESEARCH.md).
@@ -120,6 +130,6 @@ starter retuning. Research/audit provenance stays in CIRCUIT-RESEARCH and POST-C
 
 ## NEXT MILESTONE
 
-**READY FOR QUALIFYING DESIGN.** Review D0 first. Do not begin qualifying implementation or
-merge/publish D0 without separate instruction. Main remains merged C at `884459e`; graphics stay
-independent/unmerged. Stop after this foundation milestone.
+**READY FOR QUALIFYING DESIGN.** Milestone C, its audit and D0 are integrated into main.
+Do not begin qualifying without a separate instruction. Graphics stay independent/unmerged.
+Stop after the owner-authorized main integration.

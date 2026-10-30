@@ -7,8 +7,11 @@ C-M1/C-M2 and C-L1/C-L2/C-L3 without new gameplay screens, lap times, results, w
 calendar revisions or changes to development balance/RNG.
 
 Branch: `feature/milestone-d0-race-weekend-foundation`, based on validated merged main
-**884459e50e3e29053d6e0e9e62c14659cdc9d3c8**. D0 is a separate local review commit; no D0
-push or merge is included. The delivery/git history identifies its commit hash.
+**884459e50e3e29053d6e0e9e62c14659cdc9d3c8**. D0 was completed as the separate feature commit
+**a446cfa1c438414db83ae5d65cb02e9c50733da1**. The owner subsequently authorized integrating
+it into main; merge commit **f915c9f411783a1d000a2e242238df2aec85a66c** has an identical tree.
+Fresh merged-main validation passed341 tests/16 suites, TypeScript, web export,390×844 browser
+and11/11 historical hashes. Evidence: `/workspace/artifacts/d0-main-integration/`.
 
 ## Milestone C integration
 
@@ -206,8 +209,9 @@ Logs/screenshots: `/workspace/artifacts/milestone-d0/`.
 
 No Practice/Qualifying/race controller, lap model, sessions/results, weather, championship advance
 button, event-directed fitting, new screens or persisted scheduler. No native performance or live
-D0 deployment was tested; D0 is unpushed/undeployed. Browser smoke is local. Player Manual remains
-accurate/unchanged because no new player-facing mechanic is introduced.
+D0 deployment was tested. Browser smoke is local; main integration does not establish deployed
+runtime behavior. Player Manual remains accurate/unchanged because no new player-facing mechanic
+is introduced.
 
 The retained weekly cadence is explicit but is not real-weekend fitting. Future retiming needs
 the compatibility review above. Pace/risk calibration remains qualifying DESIGN work; correlated
@@ -225,6 +229,6 @@ trackPerformance/index and carVector (comment); universe/index and new campaignE
 Tests: calendar, trackPerformance, new technicalPerformance and campaignProgression suites.
 Docs: GAME_ARCHITECTURE, GAME_LOOP, SYSTEM_MAP, MILESTONES, DEV_STATUS and this note.
 
-Main contains audited C only; D0 is separately committed on its feature branch for review.
+Main now contains audited C, Post-C audit documentation and owner-authorized D0 integration.
 Worker art is untouched. **READY FOR QUALIFYING DESIGN** does not authorize implementation.
-Stop after D0; do not merge it or start qualifying automatically.
+Stop after the authorized integration; do not start qualifying automatically.

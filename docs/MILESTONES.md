@@ -71,5 +71,7 @@ before D0 began. Worker art remains separate/unmerged at1cfb07d.
 have explicit implemented interface/pipeline and compatibility policy; C-L1/C-L2 protections and
 C-L3 documentation are addressed. All341 tests/16 suites, types, web export and390×844 browser
 pass; historical hashes remain unchanged. Schema stays v5. No qualifying, lap model, race result,
-weather engine, new screen or advance button exists. D0 is committed separately for review;
-its completion is not permission to merge it or begin D. See development-notes/MILESTONE-D0.md.
+weather engine, new screen or advance button exists. The owner subsequently authorized D0's
+integration into main: feature commit a446cfa merged at f915c9f. Main now includes C, its audit
+and D0. Qualifying still requires a separate instruction. Graphics remain independent/unmerged.
+See development-notes/MILESTONE-D0.md.
