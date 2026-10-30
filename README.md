@@ -134,3 +134,8 @@ No qualifying or racing is simulated. Save5 pins each career to its calendar rev
 The research gate is complete through the externally verified owner handoff; Codex did not
 retrieve the source pages. New careers use researched v2 profiles; older saves keep their original
 content. Await post-C audit before merge. See [Milestone C](docs/development-notes/MILESTONE-C.md).
+
+## Permanent visual reference
+
+All material UI/art work follows the [Graphic Design Bible](docs/GRAPHIC_DESIGN_BIBLE.md),
+including reusable driver portraits, canonical team palettes and the required visual milestone prompt.

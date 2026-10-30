@@ -79,3 +79,13 @@ commercial agreement must not require a race-engine rewrite or change saved circ
 
 The product should make players recognize an original racing organization, not merely recognize
 an altered real-world wordmark. Exact fictional grid and candidate brands can evolve deliberately.
+
+## Permanent visual presentation
+
+[GRAPHIC_DESIGN_BIBLE.md](GRAPHIC_DESIGN_BIBLE.md) is the canonical visual source of truth.
+The existing canonical registry now exposes `colors.primary`, `colors.secondary`, `colors.accent`.
+All existing primary colors and organization/gameplay characteristics are unchanged; `color` remains
+an alias of the authored primary for existing consumers. Secondary/accent tokens are presentation
+metadata, not saved driver attributes. No competing team-palette database is introduced.
+Current employment resolves portraits through the existing grade-only driver read model, including
+reserve and unassigned cases. One anonymous shoulders-up template serves roster/dossier/Team.

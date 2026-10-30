@@ -4,7 +4,8 @@ import type {NavTab} from '../game/hudPlaceholders';
 import type {GameUniverse,GameDefinition} from '../simulation/universe';
 import {selectTeamOverview} from '../simulation/managementViews';
 import {Action,Card,CompactRow,Disclosure,EmptyState,Fact,Screen,Section,styles,ui} from './design/system';
-import {CarArt,DriverIdentity,GarageArt} from './art/IdentityArt';
+import {CarArt,GarageArt} from './art/IdentityArt';
+import {TeamDriverPortrait} from './art/DriverPortrait';
 import {DevelopmentSummary,WorkshopArt} from './components/DevelopmentSummary';
 import {DriverProfile} from './DriverProfile';
 
@@ -35,7 +36,7 @@ export function TeamScreen(props:Props){
     <View style={[styles.between,{borderTopWidth:1,borderTopColor:ui.line,paddingTop:10}]}><Text style={{fontSize:12,fontWeight:'800',color:ui.ink}}>View car</Text><Text style={{fontSize:20,color:model.brand.color}}>›</Text></View>
    </Card>
    <View style={styles.between}><Section title="Your drivers"/><Pressable accessibilityRole="button" accessibilityLabel="Manage drivers" onPress={()=>onNavigate('DRIVERS')} style={{minHeight:44,justifyContent:'center'}}><Text style={{fontSize:12,color:ui.accent,fontWeight:'800'}}>Manage drivers ›</Text></Pressable></View>
-   <View>{model.drivers.map(d=><CompactRow key={d.id} label={d.name} detail={`${d.form} · ${d.contractEnd?`Through ${d.contractEnd}`:'Available'}`} accessibilityLabel={`View ${d.name}`} onPress={()=>setDriver(d.id)} leading={<DriverIdentity name={d.name} color={model.brand.color}/>}/>)}</View>
+   <View>{model.drivers.map(d=><CompactRow key={d.id} label={d.name} detail={`${d.form} · ${d.contractEnd?`Through ${d.contractEnd}`:'Available'}`} accessibilityLabel={`View ${d.name}`} onPress={()=>setDriver(d.id)} leading={<TeamDriverPortrait teamId={d.teamId} size={50}/>}/>)}</View>
    <Section title="Development"/>
    <Pressable accessibilityRole="button" accessibilityLabel="View development" onPress={()=>setView('development')} style={({pressed})=>({paddingVertical:6,borderBottomWidth:1,borderBottomColor:ui.line,backgroundColor:pressed?ui.panel:'transparent'})}>
     {model.projects.length?<DevelopmentSummary project={model.projects[0]!}/>:<View style={styles.row}><WorkshopArt/><View style={{flex:1,gap:5}}><Text style={[styles.heading,{fontSize:17}]}>No active projects</Text><Text style={styles.muted}>View development</Text></View><Text style={{fontSize:23,color:ui.accent}}>›</Text></View>}

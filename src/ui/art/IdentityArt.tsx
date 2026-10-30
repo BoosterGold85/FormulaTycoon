@@ -2,19 +2,6 @@ import React from 'react';
 import {View,Text} from 'react-native';
 import {ui} from '../design/system';
 
-/** Original identity graphics: initials and helmets, never generated driver likenesses. */
-export function DriverIdentity({name,color=ui.accent,large=false,size:requestedSize}:{name:string;color?:string;large?:boolean;size?:number}){
- const initials=name.split(' ').map(n=>n[0]).join('').slice(0,2),size=requestedSize??(large?140:50);
- const stripe=[...name].reduce((sum,char)=>sum+char.charCodeAt(0),0)%3===0;
- return <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{width:size,height:size,justifyContent:'center',alignItems:'center'}}>
-  <View style={{position:'absolute',width:size*.9,height:size*.17,borderRadius:size*.2,backgroundColor:'#07101A',bottom:size*.08}}/>
-  <View style={{position:'absolute',width:size*.84,height:size*.75,backgroundColor:color,borderTopLeftRadius:size*.42,borderTopRightRadius:size*.4,borderBottomLeftRadius:size*.24,borderBottomRightRadius:size*.17,top:size*.07,transform:[{rotate:'-12deg'}],borderTopWidth:size*.035,borderTopColor:'#D6E7EE'}}/>
-  <View style={{position:'absolute',width:size*.24,height:size*.65,backgroundColor:'#E5EAD9',opacity:.8,left:size*.39,top:size*.13,transform:[{rotate:stripe?'-14deg':'18deg'}]}}/>
-  <View style={{position:'absolute',width:size*.84,height:size*.2,backgroundColor:'#0A1925',top:size*.37,borderRadius:size*.06,transform:[{rotate:'-12deg'}],borderTopWidth:size*.025,borderTopColor:'#91B6C8'}}/>
-  <View style={{position:'absolute',width:size*.3,height:size*.03,backgroundColor:'#426077',top:size*.4,right:size*.2,transform:[{rotate:'-12deg'}]}}/>
-  <Text style={{position:'absolute',bottom:size*.12,right:size*.1,fontWeight:'900',color:ui.ink,fontSize:size*.22}}>{initials}</Text>
- </View>;
-}
 export function CarArt({color=ui.accent,compact=false}:{color?:string;compact?:boolean}){
  return <View accessibilityLabel="Original racing car illustration" style={{height:compact?84:116,width:compact?150:'100%',alignItems:'center',justifyContent:'center'}}>
   <View style={{position:'absolute',width:compact?150:240,height:compact?16:24,borderRadius:40,backgroundColor:'#080F18',top:compact?57:77,transform:[{rotate:'-5deg'}]}}/>

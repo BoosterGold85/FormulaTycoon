@@ -388,3 +388,14 @@ full demands/rationale. TEAM has contextual car, drivers, real development and H
 is an honest future-records empty state. Five cosmetic worker files were selectively ported from
 1cfb07d; no branch merge, HQ engine, route, assignment or work cadence changes. Schema stays v5.
 Qualifying is paused for visual review. See development-notes/UI-VISUAL-EXPERIENCE-V1.md.
+
+## Permanent visual identity and driver portraits
+
+[GRAPHIC_DESIGN_BIBLE.md](GRAPHIC_DESIGN_BIBLE.md) governs all material visual work.
+The canonical brand registry owns one `{primary,secondary,accent}` palette per team; existing
+`color` aliases primary. `ui/art/portraitPalette` resolves deterministic presentation contrast and
+neutral unassigned colors. `TeamDriverPortrait` adapts the existing current-employment read-model
+teamId to the generic `DriverPortrait`, which receives colors only. Roster, dossier and Team use
+one scalable React Native View-shape template. No new authoritative state, per-driver art data,
+cache, generation framework, dependency, migration or simulation rule is introduced. Employment
+changes recolor on the next render; affiliations/familiarity never determine a portrait's team.

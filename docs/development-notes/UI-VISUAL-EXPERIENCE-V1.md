@@ -334,3 +334,59 @@ History and unavailable management/racing systems stay honestly empty/unimplemen
 The visible wrap defect is resolved and no further blocking visual defect was found in the
 reviewed phone/desktop flow. **READY TO MERGE.** This is a recommendation only: do not merge,
 start qualifying or begin the weekly development game without another instruction.
+
+
+## V1.1 permanent Graphic Design Bible and driver portraits
+
+Owner follow-up, October 30, 2026. Base af80f34, same `feature/ui-visual-experience-v1` branch.
+The earlier helmet/initials graphics are superseded by one anonymous shoulders-up driver template.
+No further milestone, merge, qualifying or weekly development loop is authorized by this task.
+
+### Ownership and boundaries
+
+- Permanent source: [Graphic Design Bible](../GRAPHIC_DESIGN_BIBLE.md), linked from AGENTS,
+  guardrail36, brand policy, architecture and future milestone prompt requirements.
+- Palette owner: existing canonical `game/brandRegistry`, extended with secondary/accent only;
+  existing primary/gameplay properties retained. `color` aliases the same authored primary.
+- Presentation: `DriverPortrait` receives only colors/size; `TeamDriverPortrait` resolves current
+  employment from existing read-model teamId. One template on roster, dossier and compact Team rows.
+  No portrait variants, initials, names, sponsors, faces or real likenesses baked into the artwork.
+- Persistent state affected: none. No driver art fields, save change/migration, cached team colors,
+  RNG call, ability, contract rule, scouting rule, performance or campaign-time change.
+- Edge cases: neutral unassigned/expired identity; fixed charcoal visor; missing accent → white;
+  near-equal primary/secondary → the higher-contrast white/charcoal presentation fallback.
+  Canonical palettes never mutate. Test palettes are acceptance fixtures, not alternative team data.
+
+### Validation actually run
+
+- `npm test -- --runInBand`: **350 tests /18 suites PASS**, zero failed/skipped.
+  Four new behavioral tests exercise mounted-template recoloring/geometry, a real domain signing
+  and same-mounted-component transfer/expiry, stale familiarity, all eleven palette aliases and
+  fallback/card-scale behavior. Existing historical/migration/regression tests remain active.
+- `npm run typecheck`: PASS. Initial test-file missing Jest imports were corrected; final check passes.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: PASS, no install or package/lockfile change.
+- `node scripts/check-driver-portraits.cjs`: PASS. Actual component rendered through existing RN Web;
+  three palettes ×80/100/120px, all six color regions and fixed visor checked. Production exported
+  app: two 80px own portraits, 140px dossier, rival palette, 390×844 and1440×1000; no errors/overflow.
+- `FORMULA_PREVIEW_URL=http://127.0.0.1:8783 FORMULA_ARTIFACT_DIR=/workspace/artifacts/driver-portraits/regression node scripts/check-milestone-c.cjs`:
+  PASS mobile/desktop, all prior data/actions/HQ/8-of-8/NEW DAY/date/disclosure coverage retained.
+- Scope proof: of111 tracked game/simulation/persistence files, only canonical brand presentation
+  metadata changes. All simulation and persistence files unchanged;18 historical contract/fixture
+  files byte-identical to af80f34. Existing immutable-calendar/hash tests also pass.
+- Final `git diff --check`: PASS. Logs under `/workspace/artifacts/driver-portraits/`.
+
+### Visual review and limitations
+
+[Review assets](../screenshots/driver-portraits/README.md): actual roster/dossier/rival phone renders,
+desktop dossier, and one-template three-palette card-size review sheet. The sheet renders the actual
+component through React Native Web, not an AI mockup. First visual review simplified a robotic-looking
+chin and increased visible primary-color suit area. Final review confirms broad helmet/visor/shoulder
+silhouettes at80px. Identical teammates intentionally share an image; names distinguish them.
+Market rows remain48px subordinate thumbnails, not the80–120px featured-card acceptance size.
+No native-device, assistive-technology, FPS/battery or public workers.dev runtime proof is inferred.
+The supplied car reference informed broad shapes/shading only; cars/HQ were not redrawn. No separate
+shoulders-up reference file was available; the written helmeted-driver composition governed the art.
+
+READY FOR OWNER VISUAL REVIEW; previous READY TO MERGE recommendation remains a recommendation
+only. Main unchanged. Any branch publication continues the already-authorized same preview branch;
+Cloudflare status and actual commit hash are reported in delivery. Stop before new gameplay work.

@@ -2,7 +2,7 @@
 
 ## Milestone
 
-**UI / VISUAL EXPERIENCE V1.1 POLISH COMPLETE — READY TO MERGE (recommendation only).**
+**UI V1.1 + PERMANENT GRAPHIC DESIGN BIBLE / PORTRAIT SYSTEM COMPLETE — OWNER REVIEW.**
 The owner paused feature expansion after D0. Qualifying has NOT started.
 
 Branch: `feature/ui-visual-experience-v1`, from validated/published main
@@ -14,9 +14,24 @@ Full handoff: [UI-VISUAL-EXPERIENCE-V1](development-notes/UI-VISUAL-EXPERIENCE-V
 
 ## COMPLETED
 
+Permanent visual infrastructure follow-up (base af80f34, same branch):
+
+- Canonical `GRAPHIC_DESIGN_BIBLE.md`: miniature tycoon direction, reusable art, palette ownership,
+  lighting/fictional identity/mobile rules and required instruction for future visual milestones.
+  AGENTS reading, guardrail36, brand/architecture/milestone documentation now enforce that source.
+- One anonymous shoulders-up `DriverPortrait` with six independently colored helmet/suit regions,
+  fixed charcoal visor and neutral background. Existing React Native View shapes only, no dependency.
+  Supersedes helmet/initials artwork; same template scales on roster/dossier/compact Team entries.
+- Canonical brand registry gains secondary/accent tokens; existing primary/organization properties
+  unchanged. Current employment DTO → canonical colors → stateless rendering; transfers recolor
+  automatically. Neutral expiry/unassigned identity and deterministic presentation-only contrast.
+- Three-palette80/100/120px review sheet and actual390×844/desktop screenshots under
+  docs/screenshots/driver-portraits. No additional HQ/car/milestone work.
+
+
 V1.1 focused refinements:
 
-- Featured own-driver personnel rows and larger, differentiated helmet identity; market rows are
+- Featured own-driver personnel rows and larger helmet identity (now shared shoulders-up template); market rows are
   quieter. Dossier hero leads with identity/form/status; six grades use open typography.
 - Full-surface Next Race/car actions, flatter hero surfaces and open divider-based sections.
   Calendar dates/legend take precedence over nested boxes. Existing navigation/owners preserved.
@@ -48,11 +63,27 @@ Original V1 foundation retained:
 
 ## IN PROGRESS
 
-None. V1.1 is ready for owner review/merge decision; do not merge automatically. Publishing
+None. The Bible/portrait follow-up and V1.1 are ready for owner review/merge decision; do not merge automatically. Publishing
 continues the previously authorized preview branch only. Do not begin qualifying or the weekly
 player-development loop. Main and the preserved worker-art worktree stay unchanged.
 
 ## TESTED
+
+Portrait follow-up final validation:
+
+- 350 tests/18 suites PASS (four added behavioral tests), TypeScript PASS, web build PASS.
+- Actual mounted component recolors all regions across three palettes with identical geometry;
+  real domain signing changes the same mounted portrait, disregarding stale familiarity; expiry
+  becomes neutral. Missing accent/low contrast/all11 canonical palettes/card scaling covered.
+- `node scripts/check-driver-portraits.cjs` PASS:80/100/120px three-palette RN Web component review,
+  production own/rival roster/dossier,390×844 and1440×1000, no errors or horizontal overflow.
+- Existing `node scripts/check-milestone-c.cjs` regression PASS on the final export: data/disclosures,
+  navigation/HQ taps,8/8 and NEW DAY retaining campaign date.
+- All simulation/persistence files unchanged from af80f34; only presentation palette metadata in
+  brandRegistry changes among111 domain files.18 historical contract/fixture files unchanged.
+- `git diff --check` PASS. No install, package/lockfile, save or gameplay changes.
+  Evidence: /workspace/artifacts/driver-portraits/. Full handoff in the UI V1 notes.
+
 
 - V1.1 fresh validation: 346 tests/17 suites PASS, TypeScript PASS, web export PASS (718KB).
 - Phone 390×844 and desktop 1440×1000 browser PASS, no page errors or horizontal overflow.
@@ -100,7 +131,7 @@ V1 regression foundation, rerun through V1.1:
 
 ## KNOWN ISSUES
 
-- V1 graphics use symbolic helmet identities and stylized circuit artwork, not likenesses or
+- Portraits use one anonymous shoulders-up template; other V1 graphics use symbolic identities and stylized circuit artwork, not likenesses or
   measured maps. Native visual fidelity/performance needs review.
 - Detail screens reset to their header on entry/back; UI navigation state is not persisted.
 - Development display is read-only; current-stage percentage is not whole-project progress or
@@ -137,6 +168,7 @@ and missing payroll remain carried debt. No unrelated cleanup, retuning or gamep
 
 ## NEXT MILESTONE
 
-**READY TO MERGE — recommendation only.** Review updated screenshots/preview; do not merge
+**OWNER VISUAL REVIEW — prior READY TO MERGE remains recommendation only.** Review Bible, portrait
+screenshots and preview; do not merge
 automatically. Qualifying and the weekly player-development loop remain paused. Stop after the
 focused polish pass and its authorized branch-preview publication.

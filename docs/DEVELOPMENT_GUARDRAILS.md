@@ -1001,3 +1001,14 @@ Use shared mobile-first visual primitives and the HQ's miniature management-game
 Screens consume domain read models; cosmetic artwork never supplies performance or fake results.
 Do not remove uncertainty or expose hidden numeric ratings to simplify a layout. Honest empty
 states describe unavailable mechanics without fabricated projects, cash, morale or records.
+
+# 36. GRAPHIC DESIGN BIBLE IS AUTHORITATIVE FOR VISUAL WORK
+
+All material UI/art/visual work must follow [docs/GRAPHIC_DESIGN_BIBLE.md](GRAPHIC_DESIGN_BIBLE.md).
+Visual consistency is a project architecture concern. Separate agents must not independently
+invent different portrait, car or facility styles, color rules, icon languages, lighting or
+rendering approaches. When the owner intentionally changes visual direction, update the Bible
+in the same change. This presentation rule authorizes no gameplay, balance or persistence work.
+Future visual milestone prompts must include the required Bible-reading instruction recorded there.
+
+**ONE GAME. ONE VISUAL LANGUAGE.**

@@ -83,3 +83,12 @@ The owner paused feature expansion after merged/validated D0. Qualifying remains
 `feature/ui-visual-experience-v1` starts from stable main200f4d6, using selected worker art rather
 than merging the old graphics branch. Visual review is the next gate. Read
 development-notes/UI-VISUAL-EXPERIENCE-V1.md for scope, screenshots, evidence and limitations.
+
+## Required visual milestone instruction
+
+Every future milestone prompt materially touching UI/art/presentation, even within gameplay work,
+must explicitly include:
+
+> Before making visual changes, read and follow `docs/GRAPHIC_DESIGN_BIBLE.md`. It is the canonical visual source of truth. Preserve its reusable-art, palette, fictional-brand and mobile-readability rules unless the project owner explicitly changes them.
+
+The permanent Bible/portrait infrastructure is part of UI V1.1, not another gameplay milestone.
