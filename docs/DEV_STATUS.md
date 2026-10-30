@@ -5,7 +5,8 @@
 **Milestone C — implementation prepared; required research BLOCKED / HOLD MERGE.**
 Branch `feature/milestone-c-track-performance` starts from main **36e7df0**, which integrates
 C0.1 `b1b7dab`. C0.1 branch and merged main were pushed as authorized; merged main passed261
-tests, TypeScript and web export before C began. C branch remains local/unmerged/unpushed.
+tests, TypeScript and web export before C began. Implementation 34e486a is pushed for testing;
+C remains unmerged. Research follow-up documentation is local.
 Separate graphics `feature/hq-worker-art-polish` /1cfb07d remains clean, preserved and excluded.
 
 The task requires reliable technical-source research for every circuit. The managed proxy denies
@@ -43,8 +44,11 @@ is exact game content; neither official schedule verification nor circuit resear
 
 ## IN PROGRESS
 
-- **Required circuit technical research** for all23 venues. Current profiles use explicit owner
-  briefing and initial design assumptions. No external technical page has been read in this pass.
+- **Required circuit technical research** for all23 venues. Fresh follow-up requests to
+  Formula1/FIA/Pirelli/Madrid/Sepang again failed at proxy CONNECT403 before any page content.
+  All 23 review classifications remain PROVISIONAL/unverified; no profile values were changed.
+  Current profiles use the owner briefing and initial design assumptions. No external technical
+  page has been read in this pass.
 - User needs to review/save the limited network draft in environment settings and publish the
   environment; then recheck access, read authoritative sources and record actual URLs/evidence.
   Candidate URLs are research targets only, never presented as consulted citations.
@@ -67,12 +71,25 @@ is exact game content; neither official schedule verification nor circuit resear
   checks PASS. Existing development/HQ/driver/contract/scouting/save suites retained and pass.
 - Chromium390×844, checked-in `scripts/check-milestone-c.cjs`: HQ next-event/date/cards/New Day,
   repeated8/8 return; Drivers22/Prospects10/reserves11/TEAM2, grades/contracts/options/scouting,
- 23-event calendar/six Sprint markers, six circuit details including provisional Madrid,
+  23-event calendar/six Sprint markers, six circuit details including provisional Madrid,
   navigation/back/placeholder History. Zero page errors/horizontal overflow.
   First browser attempt hit an ambiguous hidden-HQ/calendar text locator; scope fixed in harness,
   then rerun passed. Additional scrolled car-fit visibility checks included in final script.
 - Logs/screenshots under `/workspace/artifacts/milestone-c/`; optional script needs existing
   Playwright/Chromium and a served export. No install, native launch or remote deployment.
+
+## RESEARCH-ONLY FOLLOW-UP
+
+- Unchanged implementation revalidated: 311 tests/13 suites, TypeScript and web build PASS;
+  field comparison and nine historical hash checks rerun successfully.
+- Local 390×844 browser rerun PASS: no page errors/horizontal overflow; HQ/calendar/circuit
+  details/scrolled car fit/Drivers/Team/navigation all passed.
+- GitHub reports Cloudflare **Workers Builds: formulatycoon succeeded** for34e486a. No preview
+  URL is exposed by the retrieved check page; live preview remains unverified. Build success is
+  not proof of researched profiles or runtime behavior.
+- No research page content obtained; no justified corrections or new factual claims. Ledger
+  explicitly lists every circuit's UNVERIFIED / PROVISIONAL review status. Player manual unchanged.
+- Logs/evidence: `/workspace/artifacts/milestone-c-research/`. No new install, merge, push or D work.
 
 ## NOT VERIFIED
 

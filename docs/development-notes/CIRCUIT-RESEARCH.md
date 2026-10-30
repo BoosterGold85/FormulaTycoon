@@ -18,6 +18,60 @@ not citations supporting completed research. Do not present them as accessed evi
 merge, read authoritative material for every venue, record actual URLs/access results and adjust
 any unsupported assumptions. Madrid particularly needs its published layout/specification checked.
 
+## Research-only follow-up at implementation commit 34e486a
+
+The requested follow-up rechecked the **active**, enforced cloud policy: no custom research
+hosts are enabled. Fresh HTTPS requests to Formula1, FIA, Pirelli, Madrid and Sepang all failed
+at the proxy CONNECT stage with403. No page body was received or consulted. Evidence is at
+`/workspace/artifacts/milestone-c-research/source-access.json`. The previously saved domain draft
+has not become active access; no new configuration change or policy bypass was attempted.
+
+**Research gate remains blocked.** There are no evidence-backed CONFIRMED, MINOR ADJUSTMENT or
+MATERIAL ADJUSTMENT conclusions from this attempt. All 23 research reviews remain PROVISIONAL /
+unverified. This is a review classification, not a change to the checked-in profileStatus fields:
+Madrid remains PROVISIONAL in game data; the other 22 INITIAL profiles and every numeric value
+remain unchanged. No factual characteristics are newly verified and no unread URL is evidence.
+
+| Circuit | Source content consulted in follow-up | Confidence | Research-review status |
+|---|---|---|---|
+| Melbourne | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Shanghai | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Suzuka | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Miami | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Montreal | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Monaco | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Barcelona-Catalunya | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Spielberg | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Silverstone | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Spa-Francorchamps | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Budapest | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Zandvoort | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Monza | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Madrid | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Baku | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Sepang | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Singapore | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Austin | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Mexico City | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| São Paulo | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Las Vegas | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Lusail | None — source access blocked | UNVERIFIED | PROVISIONAL |
+| Yas Marina | None — source access blocked | UNVERIFIED | PROVISIONAL |
+
+Madrid's conservative weights/provisional warning are retained without inventing layout facts.
+For Sepang, medium/high-speed balance, straight length, traction, heat/cooling, tyre stress and
+rain tendency specifically remain **unverified against read sources**; the existing authored
+interpretation below is neither corrected nor promoted to confirmed. Other existing technical
+interpretations likewise remain initial hypotheses pending the actual source review.
+
+To resume, review/save the existing research-domain draft in environment settings and publish
+it; recheck actual access before research. Needed source hosts are formula1.com,
+www.formula1.com, fia.com, www.fia.com, press.pirelli.com, www.madring.com and
+www.sepangcircuit.com. Any redirect/additional source host needs its own supported access review.
+
+The technical comparison and full validation were rerun on the unchanged implementation; see
+MILESTONE-C's follow-up record. Passing these does not establish real-world factual accuracy.
+
 ## Facts versus Formula Tycoon design values
 
 - Calendar dates, six Sprint markers and venue inclusion are exact **owner-approved game content**.

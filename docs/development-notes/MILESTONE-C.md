@@ -200,7 +200,8 @@ HQ and visible calendar NEXT EVENT. It was scoped to the calendar event button, 
 successfully. No app behavior/test assertion was disabled. A separate inspection confirmed the
 390×844 document stays within viewport and fit cards are reachable in the internal scroll view.
 Nonblocking npm update and FORCE_COLOR/NO_COLOR warnings remain. No installation/lockfile change,
-PR, C-branch publication or cloud deployment was performed.
+PR or manual cloud deployment was performed in that initial implementation pass. The branch
+was subsequently pushed for testing with explicit owner approval.
 
 ## Limitations / debt / merge recommendation
 
@@ -222,8 +223,8 @@ physics. Weekly development fitting still uses its old compatibility fixture; co
 weekends only through deliberate migration/balance work. Existing audit M1/M3/M5-broader/M6/M7/M8
 and low-priority findings remain scheduled. Source/originality review remains pre-release work.
 
-C0.1 integration is complete on main. This C implementation is a separate local review commit,
-unmerged/unpushed. Graphics1cfb07d is clean/preserved/unmerged; original simulation/content/art
+C0.1 integration is complete on main. Implementation34e486a was subsequently pushed for testing
+with explicit owner approval; Milestone C remains unmerged. Graphics1cfb07d is clean/preserved/unmerged; original simulation/content/art
 checks pass. Finish research, then review/integrate C. D (qualifying) is the next gameplay milestone
 only after that gate. **No qualifying work started; stop here.**
 
@@ -278,3 +279,46 @@ only after that gate. **No qualifying work started; stop here.**
 - `src/ui/CalendarScreen.tsx`
 - `src/ui/HeadquartersScreen.tsx`
 - `src/ui/components/GameHud.tsx`
+
+
+## Research-only follow-up — access still blocked
+
+Starting implementation commit: 34e486ab2b8262a744deb0070706fb0adbd9a5b6, already pushed for testing.
+Scope was research, justified profile corrections and revalidation only. No profile, calendar,
+car model, development, driver, save schema/fixture, UI or player-manual changes were made.
+No merge, dependency installation, additional branch push or qualifying work was performed.
+
+Active policy still enables no research domains. Fresh requests to Formula1, FIA, Pirelli,
+Madrid and Sepang were all denied by proxy CONNECT403 before any source content could be read.
+The ledger records all23 research reviews as PROVISIONAL/unverified, not as completed research
+or game-data corrections. Candidate URLs remain explicitly unread. The existing network draft
+must be reviewed/saved/published before the required technical review can proceed. A draft save
+alone is not live access. **HOLD MERGE / NOT READY; the research gate is not complete.**
+
+Actual revalidation commands on unchanged implementation:
+
+- `npm test -- --runInBand`: PASS311/13 suites, zero failed/skipped. Includes calendar/profile,
+  car-vector/track-fit, currentV5 and V1–V4→V5 save/migration/continuation tests.
+- `npm run typecheck`: PASS.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: PASS.
+- `FORMULA_PREVIEW_URL=http://127.0.0.1:8776 FORMULA_ARTIFACT_DIR=/workspace/artifacts/milestone-c-research/browser node scripts/check-milestone-c.cjs`:
+  **PASS**, zero page errors/horizontal overflow; calendar/details/scrolled fit, HQ New Day/cards,
+  Drivers/Team/options/scouting and navigation all passed.
+- Field comparison rerun across Monaco/Monza/Suzuka/LasVegas/Sepang with all11 starting cars.
+  Ordering is unchanged from the matrix above: Wellington7/6/7/6/7; Alpinor6/7/6/7/6. The field
+  remains mostly hierarchical; no starter-car rebalancing was performed.
+- All nine historical contract/fixture SHA checks PASS; calendar content remains hash-pinned.
+
+Logs/field results/source-access evidence: `/workspace/artifacts/milestone-c-research/`.
+All final checks completed successfully on the unchanged implementation. Existing npm/color
+warnings remain nonblocking; no packages were installed.
+
+GitHub's commit check for34e486a now reports **Workers Builds: formulatycoon — succeeded**,
+Build ID cb87d289-ac4f-45d9-a3e3-21a2cc7a3028. This confirms the automatic build check only.
+No preview URL is exposed in the retrieved check page; live deployed browser behavior is not
+verified and there are no newly researched profiles to certify there. Do not equate a successful
+build check with final researched-profile preview validation. Native iPhone remains optional.
+
+This follow-up is documentation/evidence only. Player manual remains unchanged because no
+mechanics changed. Main remains C0.1 at36e7df0; worker art remains separate. Finish source access
+and actual23-circuit research before any READY TO AUDIT / MERGE recommendation. D is not started.
