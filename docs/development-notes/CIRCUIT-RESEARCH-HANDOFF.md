@@ -499,4 +499,3 @@ Stable verified characteristics:
 Balanced straight-line/braking/traction profile.
 
 ---
-
