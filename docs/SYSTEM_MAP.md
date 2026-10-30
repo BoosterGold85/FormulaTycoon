@@ -9,6 +9,15 @@ flowchart TD
     Universe --> Clock[One root currentDate / CampaignTime]
     Clock -->|derived temporal view| Dev[Existing development kernel]
     Clock -->|date context| Drivers
+    Catalog[Versioned calendar and circuit content] --> Calendar[Pure date/event queries]
+    Clock --> Calendar
+    State -->|calendarId| Calendar
+    Dev --> Vector[Fitted technical car translation]
+    Catalog --> TrackFit[Generic car-track technical matching]
+    Vector --> TrackFit
+    TrackFit --> CalendarUI[Calendar and circuit briefing]
+    Calendar --> CalendarUI
+    Calendar --> UI
     Universe --> Drivers[DriverWorld: profiles, contracts, knowledge]
     Drivers --> State
     Drivers --> Disclosure[Grade-only disclosure selectors]
@@ -18,13 +27,13 @@ flowchart TD
     Dev --> State
     App[App lifetime useGameUniverse] -->|commands / 50ms HQ steps| Universe
     State -->|display snapshots| UI[HQ scene, HUD, cards]
-    State --> Checkpoint[Version 2 trusted checkpoint]
+    State --> Checkpoint[Version 3 trusted checkpoint]
     Checkpoint -->|version + content checks| State
-    State --> Envelope[Validated v4 serialized envelope]
+    State --> Envelope[Validated v5 serialized envelope]
     Envelope --> Repo[SaveRepository]
     Repo --> Memory[MemorySaveStorage: volatile]
     Memory -->|raw strings| Decode[JSON decode / migration dispatch / validation]
-    Frozen[Immutable released v1 v2 v3 v4 contracts] --> Decode
+    Frozen[Immutable released v1 v2 v3 v4 v5 contracts] --> Decode
     State --> Fit[Domain driver-car fit selector]
     Definition --> Fit
     Fit --> DriverUI
@@ -44,7 +53,7 @@ flowchart TD
 Future integrations:
 
 - Expanded driver growth/offseason -> people/contract state -> player-visible estimates.
-- Part specs -> car characteristic vector -> track-weighted performance -> qualifying/race engines.
+- Existing technical vector/track suitability -> future qualifying/race engines.
 - Weekend commands + forecast/tyres/traffic -> simulation events/results -> standings/history.
 - Development commitments, salaries and sponsor obligations -> one finance ledger.
 - Results/personnel changes -> morale/market/world events -> choices and news projections.
@@ -82,13 +91,30 @@ kernel's dated view is temporary; its season/week fields are never stored. Date 
 processes the ordered interval, running existing weekly work and explicit option/expiry checks.
 Future dated systems join this interval; a target-date jump cannot skip their intermediate work.
 
-V1/V2 -> frozen validated V3 -> explicit date migration -> V4 validation. Source snapshots and
+V1/V2 -> frozen validated V3 -> date migration -> frozen validated V4 -> calendar identity -> V5 validation. Source snapshots and
 fixtures remain untouched. The v4 fixture preserves C0's meaningful audited progress.
 
 UI -> domain date/day selectors; current HQ NEW DAY -> animation replay, never the campaign
-clock. The next-event HUD remains a placeholder until C adds the event registry. Calendar year,
+clock. The next-event HUD now reads the immutable event registry. Calendar year,
 championship lifecycle, dated facts and HQ milliseconds are different concepts.
 
 C0's clock inventory/migration plan is historical context; C0.1 implements the approved actual-
 date model. Provisional annual March2/52-work-week projection preserves old progress until real
-calendar/phase definitions replace it through an explicit compatibility step. C is NOT STARTED.
+calendar/phase definitions replace it through an explicit compatibility step. C leaves that phase policy intact.
+
+
+## C calendar/content and technical boundaries
+
+- `game/calendar`: append-only calendar.2026.v1/v2 -> stable events/track IDs/profiles; recursive
+  freeze and authoring validation. Career stores only the ID, never a copied registry.
+- `simulation/calendar`: rootDate + ID -> current/next/previous/future/status/countdown and
+  score-free detail disclosure. Calendar status cannot generate a result.
+- `simulation/trackPerformance`: fitted development -> existing attribute/package/reliability
+  semantics -> technical vector -> generic demand comparison -> qualitative briefing.
+- Driver/car comfort is separate and unchanged. No performance logic in CalendarScreen or HUD.
+- Save4 source semantics/fixture -> validated ID attachment -> save5; no source fixture edits.
+- Old weekly development fixture remains internal compatibility content; connecting actual race
+  weekends to fitting/development processing requires a later explicit policy/migration decision.
+- Research gate COMPLETE through externally verified owner handoff. New careers choose v2
+  profiles; saved v1 identity and original migrations remain unchanged. No direct Codex source
+  retrieval is claimed. Frozen static-ID registration is separate from the live default.

@@ -1,8 +1,8 @@
 # Formula Tycoon
 
 A mobile racing-team management game built with Expo / React Native and TypeScript.
-The current build is the **Living Headquarters** vertical slice: a miniature isometric
-team HQ where staff arrive for the day, walk to their assigned workstations and get to work.
+The current prototype combines a living isometric HQ, driver browsing/scouting and calendar
+briefings. Staff arrive, walk to persistent workstations and get to work. Racing is future work.
 
 ## What is here
 
@@ -12,7 +12,8 @@ team HQ where staff arrive for the day, walk to their assigned workstations and 
 - 8 staff with persistent station assignments and readable states (IDLE → WALKING → WORKING)
 - Deterministic waypoint movement over a small navigation graph (no teleporting, no cutting through furniture)
 - Tap a worker for an info card; tap a department floor or sign for a department card; tap outside to dismiss
-- Top HUD (placeholder team/day/next event) and bottom navigation (HQ, DRIVERS and a limited TEAM comparison are live; RACE/HISTORY remain placeholders)
+- Date-backed next-event HUD and bottom navigation: HQ, DRIVERS, limited TEAM comparison and
+  RACE calendar/circuit briefings are live; HISTORY remains a placeholder
 - "New day" button replays the morning arrival
 
 ## Architecture
@@ -113,7 +114,7 @@ See [fictional brand policy](docs/BRAND_IDENTITY.md) for future canonical identi
 New games use eleven canonical fictional teams, 22 fixed 2026 starters, ten prospects and eleven
 reserve/free agents. DRIVERS shows grade-only profiles and team-owned scouting; TEAM compares
 Wellington's two contracts; options appear only where the driver has one. No race simulation or overall driver score.
-Validated save schema v4 migrates v1 ten-team data and v2/v3 driver careers explicitly.
+Validated save schema v5 migrates v1 ten-team data and v2/v3/v4 careers explicitly.
 New 2026 games use the canonical performance/contract dataset; see [Player Manual](docs/PLAYER_MANUAL.md). Storage remains memory-only.
 Read `docs/development-notes/MILESTONE-B.md` and `docs/DEV_STATUS.md` before extending it.
 
@@ -124,3 +125,12 @@ queries, with explicit option decision dates. Older saves retain their completed
 the v4 migration. HQ NEW DAY still replays the morning without advancing the career.
 The full event calendar and campaign advancement controls are future work. See
 [C0.1 handoff](docs/development-notes/MILESTONE-C01.md) for compatibility policy and evidence.
+
+## Milestone C — calendar and circuit briefings
+
+RACE now opens the owner-approved23-round calendar with six Sprint markers. Circuit briefings
+compare your fitted car with technical demands; HQ shows the actual next event/countdown.
+No qualifying or racing is simulated. Save5 pins each career to its calendar revision and preserves older profiles.
+The research gate is complete through the externally verified owner handoff; Codex did not
+retrieve the source pages. New careers use researched v2 profiles; older saves keep their original
+content. Await post-C audit before merge. See [Milestone C](docs/development-notes/MILESTONE-C.md).

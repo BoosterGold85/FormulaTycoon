@@ -1,7 +1,7 @@
 # Formula Tycoon Player Manual
 
 This is a living guide to the current prototype. Driver browsing, scouting report reviews,
-contract information and HQ interactions are available. Racing, a dynamic form engine, sponsors,
+contract information, calendar/circuit briefings and HQ interactions are available. Racing, a dynamic form engine, sponsors,
 payroll and a complete career loop are not available yet. Planned effects are identified below.
 
 ## Drivers
@@ -113,8 +113,49 @@ currently replays the morning arrivals; it does **not** move the career date for
 
 Future calendar controls may advance directly to important events or deadlines, so you will not
 need to click through every day. Race weekends, travel, scouting assignments and future facility
-work will use the same calendar. Those event controls and the full race calendar are not available
-yet; the current next-event HUD remains a placeholder.
+work will use the same calendar. Smart event-advance controls are not available yet. The season calendar can now be browsed
+from RACE, and the HQ next-event card follows the shared career date.
+
+## Calendar & Race Weekends
+
+Open **RACE** to browse the 23-round starting calendar. Each card shows the round, venue,
+country, weekend dates and any **SPRINT** marker. A Sprint marker identifies a shorter-format
+weekend; Sprint sessions and races are not simulated yet.
+
+The next event is highlighted. **THIS WEEKEND** includes the opening and race dates.
+**COMPLETED** currently means the date has passed; it does not mean a race result was generated.
+The HQ next-event card shows the same date-based schedule and countdown.
+
+## Circuit Characteristics
+
+Tap an event for its circuit briefing. Different tracks reward different technical strengths:
+Monza and Las Vegas emphasize straight-line efficiency and braking; Monaco rewards low-speed
+performance, traction and mechanical grip; Suzuka and Silverstone emphasize high-speed aero.
+Sepang places broad demands on aero, tyres and cooling.
+
+Track demands appear as LOW, MEDIUM, HIGH or VERY HIGH. These are initial game-model descriptions,
+not exact measurements. Madrid's current profile reflects its confirmed mixed-speed layout and
+strong tyre-energy demands. Imported earlier careers retain their original circuit profiles.
+
+## Car Characteristics
+
+The technical model reads the parts fitted to your car. Aero components, suspension, cooling,
+power-unit performance and reliability feed different characteristics. A project still in the
+factory does not improve the fitted car. Reverted upgrades do not create a hidden improvement.
+Existing low-drag and cooling packages apply only where their technical conditions match.
+
+## Car / Track Fit
+
+Circuit briefings show your team's **EXCELLENT**, **STRONG**, **COMPETITIVE**, **MIXED**, **WEAK**
+or **POOR** technical suitability, with relevant strengths and concerns. A single universal car
+rating cannot describe every circuit. Upgrades may help more at some venues than others.
+
+A hot venue can demand strong cooling without unusually high mechanical stress or tyre wear.
+Cold tyre warm-up and tyre wear are different challenges; detailed warm-up is not simulated yet.
+
+Technical suitability is only one part of eventual race performance. It excludes driver ability,
+form, strategy and dynamic weather, and predicts no finishing position. It is separate from the
+driver's comfort with the car shown in Driver Detail. Qualifying and races remain future work.
 
 ## Headquarters and saving
 

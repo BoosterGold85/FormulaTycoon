@@ -57,7 +57,7 @@ test('current saves have exactly one current clock and retain the actual new-car
  const universe=createGameUniverse(definition,7);
  expect(universe.currentDate).toBe('2026-03-02');
  for(const state of [universe.development,universe.drivers!])for(const key of ['season','week','currentDate','currentYear','currentWeekday'])expect(state).not.toHaveProperty(key);
- const save=value(createSaveEnvelope(universe,meta,definition));expect(save.saveVersion).toBe(4);
+ const save=value(createSaveEnvelope(universe,meta,definition));expect(save.saveVersion).toBe(5);
  expect(value(deserializeSave(value(serializeSave(save,definition)),definition))).toEqual(save);
  for(const field of ['season','week','currentDate']){
   const bad=JSON.parse(JSON.stringify(save));bad.universe.drivers[field]=field==='currentDate'?'2026-03-02':1;

@@ -48,7 +48,7 @@ or empty screen scaffolding.
 ## State ownership
 
 GameUniverse owns definition version, seed, player selection, **currentDate**, HQ state,
-clock-free DevelopmentState and clock-free DriverWorld. currentDate is a branded plain
+immutable calendarId, clock-free DevelopmentState and clock-free DriverWorld. currentDate is a branded plain
 YYYY-MM-DD string, not a timestamp, with one domain advancement path. Source/current state
 contains no competing season/week/weekday/current-round fields. Contract seasons and historical
 result/observation timestamps are distinct factual data.
@@ -74,7 +74,7 @@ invent results. Details and dates are in development-notes/MILESTONE-C01.md.
 
 | Domain | Owner/relationship when implemented |
 |---|---|
-| Season/calendar | Campaign clock, events reference track IDs; migrate existing development season/week once, retain compatibility adapter |
+| Future season lifecycle | Extend existing root date/versioned calendar; preserve released compatibility policy and historical validation |
 | Teams/cars | Canonical team IDs extend existing profiles; per-season cars reference team and part specs |
 | Drivers/staff/principals | Persistent people IDs; HQ workers reference staff IDs when that mapping actually exists |
 | Contracts/scouting | Contracts reference people/team IDs; scouting exposes estimates separately from hidden true ability |
@@ -92,10 +92,10 @@ rules framework is not required for the current two systems.
 
 Two intentionally distinct contracts exist:
 
-- `gameSave.ts`: trusted internal checkpoint v2 for date-clock state. Older trusted checkpoints
+- `gameSave.ts`: trusted internal checkpoint v3 for date-clock state. Older trusted checkpoints
   are incompatible; imported files use the explicit external migration path. Its old
   `GameSaveStorage` is deprecated; it is not an imported-file decoder.
-- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 4`, containing
+- `saveEnvelope.ts`: the durable serialized format, `CURRENT_SAVE_VERSION = 5`, containing
   gameVersion, saveId, canonical UTC createdAt/updatedAt, and universe. App/repository callers
   supply metadata; domain code never generates wall-clock timestamps or unseeded save IDs.
 
@@ -234,7 +234,7 @@ only race seats, preserving two-person TEAM comparison. Reserve employment still
 overlapping driver contracts, but a null reserve seat never occupies a numbered seat. Optional
 affiliated team IDs are informational associations, not additional employment/seat assignments.
 
-Default definition is `driver-world-2026-aligned-v3`; `driverDataVersion: 1` identifies the frozen
+The B.1 definition was `driver-world-2026-aligned-v3`; `driverDataVersion: 1` identifies the frozen
 B definition for validation/compatibility. V3 validates 43 drivers (22 starters, ten prospects,
 eleven reserves). V2 validates the original 42. Existing career terms are not retroactively
 replaced with the new starting content. Frozen v1/v2 fixtures protect both migration paths.
@@ -251,4 +251,62 @@ C0 identified duplicated clocks; C0.1 removes both persisted mirrors after the o
 of actual calendar dates. The allowed architecture boundary is now implemented in v4. Current
 state has one root date; all source-era schema validation and C0 fixtures remain immutable.
 See development-notes/MILESTONE-C01.md for mapping, interval processing, option dates, the
-standings-driven transition and remaining compatibility-phase limitations. C is NOT STARTED.
+standings-driven transition and remaining compatibility-phase limitations. C adds the registry below.
+
+
+## Milestone C: calendar, circuits and technical car/track fit
+
+`game/calendar/calendar2026v1.json` preserves the initial content; `calendar2026v2.json` adds
+the owner-researched profiles. Both have the same approved23-round schedule and six Sprints. Stable event IDs reference track IDs; geographic
+names carry no sponsor branding. `calendarById` returns detached recursively frozen content;
+unknown versions fail rather than silently falling back. Runtime authoring validation checks
+canonical dates/order/overlaps, round/ID uniqueness, references and bounded technical metadata.
+
+A career persists only its versioned calendarId alongside its one root currentDate (new
+careers select v2; saved v1 careers retain v1). The
+content ID pins both dates and `track-profiles.2026.v1`; later edits require a new content ID and
+explicit migration policy. No event statuses, next-event index, track data, car vectors or field
+scores are duplicated in saves. External schema is5; internal trusted checkpoint is3.
+
+Historical V4's content/meaningful fixture remain unchanged. Its former validator now lives in
+`contracts/datedValidationV4.ts` and keeps its released date-policy/structural semantics. V1/V2
+reach frozen V3, then frozen V4; validated V4→V5 attaches only calendarId/new definition identity.
+V5 validation strips/checks that identity before the frozen dated structural checks. Imported
+careers keep their dates, all earned development/HQ/driver state, contract dates and RNG IDs.
+
+`simulation/calendar` derives current/next/previous/future events, countdowns and public briefing
+views. Weekend membership is inclusive; next means current weekend while inside it, otherwise
+next future start. Completed means date passed, not a generated result. After the final event,
+queries return no next event; no next season/offseason is fabricated. The C0.1 annual March2
+compatibility phase and old weekly development/introduction schedule are deliberately unchanged.
+The old24-event engine fixture is not the playable23-round race calendar and is never rendered.
+Connecting introduction scheduling to real weekends is future deliberate migration/balance work.
+
+`simulation/trackPerformance` reads the existing `computeCarProfile` attributes, never its average
+pace, and derives eleven coarse technical characteristics. Existing part-contribution truth,
+package matching and heat/reliability semantics are reused. It does not infer new drag tradeoffs,
+altitude physics or detailed aero stability from scalar part ratings. No new authoritative car
+state exists. Pure `evaluateCarAtTrack` normalizes cubic circuit demands and weights technical
+values; qualitative labels and relevant strengths/concerns derive from that same comparison.
+Internal circuit-specific scores support tests/debug field comparisons; public event detail omits
+scores/rankings. No driver/form/strategy/weather/RNG input and no named-track/team bonus branches.
+`selectDriverCarFit` is unchanged and still answers the separate comfort question.
+
+RACE now hosts calendar/detail views under the same App-lifetime universe. HQ stays mounted;
+next-event HUD uses a domain selector. No player date-advance UX, qualifying or race engine added.
+Native/durable storage remain unimplemented. **Circuit research is externally verified through the owner handoff; Codex did not retrieve the
+underlying pages.**
+See MILESTONE-C and CIRCUIT-RESEARCH notes for evidence and the outstanding gate.
+
+
+### Researched content revision
+
+The owner-supplied external research completes the gate despite direct proxy403. New careers
+select immutable calendar.2026.v2/track-profiles.2026.v2; v1 remains unchanged and available.
+Both have identical dates/events. Madrid is CONFIRMED/HIGH;23 profiles have19 HIGH/four MEDIUM
+confidence. Data corrections do not change starter cars or technical matching formulas.
+Save shape/version remains5: calendarId already identifies the revision. A frozen append-only
+ID registry extends validation to the newly released ID, independently of the live default.
+Existing V5 saves retain their ID; frozen V1–V4→V5 migration still attaches v1. No implicit
+migration to new profiles or optional upgrade UI is added. The same core definition ID remains
+valid because the already-versioned calendarId owns these content semantics independently.

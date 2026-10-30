@@ -16,12 +16,12 @@ import {advancePreCalendarWeek,startPreCalendarSeason} from '../../testSupport/p
 const value=<T,>(r:SaveResult<T>)=>{if(!r.ok)throw new Error(r.error.message);return r.value;};
 const fixtures=[v1,v2,v3];
 
-test.each([1,2,3])('v%i -> v4 preserves earned state, metadata, observations, identities and option decisions',(version)=>{
+test.each([1,2,3])('v%i -> v5 preserves earned state, metadata, observations, identities and option decisions',(version)=>{
  const source=fixtures[version-1]!;const bytes=JSON.stringify(source);
  assertHistoricalSave(source,version as 1|2|3);
  const old=version===1?migrateTenTeamUniverse(source.universe):version===2?migrateDriverAlignment(source.universe):source.universe as HistoricalUniverse;
  const loaded=value(deserializeSave(bytes,definition)),u=loaded.universe;
- expect(loaded.saveVersion).toBe(4);expect(u.definitionVersion).toBe(definition.version);
+ expect(loaded.saveVersion).toBe(5);expect(u.definitionVersion).toBe(definition.version);
  expect(u.currentDate).toBe(version===2?'2026-03-02':'2026-06-22');
  expect(campaignContext(u.currentDate)).toEqual({season:2025+old.development.season,seasonIndex:old.development.season,week:old.development.week});
  for(const key of ['gameVersion','saveId','createdAt','updatedAt'] as const)expect(loaded[key]).toBe(source[key]);
@@ -67,8 +67,8 @@ test('v3 stage refuses conflicting stored clocks instead of choosing one or rese
  expect(deserializeSave(JSON.stringify(bad),definition).ok).toBe(false);
 });
 
-test('frozen-source v4 fixture reloads identically, keeping a migrated exercised option and scouting',()=>{
- const loaded=value(deserializeSave(JSON.stringify(v4),definition));expect(loaded).toEqual(v4);
+test('frozen-source v4 fixture migrates without changing dated state, keeping a migrated exercised option and scouting',()=>{
+ const loaded=value(deserializeSave(JSON.stringify(v4),definition));expect(loaded).toEqual({...v4,saveVersion:5,universe:{...v4.universe,definitionVersion:definition.version,calendarId:'calendar.2026.v1'}});
  expect(loaded.universe.currentDate).toBe('2026-06-22');
  expect(loaded.universe.drivers!.contracts.find(c=>c.driverId==='driver.harlton')!.option).toMatchObject({state:'EXERCISED',decisionDate:'2027-12-07'});
  expect(loaded.universe.drivers!.knowledge['team.wellington']!['driver.cordeiro']).toMatchObject({reports:2,precision:60});

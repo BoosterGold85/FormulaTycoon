@@ -138,11 +138,11 @@ test('car fit and market value are distinct from true driving talent',()=>{
  expect(JSON.stringify(d.ability)).toBe(before);
 });
 
-test('driver knowledge/contracts and stable IDs survive v4 save/load with deterministic continuation',()=>{
+test('driver knowledge/contracts and stable IDs survive v5 save/load with deterministic continuation',()=>{
  let a=createGameUniverse(definition,7);
  a={...a,drivers:observeDriver(a.drivers!,observer,'driver.cordeiro',NEW_CAREER_DATE)};
  let b=value(deserializeSave(value(serializeSave(value(createSaveEnvelope(a,meta,definition)),definition)),definition)).universe;
- expect(b).toEqual(a);expect(CURRENT_SAVE_VERSION).toBe(4);
+ expect(b).toEqual(a);expect(CURRENT_SAVE_VERSION).toBe(5);
  expect(restoreGameSave(createGameSave(a),definition)).toEqual(a);
  for(let i=0;i<52;i++){a=advanceUniverseWeek(advanceUniverseHeadquarters(a,definition,500),definition);b=advanceUniverseWeek(advanceUniverseHeadquarters(b,definition,500),definition);}
  expect(b).toEqual(a);
@@ -158,7 +158,7 @@ test('v1 ten-team migration preserves earned state/history and rejects unknown l
  const json=JSON.stringify(source);
  const migrated=value(deserializeSave(json,definition));
  expect(JSON.stringify(source)).toBe(json);
- expect(migrated.saveVersion).toBe(4);expect(Object.keys(migrated.universe.development.teams)).toHaveLength(11);
+ expect(migrated.saveVersion).toBe(5);expect(Object.keys(migrated.universe.development.teams)).toHaveLength(11);
  for(const [id,mapped] of Object.entries(LEGACY_TEAM_MAP)) {
    expect(migrated.universe.development.teams[mapped]).toEqual({...old.development.teams[id]!,teamId:mapped});
  }

@@ -78,7 +78,7 @@ Use immutable, version-specific definitions and validation semantics, never muta
 When persistent structure changes: increment the save version, freeze the previous contract,
 retain its fixture, add a migration, test it, and validate both source and transformed output.
 Never rewrite historical fixtures/contracts just to match current content. External saves now use
-v4 with one authoritative root currentDate; historical v1/v2/v3 remain unchanged.
+v5 with root currentDate and immutable calendarId; historical v1/v2/v3/v4 remain unchanged.
 
 ## Campaign time
 
@@ -88,3 +88,13 @@ for gameplay. Drivers and persisted development state must not store their own c
 Use CampaignTime helpers and the normal monotonic universe advancement path; process crossed
 work/deadlines in order. HQ animation/New Day replay is independent. Calendar/phase policy
 changes require an explicit content/save compatibility review; never reinterpret old dates.
+
+## Calendar and technical suitability
+
+Calendar/event/track content is versioned plain data under game/calendar. Released calendar IDs
+are append-only: never edit an existing career's schedule/profile definition in place. Status,
+next event, countdown, car vectors and car/track fit are derived, not independently saved.
+Keep car/track suitability separate from driver/car comfort. Read fitted development truth;
+never retune development, RNG or add named-track/team performance branches to force rankings.
+No circuit-specific score is a universal car rating or race prediction. Technical research must
+be recorded honestly; unread references and provisional game weights are not verified facts.

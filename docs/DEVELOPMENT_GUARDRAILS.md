@@ -972,3 +972,17 @@ Calendar year is not automatically championship season: use the centralized phas
 C0.1's annual March2/completed-week compatibility policy is provisional until event-calendar
 content arrives. Do not silently change its interpretation or saved option decision dates;
 freeze prior policy/validation and version/migrate any required semantic change deliberately.
+
+
+# 34. CALENDARS AND TECHNICAL MATCHING ARE VERSIONED DOMAIN DATA
+
+A career's immutable calendarId selects released schedule/event/circuit/profile content. Add new
+content versions rather than silently changing an active career. Preserve prior save validators,
+fixtures and timing semantics. Event status/countdowns derive from root currentDate; no second
+current clock, copied calendar or manually synchronized status flags.
+
+Car/track suitability reads fitted development state through a domain translation and generic
+circuit demands. Keep driver/car comfort separate. No team/track-name branches, randomized field
+ordering, universal car overall or fake finishing predictions. Development balance stays intact.
+Separate real-world evidence from authored game weights; record uncertainty and source-access
+failures rather than claiming unperformed research. Metadata is not an implemented race system.

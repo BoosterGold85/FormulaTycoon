@@ -1,5 +1,5 @@
 import type { GameUniverse as HistoricalUniverse } from './contracts/preCalendarTypes';
-import type { GameUniverse } from '../simulation/universe/types';
+import type { DatedUniverseV4 as GameUniverse } from './contracts/preCalendarTypes';
 import {legacyWeekDate} from '../simulation/campaignTime/calendarPolicyV4';
 import {SAVE_V4} from './contracts';
 

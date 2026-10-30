@@ -89,12 +89,12 @@ test('years left derives from current timeline; actual option owners and deadlin
  expect(JSON.stringify(world)).not.toContain('futureGuaranteedYears');
 });
 
-test('aligned raw sources, stable IDs and exact deals survive v4 round trip and scouting',()=>{
+test('aligned raw sources, stable IDs and exact deals survive v5 round trip and scouting',()=>{
  const universe=createGameUniverse(definition,19);
  universe.drivers=observeDriver(universe.drivers!,observer,'driver.takase',NEW_CAREER_DATE);
  const save=value(createSaveEnvelope(universe,meta,definition));
  const loaded=value(deserializeSave(value(serializeSave(save,definition)),definition));
- expect(loaded).toEqual(save);expect(loaded.saveVersion).toBe(4);
+ expect(loaded).toEqual(save);expect(loaded.saveVersion).toBe(5);
  for(const [id,source] of Object.entries(expected.performance)) expect(loaded.universe.drivers!.drivers[id]!.sourcePerformance).toEqual(source);
  expect(loaded.universe.drivers!.contracts).toEqual(world.contracts);
 });
@@ -144,7 +144,7 @@ test.each([
  ['race null seat',(s:any)=>{s.universe.drivers.contracts[0].seat=null;}],
  ['unknown affiliation',(s:any)=>{s.universe.drivers.drivers['driver.takase'].affiliatedTeamIds=['unknown'];}],
  ['invalid provenance',(s:any)=>{s.universe.drivers.contracts[0].provenance.status='MAYBE';}],
-])('v4 boundary rejects malformed alignment content: %s',(_label,mutate)=>{
+])('v5 boundary rejects malformed alignment content: %s',(_label,mutate)=>{
  const save=value(createSaveEnvelope(createGameUniverse(definition,1),meta,definition));mutate(save);expect(validateSave(save,definition).ok).toBe(false);
 });
 

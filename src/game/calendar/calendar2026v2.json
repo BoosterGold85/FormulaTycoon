@@ -1,0 +1,1044 @@
+{
+  "id": "calendar.2026.v2",
+  "season": 2026,
+  "profileVersion": "track-profiles.2026.v2",
+  "events": [
+    {
+      "id": "event.2026.melbourne",
+      "trackId": "track.melbourne",
+      "round": 1,
+      "weekendStartDate": "2026-03-06",
+      "raceDate": "2026-03-08",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.shanghai",
+      "trackId": "track.shanghai",
+      "round": 2,
+      "weekendStartDate": "2026-03-13",
+      "raceDate": "2026-03-15",
+      "sprint": true
+    },
+    {
+      "id": "event.2026.suzuka",
+      "trackId": "track.suzuka",
+      "round": 3,
+      "weekendStartDate": "2026-03-27",
+      "raceDate": "2026-03-29",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.miami",
+      "trackId": "track.miami",
+      "round": 4,
+      "weekendStartDate": "2026-05-01",
+      "raceDate": "2026-05-03",
+      "sprint": true
+    },
+    {
+      "id": "event.2026.montreal",
+      "trackId": "track.montreal",
+      "round": 5,
+      "weekendStartDate": "2026-05-22",
+      "raceDate": "2026-05-24",
+      "sprint": true
+    },
+    {
+      "id": "event.2026.monaco",
+      "trackId": "track.monaco",
+      "round": 6,
+      "weekendStartDate": "2026-06-05",
+      "raceDate": "2026-06-07",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.barcelona",
+      "trackId": "track.barcelona",
+      "round": 7,
+      "weekendStartDate": "2026-06-12",
+      "raceDate": "2026-06-14",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.spielberg",
+      "trackId": "track.spielberg",
+      "round": 8,
+      "weekendStartDate": "2026-06-26",
+      "raceDate": "2026-06-28",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.silverstone",
+      "trackId": "track.silverstone",
+      "round": 9,
+      "weekendStartDate": "2026-07-03",
+      "raceDate": "2026-07-05",
+      "sprint": true
+    },
+    {
+      "id": "event.2026.spa",
+      "trackId": "track.spa",
+      "round": 10,
+      "weekendStartDate": "2026-07-17",
+      "raceDate": "2026-07-19",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.budapest",
+      "trackId": "track.budapest",
+      "round": 11,
+      "weekendStartDate": "2026-07-24",
+      "raceDate": "2026-07-26",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.zandvoort",
+      "trackId": "track.zandvoort",
+      "round": 12,
+      "weekendStartDate": "2026-08-21",
+      "raceDate": "2026-08-23",
+      "sprint": true
+    },
+    {
+      "id": "event.2026.monza",
+      "trackId": "track.monza",
+      "round": 13,
+      "weekendStartDate": "2026-09-04",
+      "raceDate": "2026-09-06",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.madrid",
+      "trackId": "track.madrid",
+      "round": 14,
+      "weekendStartDate": "2026-09-11",
+      "raceDate": "2026-09-13",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.baku",
+      "trackId": "track.baku",
+      "round": 15,
+      "weekendStartDate": "2026-09-24",
+      "raceDate": "2026-09-26",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.sepang",
+      "trackId": "track.sepang",
+      "round": 16,
+      "weekendStartDate": "2026-10-02",
+      "raceDate": "2026-10-04",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.singapore",
+      "trackId": "track.singapore",
+      "round": 17,
+      "weekendStartDate": "2026-10-09",
+      "raceDate": "2026-10-11",
+      "sprint": true
+    },
+    {
+      "id": "event.2026.austin",
+      "trackId": "track.austin",
+      "round": 18,
+      "weekendStartDate": "2026-10-23",
+      "raceDate": "2026-10-25",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.mexico_city",
+      "trackId": "track.mexico_city",
+      "round": 19,
+      "weekendStartDate": "2026-10-30",
+      "raceDate": "2026-11-01",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.sao_paulo",
+      "trackId": "track.sao_paulo",
+      "round": 20,
+      "weekendStartDate": "2026-11-06",
+      "raceDate": "2026-11-08",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.las_vegas",
+      "trackId": "track.las_vegas",
+      "round": 21,
+      "weekendStartDate": "2026-11-19",
+      "raceDate": "2026-11-21",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.lusail",
+      "trackId": "track.lusail",
+      "round": 22,
+      "weekendStartDate": "2026-11-27",
+      "raceDate": "2026-11-29",
+      "sprint": false
+    },
+    {
+      "id": "event.2026.yas_marina",
+      "trackId": "track.yas_marina",
+      "round": 23,
+      "weekendStartDate": "2026-12-04",
+      "raceDate": "2026-12-06",
+      "sprint": false
+    }
+  ],
+  "tracks": {
+    "track.melbourne": {
+      "id": "track.melbourne",
+      "name": "Melbourne",
+      "country": "Australia",
+      "type": "HYBRID",
+      "demands": {
+        "straightLine": 0.75,
+        "aeroEfficiency": 0.75,
+        "lowSpeed": 0.45,
+        "mediumSpeed": 0.8,
+        "highSpeed": 0.75,
+        "traction": 0.65,
+        "braking": 0.65,
+        "mechanicalGrip": 0.6,
+        "tyrePreservation": 0.35,
+        "cooling": 0.5,
+        "reliability": 0.6
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.35,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Fast modern temporary layout rewards chassis response and rapid direction changes; bumps and strong grip evolution matter, while tyre severity is relatively low.",
+      "profileConfidence": "HIGH"
+    },
+    "track.shanghai": {
+      "id": "track.shanghai",
+      "name": "Shanghai",
+      "country": "China",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.8,
+        "aeroEfficiency": 0.75,
+        "lowSpeed": 0.7,
+        "mediumSpeed": 0.8,
+        "highSpeed": 0.7,
+        "traction": 0.8,
+        "braking": 0.85,
+        "mechanicalGrip": 0.65,
+        "tyrePreservation": 0.9,
+        "cooling": 0.55,
+        "reliability": 0.65
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.9,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "A 1.2 km back straight and heavy braking combine with long loaded corners, the fast Turns 7–8 sequence and traction-sensitive slow exits; a balanced car is rewarded.",
+      "profileConfidence": "HIGH"
+    },
+    "track.suzuka": {
+      "id": "track.suzuka",
+      "name": "Suzuka",
+      "country": "Japan",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.6,
+        "aeroEfficiency": 0.95,
+        "lowSpeed": 0.3,
+        "mediumSpeed": 0.9,
+        "highSpeed": 1,
+        "traction": 0.5,
+        "braking": 0.5,
+        "mechanicalGrip": 0.6,
+        "tyrePreservation": 0.9,
+        "cooling": 0.55,
+        "reliability": 0.8
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.9,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Continuous fast direction changes demand aero balance and technical precision; high lateral tyre energy makes medium/high-speed aero and tyre preservation central.",
+      "profileConfidence": "HIGH"
+    },
+    "track.miami": {
+      "id": "track.miami",
+      "name": "Miami",
+      "country": "United States",
+      "type": "HYBRID",
+      "demands": {
+        "straightLine": 0.85,
+        "aeroEfficiency": 0.75,
+        "lowSpeed": 0.8,
+        "mediumSpeed": 0.55,
+        "highSpeed": 0.4,
+        "traction": 0.85,
+        "braking": 0.85,
+        "mechanicalGrip": 0.75,
+        "tyrePreservation": 0.4,
+        "cooling": 0.85,
+        "reliability": 0.7
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.35,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Three long straights and major stops at Turns 11 and 17 combine with a fast opening sector and slow chicane; low roughness and limited degradation temper tyre severity.",
+      "profileConfidence": "HIGH"
+    },
+    "track.montreal": {
+      "id": "track.montreal",
+      "name": "Montreal",
+      "country": "Canada",
+      "type": "HYBRID",
+      "demands": {
+        "straightLine": 0.9,
+        "aeroEfficiency": 0.8,
+        "lowSpeed": 0.75,
+        "mediumSpeed": 0.45,
+        "highSpeed": 0.25,
+        "traction": 0.9,
+        "braking": 1,
+        "mechanicalGrip": 0.8,
+        "tyrePreservation": 0.45,
+        "cooling": 0.6,
+        "reliability": 0.8
+      },
+      "packageContext": {
+        "downforce": "LOW",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.45,
+        "kerbSeverity": 0.85,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Stop-and-go straights and slow chicanes make braking stability and traction defining demands; low abrasion does not remove significant track evolution.",
+      "profileConfidence": "HIGH"
+    },
+    "track.monaco": {
+      "id": "track.monaco",
+      "name": "Monaco",
+      "country": "Monaco",
+      "type": "STREET",
+      "demands": {
+        "straightLine": 0.1,
+        "aeroEfficiency": 0.2,
+        "lowSpeed": 1,
+        "mediumSpeed": 0.45,
+        "highSpeed": 0.1,
+        "traction": 0.95,
+        "braking": 0.8,
+        "mechanicalGrip": 1,
+        "tyrePreservation": 0.35,
+        "cooling": 0.6,
+        "reliability": 0.5
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.95,
+        "qualifyingImportance": 1,
+        "safetyCarTendency": 0.85,
+        "tyreSeverity": 0.35,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Extremely narrow low-speed streets reward mechanical grip, traction and qualifying position; the smooth surface traditionally produces low tyre degradation.",
+      "profileConfidence": "HIGH"
+    },
+    "track.barcelona": {
+      "id": "track.barcelona",
+      "name": "Barcelona-Catalunya",
+      "country": "Spain",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.6,
+        "aeroEfficiency": 0.85,
+        "lowSpeed": 0.5,
+        "mediumSpeed": 0.9,
+        "highSpeed": 0.85,
+        "traction": 0.65,
+        "braking": 0.65,
+        "mechanicalGrip": 0.65,
+        "tyrePreservation": 0.95,
+        "cooling": 0.75,
+        "reliability": 0.75
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.95,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Long loaded high-speed corners and abrasive asphalt stress the front axle and thermal tyre management; aero balance is a major requirement.",
+      "profileConfidence": "HIGH"
+    },
+    "track.spielberg": {
+      "id": "track.spielberg",
+      "name": "Spielberg",
+      "country": "Austria",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.85,
+        "aeroEfficiency": 0.75,
+        "lowSpeed": 0.65,
+        "mediumSpeed": 0.55,
+        "highSpeed": 0.65,
+        "traction": 0.9,
+        "braking": 0.9,
+        "mechanicalGrip": 0.65,
+        "tyrePreservation": 0.6,
+        "cooling": 0.6,
+        "reliability": 0.7
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.6,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": 660,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Fast stop-and-go layout with elevation changes and downhill braking rewards traction and braking stability; tyre degradation is predominantly thermal.",
+      "profileConfidence": "HIGH"
+    },
+    "track.silverstone": {
+      "id": "track.silverstone",
+      "name": "Silverstone",
+      "country": "Great Britain",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.65,
+        "aeroEfficiency": 0.95,
+        "lowSpeed": 0.25,
+        "mediumSpeed": 0.8,
+        "highSpeed": 1,
+        "traction": 0.45,
+        "braking": 0.45,
+        "mechanicalGrip": 0.55,
+        "tyrePreservation": 0.95,
+        "cooling": 0.5,
+        "reliability": 0.8
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.95,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Very fast direction changes and high lateral forces demand stable high-speed aero, with severe front-axle tyre loading.",
+      "profileConfidence": "HIGH"
+    },
+    "track.spa": {
+      "id": "track.spa",
+      "name": "Spa-Francorchamps",
+      "country": "Belgium",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.9,
+        "aeroEfficiency": 1,
+        "lowSpeed": 0.4,
+        "mediumSpeed": 0.65,
+        "highSpeed": 0.95,
+        "traction": 0.6,
+        "braking": 0.75,
+        "mechanicalGrip": 0.5,
+        "tyrePreservation": 0.8,
+        "cooling": 0.5,
+        "reliability": 0.85
+      },
+      "packageContext": {
+        "downforce": "LOW",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.8,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Long straights and fast corners demand aero efficiency; a technical middle sector and variable weather favor a balanced compromise.",
+      "profileConfidence": "HIGH"
+    },
+    "track.budapest": {
+      "id": "track.budapest",
+      "name": "Budapest",
+      "country": "Hungary",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.25,
+        "aeroEfficiency": 0.5,
+        "lowSpeed": 0.9,
+        "mediumSpeed": 0.9,
+        "highSpeed": 0.35,
+        "traction": 0.9,
+        "braking": 0.65,
+        "mechanicalGrip": 0.95,
+        "tyrePreservation": 0.75,
+        "cooling": 0.85,
+        "reliability": 0.6
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.75,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Slow twisty layout with one meaningful straight rewards traction, braking stability and mechanical grip; low grip evolves substantially through the weekend.",
+      "profileConfidence": "HIGH"
+    },
+    "track.zandvoort": {
+      "id": "track.zandvoort",
+      "name": "Zandvoort",
+      "country": "Netherlands",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.35,
+        "aeroEfficiency": 0.8,
+        "lowSpeed": 0.65,
+        "mediumSpeed": 0.85,
+        "highSpeed": 0.85,
+        "traction": 0.75,
+        "braking": 0.6,
+        "mechanicalGrip": 0.75,
+        "tyrePreservation": 0.9,
+        "cooling": 0.5,
+        "reliability": 0.7
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.9,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Fast flowing banked corners and a narrow layout demand downforce and impose high vertical/lateral tyre energy; straight-line emphasis is limited.",
+      "profileConfidence": "HIGH"
+    },
+    "track.monza": {
+      "id": "track.monza",
+      "name": "Monza",
+      "country": "Italy",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 1,
+        "aeroEfficiency": 0.95,
+        "lowSpeed": 0.25,
+        "mediumSpeed": 0.25,
+        "highSpeed": 0.4,
+        "traction": 0.65,
+        "braking": 0.95,
+        "mechanicalGrip": 0.3,
+        "tyrePreservation": 0.3,
+        "cooling": 0.5,
+        "reliability": 0.85
+      },
+      "packageContext": {
+        "downforce": "LOW",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.3,
+        "kerbSeverity": 0.85,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Roughly 80% full throttle, very long straights and large chicane braking events demand maximum speed, low-drag efficiency and braking stability.",
+      "profileConfidence": "HIGH"
+    },
+    "track.madrid": {
+      "id": "track.madrid",
+      "name": "Madrid",
+      "country": "Spain",
+      "type": "HYBRID",
+      "demands": {
+        "straightLine": 0.85,
+        "aeroEfficiency": 0.85,
+        "lowSpeed": 0.75,
+        "mediumSpeed": 0.8,
+        "highSpeed": 0.85,
+        "traction": 0.8,
+        "braking": 0.9,
+        "mechanicalGrip": 0.75,
+        "tyrePreservation": 0.95,
+        "cooling": 0.65,
+        "reliability": 0.65
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.95,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Confirmed hybrid 22-corner layout combines a very fast opening sector, heavy braking and slower technical sections; the long heavily banked Turn 12 generates high tyre energy on new smooth low-grip asphalt.",
+      "profileConfidence": "HIGH"
+    },
+    "track.baku": {
+      "id": "track.baku",
+      "name": "Baku",
+      "country": "Azerbaijan",
+      "type": "STREET",
+      "demands": {
+        "straightLine": 1,
+        "aeroEfficiency": 0.9,
+        "lowSpeed": 0.9,
+        "mediumSpeed": 0.55,
+        "highSpeed": 0.1,
+        "traction": 0.9,
+        "braking": 0.95,
+        "mechanicalGrip": 0.75,
+        "tyrePreservation": 0.4,
+        "cooling": 0.65,
+        "reliability": 0.8
+      },
+      "packageContext": {
+        "downforce": "LOW",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.75,
+        "qualifyingImportance": 0.8,
+        "safetyCarTendency": 0.85,
+        "tyreSeverity": 0.4,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Approximately 2.2 km of main straight contrasts with slow and medium-speed street corners and heavy stops; low-drag efficiency must coexist with corner performance.",
+      "profileConfidence": "HIGH"
+    },
+    "track.sepang": {
+      "id": "track.sepang",
+      "name": "Sepang",
+      "country": "Malaysia",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.8,
+        "aeroEfficiency": 0.9,
+        "lowSpeed": 0.65,
+        "mediumSpeed": 0.9,
+        "highSpeed": 0.9,
+        "traction": 0.8,
+        "braking": 0.75,
+        "mechanicalGrip": 0.7,
+        "tyrePreservation": 0.95,
+        "cooling": 1,
+        "reliability": 0.85
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.95,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Long straights flank a flowing fast middle sector and demanding Turns 5–6; technical braking and traction combine with extreme heat, humidity and sudden heavy rain.",
+      "profileConfidence": "HIGH"
+    },
+    "track.singapore": {
+      "id": "track.singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "type": "STREET",
+      "demands": {
+        "straightLine": 0.4,
+        "aeroEfficiency": 0.5,
+        "lowSpeed": 0.95,
+        "mediumSpeed": 0.85,
+        "highSpeed": 0.2,
+        "traction": 0.95,
+        "braking": 0.95,
+        "mechanicalGrip": 0.95,
+        "tyrePreservation": 0.5,
+        "cooling": 1,
+        "reliability": 0.5
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.75,
+        "qualifyingImportance": 0.8,
+        "safetyCarTendency": 0.85,
+        "tyreSeverity": 0.45,
+        "kerbSeverity": 0.85,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": true,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Hot humid night streets require cooling, traction and braking, but 2026 mechanical stress is not especially high and tyre overheating/degradation is not unusually limiting.",
+      "profileConfidence": "HIGH"
+    },
+    "track.austin": {
+      "id": "track.austin",
+      "name": "Austin",
+      "country": "United States",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.8,
+        "aeroEfficiency": 0.85,
+        "lowSpeed": 0.6,
+        "mediumSpeed": 0.8,
+        "highSpeed": 0.9,
+        "traction": 0.75,
+        "braking": 0.8,
+        "mechanicalGrip": 0.7,
+        "tyrePreservation": 0.9,
+        "cooling": 0.7,
+        "reliability": 0.8
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.9,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "MEDIUM"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Fast direction changes and slower traction zones stress both axles; straights, efficient aero and a bumpy surface make this a balanced technical test.",
+      "profileConfidence": "HIGH"
+    },
+    "track.mexico_city": {
+      "id": "track.mexico_city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.85,
+        "aeroEfficiency": 0.85,
+        "lowSpeed": 0.85,
+        "mediumSpeed": 0.6,
+        "highSpeed": 0.75,
+        "traction": 0.8,
+        "braking": 0.85,
+        "mechanicalGrip": 0.65,
+        "tyrePreservation": 0.55,
+        "cooling": 1,
+        "reliability": 0.8
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.55,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": 2250,
+        "night": false,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Approximately 2250 m altitude reduces effective downforce and cooling despite high-downforce bodywork; cooling, heavy braking and low-grip technical sections matter. Altitude physics is not simulated.",
+      "profileConfidence": "HIGH"
+    },
+    "track.sao_paulo": {
+      "id": "track.sao_paulo",
+      "name": "São Paulo",
+      "country": "Brazil",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.8,
+        "aeroEfficiency": 0.85,
+        "lowSpeed": 0.55,
+        "mediumSpeed": 0.9,
+        "highSpeed": 0.7,
+        "traction": 0.8,
+        "braking": 0.7,
+        "mechanicalGrip": 0.7,
+        "tyrePreservation": 0.85,
+        "cooling": 0.65,
+        "reliability": 0.75
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.85,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": false,
+        "rainTendency": "HIGH"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Short balanced lap combines straights and a twisty infield with elevation, camber and bumps; tyre wear/graining and variable weather matter.",
+      "profileConfidence": "MEDIUM"
+    },
+    "track.las_vegas": {
+      "id": "track.las_vegas",
+      "name": "Las Vegas",
+      "country": "United States",
+      "type": "STREET",
+      "demands": {
+        "straightLine": 1,
+        "aeroEfficiency": 0.9,
+        "lowSpeed": 0.65,
+        "mediumSpeed": 0.25,
+        "highSpeed": 0.1,
+        "traction": 0.85,
+        "braking": 0.95,
+        "mechanicalGrip": 0.55,
+        "tyrePreservation": 0.45,
+        "cooling": 0.25,
+        "reliability": 0.75
+      },
+      "packageContext": {
+        "downforce": "LOW",
+        "hot": false
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.75,
+        "qualifyingImportance": 0.8,
+        "safetyCarTendency": 0.85,
+        "tyreSeverity": 0.45,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.85,
+        "altitudeM": null,
+        "night": true,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Long flat-out straights and heavy stops favor low drag; cold tyre warm-up, graining and evolving street grip matter more than inherently extreme wear. Warm-up is not simulated.",
+      "profileConfidence": "MEDIUM"
+    },
+    "track.lusail": {
+      "id": "track.lusail",
+      "name": "Lusail",
+      "country": "Qatar",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.6,
+        "aeroEfficiency": 0.9,
+        "lowSpeed": 0.25,
+        "mediumSpeed": 0.85,
+        "highSpeed": 1,
+        "traction": 0.45,
+        "braking": 0.5,
+        "mechanicalGrip": 0.55,
+        "tyrePreservation": 1,
+        "cooling": 0.85,
+        "reliability": 0.85
+      },
+      "packageContext": {
+        "downforce": "HIGH",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 1,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": true,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "Fast flowing medium/high-speed corners and a long main straight impose exceptionally high lateral/thermal tyre energy, comparable in severity to Suzuka and Silverstone.",
+      "profileConfidence": "MEDIUM"
+    },
+    "track.yas_marina": {
+      "id": "track.yas_marina",
+      "name": "Yas Marina",
+      "country": "United Arab Emirates",
+      "type": "PERMANENT",
+      "demands": {
+        "straightLine": 0.85,
+        "aeroEfficiency": 0.8,
+        "lowSpeed": 0.65,
+        "mediumSpeed": 0.75,
+        "highSpeed": 0.5,
+        "traction": 0.85,
+        "braking": 0.85,
+        "mechanicalGrip": 0.65,
+        "tyrePreservation": 0.7,
+        "cooling": 0.75,
+        "reliability": 0.7
+      },
+      "packageContext": {
+        "downforce": "MEDIUM",
+        "hot": true
+      },
+      "metadata": {
+        "overtakingDifficulty": 0.5,
+        "qualifyingImportance": 0.65,
+        "safetyCarTendency": 0.45,
+        "tyreSeverity": 0.7,
+        "kerbSeverity": 0.55,
+        "trackEvolution": 0.5,
+        "altitudeM": null,
+        "night": true,
+        "rainTendency": "LOW"
+      },
+      "profileStatus": "CONFIRMED",
+      "rationale": "A long principal straight, slow exits and loaded braking sequences combine with a technical final sector; rear traction and rear-biased thermal tyre management matter.",
+      "profileConfidence": "MEDIUM"
+    }
+  }
+}

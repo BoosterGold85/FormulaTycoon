@@ -4,4 +4,7 @@ import type { DriverWorld as CurrentDrivers, DriverContract } from '../../game/d
 import type { DevelopmentWorld } from '../../simulation/development/types';
 export type HistoricalContract=Omit<DriverContract,'option'>&{option:null|{season:number;deadlineSeason:number;deadlineWeek:number;salaryM:number;state:'PENDING'|'EXERCISED'|'DECLINED'|'LAPSED'}};
 export type DriverWorld=Omit<CurrentDrivers,'contracts'>&{season:number;week:number;contracts:HistoricalContract[]};
-export type GameUniverse=Omit<CurrentUniverse,'currentDate'|'development'|'drivers'>&{development:DevelopmentWorld;drivers?:DriverWorld};
+export type GameUniverse=Omit<CurrentUniverse,'currentDate'|'calendarId'|'development'|'drivers'>&{development:DevelopmentWorld;drivers?:DriverWorld};
+
+/** Released dated V4 shape, prior to calendar-content identity. */
+export type DatedUniverseV4=Omit<CurrentUniverse,'calendarId'>;

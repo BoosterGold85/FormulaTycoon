@@ -15,15 +15,15 @@ Each JSON object is detached and recursively frozen by `index.ts` before use.
   validation has no live registry/engine dependency. `preCalendarTypes.ts` preserves old shapes;
   only type imports changed when C0.1 removed live subsystem clocks.
 - `v4.json`: C0.1 content snapshot with date-based definition identity. Root date and dated options
-  are checked by `universeValidation.ts`, which creates an ephemeral historical-shaped projection
+  are checked by `datedValidationV4.ts`, which creates an ephemeral historical-shaped projection
   to reuse frozen structural rules. It explicitly uses released `calendarPolicyV4.ts`, not an
   unspecified future live event-calendar policy. Keep this policy available unchanged to validate
   V4 if subsequent versions change championship phase/week interpretation.
 
-The external current save version is **4**. `assertHistoricalSave(input, version)` validates raw
-V1/V2/V3 source. V1/V2 transformations first reach frozen V3; V3 source is validated, then
+The external current save version is **5**. `assertHistoricalSave(input, version)` validates raw
+V1/V2/V3/V4 source. V1/V2 transformations first reach frozen V3; V3 source is validated, then
 `dateMigration.ts` produces detached V4 output; the public boundary validates that output with
-V4 rules before returning it. The trusted internal checkpoint is independently version2 and is
+V4 rules before calendar migration attaches the V5 identity. Final output validates with V5. The trusted internal checkpoint is independently version3 and is
 not an external import API. Unknown released definition IDs require explicit registration.
 
 Old `(seasonIndex, completedWeek)` maps to March2 of `2025 + seasonIndex` plus `7 * week` days,
@@ -37,3 +37,15 @@ For persistent changes: bump version, freeze the previous contract, retain a mea
 implement migration and test source/output/continuation. Never rewrite historical inputs to match
 current content. New versions get new files and explicit dispatch. Preserve the V4 phase mapping
 and explicit option dates when adding later calendars; do not silently reinterpret a career.
+
+
+C adds `v5.json`, pinning calendarId and the calendar-track definition. V4 JSON/fixture are
+unchanged; `datedValidationV4.ts` preserves its former validation semantics and explicit released
+calendarPolicyV4. Historical source dispatch supports4 with no live registry dependency.
+V1/V2→V3→V4→V5 validates each source boundary; V4→V5 attaches only frozen calendarId/new definition.
+Current validation checks the identity and delegates unchanged dated structure to released rules.
+The readonly static calendar/profile registry is append-only under game/calendar; never silently
+change an existing calendar ID. The externally verified owner handoff completes C research. New careers select v2 through a
+frozen append-only ID registry; saved v1 careers and original migration targets keep v1.
+Schema stays5: no persistent structure change. Both static profile revisions are retained;
+current validation accepts the explicitly registered IDs without consulting a mutable default.

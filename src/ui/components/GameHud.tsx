@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { HUD_PLACEHOLDERS } from '../../game/hudPlaceholders';
 import { theme } from '../theme';
 
-export function GameHud({currentDate}:{currentDate:CampaignDate}) {
+export function GameHud({currentDate,nextEvent}:{currentDate:CampaignDate;nextEvent:{venue:string;detail:string}}) {
   return (
     <View style={styles.wrap}>
       <Text style={styles.title}>
@@ -13,7 +13,7 @@ export function GameHud({currentDate}:{currentDate:CampaignDate}) {
       <View style={styles.row}>
         <HudChip label="TEAM" value={HUD_PLACEHOLDERS.teamName} />
         <HudChip label="DAY" value={weekday(currentDate)} detail={formatCampaignDate(currentDate)} />
-        <HudChip label="NEXT EVENT" value={HUD_PLACEHOLDERS.nextEvent} accent />
+        <HudChip label="NEXT EVENT" value={nextEvent.venue} detail={nextEvent.detail} accent />
       </View>
     </View>
   );
