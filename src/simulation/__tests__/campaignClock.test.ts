@@ -7,6 +7,7 @@ import {parseCampaignDate as date,addCampaignDays,daysBetween,weekday,formatCamp
 import {developmentView,developmentState} from '../campaignTime/developmentView';
 import {DEFAULT_GAME_DEFINITION as definition} from '../../game/defaultGame';
 import {createGameUniverse,advanceUniverseWeek,startUniverseSeason,advanceCampaignTo,advanceCampaignByDays,advanceUniverseHeadquarters,restartUniverseHeadquarters} from '../universe';
+import type {GameUniverse} from '../universe';
 import {createDriverWorld,refreshDriverStatuses,decideTeamOption,signDriverContract,activeContracts} from '../drivers';
 import {advanceDevelopmentWeek,createDevelopmentWorld} from '../development';
 import {createSaveEnvelope,serializeSave,deserializeSave,validateSave,type SaveResult} from '../../persistence/saveEnvelope';
@@ -57,7 +58,7 @@ test('current saves have exactly one current clock and retain the actual new-car
  const universe=createGameUniverse(definition,7);
  expect(universe.currentDate).toBe('2026-03-02');
  for(const state of [universe.development,universe.drivers!])for(const key of ['season','week','currentDate','currentYear','currentWeekday'])expect(state).not.toHaveProperty(key);
- const save=value(createSaveEnvelope(universe,meta,definition));expect(save.saveVersion).toBe(5);
+ const save=value(createSaveEnvelope(universe,meta,definition));expect(save.saveVersion).toBe(6);
  expect(value(deserializeSave(value(serializeSave(save,definition)),definition))).toEqual(save);
  for(const field of ['season','week','currentDate']){
   const bad=JSON.parse(JSON.stringify(save));bad.universe.drivers[field]=field==='currentDate'?'2026-03-02':1;
@@ -67,7 +68,8 @@ test('current saves have exactly one current clock and retain the actual new-car
 });
 
 test('date jumps process all intermediate weekly work and daily deadlines exactly once',()=>{
- const initial=createGameUniverse(definition,17),target=date('2026-12-08');
+ // Released rules-1 cadence: migrated careers keep this kernel; new careers use rules 2 (developmentLoop suite).
+ const initial:GameUniverse={...createGameUniverse(definition,17),developmentRules:1},target=date('2026-12-08');
  const jumped=advanceCampaignTo(initial,definition,target);
  let daily=initial;
  while(daily.currentDate!==target)daily=advanceCampaignByDays(daily,definition,1);

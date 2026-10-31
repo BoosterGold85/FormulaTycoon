@@ -6,13 +6,15 @@ import { HEADQUARTERS_LAYOUT } from '../game/headquartersData';
 import type { NavTab } from '../game/hudPlaceholders';
 import { countWorkersByState } from '../simulation/headquarters';
 import { BottomNav } from './components/BottomNav';
-import { GameHud } from './components/GameHud';
 import { SelectionCard } from './components/SelectionCard';
 import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
-import { theme } from './theme';
+import { useTheme } from './theme';
+import { reportBubbles, type TurnReport } from '../simulation/developmentLoop';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent,activity={},report=null }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
+  activity?:Record<string,{project:string;stage:string}|undefined>;report?:(TurnReport&{to:string})|null }) {
+  const {theme}=useTheme(),styles=makeStyles(theme);
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -40,7 +42,6 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar style="light" />
-      <GameHud currentDate={currentDate} nextEvent={nextEvent} />
 
       <View style={styles.viewport} onLayout={onLayout}>
         {size ? (
@@ -51,6 +52,9 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
             height={size.height}
             selection={selection}
             onSelect={setSelection}
+            activity={activity}
+            bubbles={report?reportBubbles(report):undefined}
+            bubbleKey={report?.to}
           />
         ) : null}
 
@@ -100,15 +104,15 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: theme.background
+    backgroundColor: theme.navBackground
   },
   viewport: {
     flex: 1,
     overflow: 'hidden',
-    backgroundColor: '#0E1621'
+    backgroundColor: theme.environment
   },
   statusStrip: {
     position: 'absolute',
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 7,
-    backgroundColor: 'rgba(18,28,41,0.9)',
+    backgroundColor: theme.overlay,
     borderColor: theme.panelBorder,
     borderWidth: 1,
     borderRadius: 14,
@@ -140,13 +144,13 @@ const styles = StyleSheet.create({
     backgroundColor: theme.success
   },
   statusText: {
-    color: '#C9D4E1',
+    color: theme.textPrimary,
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.6
   },
   restart: {
-    backgroundColor: 'rgba(18,28,41,0.9)',
+    backgroundColor: theme.overlay,
     borderColor: theme.panelBorder,
     borderWidth: 1,
     borderRadius: 14,
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5
   },
   restartText: {
-    color: '#C9D4E1',
+    color: theme.textPrimary,
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.6
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 52,
     alignSelf: 'center',
-    backgroundColor: 'rgba(18,28,41,0.95)',
+    backgroundColor: theme.overlay,
     borderColor: theme.panelBorder,
     borderWidth: 1,
     borderRadius: 12,

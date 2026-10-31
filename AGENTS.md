@@ -27,6 +27,17 @@ Before significant gameplay or architecture work, every coding agent must read:
 DEVELOPMENT_GUARDRAILS.md contains permanent project rules. These guide development;
 they are not authorization to unnecessarily rewrite functioning code.
 
+For UI, visual, graphics, animation, art, portrait, facility-art, car-art, team-identity or
+race-presentation work, REQUIRED PROJECT READING also includes `docs/GRAPHIC_DESIGN_BIBLE.md`.
+Any agent performing such work must read it before implementation.
+
+The Graphic Design Bible is the canonical visual source of truth. Do not invent a conflicting
+visual language during an individual milestone. If the project owner deliberately changes a
+permanent visual rule, update the Bible in the same change.
+
+Every future milestone prompt materially touching visual presentation must explicitly contain:
+> Before making visual changes, read and follow `docs/GRAPHIC_DESIGN_BIBLE.md`. It is the canonical visual source of truth. Preserve its reusable-art, palette, fictional-brand and mobile-readability rules unless the project owner explicitly changes them.
+
 ## Milestone workflow
 
 State the milestone objective and architecture being touched. Before implementing a major

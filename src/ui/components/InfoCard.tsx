@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { theme } from '../theme';
+import { useTheme } from '../theme';
 
 export type InfoRow = { label: string; value: string; color?: string };
 
@@ -16,6 +16,7 @@ export function InfoCard({
   rows: InfoRow[];
   footnote?: string;
 }) {
+  const {theme}=useTheme(),styles=makeStyles(theme);
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title.toUpperCase()}</Text>
@@ -33,16 +34,16 @@ export function InfoCard({
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.create({
   card: {
-    backgroundColor: 'rgba(14,22,33,0.97)',
+    backgroundColor: theme.overlay,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#33465F',
+    borderColor: theme.border,
     paddingHorizontal: 18,
     paddingVertical: 14,
-    shadowColor: '#000',
-    shadowOpacity: 0.4,
+    shadowColor: theme.shadow,
+    shadowOpacity: 0.15,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 6 },
     elevation: 8
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   },
   footnote: {
-    color: '#55667B',
+    color: theme.textSecondary,
     fontSize: 11,
     marginTop: 10,
     fontStyle: 'italic'

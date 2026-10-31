@@ -1,0 +1,8572 @@
+{
+ "gameVersion": "0.5.0",
+ "saveId": "development-loop-v5-source",
+ "createdAt": "2026-10-31T12:00:00.000Z",
+ "updatedAt": "2026-10-31T12:00:00.000Z",
+ "saveVersion": 5,
+ "universe": {
+  "definitionVersion": "calendar-track-2026-v5",
+  "calendarId": "calendar.2026.v2",
+  "currentDate": "2026-07-15",
+  "seed": 2026,
+  "playerTeamId": "team.wellington",
+  "drivers": {
+   "drivers": {
+    "driver.ronnis": {
+     "id": "driver.ronnis",
+     "name": "Lando Ronnis",
+     "nationality": "British",
+     "ageAt2026": 26,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 85.6,
+      "racecraft": 81.9,
+      "adaptability": 92,
+      "composure": 86.65,
+      "feedback": 86,
+      "marketability": 94
+     },
+     "hidden": {
+      "potential": 97,
+      "peakAge": 29,
+      "growth": "LATE",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 45,
+      "patience": 40,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "British",
+      "region": "International",
+      "globalAppeal": 94
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 45,
+      "braking": 50,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": "team.mclarin",
+      "organization": 65,
+      "car": 55
+     },
+     "traits": [
+      "Qualifying Specialist",
+      "Calm Under Pressure"
+     ],
+     "experience": 52,
+     "summary": "Modern champion-caliber star with adaptable speed.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.1"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 82.8,
+      "pace": 87.5,
+      "racecraft": 81.2,
+      "tyreManagement": 82.6,
+      "qualifying": 83.7,
+      "consistency": 78.5,
+      "discipline": 94.8
+     }
+    },
+    "driver.piastra": {
+     "id": "driver.piastra",
+     "name": "Oscar Piastra",
+     "nationality": "Australian",
+     "ageAt2026": 24,
+     "category": "GRID",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 78,
+      "racecraft": 78.3,
+      "adaptability": 87,
+      "composure": 88,
+      "feedback": 85,
+      "marketability": 84
+     },
+     "hidden": {
+      "potential": 98,
+      "peakAge": 30,
+      "growth": "EARLY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 55,
+      "patience": 50,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 48
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Australian",
+      "region": "International",
+      "globalAppeal": 84
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 60,
+      "braking": 60,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": "team.mclarin",
+      "organization": 75,
+      "car": 67
+     },
+     "traits": [
+      "Calm Under Pressure",
+      "Tire Whisperer"
+     ],
+     "experience": 52,
+     "summary": "Composed young elite racer and quick technical learner.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.2"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 76.7,
+      "pace": 76.3,
+      "racecraft": 76.5,
+      "tyreManagement": 80.1,
+      "qualifying": 79.7,
+      "consistency": 84.7,
+      "discipline": 91.3
+     }
+    },
+    "driver.leclair": {
+     "id": "driver.leclair",
+     "name": "Charles Leclair",
+     "nationality": "Monégasque",
+     "ageAt2026": 28,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 85.6,
+      "racecraft": 84.44999999999999,
+      "adaptability": 92,
+      "composure": 83.85,
+      "feedback": 87,
+      "marketability": 92
+     },
+     "hidden": {
+      "potential": 97,
+      "peakAge": 31,
+      "growth": "STEADY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 65,
+      "patience": 60,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 56
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Monégasque",
+      "region": "International",
+      "globalAppeal": 92
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 75,
+      "braking": 70,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": "team.ferano",
+      "organization": 85,
+      "car": 79
+     },
+     "traits": [
+      "Qualifying Specialist",
+      "Low-Grip Specialist"
+     ],
+     "experience": 76,
+     "summary": "Precision and raw speed in difficult machinery.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.3"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 82.4,
+      "pace": 85.7,
+      "racecraft": 86.3,
+      "tyreManagement": 82.6,
+      "qualifying": 85.5,
+      "consistency": 73.9,
+      "discipline": 93.8
+     }
+    },
+    "driver.harlton": {
+     "id": "driver.harlton",
+     "name": "Lewis Harlton",
+     "nationality": "British",
+     "ageAt2026": 40,
+     "category": "GRID",
+     "stage": "LATE_CAREER",
+     "ability": {
+      "talent": 83.75,
+      "racecraft": 87.15,
+      "adaptability": 96,
+      "composure": 87.80000000000001,
+      "feedback": 98,
+      "marketability": 99
+     },
+     "hidden": {
+      "potential": 96,
+      "peakAge": 30,
+      "growth": "LATE",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 75,
+      "patience": 70,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 64
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "British",
+      "region": "International",
+      "globalAppeal": 99
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 90,
+      "braking": 80,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": "team.ferano",
+      "organization": 95,
+      "car": 91
+     },
+     "traits": [
+      "Wet Weather Specialist",
+      "Technical Leader"
+     ],
+     "experience": 90,
+     "summary": "Legendary veteran with global appeal and engineering experience.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.4"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 82.7,
+      "pace": 83.2,
+      "racecraft": 85.9,
+      "tyreManagement": 88.4,
+      "qualifying": 84.3,
+      "consistency": 86.2,
+      "discipline": 89.4
+     }
+    },
+    "driver.roussel": {
+     "id": "driver.roussel",
+     "name": "George Roussel",
+     "nationality": "British",
+     "ageAt2026": 27,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 82.65,
+      "racecraft": 87.25,
+      "adaptability": 87,
+      "composure": 83.4,
+      "feedback": 92,
+      "marketability": 86
+     },
+     "hidden": {
+      "potential": 96,
+      "peakAge": 29,
+      "growth": "EARLY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 85,
+      "patience": 80,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 72
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "British",
+      "region": "International",
+      "globalAppeal": 86
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 45,
+      "braking": 90,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": "team.mercurion",
+      "organization": 65,
+      "car": 55
+     },
+     "traits": [
+      "Qualifying Specialist",
+      "Calm Under Pressure"
+     ],
+     "experience": 76,
+     "summary": "Prime front-runner with composed execution and feedback.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.5"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 81.5,
+      "pace": 78.4,
+      "racecraft": 87.9,
+      "tyreManagement": 86.6,
+      "qualifying": 86.9,
+      "consistency": 76.1,
+      "discipline": 90.7
+     }
+    },
+    "driver.antonello": {
+     "id": "driver.antonello",
+     "name": "Kimi Antonello",
+     "nationality": "Italian",
+     "ageAt2026": 19,
+     "category": "GRID",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 90.95,
+      "racecraft": 92.55,
+      "adaptability": 94,
+      "composure": 87.94999999999999,
+      "feedback": 71,
+      "marketability": 84
+     },
+     "hidden": {
+      "potential": 99,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 45,
+      "patience": 90,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 80
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Italian",
+      "region": "International",
+      "globalAppeal": 84
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 60,
+      "braking": 50,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": "team.mercurion",
+      "organization": 75,
+      "car": 67
+     },
+     "traits": [
+      "Wet Weather Specialist",
+      "High-Speed Specialist"
+     ],
+     "experience": 25,
+     "summary": "Exceptional young adaptable talent, still building experience.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.6"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 89.1,
+      "pace": 91,
+      "racecraft": 95,
+      "tyreManagement": 90.1,
+      "qualifying": 90.9,
+      "consistency": 85.3,
+      "discipline": 90.6
+     }
+    },
+    "driver.verhoeven": {
+     "id": "driver.verhoeven",
+     "name": "Max Verhoeven",
+     "nationality": "Dutch",
+     "ageAt2026": 28,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 89.44999999999999,
+      "racecraft": 85.95,
+      "adaptability": 99,
+      "composure": 83,
+      "feedback": 93,
+      "marketability": 94
+     },
+     "hidden": {
+      "potential": 100,
+      "peakAge": 31,
+      "growth": "LATE",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 55,
+      "patience": 40,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 88
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Dutch",
+      "region": "International",
+      "globalAppeal": 94
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 75,
+      "braking": 60,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": "team.vortex",
+      "organization": 85,
+      "car": 79
+     },
+     "traits": [
+      "Wet Weather Specialist",
+      "Aggressive Defender"
+     ],
+     "experience": 76,
+     "summary": "Benchmark pace and car control under pressure.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.7"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 85.1,
+      "pace": 92.3,
+      "racecraft": 86.9,
+      "tyreManagement": 85,
+      "qualifying": 86.6,
+      "consistency": 70.8,
+      "discipline": 95.2
+     }
+    },
+    "driver.hadrian": {
+     "id": "driver.hadrian",
+     "name": "Isaac Hadrian",
+     "nationality": "French",
+     "ageAt2026": 21,
+     "category": "GRID",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 73.4,
+      "racecraft": 73.95,
+      "adaptability": 84,
+      "composure": 84.25,
+      "feedback": 74,
+      "marketability": 74
+     },
+     "hidden": {
+      "potential": 97,
+      "peakAge": 32,
+      "growth": "EARLY",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 65,
+      "patience": 50,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "French",
+      "region": "International",
+      "globalAppeal": 74
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 90,
+      "braking": 70,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": "team.vortex",
+      "organization": 95,
+      "car": 91
+     },
+     "traits": [
+      "Late Braker",
+      "Comeback Racer"
+     ],
+     "experience": 25,
+     "summary": "Aggressive high-upside racer still establishing consistency.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.8"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 71.3,
+      "pace": 68.3,
+      "racecraft": 70.4,
+      "tyreManagement": 77.5,
+      "qualifying": 78.5,
+      "consistency": 75.8,
+      "discipline": 92.7
+     }
+    },
+    "driver.alvarro": {
+     "id": "driver.alvarro",
+     "name": "Fernando Alvarro",
+     "nationality": "Spanish",
+     "ageAt2026": 44,
+     "category": "GRID",
+     "stage": "LATE_CAREER",
+     "ability": {
+      "talent": 59,
+      "racecraft": 57.599999999999994,
+      "adaptability": 98,
+      "composure": 83.65,
+      "feedback": 99,
+      "marketability": 94
+     },
+     "hidden": {
+      "potential": 95,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 75,
+      "patience": 60,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 48
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Spanish",
+      "region": "International",
+      "globalAppeal": 94
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 45,
+      "braking": 80,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": "team.arden",
+      "organization": 65,
+      "car": 55
+     },
+     "traits": [
+      "Technical Leader",
+      "Low-Grip Specialist"
+     ],
+     "experience": 90,
+     "summary": "Veteran race reader who extracts more from imperfect cars.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.9"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 59.4,
+      "pace": 56.6,
+      "racecraft": 58.8,
+      "tyreManagement": 56.4,
+      "qualifying": 61.4,
+      "consistency": 78.1,
+      "discipline": 89.2,
+      "rankingContext": {
+       "gradedRounds": 13,
+       "totalRounds": 18,
+       "ranked": false
+      }
+     }
+    },
+    "driver.sterling": {
+     "id": "driver.sterling",
+     "name": "Lance Sterling",
+     "nationality": "Canadian",
+     "ageAt2026": 27,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 53.9,
+      "racecraft": 59.9,
+      "adaptability": 82,
+      "composure": 84.45,
+      "feedback": 77,
+      "marketability": 86
+     },
+     "hidden": {
+      "potential": 85,
+      "peakAge": 30,
+      "growth": "LATE",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 85,
+      "patience": 70,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 56
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Canadian",
+      "region": "North America",
+      "globalAppeal": 86
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 60,
+      "braking": 90,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": "team.arden",
+      "organization": 75,
+      "car": 67
+     },
+     "traits": [
+      "Wet Weather Specialist",
+      "Sponsor Favorite"
+     ],
+     "experience": 76,
+     "summary": "Established racer with backing and condition-sensitive strengths.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.10"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 58.9,
+      "pace": 56.8,
+      "racecraft": 62.3,
+      "tyreManagement": 57.5,
+      "qualifying": 51,
+      "consistency": 77.9,
+      "discipline": 91,
+      "rankingContext": {
+       "gradedRounds": 13,
+       "totalRounds": 18,
+       "ranked": false
+      }
+     }
+    },
+    "driver.sainor": {
+     "id": "driver.sainor",
+     "name": "Carlos Sainor",
+     "nationality": "Spanish",
+     "ageAt2026": 31,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 64.15,
+      "racecraft": 62.05,
+      "adaptability": 94,
+      "composure": 82.75,
+      "feedback": 97,
+      "marketability": 89
+     },
+     "hidden": {
+      "potential": 95,
+      "peakAge": 31,
+      "growth": "EARLY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 45,
+      "patience": 80,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 64
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Spanish",
+      "region": "International",
+      "globalAppeal": 89
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 75,
+      "braking": 50,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": "team.wellington",
+      "organization": 85,
+      "car": 79
+     },
+     "traits": [
+      "Setup Expert",
+      "Technical Leader"
+     ],
+     "experience": 76,
+     "summary": "Complete development leader with strong changeable-weather execution.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.11"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 64,
+      "pace": 62.5,
+      "racecraft": 64.7,
+      "tyreManagement": 59.4,
+      "qualifying": 65.8,
+      "consistency": 82.6,
+      "discipline": 82.9
+     }
+    },
+    "driver.alburn": {
+     "id": "driver.alburn",
+     "name": "Alex Alburn",
+     "nationality": "Thai",
+     "ageAt2026": 29,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 57.75,
+      "racecraft": 57.85,
+      "adaptability": 93,
+      "composure": 83.75,
+      "feedback": 91,
+      "marketability": 85
+     },
+     "hidden": {
+      "potential": 93,
+      "peakAge": 32,
+      "growth": "STEADY",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 55,
+      "patience": 90,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 72
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Thai",
+      "region": "Asia",
+      "globalAppeal": 85
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 90,
+      "braking": 60,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": "team.wellington",
+      "organization": 95,
+      "car": 91
+     },
+     "traits": [
+      "Low-Grip Specialist",
+      "Comeback Racer"
+     ],
+     "experience": 76,
+     "summary": "Adaptable extractor of pace from imperfect equipment.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.12"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 59.9,
+      "pace": 59.8,
+      "racecraft": 62.7,
+      "tyreManagement": 53,
+      "qualifying": 55.7,
+      "consistency": 78,
+      "discipline": 89.5
+     }
+    },
+    "driver.gasson": {
+     "id": "driver.gasson",
+     "name": "Pierre Gasson",
+     "nationality": "French",
+     "ageAt2026": 29,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 76.1,
+      "racecraft": 69.6,
+      "adaptability": 86,
+      "composure": 87.44999999999999,
+      "feedback": 92,
+      "marketability": 85
+     },
+     "hidden": {
+      "potential": 92,
+      "peakAge": 29,
+      "growth": "LATE",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 65,
+      "patience": 40,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 80
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "French",
+      "region": "International",
+      "globalAppeal": 85
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 45,
+      "braking": 70,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": "team.alpinor",
+      "organization": 65,
+      "car": 55
+     },
+     "traits": [
+      "Technical Leader"
+     ],
+     "experience": 76,
+     "summary": "Experienced midfield leader and dependable communicator.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.13"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 73.6,
+      "pace": 77.9,
+      "racecraft": 67.7,
+      "tyreManagement": 71.5,
+      "qualifying": 74.3,
+      "consistency": 86.6,
+      "discipline": 88.3
+     }
+    },
+    "driver.colavita": {
+     "id": "driver.colavita",
+     "name": "Franco Colavita",
+     "nationality": "Argentine",
+     "ageAt2026": 22,
+     "category": "GRID",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 61,
+      "racecraft": 64.5,
+      "adaptability": 84,
+      "composure": 79.9,
+      "feedback": 73,
+      "marketability": 93
+     },
+     "hidden": {
+      "potential": 95,
+      "peakAge": 30,
+      "growth": "EARLY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 75,
+      "patience": 50,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 88
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Argentine",
+      "region": "Latin America",
+      "globalAppeal": 93
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 60,
+      "braking": 80,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": "team.alpinor",
+      "organization": 75,
+      "car": 67
+     },
+     "traits": [
+      "Sponsor Favorite",
+      "Late Braker"
+     ],
+     "experience": 25,
+     "summary": "Popular young racer with regional appeal and growth ahead.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.14"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 61.7,
+      "pace": 59.9,
+      "racecraft": 63.1,
+      "tyreManagement": 65.9,
+      "qualifying": 62.1,
+      "consistency": 79,
+      "discipline": 80.8
+     }
+    },
+    "driver.ortez": {
+     "id": "driver.ortez",
+     "name": "Esteban Ortez",
+     "nationality": "French",
+     "ageAt2026": 29,
+     "category": "GRID",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 61.25,
+      "racecraft": 65.45,
+      "adaptability": 83,
+      "composure": 87.1,
+      "feedback": 87,
+      "marketability": 78
+     },
+     "hidden": {
+      "potential": 90,
+      "peakAge": 31,
+      "growth": "STEADY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 85,
+      "patience": 60,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "French",
+      "region": "International",
+      "globalAppeal": 78
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 75,
+      "braking": 90,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": "team.hartman",
+      "organization": 85,
+      "car": 79
+     },
+     "traits": [
+      "Aggressive Defender"
+     ],
+     "experience": 76,
+     "summary": "Dependable midfield race executor.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.15"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 64.8,
+      "pace": 63.1,
+      "racecraft": 68.9,
+      "tyreManagement": 62,
+      "qualifying": 59.4,
+      "consistency": 82.3,
+      "discipline": 91.9
+     }
+    },
+    "driver.bearford": {
+     "id": "driver.bearford",
+     "name": "Oliver Bearford",
+     "nationality": "British",
+     "ageAt2026": 20,
+     "category": "GRID",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 66.85,
+      "racecraft": 62.099999999999994,
+      "adaptability": 88,
+      "composure": 85.45,
+      "feedback": 75,
+      "marketability": 81
+     },
+     "hidden": {
+      "potential": 98,
+      "peakAge": 32,
+      "growth": "LATE",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 45,
+      "patience": 70,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 48
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "British",
+      "region": "International",
+      "globalAppeal": 81
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 90,
+      "braking": 50,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": "team.hartman",
+      "organization": 95,
+      "car": 91
+     },
+     "traits": [
+      "Comeback Racer"
+     ],
+     "experience": 25,
+     "summary": "Young developing driver with substantial upside.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.16"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 64.9,
+      "pace": 65.3,
+      "racecraft": 57.9,
+      "tyreManagement": 66.3,
+      "qualifying": 68.4,
+      "consistency": 79.5,
+      "discipline": 91.4
+     }
+    },
+    "driver.larsen": {
+     "id": "driver.larsen",
+     "name": "Liam Larsen",
+     "nationality": "New Zealander",
+     "ageAt2026": 24,
+     "category": "GRID",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 70.6,
+      "racecraft": 71.25,
+      "adaptability": 85,
+      "composure": 90.15,
+      "feedback": 77,
+      "marketability": 77
+     },
+     "hidden": {
+      "potential": 92,
+      "peakAge": 29,
+      "growth": "EARLY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 55,
+      "patience": 80,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 56
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "New Zealander",
+      "region": "International",
+      "globalAppeal": 77
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 45,
+      "braking": 60,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": "team.veloce",
+      "organization": 65,
+      "car": 55
+     },
+     "traits": [
+      "Aggressive Defender"
+     ],
+     "experience": 52,
+     "summary": "Determined racer fighting to establish his career.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.17"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 71.8,
+      "pace": 72.2,
+      "racecraft": 73.4,
+      "tyreManagement": 69.1,
+      "qualifying": 69,
+      "consistency": 88.3,
+      "discipline": 92
+     }
+    },
+    "driver.lindholm": {
+     "id": "driver.lindholm",
+     "name": "Arvid Lindholm",
+     "nationality": "British",
+     "ageAt2026": 18,
+     "category": "GRID",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 66.30000000000001,
+      "racecraft": 70.44999999999999,
+      "adaptability": 85,
+      "composure": 87.95,
+      "feedback": 66,
+      "marketability": 75
+     },
+     "hidden": {
+      "potential": 98,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 65,
+      "patience": 90,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 64
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "British",
+      "region": "International",
+      "globalAppeal": 75
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 60,
+      "braking": 70,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": "team.veloce",
+      "organization": 75,
+      "car": 67
+     },
+     "traits": [
+      "High-Speed Specialist"
+     ],
+     "experience": 25,
+     "summary": "Very young promoted prospect with an uncertain ceiling.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.18"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 68.2,
+      "pace": 64.9,
+      "racecraft": 69.8,
+      "tyreManagement": 71.1,
+      "qualifying": 67.7,
+      "consistency": 85.5,
+      "discipline": 90.4
+     }
+    },
+    "driver.hollenberg": {
+     "id": "driver.hollenberg",
+     "name": "Nico Hollenberg",
+     "nationality": "German",
+     "ageAt2026": 38,
+     "category": "GRID",
+     "stage": "VETERAN",
+     "ability": {
+      "talent": 68.05,
+      "racecraft": 64.35,
+      "adaptability": 86,
+      "composure": 83.85,
+      "feedback": 98,
+      "marketability": 82
+     },
+     "hidden": {
+      "potential": 89,
+      "peakAge": 30,
+      "growth": "LATE",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 75,
+      "patience": 40,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 72
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "German",
+      "region": "International",
+      "globalAppeal": 82
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 75,
+      "braking": 80,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": "team.auden",
+      "organization": 85,
+      "car": 79
+     },
+     "traits": [
+      "Setup Expert",
+      "Technical Leader"
+     ],
+     "experience": 90,
+     "summary": "Experienced technical veteran valued for diagnosis and development.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.19"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 66.9,
+      "pace": 70.8,
+      "racecraft": 60.9,
+      "tyreManagement": 67.8,
+      "qualifying": 65.3,
+      "consistency": 84.3,
+      "discipline": 83.4
+     }
+    },
+    "driver.bortelli": {
+     "id": "driver.bortelli",
+     "name": "Gabriel Bortelli",
+     "nationality": "Brazilian",
+     "ageAt2026": 21,
+     "category": "GRID",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 65.45,
+      "racecraft": 61,
+      "adaptability": 86,
+      "composure": 86.05,
+      "feedback": 78,
+      "marketability": 82
+     },
+     "hidden": {
+      "potential": 96,
+      "peakAge": 32,
+      "growth": "EARLY",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 85,
+      "patience": 50,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 80
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Brazilian",
+      "region": "Latin America",
+      "globalAppeal": 82
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 90,
+      "braking": 90,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": "team.auden",
+      "organization": 95,
+      "car": 91
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 25,
+     "summary": "Balanced developing driver with meaningful growth potential.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.20"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 64.6,
+      "pace": 64.4,
+      "racecraft": 58.4,
+      "tyreManagement": 63.6,
+      "qualifying": 66.5,
+      "consistency": 82.6,
+      "discipline": 89.5
+     }
+    },
+    "driver.peralta": {
+     "id": "driver.peralta",
+     "name": "Sergio Peralta",
+     "nationality": "Mexican",
+     "ageAt2026": 35,
+     "category": "GRID",
+     "stage": "VETERAN",
+     "ability": {
+      "talent": 57.65,
+      "racecraft": 59.45,
+      "adaptability": 87,
+      "composure": 79.65,
+      "feedback": 91,
+      "marketability": 98
+     },
+     "hidden": {
+      "potential": 91,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 45,
+      "patience": 60,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 88
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Mexican",
+      "region": "Latin America",
+      "globalAppeal": 98
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 45,
+      "braking": 50,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": "team.caldera",
+      "organization": 65,
+      "car": 55
+     },
+     "traits": [
+      "Tire Whisperer",
+      "Sponsor Favorite"
+     ],
+     "experience": 90,
+     "summary": "Experienced tire manager with exceptional Latin American reach.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.21"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 59.7,
+      "pace": 58.9,
+      "racecraft": 63.3,
+      "tyreManagement": 55.6,
+      "qualifying": 56.4,
+      "consistency": 77.6,
+      "discipline": 81.7
+     }
+    },
+    "driver.botten": {
+     "id": "driver.botten",
+     "name": "Valtteri Botten",
+     "nationality": "Finnish",
+     "ageAt2026": 36,
+     "category": "GRID",
+     "stage": "VETERAN",
+     "ability": {
+      "talent": 49.849999999999994,
+      "racecraft": 48.7,
+      "adaptability": 84,
+      "composure": 80.25,
+      "feedback": 96,
+      "marketability": 85
+     },
+     "hidden": {
+      "potential": 90,
+      "peakAge": 30,
+      "growth": "LATE",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 55,
+      "patience": 70,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Finnish",
+      "region": "International",
+      "globalAppeal": 85
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 60,
+      "braking": 60,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": "team.caldera",
+      "organization": 75,
+      "car": 67
+     },
+     "traits": [
+      "Qualifying Specialist",
+      "Setup Expert"
+     ],
+     "experience": 90,
+     "summary": "Professional veteran with valuable feedback and qualifying knowledge.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.2026.22"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 51.5,
+      "pace": 45.8,
+      "racecraft": 49.8,
+      "tyreManagement": 47.6,
+      "qualifying": 53.9,
+      "consistency": 71.4,
+      "discipline": 89.1,
+      "rankingContext": {
+       "gradedRounds": 13,
+       "totalRounds": 18,
+       "ranked": false
+      }
+     }
+    },
+    "driver.cordeiro": {
+     "id": "driver.cordeiro",
+     "name": "Rafael Cordeiro",
+     "nationality": "Brazilian",
+     "ageAt2026": 20,
+     "category": "PROSPECT",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 82,
+      "racecraft": 77,
+      "adaptability": 81,
+      "composure": 78,
+      "feedback": 69,
+      "marketability": 75
+     },
+     "hidden": {
+      "potential": 95,
+      "peakAge": 31,
+      "growth": "EARLY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 65,
+      "patience": 80,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 48
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Brazilian",
+      "region": "Latin America",
+      "globalAppeal": 75
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 75,
+      "braking": 70,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 25,
+     "summary": "Composed prospect with strong tire learning.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.stoyanov": {
+     "id": "driver.stoyanov",
+     "name": "Nikolai Stoyanov",
+     "nationality": "Bulgarian",
+     "ageAt2026": 19,
+     "category": "PROSPECT",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 83,
+      "racecraft": 79,
+      "adaptability": 76,
+      "composure": 73,
+      "feedback": 68,
+      "marketability": 69
+     },
+     "hidden": {
+      "potential": 97,
+      "peakAge": 32,
+      "growth": "STEADY",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 75,
+      "patience": 90,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 56
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Bulgarian",
+      "region": "International",
+      "globalAppeal": 69
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 90,
+      "braking": 80,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 25,
+     "summary": "Fast assertive prospect with execution to refine.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.dunley": {
+     "id": "driver.dunley",
+     "name": "Aidan Dunley",
+     "nationality": "Irish",
+     "ageAt2026": 20,
+     "category": "PROSPECT",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 84,
+      "racecraft": 80,
+      "adaptability": 83,
+      "composure": 70,
+      "feedback": 65,
+      "marketability": 72
+     },
+     "hidden": {
+      "potential": 98,
+      "peakAge": 29,
+      "growth": "LATE",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 85,
+      "patience": 40,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 64
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Irish",
+      "region": "International",
+      "globalAppeal": 72
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 45,
+      "braking": 90,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 25,
+     "summary": "Aggressive pace, still learning restraint.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.minaro": {
+     "id": "driver.minaro",
+     "name": "Gabriele Minaro",
+     "nationality": "Italian",
+     "ageAt2026": 21,
+     "category": "PROSPECT",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 81,
+      "racecraft": 78,
+      "adaptability": 79,
+      "composure": 80,
+      "feedback": 73,
+      "marketability": 72
+     },
+     "hidden": {
+      "potential": 94,
+      "peakAge": 30,
+      "growth": "EARLY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 45,
+      "patience": 50,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 72
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Italian",
+      "region": "International",
+      "globalAppeal": 72
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 60,
+      "braking": 50,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 25,
+     "summary": "Precise and technically curious prospect.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.bergman": {
+     "id": "driver.bergman",
+     "name": "Dino Bergman",
+     "nationality": "Swedish",
+     "ageAt2026": 22,
+     "category": "PROSPECT",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 80,
+      "racecraft": 81,
+      "adaptability": 78,
+      "composure": 82,
+      "feedback": 76,
+      "marketability": 70
+     },
+     "hidden": {
+      "potential": 93,
+      "peakAge": 31,
+      "growth": "STEADY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 55,
+      "patience": 60,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 80
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Swedish",
+      "region": "International",
+      "globalAppeal": 70
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 75,
+      "braking": 60,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 25,
+     "summary": "Balanced and composed developing racer.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.leones": {
+     "id": "driver.leones",
+     "name": "Noel Leones",
+     "nationality": "Mexican",
+     "ageAt2026": 21,
+     "category": "PROSPECT",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 78,
+      "racecraft": 81,
+      "adaptability": 84,
+      "composure": 76,
+      "feedback": 69,
+      "marketability": 82
+     },
+     "hidden": {
+      "potential": 96,
+      "peakAge": 32,
+      "growth": "LATE",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 65,
+      "patience": 70,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 88
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Mexican",
+      "region": "Latin America",
+      "globalAppeal": 82
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 90,
+      "braking": 70,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 25,
+     "summary": "Adaptable racer with regional appeal.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.stenmark": {
+     "id": "driver.stenmark",
+     "name": "Martin Stenmark",
+     "nationality": "Norwegian",
+     "ageAt2026": 20,
+     "category": "PROSPECT",
+     "stage": "ROOKIE",
+     "ability": {
+      "talent": 82,
+      "racecraft": 78,
+      "adaptability": 87,
+      "composure": 74,
+      "feedback": 68,
+      "marketability": 70
+     },
+     "hidden": {
+      "potential": 99,
+      "peakAge": 29,
+      "growth": "EARLY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 75,
+      "patience": 80,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Norwegian",
+      "region": "International",
+      "globalAppeal": 70
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 45,
+      "braking": 80,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 25,
+     "summary": "Changeable-condition specialist with a high ceiling.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.durand": {
+     "id": "driver.durand",
+     "name": "Joshua Durand",
+     "nationality": "Paraguayan",
+     "ageAt2026": 22,
+     "category": "PROSPECT",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 79,
+      "racecraft": 84,
+      "adaptability": 80,
+      "composure": 79,
+      "feedback": 72,
+      "marketability": 77
+     },
+     "hidden": {
+      "potential": 97,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 85,
+      "patience": 90,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 48
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Paraguayan",
+      "region": "Latin America",
+      "globalAppeal": 77
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 60,
+      "braking": 90,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 25,
+     "summary": "Patient tire-aware race executor.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.mainor": {
+     "id": "driver.mainor",
+     "name": "Kiran Mainor",
+     "nationality": "Indian",
+     "ageAt2026": 24,
+     "category": "PROSPECT",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 78,
+      "racecraft": 80,
+      "adaptability": 80,
+      "composure": 83,
+      "feedback": 82,
+      "marketability": 85
+     },
+     "hidden": {
+      "potential": 92,
+      "peakAge": 31,
+      "growth": "LATE",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 45,
+      "patience": 40,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 56
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Indian",
+      "region": "Asia",
+      "globalAppeal": 85
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 75,
+      "braking": 50,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 52,
+     "summary": "Technically thoughtful and commercially promising.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.van-hoven": {
+     "id": "driver.van-hoven",
+     "name": "Laurens van Hoven",
+     "nationality": "Dutch",
+     "ageAt2026": 21,
+     "category": "PROSPECT",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 81,
+      "racecraft": 79,
+      "adaptability": 84,
+      "composure": 82,
+      "feedback": 74,
+      "marketability": 73
+     },
+     "hidden": {
+      "potential": 98,
+      "peakAge": 32,
+      "growth": "EARLY",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 55,
+      "patience": 50,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 64
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Dutch",
+      "region": "International",
+      "globalAppeal": 73
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 90,
+      "braking": 60,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 25,
+     "summary": "Versatile quiet prospect with late growth potential.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.vale": {
+     "id": "driver.vale",
+     "name": "Mara Vale",
+     "nationality": "American",
+     "ageAt2026": 26,
+     "category": "RESERVE",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 82,
+      "racecraft": 84,
+      "adaptability": 85,
+      "composure": 87,
+      "feedback": 88,
+      "marketability": 88
+     },
+     "hidden": {
+      "potential": 90,
+      "peakAge": 29,
+      "growth": "STEADY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 65,
+      "patience": 60,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 72
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "American",
+      "region": "North America",
+      "globalAppeal": 88
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 45,
+      "braking": 70,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 52,
+     "summary": "Experienced reserve with US commercial appeal.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.okada": {
+     "id": "driver.okada",
+     "name": "Ren Okada",
+     "nationality": "Japanese",
+     "ageAt2026": 30,
+     "category": "RESERVE",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 84,
+      "racecraft": 85,
+      "adaptability": 86,
+      "composure": 91,
+      "feedback": 95,
+      "marketability": 81
+     },
+     "hidden": {
+      "potential": 89,
+      "peakAge": 30,
+      "growth": "LATE",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 75,
+      "patience": 70,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 80
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Japanese",
+      "region": "Asia",
+      "globalAppeal": 81
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 60,
+      "braking": 80,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 76,
+     "summary": "Technical test driver and setup specialist.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.moreau": {
+     "id": "driver.moreau",
+     "name": "Luc Moreau",
+     "nationality": "French",
+     "ageAt2026": 33,
+     "category": "RESERVE",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 83,
+      "racecraft": 88,
+      "adaptability": 87,
+      "composure": 90,
+      "feedback": 94,
+      "marketability": 78
+     },
+     "hidden": {
+      "potential": 87,
+      "peakAge": 31,
+      "growth": "EARLY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 85,
+      "patience": 80,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 88
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "French",
+      "region": "International",
+      "globalAppeal": 78
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 75,
+      "braking": 90,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 76,
+     "summary": "Former race driver with engineering leadership.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.duarte": {
+     "id": "driver.duarte",
+     "name": "Ines Duarte",
+     "nationality": "Portuguese",
+     "ageAt2026": 23,
+     "category": "RESERVE",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 82,
+      "racecraft": 80,
+      "adaptability": 87,
+      "composure": 81,
+      "feedback": 78,
+      "marketability": 77
+     },
+     "hidden": {
+      "potential": 96,
+      "peakAge": 32,
+      "growth": "STEADY",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 45,
+      "patience": 90,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Portuguese",
+      "region": "International",
+      "globalAppeal": 77
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 90,
+      "braking": 50,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 52,
+     "summary": "Young low-grip specialist.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.mensah": {
+     "id": "driver.mensah",
+     "name": "Kojo Mensah",
+     "nationality": "Ghanaian",
+     "ageAt2026": 25,
+     "category": "RESERVE",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 81,
+      "racecraft": 85,
+      "adaptability": 86,
+      "composure": 84,
+      "feedback": 80,
+      "marketability": 85
+     },
+     "hidden": {
+      "potential": 94,
+      "peakAge": 29,
+      "growth": "LATE",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 55,
+      "patience": 40,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 48
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Ghanaian",
+      "region": "International",
+      "globalAppeal": 85
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 45,
+      "braking": 60,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 52,
+     "summary": "Adaptable journeyman with a growing following.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.zheng": {
+     "id": "driver.zheng",
+     "name": "Lin Zheng",
+     "nationality": "Chinese",
+     "ageAt2026": 24,
+     "category": "RESERVE",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 80,
+      "racecraft": 82,
+      "adaptability": 83,
+      "composure": 85,
+      "feedback": 82,
+      "marketability": 94
+     },
+     "hidden": {
+      "potential": 93,
+      "peakAge": 30,
+      "growth": "EARLY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 70,
+      "loyalty": 65,
+      "patience": 50,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 56
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Chinese",
+      "region": "Asia",
+      "globalAppeal": 94
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 60,
+      "braking": 70,
+      "downforce": 45
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 52,
+     "summary": "Commercially attractive reserve and steady racer.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.varga": {
+     "id": "driver.varga",
+     "name": "Tomas Varga",
+     "nationality": "Czech",
+     "ageAt2026": 36,
+     "category": "RESERVE",
+     "stage": "VETERAN",
+     "ability": {
+      "talent": 78,
+      "racecraft": 88,
+      "adaptability": 85,
+      "composure": 93,
+      "feedback": 96,
+      "marketability": 72
+     },
+     "hidden": {
+      "potential": 84,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 75,
+      "loyalty": 75,
+      "patience": 60,
+      "ego": 70,
+      "professionalism": 90,
+      "risk": 64
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Czech",
+      "region": "International",
+      "globalAppeal": 72
+     },
+     "comfort": {
+      "frontResponse": 76,
+      "rearStability": 75,
+      "braking": 80,
+      "downforce": 55
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 90,
+     "summary": "Veteran engineering reference and mentor.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.bellini": {
+     "id": "driver.bellini",
+     "name": "Sofia Bellini",
+     "nationality": "Italian",
+     "ageAt2026": 22,
+     "category": "RESERVE",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 84,
+      "racecraft": 79,
+      "adaptability": 83,
+      "composure": 76,
+      "feedback": 75,
+      "marketability": 86
+     },
+     "hidden": {
+      "potential": 97,
+      "peakAge": 32,
+      "growth": "LATE",
+      "decline": 1.5999999999999999
+     },
+     "personality": {
+      "ambition": 80,
+      "loyalty": 85,
+      "patience": 70,
+      "ego": 80,
+      "professionalism": 95,
+      "risk": 72
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Italian",
+      "region": "International",
+      "globalAppeal": 86
+     },
+     "comfort": {
+      "frontResponse": 88,
+      "rearStability": 90,
+      "braking": 90,
+      "downforce": 65
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 25,
+     "summary": "Fast developing junior with a strong audience.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.sayed": {
+     "id": "driver.sayed",
+     "name": "Amir Sayed",
+     "nationality": "Emirati",
+     "ageAt2026": 27,
+     "category": "RESERVE",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 79,
+      "racecraft": 82,
+      "adaptability": 81,
+      "composure": 87,
+      "feedback": 85,
+      "marketability": 90
+     },
+     "hidden": {
+      "potential": 88,
+      "peakAge": 29,
+      "growth": "EARLY",
+      "decline": 0.7
+     },
+     "personality": {
+      "ambition": 85,
+      "loyalty": 45,
+      "patience": 80,
+      "ego": 40,
+      "professionalism": 75,
+      "risk": 80
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Emirati",
+      "region": "International",
+      "globalAppeal": 90
+     },
+     "comfort": {
+      "frontResponse": 40,
+      "rearStability": 45,
+      "braking": 50,
+      "downforce": 75
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Calm Under Pressure"
+     ],
+     "experience": 76,
+     "summary": "Professional reserve with regional commercial reach.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.navarro": {
+     "id": "driver.navarro",
+     "name": "Elena Navarro",
+     "nationality": "Spanish",
+     "ageAt2026": 29,
+     "category": "RESERVE",
+     "stage": "PRIME",
+     "ability": {
+      "talent": 85,
+      "racecraft": 87,
+      "adaptability": 90,
+      "composure": 89,
+      "feedback": 91,
+      "marketability": 84
+     },
+     "hidden": {
+      "potential": 92,
+      "peakAge": 30,
+      "growth": "STEADY",
+      "decline": 1
+     },
+     "personality": {
+      "ambition": 90,
+      "loyalty": 55,
+      "patience": 90,
+      "ego": 50,
+      "professionalism": 80,
+      "risk": 88
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Spanish",
+      "region": "International",
+      "globalAppeal": 84
+     },
+     "comfort": {
+      "frontResponse": 52,
+      "rearStability": 60,
+      "braking": 60,
+      "downforce": 85
+     },
+     "familiarity": {
+      "teamId": null,
+      "organization": 0,
+      "car": 0
+     },
+     "traits": [
+      "Setup Expert"
+     ],
+     "experience": 76,
+     "summary": "Experienced reserve and versatile setup tester.",
+     "history": {
+      "seasons": [],
+      "contractIds": []
+     }
+    },
+    "driver.takase": {
+     "id": "driver.takase",
+     "name": "Yuto Takase",
+     "nationality": "Japanese",
+     "ageAt2026": 25,
+     "category": "RESERVE",
+     "stage": "DEVELOPING",
+     "ability": {
+      "talent": 62.699999999999996,
+      "racecraft": 63.449999999999996,
+      "adaptability": 85,
+      "composure": 85,
+      "feedback": 83,
+      "marketability": 80
+     },
+     "hidden": {
+      "potential": 91,
+      "peakAge": 31,
+      "growth": "LATE",
+      "decline": 1.2999999999999998
+     },
+     "personality": {
+      "ambition": 65,
+      "loyalty": 65,
+      "patience": 40,
+      "ego": 60,
+      "professionalism": 85,
+      "risk": 40
+     },
+     "dynamic": {
+      "form": 50,
+      "morale": 65,
+      "confidence": 65,
+      "fatigue": 0
+     },
+     "commercial": {
+      "home": "Japanese",
+      "region": "Asia",
+      "globalAppeal": 80
+     },
+     "comfort": {
+      "frontResponse": 64,
+      "rearStability": 75,
+      "braking": 70,
+      "downforce": 35
+     },
+     "familiarity": {
+      "teamId": "team.vortex",
+      "organization": 70,
+      "car": 65
+     },
+     "traits": [
+      "Wet Weather Specialist"
+     ],
+     "experience": 52,
+     "summary": "Experienced reserve associated with the Vortex and Veloce driver system.",
+     "history": {
+      "seasons": [],
+      "contractIds": [
+       "contract.reserve.takase.2026"
+      ]
+     },
+     "sourcePerformance": {
+      "season": 2026,
+      "dataset": "P2P 2026",
+      "overallReference": 64.5,
+      "pace": 68.6,
+      "racecraft": 56.8,
+      "tyreManagement": 70.1,
+      "qualifying": 56.8,
+      "consistency": 78,
+      "discipline": 92
+     },
+     "affiliatedTeamIds": [
+      "team.vortex",
+      "team.veloce"
+     ]
+    }
+   },
+   "contracts": [
+    {
+     "id": "contract.2026.1",
+     "teamId": "team.mclarin",
+     "driverId": "driver.ronnis",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2030,
+     "annualSalaryM": 35,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.2",
+     "teamId": "team.mclarin",
+     "driverId": "driver.piastra",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2028,
+     "annualSalaryM": 27,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.3",
+     "teamId": "team.ferano",
+     "driverId": "driver.leclair",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2030,
+     "annualSalaryM": 53,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "REPORTED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.4",
+     "teamId": "team.ferano",
+     "driverId": "driver.harlton",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 60,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": {
+      "season": 2028,
+      "decisionDate": "2027-12-07",
+      "salaryM": 60,
+      "state": "EXERCISED"
+     },
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.5",
+     "teamId": "team.mercurion",
+     "driverId": "driver.roussel",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 34,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.6",
+     "teamId": "team.mercurion",
+     "driverId": "driver.antonello",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 2,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.7",
+     "teamId": "team.vortex",
+     "driverId": "driver.verhoeven",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2030,
+     "annualSalaryM": 107,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.8",
+     "teamId": "team.vortex",
+     "driverId": "driver.hadrian",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 5,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.9",
+     "teamId": "team.arden",
+     "driverId": "driver.alvarro",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 40,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.10",
+     "teamId": "team.arden",
+     "driverId": "driver.sterling",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 17,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.11",
+     "teamId": "team.wellington",
+     "driverId": "driver.sainor",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 30,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.12",
+     "teamId": "team.wellington",
+     "driverId": "driver.alburn",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 12,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.13",
+     "teamId": "team.alpinor",
+     "driverId": "driver.gasson",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2028,
+     "annualSalaryM": 15,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.14",
+     "teamId": "team.alpinor",
+     "driverId": "driver.colavita",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 0.75,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.15",
+     "teamId": "team.hartman",
+     "driverId": "driver.ortez",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2026,
+     "annualSalaryM": 7,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": {
+      "season": 2027,
+      "decisionDate": "2026-12-07",
+      "salaryM": 7,
+      "state": "PENDING"
+     },
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.16",
+     "teamId": "team.hartman",
+     "driverId": "driver.bearford",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2026,
+     "annualSalaryM": 1,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": {
+      "season": 2027,
+      "decisionDate": "2026-12-07",
+      "salaryM": 1,
+      "state": "PENDING"
+     },
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.17",
+     "teamId": "team.veloce",
+     "driverId": "driver.larsen",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2026,
+     "annualSalaryM": 1,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.18",
+     "teamId": "team.veloce",
+     "driverId": "driver.lindholm",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2026,
+     "annualSalaryM": 0.75,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.19",
+     "teamId": "team.auden",
+     "driverId": "driver.hollenberg",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 7,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.20",
+     "teamId": "team.auden",
+     "driverId": "driver.bortelli",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2028,
+     "annualSalaryM": 2,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "REPORTED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.2026.21",
+     "teamId": "team.caldera",
+     "driverId": "driver.peralta",
+     "seat": 1,
+     "startSeason": 2026,
+     "endSeason": 2029,
+     "annualSalaryM": 10,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "new deal"
+     }
+    },
+    {
+     "id": "contract.2026.22",
+     "teamId": "team.caldera",
+     "driverId": "driver.botten",
+     "seat": 2,
+     "startSeason": 2026,
+     "endSeason": 2027,
+     "annualSalaryM": 5,
+     "performanceBonusM": 0.35,
+     "status": "SIGNED",
+     "option": {
+      "season": 2028,
+      "decisionDate": "2027-12-07",
+      "salaryM": 5,
+      "state": "PENDING"
+     },
+     "provenance": {
+      "status": "CONFIRMED",
+      "context": "2026 base"
+     }
+    },
+    {
+     "id": "contract.reserve.takase.2026",
+     "driverId": "driver.takase",
+     "teamId": "team.vortex",
+     "role": "RESERVE",
+     "seat": null,
+     "startSeason": 2026,
+     "endSeason": 2026,
+     "annualSalaryM": 5,
+     "performanceBonusM": 0,
+     "status": "SIGNED",
+     "option": null,
+     "provenance": {
+      "status": "REPORTED",
+      "context": "2026 base"
+     }
+    }
+   ],
+   "knowledge": {
+    "team.mclarin": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.ferano": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.mercurion": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.vortex": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.arden": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.wellington": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 40,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 1
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.alpinor": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.hartman": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.veloce": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.auden": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    },
+    "team.caldera": {
+     "driver.ronnis": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.piastra": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leclair": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.harlton": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.roussel": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.antonello": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.verhoeven": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hadrian": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alvarro": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sterling": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sainor": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.alburn": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.gasson": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.colavita": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.ortez": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bearford": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.larsen": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.lindholm": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.hollenberg": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bortelli": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.peralta": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.botten": {
+      "precision": 100,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.cordeiro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stoyanov": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.dunley": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.minaro": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bergman": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.leones": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.stenmark": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.durand": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mainor": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.van-hoven": {
+      "precision": 20,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.vale": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.okada": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.moreau": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.duarte": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.mensah": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.zheng": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.varga": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.bellini": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.sayed": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.navarro": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     },
+     "driver.takase": {
+      "precision": 65,
+      "lastSeason": 2026,
+      "lastWeek": 0,
+      "reports": 0
+     }
+    }
+   },
+   "nextContractNumber": 23
+  },
+  "headquarters": {
+   "timeMs": 2600,
+   "workers": [
+    {
+     "id": "james-walker",
+     "name": "James Walker",
+     "role": "Race Engineer",
+     "uniform": "navy",
+     "state": "WALKING",
+     "position": {
+      "x": 4.5,
+      "y": 8.012310562561765
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "CAR_BAY_1",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 8
+       },
+       "nodeId": "HALL_SIM"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 6.5,
+        "y": 5
+       },
+       "nodeId": "BAY_WEST"
+      },
+      {
+       "point": {
+        "x": 7.35,
+        "y": 4
+       }
+      },
+      {
+       "point": {
+        "x": 7.35,
+        "y": 2.3
+       }
+      }
+     ],
+     "routeId": 1,
+     "location": {
+      "kind": "node",
+      "nodeId": "ENTRANCE"
+     },
+     "idleUntilMs": 400
+    },
+    {
+     "id": "tom-becker",
+     "name": "Tom Becker",
+     "role": "Mechanic",
+     "uniform": "red",
+     "state": "WALKING",
+     "position": {
+      "x": 4.5,
+      "y": 8.927200187265877
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "CAR_BAY_1",
+      "slotIndex": 1
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 8
+       },
+       "nodeId": "HALL_SIM"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 6.5,
+        "y": 5
+       },
+       "nodeId": "BAY_WEST"
+      },
+      {
+       "point": {
+        "x": 6.5,
+        "y": 3.8
+       }
+      }
+     ],
+     "routeId": 2,
+     "location": {
+      "kind": "node",
+      "nodeId": "ENTRANCE"
+     },
+     "idleUntilMs": 1000
+    },
+    {
+     "id": "luca-moretti",
+     "name": "Luca Moretti",
+     "role": "Mechanic",
+     "uniform": "red",
+     "state": "WALKING",
+     "position": {
+      "x": 4.5,
+      "y": 10.459481005020855
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "CAR_BAY_2",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 9.9
+       },
+       "nodeId": "ENTRANCE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 8
+       },
+       "nodeId": "HALL_SIM"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 6.5,
+        "y": 5
+       },
+       "nodeId": "BAY_WEST"
+      },
+      {
+       "point": {
+        "x": 8.7,
+        "y": 5
+       },
+       "nodeId": "BAY_EAST"
+      },
+      {
+       "point": {
+        "x": 9.55,
+        "y": 4
+       }
+      },
+      {
+       "point": {
+        "x": 9.55,
+        "y": 2.3
+       }
+      }
+     ],
+     "routeId": 3,
+     "location": {
+      "kind": "node",
+      "nodeId": "ENTRANCE_OUTSIDE"
+     },
+     "idleUntilMs": 1600
+    },
+    {
+     "id": "kenji-sato",
+     "name": "Kenji Sato",
+     "role": "Simulator Engineer",
+     "uniform": "navy",
+     "state": "WALKING",
+     "position": {
+      "x": 4.074695771132691,
+      "y": 11.027591268660192
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "SIMULATOR",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 10.9
+       },
+       "nodeId": "ENTRANCE_OUTSIDE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 9.9
+       },
+       "nodeId": "ENTRANCE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 8
+       },
+       "nodeId": "HALL_SIM"
+      },
+      {
+       "point": {
+        "x": 3.5,
+        "y": 7.65
+       }
+      }
+     ],
+     "routeId": 4,
+     "location": {
+      "kind": "node",
+      "nodeId": "ENTRANCE_OUTSIDE"
+     },
+     "idleUntilMs": 2200
+    },
+    {
+     "id": "ana-costa",
+     "name": "Ana Costa",
+     "role": "Manufacturing Technician",
+     "uniform": "orange",
+     "state": "IDLE",
+     "position": {
+      "x": 6.1,
+      "y": 11.1
+     },
+     "facing": "left",
+     "assignment": {
+      "stationId": "MANUFACTURING_BENCH",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 10.9
+       },
+       "nodeId": "ENTRANCE_OUTSIDE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 9.9
+       },
+       "nodeId": "ENTRANCE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 8
+       },
+       "nodeId": "HALL_SIM"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 6.5,
+        "y": 5
+       },
+       "nodeId": "BAY_WEST"
+      },
+      {
+       "point": {
+        "x": 6.55,
+        "y": 6.8
+       }
+      }
+     ],
+     "routeId": 5,
+     "location": {
+      "kind": "node",
+      "nodeId": "ENTRANCE_OUTSIDE"
+     },
+     "idleUntilMs": 2800
+    },
+    {
+     "id": "marcus-reid",
+     "name": "Marcus Reid",
+     "role": "Logistics Technician",
+     "uniform": "orange",
+     "state": "IDLE",
+     "position": {
+      "x": 2.9,
+      "y": 11.05
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "LOGISTICS_AREA",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 10.9
+       },
+       "nodeId": "ENTRANCE_OUTSIDE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 9.9
+       },
+       "nodeId": "ENTRANCE"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 8
+       },
+       "nodeId": "HALL_SIM"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 6.5,
+        "y": 5
+       },
+       "nodeId": "BAY_WEST"
+      },
+      {
+       "point": {
+        "x": 8.7,
+        "y": 5
+       },
+       "nodeId": "BAY_EAST"
+      },
+      {
+       "point": {
+        "x": 9.65,
+        "y": 5.7
+       }
+      },
+      {
+       "point": {
+        "x": 9.65,
+        "y": 7.55
+       }
+      },
+      {
+       "point": {
+        "x": 8.6,
+        "y": 7.55
+       }
+      }
+     ],
+     "routeId": 6,
+     "location": {
+      "kind": "node",
+      "nodeId": "ENTRANCE_OUTSIDE"
+     },
+     "idleUntilMs": 3400
+    },
+    {
+     "id": "priya-nair",
+     "name": "Priya Nair",
+     "role": "Aero Engineer",
+     "uniform": "white",
+     "state": "IDLE",
+     "position": {
+      "x": 4.3,
+      "y": 5.75
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "AERO_DESK",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 4.5,
+        "y": 1.9
+       },
+       "nodeId": "HALL_AERO"
+      },
+      {
+       "point": {
+        "x": 2.9,
+        "y": 1.85
+       }
+      }
+     ],
+     "routeId": 7,
+     "location": {
+      "kind": "node",
+      "nodeId": "HALL_JUNCTION"
+     },
+     "idleUntilMs": 4200
+    },
+    {
+     "id": "hannah-cole",
+     "name": "Hannah Cole",
+     "role": "Strategist",
+     "uniform": "white",
+     "state": "IDLE",
+     "position": {
+      "x": 4.75,
+      "y": 6
+     },
+     "facing": "right",
+     "assignment": {
+      "stationId": "STRATEGY_DESK",
+      "slotIndex": 0
+     },
+     "route": [
+      {
+       "point": {
+        "x": 4.5,
+        "y": 5
+       },
+       "nodeId": "HALL_JUNCTION"
+      },
+      {
+       "point": {
+        "x": 2.25,
+        "y": 4.5
+       }
+      }
+     ],
+     "routeId": 8,
+     "location": {
+      "kind": "node",
+      "nodeId": "HALL_JUNCTION"
+     },
+     "idleUntilMs": 5000
+    }
+   ],
+   "stations": {
+    "CAR_BAY_1": {
+     "id": "CAR_BAY_1",
+     "slots": [
+      "james-walker",
+      "tom-becker"
+     ]
+    },
+    "CAR_BAY_2": {
+     "id": "CAR_BAY_2",
+     "slots": [
+      "luca-moretti",
+      null
+     ]
+    },
+    "AERO_DESK": {
+     "id": "AERO_DESK",
+     "slots": [
+      "priya-nair",
+      null
+     ]
+    },
+    "STRATEGY_DESK": {
+     "id": "STRATEGY_DESK",
+     "slots": [
+      "hannah-cole",
+      null
+     ]
+    },
+    "SIMULATOR": {
+     "id": "SIMULATOR",
+     "slots": [
+      "kenji-sato",
+      null
+     ]
+    },
+    "MANUFACTURING_BENCH": {
+     "id": "MANUFACTURING_BENCH",
+     "slots": [
+      "ana-costa",
+      null
+     ]
+    },
+    "LOGISTICS_AREA": {
+     "id": "LOGISTICS_AREA",
+     "slots": [
+      "marcus-reid",
+      null
+     ]
+    }
+   },
+   "nextRouteId": 9
+  },
+  "development": {
+   "seed": 2026,
+   "teams": {
+    "team.mclarin": {
+     "teamId": "team.mclarin",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 80.98225022713032,
+       "reliability": 92.61418794005515,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "NOSE": {
+       "rating": 76,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 76,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FLOOR": {
+       "rating": 76,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 76,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 78.5060786658009,
+       "reliability": 93.46887127244783,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 77.19480702532266,
+       "reliability": 96,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 79.95397237470172,
+       "reliability": 96,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      }
+     },
+     "projects": [
+      {
+       "id": "team.mclarin-S1-8",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 2.0663195641207075,
+       "ambition": 0.47209847597641386,
+       "expectedGain": 1.7226074956309112,
+       "cost": 2.906641266142214,
+       "startedWeek": 12
+      },
+      {
+       "id": "team.mclarin-S1-9",
+       "partId": "DIFFUSER_REAR_EDGE",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 1.290839700876175,
+       "ambition": 0.7162720010525215,
+       "expectedGain": 3.1856521926697785,
+       "cost": 3.1043102422839715,
+       "startedWeek": 13
+      },
+      {
+       "id": "team.mclarin-S1-10",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 4.800000000000001,
+       "ambition": 0.6360453874608563,
+       "expectedGain": 2.4424142878496884,
+       "cost": 3.3083111992790974,
+       "startedWeek": 16
+      },
+      {
+       "id": "team.mclarin-S1-11",
+       "partId": "FRONT_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 2.04,
+       "ambition": 0.7473538591837957,
+       "expectedGain": 2.6682517426040318,
+       "cost": 2.046295402857314,
+       "startedWeek": 18
+      },
+      {
+       "id": "team.mclarin-S1-12",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 1.02,
+       "ambition": 0.7347594103823047,
+       "expectedGain": 2.695314938251908,
+       "cost": 2.0286631745352266,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 29.945281272887115,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 0.85,
+     "nextProjectNumber": 13
+    },
+    "team.ferano": {
+     "teamId": "team.ferano",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 83.0315931786512,
+       "reliability": 94.31255809070736,
+       "spec": 3,
+       "upgradesThisSeason": 2
+      },
+      "NOSE": {
+       "rating": 78,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 80.35290271227196,
+       "reliability": 95.09383687739088,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 78,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 78,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 79.26274683158066,
+       "reliability": 95.98121359384399,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 82.24474341115187,
+       "reliability": 95.04757224682807,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 78,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.ferano-S1-7",
+       "partId": "DIFFUSER_REAR_EDGE",
+       "reason": "PERFORMANCE",
+       "stage": "READY",
+       "progress": 0,
+       "ambition": 0.6265397098570983,
+       "expectedGain": 3.0103979979213857,
+       "cost": 2.9095911703899033,
+       "startedWeek": 12
+      },
+      {
+       "id": "team.ferano-S1-9",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 1.1994389406029247,
+       "ambition": 0.8841636778574202,
+       "expectedGain": 2.964693298711923,
+       "cost": 3.91620101075068,
+       "startedWeek": 12
+      },
+      {
+       "id": "team.ferano-S1-10",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 1.9500000000000002,
+       "ambition": 0.7520395017583437,
+       "expectedGain": 2.619999234823272,
+       "cost": 2.052855302461681,
+       "startedWeek": 18
+      },
+      {
+       "id": "team.ferano-S1-11",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 2.8,
+       "ambition": 0.6330600777825356,
+       "expectedGain": 1.9183179293329193,
+       "cost": 3.300997190567212,
+       "startedWeek": 18
+      },
+      {
+       "id": "team.ferano-S1-12",
+       "partId": "FRONT_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.9750000000000001,
+       "ambition": 0.7520650914070889,
+       "expectedGain": 2.358296819733689,
+       "cost": 2.0528911279699242,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 30.617248673700526,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 0.75,
+     "nextProjectNumber": 13
+    },
+    "team.mercurion": {
+     "teamId": "team.mercurion",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 79.15072782477644,
+       "reliability": 94.55895691432448,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "NOSE": {
+       "rating": 77,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 79.25808900457133,
+       "reliability": 91.19760650375424,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 78.19416842672993,
+       "reliability": 96,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "BODYWORK_COOLING": {
+       "rating": 77,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 77,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_SUSPENSION": {
+       "rating": 78.596630617417,
+       "reliability": 92.34833595304197,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 77,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.mercurion-S1-7",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 2.9649038318660232,
+       "ambition": 0.7344358184159828,
+       "expectedGain": 2.7246961922885347,
+       "cost": 3.549367755119158,
+       "startedWeek": 11
+      },
+      {
+       "id": "team.mercurion-S1-9",
+       "partId": "BODYWORK_COOLING",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 1.7965178510236346,
+       "ambition": 0.6207668079936389,
+       "expectedGain": 2.832683098236574,
+       "cost": 3.738147062382189,
+       "startedWeek": 12
+      },
+      {
+       "id": "team.mercurion-S1-10",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 4.199999999999999,
+       "ambition": 0.6061023261366132,
+       "expectedGain": 2.1790982204936378,
+       "cost": 3.234950699034702,
+       "startedWeek": 17
+      },
+      {
+       "id": "team.mercurion-S1-11",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 2.08,
+       "ambition": 0.6236291582357796,
+       "expectedGain": 2.3714538123845914,
+       "cost": 1.8730808215300914,
+       "startedWeek": 18
+      }
+     ],
+     "spent": 30.045033035011652,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 0.8,
+     "nextProjectNumber": 12
+    },
+    "team.vortex": {
+     "teamId": "team.vortex",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 83.14062950007663,
+       "reliability": 98,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "NOSE": {
+       "rating": 80,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 83.00081551654785,
+       "reliability": 91.20447471188804,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 83,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 80,
+       "reliability": 98,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 82.54879646693188,
+       "reliability": 95.33744304434158,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 82.65104705644585,
+       "reliability": 93.23643778039944,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 81.22033424978304,
+       "reliability": 96.01700549526012,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      }
+     },
+     "projects": [
+      {
+       "id": "team.vortex-S1-7",
+       "partId": "FLOOR",
+       "reason": "PERFORMANCE",
+       "stage": "DESIGN",
+       "progress": 3.0388699146213067,
+       "ambition": 0.7332823533307089,
+       "expectedGain": 3.5103692818647696,
+       "cost": 4.863828707191181,
+       "startedWeek": 12
+      },
+      {
+       "id": "team.vortex-S1-9",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "DESIGN",
+       "progress": 2.5076627769903874,
+       "ambition": 0.8660473828713645,
+       "expectedGain": 2.524202569110353,
+       "cost": 3.871816088034843,
+       "startedWeek": 13
+      },
+      {
+       "id": "team.vortex-S1-10",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 4.800000000000001,
+       "ambition": 0.6714723689620898,
+       "expectedGain": 1.9176330894885725,
+       "cost": 3.39510730395712,
+       "startedWeek": 16
+      },
+      {
+       "id": "team.vortex-S1-11",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.9799999999999999,
+       "ambition": 0.38678021477709246,
+       "expectedGain": 1.1879613241124367,
+       "cost": 1.5414923006879295,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 31.012958622253592,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 0.7,
+     "nextProjectNumber": 12
+    },
+    "team.arden": {
+     "teamId": "team.arden",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 73.45038915060836,
+       "reliability": 95.4236152684781,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "NOSE": {
+       "rating": 72,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 74.13560373924093,
+       "reliability": 87.00213092379573,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 72,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 72,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 74.66704136907532,
+       "reliability": 93.23935826809267,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 73.57900140540235,
+       "reliability": 93.20765915477986,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 72,
+       "reliability": 96,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.arden-S1-7",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "DESIGN",
+       "progress": 2.4532520082396285,
+       "ambition": 0.5022859050678764,
+       "expectedGain": 2.0525651230114805,
+       "cost": 2.9806004674162967,
+       "startedWeek": 13
+      },
+      {
+       "id": "team.arden-S1-8",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.9900000000000001,
+       "ambition": 0.6120963714403066,
+       "expectedGain": 2.43964403011826,
+       "cost": 1.8569349200164291,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 18.041909182732184,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 0.9,
+     "nextProjectNumber": 9
+    },
+    "team.wellington": {
+     "teamId": "team.wellington",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 72.79937691800103,
+       "reliability": 94,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "NOSE": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FLOOR": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_SUSPENSION": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 69,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [],
+     "spent": 1.8399999999999999,
+     "circuitPackages": [],
+     "aeroAllowance": 1.05,
+     "nextProjectNumber": 2
+    },
+    "team.alpinor": {
+     "teamId": "team.alpinor",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 70,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "NOSE": {
+       "rating": 70,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 72.55094360089298,
+       "reliability": 86.45973062650536,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 70,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 70,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 71.86054330164716,
+       "reliability": 89.99303158987728,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 70,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 70,
+       "reliability": 94,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.alpinor-S1-6",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 0.5692159836094828,
+       "ambition": 0.7335328564991995,
+       "expectedGain": 3.3449098256363503,
+       "cost": 3.5471554984230385,
+       "startedWeek": 11
+      },
+      {
+       "id": "team.alpinor-S1-7",
+       "partId": "FRONT_WING",
+       "reason": "PERFORMANCE",
+       "stage": "READY",
+       "progress": 0,
+       "ambition": 0.45764483436001174,
+       "expectedGain": 2.2552737437261383,
+       "cost": 1.6407027681040165,
+       "startedWeek": 13
+      },
+      {
+       "id": "team.alpinor-S1-8",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "DESIGN",
+       "progress": 2.393631027300196,
+       "ambition": 0.5073736965837832,
+       "expectedGain": 2.1168932403686553,
+       "cost": 2.9930655566302686,
+       "startedWeek": 13
+      },
+      {
+       "id": "team.alpinor-S1-9",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.95,
+       "ambition": 0.7882595974136153,
+       "expectedGain": 3.3123920567332337,
+       "cost": 2.103563436379061,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 22.589663970981142,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 0.95,
+     "nextProjectNumber": 10
+    },
+    "team.hartman": {
+     "teamId": "team.hartman",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 69,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "NOSE": {
+       "rating": 69,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 73.16416125953069,
+       "reliability": 82.15982608347613,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 69,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 69,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 69,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_SUSPENSION": {
+       "rating": 72.49505612779636,
+       "reliability": 92,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 69,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.hartman-S1-6",
+       "partId": "FLOOR",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 0.9600618951473459,
+       "ambition": 0.5803764808041852,
+       "expectedGain": 4.222045439023514,
+       "cost": 4.350064975502062,
+       "startedWeek": 11
+      },
+      {
+       "id": "team.hartman-S1-8",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "RELIABILITY",
+       "stage": "MANUFACTURING",
+       "progress": 0.9139240506329115,
+       "ambition": 0.3,
+       "expectedGain": 0,
+       "cost": 1.05,
+       "startedWeek": 16
+      }
+     ],
+     "spent": 19.448743034350922,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 1,
+     "nextProjectNumber": 9
+    },
+    "team.veloce": {
+     "teamId": "team.veloce",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 67,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "NOSE": {
+       "rating": 67,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 71.42905908810101,
+       "reliability": 83.27779203803912,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 67,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 67,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 69.70956696205262,
+       "reliability": 92,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 67,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 67,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.veloce-S1-5",
+       "partId": "FRONT_WING",
+       "reason": "PERFORMANCE",
+       "stage": "MANUFACTURING",
+       "progress": 0.5827756217154659,
+       "ambition": 0.6679610897703552,
+       "expectedGain": 3.4269075749578306,
+       "cost": 1.935145525678497,
+       "startedWeek": 14
+      },
+      {
+       "id": "team.veloce-S1-6",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 1.9800000000000002,
+       "ambition": 0.7320623478006342,
+       "expectedGain": 3.133993954292949,
+       "cost": 2.0248872869208876,
+       "startedWeek": 18
+      },
+      {
+       "id": "team.veloce-S1-7",
+       "partId": "FRONT_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.8,
+       "ambition": 0.6390939171233792,
+       "expectedGain": 2.6780621330153,
+       "cost": 3.315780096952279,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 15.931761032786268,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 1.1,
+     "nextProjectNumber": 8
+    },
+    "team.auden": {
+     "teamId": "team.auden",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 71.42725919134087,
+       "reliability": 88.8735829178952,
+       "spec": 3,
+       "upgradesThisSeason": 2
+      },
+      "NOSE": {
+       "rating": 65,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 67.1780719846742,
+       "reliability": 85.74002936953032,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 65,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 65,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 65,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_SUSPENSION": {
+       "rating": 65,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 65,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.auden-S1-6",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 4,
+       "ambition": 0.45624529754534104,
+       "expectedGain": 2.1717276163158235,
+       "cost": 2.8678009789860854,
+       "startedWeek": 15
+      },
+      {
+       "id": "team.auden-S1-7",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.9199999999999999,
+       "ambition": 0.6588690624372862,
+       "expectedGain": 3.1977111830289626,
+       "cost": 1.9224166874122006,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 15.096453175132815,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 1.15,
+     "nextProjectNumber": 8
+    },
+    "team.caldera": {
+     "teamId": "team.caldera",
+     "parts": {
+      "FRONT_WING": {
+       "rating": 62,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "NOSE": {
+       "rating": 62,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "FRONT_SUSPENSION": {
+       "rating": 64.32181088703308,
+       "reliability": 83.82229550198656,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "FLOOR": {
+       "rating": 62,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "BODYWORK_COOLING": {
+       "rating": 62,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "REAR_WING": {
+       "rating": 64.74055328011507,
+       "reliability": 90.02524284621232,
+       "spec": 2,
+       "upgradesThisSeason": 1
+      },
+      "REAR_SUSPENSION": {
+       "rating": 62,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      },
+      "DIFFUSER_REAR_EDGE": {
+       "rating": 62,
+       "reliability": 92,
+       "spec": 1,
+       "upgradesThisSeason": 0
+      }
+     },
+     "projects": [
+      {
+       "id": "team.caldera-S1-4",
+       "partId": "FRONT_WING",
+       "reason": "PERFORMANCE",
+       "stage": "READY",
+       "progress": 0,
+       "ambition": 0.5210121196578634,
+       "expectedGain": 3.019925182102219,
+       "cost": 1.7294169675210087,
+       "startedWeek": 12
+      },
+      {
+       "id": "team.caldera-S1-6",
+       "partId": "REAR_WING",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.96,
+       "ambition": 0.5104847951074514,
+       "expectedGain": 2.4959183855704885,
+       "cost": 1.7146787131504317,
+       "startedWeek": 19
+      },
+      {
+       "id": "team.caldera-S1-7",
+       "partId": "REAR_SUSPENSION",
+       "reason": "PERFORMANCE",
+       "stage": "RESEARCH",
+       "progress": 0.8,
+       "ambition": 0.6084346264525937,
+       "expectedGain": 3.1443901495070046,
+       "cost": 3.2406648348088547,
+       "startedWeek": 19
+      }
+     ],
+     "spent": 15.111228919372948,
+     "circuitPackages": [
+      "HIGH_COOLING",
+      "LOW_DRAG"
+     ],
+     "aeroAllowance": 1.2,
+     "nextProjectNumber": 8
+    }
+   },
+   "submissions": [
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mclarin",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mclarin",
+     "partId": "DIFFUSER_REAR_EDGE",
+     "reason": "PERFORMANCE",
+     "description": "Revised diffuser kick-up to increase rear load",
+     "expectedGain": 3.111378974981939,
+     "actualGain": 3.953972374701724,
+     "outcome": "DELIVERED",
+     "cost": 2.8179710741644395
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mclarin",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised rear geometry to reduce tyre degradation",
+     "expectedGain": 1.3643510100298226,
+     "actualGain": 1.1948070253226537,
+     "outcome": "DELIVERED",
+     "cost": 2.6204843683784023
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mclarin",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.ferano",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.ferano",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New wishbone fairings to clean up flow to the diffuser",
+     "expectedGain": 2.310241337610676,
+     "actualGain": 2.2447434111518705,
+     "outcome": "DELIVERED",
+     "cost": 3.4082298663514123
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.ferano",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New upright geometry for better front-end response",
+     "expectedGain": 2.5296849202904186,
+     "actualGain": 2.3529027122719524,
+     "outcome": "DELIVERED",
+     "cost": 3.400673310026152
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.ferano",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.ferano",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "New mainplane leading edge for better flow conditioning",
+     "expectedGain": 3.1489710482650666,
+     "actualGain": 3.003151216102498,
+     "outcome": "DELIVERED",
+     "cost": 2.0843564215788795
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mercurion",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mercurion",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "New rear wing profiles for better load efficiency",
+     "expectedGain": 2.0389344747790283,
+     "actualGain": 0,
+     "outcome": "REVERTED",
+     "cost": 1.750659606773485
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mercurion",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New wishbone fairings to clean up flow to the diffuser",
+     "expectedGain": 2.884131155591504,
+     "actualGain": 1.596630617417006,
+     "outcome": "UNDERPERFORMED",
+     "cost": 3.52243846100314
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.mercurion",
+     "partId": "FLOOR",
+     "reason": "PERFORMANCE",
+     "description": "New floor edge geometry to seal the underfloor",
+     "expectedGain": 2.6783225040831606,
+     "actualGain": 1.1941684267299264,
+     "outcome": "UNDERPERFORMED",
+     "cost": 3.879087638124466
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.vortex",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.vortex",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised rear geometry to reduce tyre degradation",
+     "expectedGain": 2.478237937190531,
+     "actualGain": 2.65104705644585,
+     "outcome": "DELIVERED",
+     "cost": 3.5570484958680955
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.vortex",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.vortex",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised flap profiles to increase local load",
+     "expectedGain": 2.9181520509983416,
+     "actualGain": 3.1406295000766242,
+     "outcome": "DELIVERED",
+     "cost": 2.055116960588243
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.arden",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.arden",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New wishbone fairings to clean up flow to the diffuser",
+     "expectedGain": 2.3652198280244323,
+     "actualGain": 1.579001405402352,
+     "outcome": "DELIVERED",
+     "cost": 3.0880823380526152
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.arden",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.wellington",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "New mainplane leading edge for better flow conditioning",
+     "expectedGain": 3.1099200000000007,
+     "actualGain": 3.799376918001025,
+     "outcome": "DELIVERED",
+     "cost": 1.8399999999999999
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.alpinor",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.alpinor",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised rear geometry to reduce tyre degradation",
+     "expectedGain": 2.2569954230362286,
+     "actualGain": 0,
+     "outcome": "REVERTED",
+     "cost": 2.9626400847453422
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.alpinor",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.hartman",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.hartman",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised endplate tip to reduce induced drag",
+     "expectedGain": 4.037425737250579,
+     "actualGain": 0,
+     "outcome": "REVERTED",
+     "cost": 2.2431956082443127
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.veloce",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.veloce",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised endplate tip to reduce induced drag",
+     "expectedGain": 2.391924036274207,
+     "actualGain": 2.7095669620526155,
+     "outcome": "DELIVERED",
+     "cost": 1.7179874894476606
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.auden",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.auden",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "Modified endplate to improve outwash around the front tyre",
+     "expectedGain": 2.590307033345898,
+     "actualGain": 3.9784338627699096,
+     "outcome": "DELIVERED",
+     "cost": 1.679276319933365
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.caldera",
+     "partId": "BODYWORK_COOLING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Enlarged cooling louvres for hot conditions",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 2.4
+    },
+    {
+     "season": 1,
+     "week": 10,
+     "eventId": "BHR",
+     "teamId": "team.caldera",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 12,
+     "eventId": "SAU",
+     "teamId": "team.vortex",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised wishbone fairings to improve flow to the sidepods",
+     "expectedGain": 2.6197976645370824,
+     "actualGain": 3.000815516547846,
+     "outcome": "DELIVERED",
+     "cost": 3.660269130391622
+    },
+    {
+     "season": 1,
+     "week": 12,
+     "eventId": "SAU",
+     "teamId": "team.alpinor",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised wishbone fairings to improve flow to the sidepods",
+     "expectedGain": 3.569041889542359,
+     "actualGain": 2.550943600892985,
+     "outcome": "DELIVERED",
+     "cost": 3.6675773310041175
+    },
+    {
+     "season": 1,
+     "week": 12,
+     "eventId": "SAU",
+     "teamId": "team.hartman",
+     "partId": "REAR_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New wishbone fairings to clean up flow to the diffuser",
+     "expectedGain": 3.1295314512096675,
+     "actualGain": 3.4950561277963588,
+     "outcome": "DELIVERED",
+     "cost": 3.406254044238987
+    },
+    {
+     "season": 1,
+     "week": 14,
+     "eventId": "AUS",
+     "teamId": "team.mercurion",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised wishbone fairings to improve flow to the sidepods",
+     "expectedGain": 2.339480582557756,
+     "actualGain": 2.258089004571333,
+     "outcome": "DELIVERED",
+     "cost": 3.18772427105347
+    },
+    {
+     "season": 1,
+     "week": 14,
+     "eventId": "AUS",
+     "teamId": "team.auden",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New upright geometry for better front-end response",
+     "expectedGain": 2.779830680069045,
+     "actualGain": 2.178071984674206,
+     "outcome": "DELIVERED",
+     "cost": 3.1807952029767144
+    },
+    {
+     "season": 1,
+     "week": 15,
+     "eventId": "JPN",
+     "teamId": "team.mclarin",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New upright geometry for better front-end response",
+     "expectedGain": 2.7093969421016517,
+     "actualGain": 0,
+     "outcome": "REVERTED",
+     "cost": 3.4786516948304804
+    },
+    {
+     "season": 1,
+     "week": 15,
+     "eventId": "JPN",
+     "teamId": "team.mercurion",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 15,
+     "eventId": "JPN",
+     "teamId": "team.hartman",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "Revised wishbone fairings to improve flow to the sidepods",
+     "expectedGain": 3.7775896745040716,
+     "actualGain": 4.1641612595306885,
+     "outcome": "DELIVERED",
+     "cost": 3.749228406365561
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.mclarin",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "New rear wing profiles for better load efficiency",
+     "expectedGain": 2.683650544675617,
+     "actualGain": 2.5060786658009047,
+     "outcome": "DELIVERED",
+     "cost": 1.9172633697621737
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.mclarin",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "Modified endplate to improve outwash around the front tyre",
+     "expectedGain": 3.294340319307825,
+     "actualGain": 2.982250227130317,
+     "outcome": "DELIVERED",
+     "cost": 2.1166894806538017
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.ferano",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised endplate tip to reduce induced drag",
+     "expectedGain": 2.229172426192096,
+     "actualGain": 1.2627468315806616,
+     "outcome": "UNDERPERFORMED",
+     "cost": 1.8443834947697333
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.mercurion",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "Modified endplate to improve outwash around the front tyre",
+     "expectedGain": 2.1200800818624956,
+     "actualGain": 2.1507278247764403,
+     "outcome": "DELIVERED",
+     "cost": 1.7095767199909537
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.vortex",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised endplate tip to reduce induced drag",
+     "expectedGain": 2.383366747319611,
+     "actualGain": 2.548796466931871,
+     "outcome": "DELIVERED",
+     "cost": 1.9479299563202999
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.arden",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised flap profiles to increase local load",
+     "expectedGain": 1.4346872596095905,
+     "actualGain": 1.4503891506083644,
+     "outcome": "DELIVERED",
+     "cost": 1.414489770688441
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.hartman",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.hartman",
+     "partId": "REAR_SUSPENSION",
+     "reason": "RELIABILITY",
+     "description": "Revised bearing housing to cure overheating",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.05
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.veloce",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New upright geometry for better front-end response",
+     "expectedGain": 3.137032435726045,
+     "actualGain": 4.42905908810101,
+     "outcome": "DELIVERED",
+     "cost": 3.337960633786944
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.veloce",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.auden",
+     "partId": "REAR_WING",
+     "reason": "CIRCUIT_SPECIFIC",
+     "description": "Low-downforce rear wing for high-speed circuits",
+     "expectedGain": 0,
+     "actualGain": 0,
+     "outcome": "DELIVERED",
+     "cost": 1.2
+    },
+    {
+     "season": 1,
+     "week": 17,
+     "eventId": "CHN",
+     "teamId": "team.caldera",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New upright geometry for better front-end response",
+     "expectedGain": 3.162025123048899,
+     "actualGain": 2.321810887033074,
+     "outcome": "DELIVERED",
+     "cost": 3.2490250680088626
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.ferano",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "New mainplane leading edge for better flow conditioning",
+     "expectedGain": 2.62561546562258,
+     "actualGain": 2.028441962548707,
+     "outcome": "DELIVERED",
+     "cost": 2.047069778834948
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.vortex",
+     "partId": "DIFFUSER_REAR_EDGE",
+     "reason": "PERFORMANCE",
+     "description": "Revised diffuser kick-up to increase rear load",
+     "expectedGain": 2.046230475614954,
+     "actualGain": 1.2203342497830434,
+     "outcome": "UNDERPERFORMED",
+     "cost": 2.520349679214259
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.arden",
+     "partId": "FRONT_SUSPENSION",
+     "reason": "PERFORMANCE",
+     "description": "New upright geometry for better front-end response",
+     "expectedGain": 2.7710114452899064,
+     "actualGain": 2.1356037392409357,
+     "outcome": "DELIVERED",
+     "cost": 3.3176519491133623
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.arden",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised endplate tip to reduce induced drag",
+     "expectedGain": 2.467457840493727,
+     "actualGain": 2.6670413690753265,
+     "outcome": "DELIVERED",
+     "cost": 1.7841497374450404
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.alpinor",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "New rear wing profiles for better load efficiency",
+     "expectedGain": 3.4398697462249612,
+     "actualGain": 1.8605433016471495,
+     "outcome": "UNDERPERFORMED",
+     "cost": 2.0749592956953
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.auden",
+     "partId": "FRONT_WING",
+     "reason": "PERFORMANCE",
+     "description": "New mainplane leading edge for better flow conditioning",
+     "expectedGain": 2.8599272251694825,
+     "actualGain": 2.4488253285709667,
+     "outcome": "DELIVERED",
+     "cost": 1.8461639858244503
+    },
+    {
+     "season": 1,
+     "week": 18,
+     "eventId": "MIA",
+     "teamId": "team.caldera",
+     "partId": "REAR_WING",
+     "reason": "PERFORMANCE",
+     "description": "Revised endplate tip to reduce induced drag",
+     "expectedGain": 2.1733867270597527,
+     "actualGain": 2.740553280115065,
+     "outcome": "DELIVERED",
+     "cost": 1.5774433358837905
+    }
+   ]
+  }
+ }
+}

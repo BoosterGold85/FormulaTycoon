@@ -361,3 +361,84 @@ external schema stays v5/checkpoint v3 with unchanged historical contracts/fixtu
 persisted sessions/results require their own completion identity including calendarId/event ID,
 validation/migration and exactly-once consequences. Current date-only COMPLETED is not that state.
 Detailed ownership, evidence and limitations: [MILESTONE-D0](development-notes/MILESTONE-D0.md).
+
+## UI / Visual Experience V1
+
+The interaction hierarchy is GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT. First-level views
+show decision information, second-level views management detail, and deeper disclosures analysis.
+`ui/design` owns presentation tokens, icons, screen/section headers, cards, compact rows, chips,
+grade badges, actions, disclosures and empty states. `ui/art` contains original illustrative
+helmet/car/garage/trophy/circuit motifs; none contributes gameplay data or measured geometry.
+
+App retains the same single universe owner and mounted HQ. TEAM, DRIVERS, RACE and HISTORY
+display separate views below it. DriverProfile is shared between the roster and team dashboard;
+it still requests selectDriverCarFit and preserves contract/scouting commands. Screen-local state
+is selection, disclosure expansion, filters and browsed month only, never career progression.
+
+Two new read-only projections compose existing owners: calendar/monthView positions actual dates,
+cross-month weekends and existing event statuses; managementViews groups disclosed drivers and
+reads next-circuit fit, actual project stage progress, fitted specs and visible HQ staff. Neither
+changes simulation rules or persists a new value. Project progress is explicitly the CURRENT
+stage, not a whole-project estimate or a new completion forecast. Race illustration coordinates
+are unrelated to technical profiles; qualitative priority sorting controls presentation only.
+
+Roster summaries show Talent/form/contract horizon; dossiers hold six grades and deeper terms.
+RACE uses a Monday-first month grid and next-event card, with high-level event detail before
+full demands/rationale. TEAM has contextual car, drivers, real development and HQ detail. HISTORY
+is an honest future-records empty state. Five cosmetic worker files were selectively ported from
+1cfb07d; no branch merge, HQ engine, route, assignment or work cadence changes. Schema stays v5.
+Qualifying is paused for visual review. See development-notes/UI-VISUAL-EXPERIENCE-V1.md.
+
+## Permanent visual identity and driver portraits
+
+[GRAPHIC_DESIGN_BIBLE.md](GRAPHIC_DESIGN_BIBLE.md) governs all material visual work.
+The canonical brand registry owns one `{primary,secondary,accent}` palette per team; existing
+`color` aliases primary. `ui/art/portraitPalette` resolves deterministic presentation contrast and
+neutral unassigned colors. `TeamDriverPortrait` adapts the existing current-employment read-model
+teamId to the generic `DriverPortrait`, which receives colors only. Roster, dossier and Team use
+one scalable React Native View-shape template. No new authoritative state, per-driver art data,
+cache, generation framework, dependency, migration or simulation rule is introduced. Employment
+changes recolor on the next render; affiliations/familiarity never determine a portrait's team.
+
+## Shared theme presentation owner
+
+`ThemeProvider` wraps the app, without a theme-keyed remount of `useGameUniverse`. It owns only
+light/dark selection; one unchanged app-lifetime campaign remains below it. `design/tokens`
+provides semantic palettes and compatibility aliases, `useTheme`/`useDesign` supply runtime values
+and styles. Screens/art/overlays use the same components in both modes. Web preference storage is
+separate from save envelopes; no gameplay persistence or migration changes. Denied storage falls
+back to session-local selection; native durable preference storage is not implemented.
+
+The shared GameHud is the dark top shell for all tabs. The same navigation model renders a side
+rail on wide screens and a bottom strip on phones. HQ environment geometry/materials remain
+independent; its controls/cards follow the selected theme. Theme-specific backgrounds/grounding
+never alter canonical team palettes or displayed gameplay facts. Team text contrast correction is
+presentation only. See the Graphic Design Bible for the owner-approved default light direction.
+
+## Weekly Development Loop V1 (development rules 2, save v6)
+
+`simulation/developmentLoop` composes existing owners; it is not a second development system. Every career persists
+`developmentRules`:
+
+- **Rules 1** (all migrated v1–v5 careers): the released kernel and the 24-event compatibility fitting, unchanged.
+- **Rules 2** (new careers):
+  - The D0 `DEVELOPMENT_WEEK` handler runs `rules2Week`: default unanswered player events, then the unchanged kernel
+    with legacy fitting disabled and rival planning on the career's real weekends, then raise seeded stage events.
+  - A new `DEVELOPMENT_FITTING` instruction (priority 15) fits READY, non-held work when entering each event's
+    `weekendStartDate`, through `introduceReadyUpgrades` with optional eligibility and prediction hooks.
+  - Rules-1 calls pass no hooks, so their behaviour is byte-identical.
+
+Player commands (`startPlayerProject`, `setProjectHold`, `refinePlayerProject`, `decideProjectEvent`) are pure domain
+transitions through the `developmentView` bridge and the shared `startProject` rules. The UI only dispatches them.
+`nextTurnTarget` derives the next Monday or earlier FP1 from the root date and the pinned calendar; there is no second
+clock. Read models derive points (10 per average-team week of stage work), progress, ETA, fitting weekend, outcome
+labels, part guidance and HQ department activity. The turn report is transient UI session state.
+
+**Randomness and state:**
+- The only new RNG namespace is `'development-event', projectId, stage`. The `'plan'` and `'upgrade'` keys are unchanged.
+- Delays are stored as real `delayWeeks`, consumed by `advanceProjects` before stage work, because frozen V5
+  semantics forbid negative progress.
+
+**Save v6:** frozen `contracts/v6.json` and `validationV5`; the v5 → v6 migration attaches rules 1; v6-only fields are
+validated against a frozen vocabulary before the shared V5 rules run. Details:
+development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md.

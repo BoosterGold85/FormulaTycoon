@@ -49,3 +49,11 @@ change an existing calendar ID. The externally verified owner handoff completes 
 frozen append-only ID registry; saved v1 careers and original migration targets keep v1.
 Schema stays5: no persistent structure change. Both static profile revisions are retained;
 current validation accepts the explicitly registered IDs without consulting a mutable default.
+
+
+V6 (Weekly Development Loop V1) adds the per-career `developmentRules` identity and optional rules-2 project
+decision fields, plus real-weekend submission identity:
+- `v6.json` is the frozen content snapshot (v5 content with a new definition identity).
+- `validationV5.ts` preserves the released V5 universe rules for V5 sources and for the structure V6 shares.
+- `driver-world-v5.json` is the retained V5 fixture (hash-tested).
+- V5 → V6 attaches rules 1 only, so released careers keep their cadence, kernel and history. New careers use rules 2.

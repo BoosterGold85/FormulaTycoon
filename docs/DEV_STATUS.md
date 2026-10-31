@@ -2,134 +2,235 @@
 
 ## Milestone
 
-**D0 — Race weekend integration foundation COMPLETE. READY FOR QUALIFYING DESIGN.**
-Qualifying has NOT started. No Practice/Qualifying screen, lap model or race result exists.
+**WEEKLY DEVELOPMENT LOOP V1: IMPLEMENTED, AWAITING OWNER TESTING.** Branch `feature/weekly-development-loop-v1`
+(from the visual branch head `19961ff` and the approved design). Notes: [WEEKLY-DEVELOPMENT-LOOP-V1](development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md).
+Qualifying and races were NOT started. No merge to main. The previous UI V1.1 status follows below.
 
-Current branch: `main`. The owner authorized D0 integration after its completion. D0 commit
-**a446cfa1c438414db83ae5d65cb02e9c50733da1** is merged at
-**f915c9f411783a1d000a2e242238df2aec85a66c**. Main contains Milestone C, the Post-C audit and D0.
-The merge tree equals the completed D0 feature tree; no production changes were added.
-Worker art at `1cfb07d` stays separate/unmerged.
-Details: [MILESTONE-D0](development-notes/MILESTONE-D0.md).
+### Weekly Development Loop V1
+
+- **COMPLETED:**
+  - Player projects via the shared `startProject` rules.
+  - Weekly turn up to FP1.
+  - Development rules 2: real race-weekend fitting, events, refine, hold and bonus quality.
+  - Rivals on the same rules.
+  - Save v6, with frozen v5 contract and fixture and v5 → v6 migration to rules 1.
+  - Read models and Team hub, part selector, turn report, HQ department activity and bubbles.
+  - Player Manual.
+- **TESTED:**
+  - 375/375 tests, 20 suites (21 new).
+  - TypeScript and web export pass.
+  - Existing UI and theme browser suites pass at 390 × 844 and 1440 × 1000 (both themes).
+  - New browser loop passes: start projects, 20 turns, weekend fitting, decisions, HQ activity. No errors or overflow.
+- **NOT VERIFIED:** native iPhone, live Cloudflare preview, multi-season balance.
+- **KNOWN ISSUES:**
+  - Single development season (stops at March 1, 2027).
+  - Unfinished work is dropped at the reset.
+  - Event odds and deltas are first-pass.
+  - The turn report is not saved.
+- **Play-test pass 1 (after the owner said the loop felt flat):** week replay, what-changed report, paddock news
+  and more frequent decisions (9 events). 380/380 tests; UI and theme browser suites pass.
+- **NEXT:** second owner play-test on loop feel and balance before qualifying design.
+
+## Milestone
+
+**UI V1.1 + DEFAULT LIGHT / ALTERNATE DARK THEME COMPLETE — OWNER REVIEW.**
+The owner paused feature expansion after D0. Qualifying has NOT started.
+
+Branch: `feature/ui-visual-experience-v1`, from validated/published main
+**200f4d61ff860537a1f5be6de1843f4888333912**. Main already contains C, its audit and D0; it is
+unchanged by this UI branch. Reviewed V1 commit 9a95b7c was pushed with owner approval and the
+owner reports its Cloudflare preview working. V1.1 continues the same authorized preview branch;
+publication/build status is reported in delivery. No merge is authorized or performed.
+Full handoff: [UI-VISUAL-EXPERIENCE-V1](development-notes/UI-VISUAL-EXPERIENCE-V1.md).
 
 ## COMPLETED
 
-- Published C feature/audit `22f0a97` without production changes, preserving implementation `34e486a`,
-  research record `46e1e47` and audited `1290bb3`. Merged to main `884459e`, validated and pushed main.
-  Merge tree equals the audited feature tree; no behavioral merge changes.
-- C-M1: canonical technicalPerformanceAtTrack returns one configured fitted car and its derived
-  suitability. Existing briefing/debug API delegates to it. Suitability is disclosure, never an
-  extra pace bonus. Package/static-heat effects retain one owner in computeCarProfile. Reliability
-  capability, circuit cooling demand and future ambient/risk effects are distinguished.
-- C-M2: typed transient due-work discovery and explicit ordering in universe/campaignEvents.
-  All campaign commands use one pathway, refreshing discovery on every entered date. Interval
-  (old,target] includes target; same-date development/reset precedes daily contract status.
-  Both calendar revisions deliberately retain the released weekly bridge/fitting cadence.
-- Root currentDate is the sole clock and processed-through watermark. No queue/processed ledger
-  or current-time mirror is stored. Save stays v5/checkpoint v3; historical contracts unchanged.
-- C-L1: unique catalog IDs/registration, lookup agreement, season/ID/profile coherence; existing
-  event uniqueness retained. Profile and calendar revision suffixes need not match.
-- C-L2: actual specialist reversal assertions and pending/READY/fitting/reversion/all-part tests.
-- C-L3: GAME_LOOP research wording corrected to accepted external provenance.
-- Architecture, system map, loop and milestone gates updated. Player Manual unchanged because
-  no new player-facing mechanic or formula disclosure is introduced.
+Default light theme continuation (base96ae582, same branch):
+
+- Permanent Bible direction: dark racing shell + warm light content + strong accent colors.
+  One shared semantic token contract and ThemeProvider; same screens/art/layout in both modes.
+- Light default, real dark alternate via top-right control; web remembers appearance locally.
+  Valid dark preference respected; invalid/denied storage safe. Theme is not campaign save state.
+- Dark shared branded header, wide-screen side rail and phone bottom navigation. Existing five
+  routes only; all Team/car/development/organization details use the same management treatment.
+- HQ physical world unchanged; overlays/controls follow the theme. Team palettes unchanged,
+  readable team-text correction only; portrait backing/car grounding fit either canvas.
+- Native durable preference storage not implemented. No dependencies, gameplay/save changes,
+  qualifying, weekly development loop or automatic merge.
+
+
+Permanent visual infrastructure follow-up (base af80f34, same branch):
+
+- Canonical `GRAPHIC_DESIGN_BIBLE.md`: miniature tycoon direction, reusable art, palette ownership,
+  lighting/fictional identity/mobile rules and required instruction for future visual milestones.
+  AGENTS reading, guardrail36, brand/architecture/milestone documentation now enforce that source.
+- One anonymous shoulders-up `DriverPortrait` with six independently colored helmet/suit regions,
+  fixed charcoal visor and neutral background. Existing React Native View shapes only, no dependency.
+  Supersedes helmet/initials artwork; same template scales on roster/dossier/compact Team entries.
+- Canonical brand registry gains secondary/accent tokens; existing primary/organization properties
+  unchanged. Current employment DTO → canonical colors → stateless rendering; transfers recolor
+  automatically. Neutral expiry/unassigned identity and deterministic presentation-only contrast.
+- Three-palette80/100/120px review sheet and actual390×844/desktop screenshots under
+  docs/screenshots/driver-portraits. No additional HQ/car/milestone work.
+
+
+V1.1 focused refinements:
+
+- Featured own-driver personnel rows and larger helmet identity (now shared shoulders-up template); market rows are
+  quieter. Dossier hero leads with identity/form/status; six grades use open typography.
+- Full-surface Next Race/car actions, flatter hero surfaces and open divider-based sections.
+  Calendar dates/legend take precedence over nested boxes. Existing navigation/owners preserved.
+- Event detail now leads with three defining demands and one key strength/concern; all remaining
+  data stays under More details. Team exposes next-circuit strengths/weaknesses immediately.
+- Reusable real-project stage summary/illustration, honest no-project state and open Team sections.
+  No new project commands, progress model, ETA, points or weekly gameplay.
+- HQ and worker implementation unchanged after phone review. Seven updated review PNGs include
+  the required six screens and combined sheet under docs/screenshots/ui-visual-v1.1.
+
+Original V1 foundation retained:
+
+- Shared presentation tokens, icons, headers, cards, rows, chips, grades, actions, disclosures and
+  empty/detail treatment. Dark HQ-inspired layers, warm text, team accents and original graphics.
+- Permanent hierarchy: GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT. First-level decision
+  information, second-level management detail, deeper analytical disclosure.
+- Compact own-driver roster and Available/Prospects/Reserves/Grid browser. Full shared dossier
+  with six grades, identity/status/specialties; contract/scouting/background/history disclosures.
+- Real month grid, next-weekend hero, all actual weekend dates and month navigation. High-level
+  event detail before More details. No normalized values, field ranks or fake predictions.
+- TEAM executive overview, contextual next-circuit car, actual projects/fitted specs/HQ counts and
+  shared driver drill-down. HISTORY polished empty state, without fake records or cash/morale.
+- Selected five cosmetic worker files from 1cfb07d: proportions, articulated elbows, eight poses,
+  accessories/role differentiation and grounding. Old branch preserved; no whole-branch merge.
+- Read-only month and management projections compose existing domain owners. App retains one
+  universe and the same mounted HQ. Existing commands/engine rules unchanged; save v5/checkpoint3.
+- Six actual phone review PNGs and an offline gallery under docs/screenshots/ui-visual-v1.
+  Architecture, guardrails, loop, system map, milestones and navigation manual updated.
 
 ## IN PROGRESS
 
-None. D0 integration was explicitly authorized by the owner. Await a separate instruction for
-qualifying design/implementation. Graphics stay separate.
+None. The Bible/portrait follow-up and V1.1 are ready for owner review/merge decision; do not merge automatically. Publishing
+continues the previously authorized preview branch only. Do not begin qualifying or the weekly
+player-development loop. Main and the preserved worker-art worktree stay unchanged.
 
 ## TESTED
 
-Merged D0 main `f915c9f`:
+Default light / alternate dark final validation:
 
-- Fresh341 tests/16 suites, TypeScript, web build and390×844 browser smoke all PASS.
-- All11 historical hashes match original Git objects. No page errors/horizontal overflow.
-- Merge tree equals feature commit a446cfa. Subsequent integration-status edits are docs only.
-- Logs/screenshots: `/workspace/artifacts/d0-main-integration/`.
+- 354 tests/19 suites PASS; TypeScript PASS; web export PASS. Four new theme behavior/contrast
+  tests; existing portrait transfers, game rules and released save regressions remain active.
+- Actual app theme checks PASS390×844/1440×1000: default and stored preference, reload, denied
+  storage, scouting/HQ/date surviving live toggles, canonical art colors unchanged, no errors/overflow.
+- Full existing browser suite PASS in BOTH themes: data/disclosures, contracts/scouting/calendar,
+  Team details, HQ taps, routes,8/8 and NEW DAY date preservation. No tests disabled.
+- All game/simulation/persistence files unchanged from96ae582. `git diff --check` PASS.
+  Screenshots: docs/screenshots/default-light-theme. Evidence: /workspace/artifacts/default-light-theme/.
 
-Merged main `884459e`, before D0:
 
-- `npm test -- --runInBand`: **317/317 tests, 14/14 suites PASS**.
-- `npm run typecheck` and `EXPO_NO_TELEMETRY=1 npm run build:web`: **PASS**.
-- Existing 390×844 browser script: **PASS**, zero page errors/overflow.
-- Original historical hashes: **11/11 PASS**. Audited-feature tree equality confirmed.
+Portrait follow-up final validation:
 
-D0:
+- 350 tests/18 suites PASS (four added behavioral tests), TypeScript PASS, web build PASS.
+- Actual mounted component recolors all regions across three palettes with identical geometry;
+  real domain signing changes the same mounted portrait, disregarding stale familiarity; expiry
+  becomes neutral. Missing accent/low contrast/all11 canonical palettes/card scaling covered.
+- `node scripts/check-driver-portraits.cjs` PASS:80/100/120px three-palette RN Web component review,
+  production own/rival roster/dossier,390×844 and1440×1000, no errors or horizontal overflow.
+- Existing `node scripts/check-milestone-c.cjs` regression PASS on the final export: data/disclosures,
+  navigation/HQ taps,8/8 and NEW DAY retaining campaign date.
+- All simulation/persistence files unchanged from af80f34; only presentation palette metadata in
+  brandRegistry changes among111 domain files.18 historical contract/fixture files unchanged.
+- `git diff --check` PASS. No install, package/lockfile, save or gameplay changes.
+  Evidence: /workspace/artifacts/driver-portraits/. Full handoff in the UI V1 notes.
 
-- `npm test -- --runInBand`: **341/341 tests, 16/16 suites PASS**, zero failed/skipped.
+
+- V1.1 fresh validation: 346 tests/17 suites PASS, TypeScript PASS, web export PASS (718KB).
+- Phone 390×844 and desktop 1440×1000 browser PASS, no page errors or horizontal overflow.
+  Added guards for the Team label wrap found during visual review and three initial circuit
+  demands; all original data/disclosure/navigation/HQ regressions remain active.
+- 111 tracked game/simulation/persistence files, including the V1 read models, match reviewed
+  9a95b7c byte-for-byte. Historical hashes 11/11 PASS. No gameplay/save/calendar/RNG/D0 changes.
+- Six exact 390×844 screenshots plus combined sheet captured and self-reviewed. The three-second
+  review is author inspection, not a timed human usability study. Logs: /workspace/artifacts/ui-visual-v11/.
+
+V1 regression foundation, rerun through V1.1:
+
+- `npm test -- --runInBand`: **346/346 tests, 17/17 suites PASS**, zero failed/skipped. All C/D0
+  clock, progression, performance, driver/contract/HQ and v1–v5 migration regression remains green.
+- New behavioral read-view tests: correct March alignment/current date, all 23 events, real
+  cross-month dates, no state mutation, version-pinned statuses, roster membership/uncertainty,
+  actual empty development and no fabricated money/results/raw driver scores.
 - `npm run typecheck`: **PASS**.
-- `EXPO_NO_TELEMETRY=1 npm run build:web`: **PASS**, 680KB JS export.
-- `FORMULA_PREVIEW_URL=http://127.0.0.1:8779 FORMULA_ARTIFACT_DIR=/workspace/artifacts/milestone-d0/final/browser node scripts/check-milestone-c.cjs`:
-  **PASS 390×844**, 23 rounds/six Sprints/nine details, worker/department cards, repeated 8/8,
-  NEW DAY, Drivers/Team/contracts/scouting/navigation, zero page errors/horizontal overflow.
-- Independent original-Git-object comparison: **11/11 historical hashes PASS**. Both immutable
-  calendar hash regressions pass; no calendar/driver data changes.
-- Both calendar IDs: daily == jump == released 40-week kernel with real project, seeded fitting,
-  AI/option deadlines; save before fitting/reload/continue; before/on/after and multi-date
-  boundaries; no duplicate submissions; no-op repeats and backward rejection.
-- Actual same-date engine call traces and reversed-list/tie sorting pass. Explicit reset,
-  no implicit rollover and no second stored clock stay protected.
-- Canonical technical result: no stacked bonus, mutation/unseeded RNG/driver/form contribution;
-  pending/READY excluded, fitting included, failure retains prior truth; all eight fitted areas
-  matter; packages/static heat once; repair changes reliability capability only.
-- Initial test-harness failures corrected; targeted rerun 65/65 PASS before full 341/341. No
-  production workaround or assertion disabling. Details in MILESTONE-D0.
-- `git diff --check` PASS. No packages/lockfiles changed or installs. Existing npm update/color
-  notices are nonblocking. Evidence: `/workspace/artifacts/milestone-d0/main/` and `final/`.
+- `EXPO_NO_TELEMETRY=1 npm run build:web`: **PASS**.
+- Current browser entry point `node scripts/check-milestone-c.cjs` delegates to the UI-V1 smoke
+  and **PASS 390×844 /1440×1000**. Full23 events/six Sprints/nine researched circuit details,
+  roster/grid/prospects/reserves, salaries/options/deadlines, rival control restrictions,
+  scouting persistence, all Team drill-downs, History, HQ cards, NEW DAY and repeated 8/8.
+  Zero page errors/horizontal overflow. Uses existing Playwright/Chromium, no installs.
+- Eleven historical file hashes independently match original Git objects. Both immutable calendar
+  hashes pass. No save, canonical driver, calendar profile, RNG or gameplay engine change.
+- Updated stale source-file boundary assertion for extracted DriverProfile, retained selector/no-
+  UI-car-calculation checks, and adapted browser locators/disclosures. No tests were disabled.
+- Visual inspection corrected an unsupported arrow glyph and clipped mini illustration; final
+  screenshots are real app renders. Logs: `/workspace/artifacts/ui-visual-v1/`.
+- `git diff --check` PASS. No dependency/package/lockfile change. Existing npm update/color
+  notices are nonblocking. No native performance guarantee is inferred.
 
 ## NOT VERIFIED
 
-- Future qualifying pace/risk calibration, sessions/results/rewards, dynamic conditions,
-  actual-weekend fitting, season-calendar generation or 20–50-season gameplay.
-- Durable device storage/import UI/restart recovery: adapter stays volatile.
-- Native iPhone/Safari performance and live deployed runtime behavior; a Git push/build alone
-  does not establish live application behavior.
-- Direct source-page retrieval or missing article bibliography. Research remains the accepted
-  external handoff: 19 HIGH/four MEDIUM; no invented titles/URLs or new direct verification claim.
-  See [CIRCUIT-RESEARCH](development-notes/CIRCUIT-RESEARCH.md).
+- Native durable theme preference storage (not implemented); native appearance/accessibility/FPS.
+  Web local appearance preference persistence is tested separately from volatile campaign storage.
+- Public live-browser behavior of the new themed preview, independent of build-check status.
+
+
+- Native iPhone/Safari, native font rendering, accessibility services,
+  FPS/battery and small worker-prop readability on hardware.
+- Live V1.1 public-browser behavior. The owner verified the prior V1 preview; local Chromium smoke
+  and a Cloudflare build check are not native/public-runtime proof.
+- Qualifying/race controllers, pace/risk calibration, dynamic conditions, results, actual-weekend
+  fitting, future season calendars and 20–50-season gameplay.
+- Durable device storage/import/recovery; adapter remains volatile.
+- Direct circuit-source retrieval or missing bibliography. Existing externally verified owner
+  research remains honestly recorded (19 HIGH/four MEDIUM); no new source verification claim.
 
 ## KNOWN ISSUES
 
-- Fitting remains historical 24-event compatibility content, distinct from playable 23-event
-  schedule. First fitting is BHR/week10 on 2026-05-11; Melbourne begins March 6. Future retiming
-  must version policy and preserve histories/RNG.
-- C's comparison score includes reliability/cooling readiness, not lap pace/failure probability.
-  D must design separate once-only pace/risk/ambient consequences before implementing laps.
-- Eleven scalar-derived characteristics are coarse correlated proxies. The starter field stays
-  hierarchical; Wellington/Alpinor swap 6/7 by circuit without retuning.
-- Existing V5/v1 careers retain original profiles/provisional Madrid; new careers select v2.
-  No silent content upgrade. Both retain the same development bridge.
-- No campaign-advance UI/results. Date-only COMPLETED is not processed session state.
-- Annual March-2 phase, no offseason recruiting, fixed cohorts/instant free scouting, expiry
-  vacancies, starter-bonus assumptions and lack of payroll remain carried limitations.
+- Portraits use one anonymous shoulders-up template; other V1 graphics use symbolic identities and stylized circuit artwork, not likenesses or
+  measured maps. Native visual fidelity/performance needs review.
+- Detail screens reset to their header on entry/back; UI navigation state is not persisted.
+- Development display is read-only; current-stage percentage is not whole-project progress or
+  an estimated completion date. No new management actions/hiring or fake organization ratings.
+- Historical 24-event weekly fitting remains distinct from the 23 playable dates. First fitting is
+  May 11, 2026; retiming needs versioned compatibility review. Month browsing never advances time.
+- Existing technical score includes readiness, not calibrated lap pace/failure probability. Future
+  sessions must consume effects once and keep driver/car comfort separate.
+- V5/v1 careers retain original profiles/provisional Madrid; no silent content upgrade. New games
+  use v2. Scalar-derived technical axes remain coarse proxies; starter hierarchy is unchanged.
 
 ## TECHNICAL DEBT / ARCHITECTURAL RISK
 
 | Finding | Status / due gate |
 |---|---|
-| C-M1 | RESOLVED: canonical boundary/ownership and no-double-counting rule; D must calibrate pace/risk before lap implementation |
-| C-M2 | RESOLVED: ordered pipeline and explicit retained cadence; later retiming requires versioned compatibility review |
-| C-L1 | RESOLVED: catalog/registration/ID-season invariants and tests |
-| C-L2 | RESOLVED: reversal and unfitted/fitted/reverted/all-part coverage |
-| C-L3 | RESOLVED: current research wording corrected |
-| Session identity | Before persisted sessions/results: calendarId/event identity, lifecycle validation/migration and exactly-once consequences |
-| H1 | Historical V1–V5 snapshots/fixtures/calendar-v1 retained; new content gets new identity |
+| UI review | V1.1 self-review complete; READY TO MERGE recommendation, owner decision still required |
+| Native profiling | Worker/shape depth, fonts, accessibility and performance on hardware before release |
+| C-M1 | Resolved in D0: canonical technical boundary/no-double-counting contract; calibrate pace/risk before laps |
+| C-M2 | Resolved in D0: ordered due-work pipeline/retained cadence; later retiming requires versioned review |
+| C-L1/C-L2/C-L3 | Resolved in D0: registration/tests/research wording |
+| Session identity | Calendar/event completion lifecycle and exactly-once results before persisted sessions |
+| H1 | Historical V1–V5 contracts/fixtures and released calendar content preserved |
 | M1 | Imperfect seeded scouting before expansion |
-| M2 | Root date resolved by C0.1; D0 adds no clock |
 | M3 | playerTeamId-derived control before team chooser |
-| M4 | Separate driver/car-fit selector retained |
+| M4 | Separate domain driver/car fit retained |
 | M5 | Broader contract-rule overlap cleanup before expansion |
 | M6 | Role grouping before multi-season/offseason |
 | M7 | Archive/history growth by G |
 | M8 | Originality/source rights and bibliography before public/commercial release |
 | Persistence | Durable storage/atomic recovery before users depend on campaigns, no later than G |
 
-L1–L10, balance and device/long-career profiling remain carried work. No broad cleanup or
-starter retuning. Research/audit provenance stays in CIRCUIT-RESEARCH and POST-C-AUDIT.
+L1–L10, balance, long-career/device profiling, annual phase limitations, recruiting/expiry vacancies
+and missing payroll remain carried debt. No unrelated cleanup, retuning or gameplay expansion.
 
 ## NEXT MILESTONE
 
-**READY FOR QUALIFYING DESIGN.** Milestone C, its audit and D0 are integrated into main.
-Do not begin qualifying without a separate instruction. Graphics stay independent/unmerged.
-Stop after the owner-authorized main integration.
+**OWNER VISUAL REVIEW — prior READY TO MERGE remains recommendation only.** Review Bible, light/dark
+screenshots and preview; do not merge
+automatically. Qualifying and the weekly player-development loop remain paused. Stop after the
+focused polish pass and its authorized branch-preview publication.

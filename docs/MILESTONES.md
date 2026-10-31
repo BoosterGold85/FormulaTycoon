@@ -15,6 +15,8 @@ Use vertical slices; finish one gate before moving on. Test simulation separatel
 | C0.1 — single campaign clock | Root plain-date ownership, v4 migration, date deadlines and minimal day/date HUD | Immutable v1/v2/v3 inputs; timezone proof; preserved RNG/progress; no persisted mirrors; deadline and interval tests |
 | C — calendar, tracks and car/track fit | Approved single campaign clock/calendar, track profiles and development-to-performance translation | Validated historical→v5/calendar identity; one persisted clock; researched circuit profiles; multiple characteristic strengths, no universal race rating or circuit-name branches; track-specific comparisons |
 | D0 — race-weekend integration foundation | Canonical contextual technical result; suitability is disclosure; deterministic due-work pathway preserving released cadence | Daily/jump/kernel equivalence, real seeded fitting, same-date ordering, save/load continuation, package ownership, no new persistent shape or qualifying |
+| UI / Visual Experience V1 | Shared visual system, progressive disclosure, roster/dossier, month calendar, team overview, selected HQ art | Mobile/desktop navigation, existing data/interaction boundaries, six review screenshots, no gameplay/save change; visual review before D |
+| Weekly Development Loop V1 | Player projects, weekly turn up to FP1, rules-2 real-weekend fitting, events/refine/hold, save v6 | Rules-1 equivalence, rules-2 daily/jump/reload, exactly-once FP1 fitting, v5 fixture → v6, parity with rival rules, browser loop |
 | D — qualifying | Interactive tyre/run/traffic/weather-timing choices | Repeatable sessions, valid grids, meaningful timing tradeoffs, bounded variance and causal logs |
 | E — race V1 | Headless race plus dots/timing/tyres/pit stops | Valid finishing order, no double pit/results, strategy impacts, readable mobile presentation |
 | F — pit wall | Important decisions, weather, safety cars | Timing effects, forecasts vs actual weather, undercut/overcut/double-stack tests |
@@ -75,3 +77,19 @@ weather engine, new screen or advance button exists. The owner subsequently auth
 integration into main: feature commit a446cfa merged at f915c9f. Main now includes C, its audit
 and D0. Qualifying still requires a separate instruction. Graphics remain independent/unmerged.
 See development-notes/MILESTONE-D0.md.
+
+## Current priority: UI / Visual Experience V1
+
+The owner paused feature expansion after merged/validated D0. Qualifying remains unstarted.
+`feature/ui-visual-experience-v1` starts from stable main200f4d6, using selected worker art rather
+than merging the old graphics branch. Visual review is the next gate. Read
+development-notes/UI-VISUAL-EXPERIENCE-V1.md for scope, screenshots, evidence and limitations.
+
+## Required visual milestone instruction
+
+Every future milestone prompt materially touching UI/art/presentation, even within gameplay work,
+must explicitly include:
+
+> Before making visual changes, read and follow `docs/GRAPHIC_DESIGN_BIBLE.md`. It is the canonical visual source of truth. Preserve its reusable-art, palette, fictional-brand and mobile-readability rules unless the project owner explicitly changes them.
+
+The permanent Bible/portrait infrastructure is part of UI V1.1, not another gameplay milestone.

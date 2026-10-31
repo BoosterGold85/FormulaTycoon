@@ -34,10 +34,12 @@ test('fit handles unavailable/expired employment and rejects inherited identitie
  expect(selectDriverCarFit(saved.universe,definition,'driver.takase')).toBeNull();
 });
 
-test('DriversScreen requests the domain selector rather than building a car or evaluating compatibility',()=>{
+test('DriversScreen delegates to the dossier, which requests domain fit without rebuilding a car',()=>{
  const screen=readFileSync(join(__dirname,'../../ui/DriversScreen.tsx'),'utf8');
- expect(screen).toContain('selectDriverCarFit(');
- expect(screen).not.toMatch(/\b(computeCarProfile|carCompatibility)\b/);
+ const dossier=readFileSync(join(__dirname,'../../ui/DriverProfile.tsx'),'utf8');
+ expect(screen).toContain('<DriverProfile');
+ expect(dossier).toContain('selectDriverCarFit(');
+ expect(screen+dossier).not.toMatch(/\b(computeCarProfile|carCompatibility)\b/);
 });
 
 test('date-derived kernel context advances through every week, no-op, deadlines and two rollovers',()=>{

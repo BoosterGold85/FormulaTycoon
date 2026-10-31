@@ -6,8 +6,11 @@ payroll and a complete career loop are not available yet. Planned effects are id
 
 ## Drivers
 
-Open **DRIVERS** for the starting grid, prospects and reserve/free-agent market. Open **TEAM**
-to compare your current race-seat pairing. The starting organization is Wellington Racing.
+Open **DRIVERS** for your current pairing first, then browse Available, Prospects, Reserves or
+the full Grid. Compact rows show Talent, form and contract horizon. Tap a driver for the full
+dossier and six categories; expand **Contract details**, **Scouting report** or background for
+depth. Open **TEAM** for your car's next-circuit suitability, drivers, development and HQ staff.
+The starting organization is Wellington Racing. No finances or morale are invented for the overview.
 
 Drivers have six broad evaluation categories, shown as letter grades from F to A+:
 
@@ -111,15 +114,17 @@ play; it is separate from the real date and the clock on your device.
 Development and contract deadlines use this shared career calendar. The HQ **NEW DAY** button
 currently replays the morning arrivals; it does **not** move the career date forward.
 
-Future calendar controls may advance directly to important events or deadlines, so you will not
-need to click through every day. Race weekends, travel, scouting assignments and future facility
-work will use the same calendar. Smart event-advance controls are not available yet. The season calendar can now be browsed
-from RACE, and the HQ next-event card follows the shared career date.
+Use **CONTINUE** in the top bar to play a week at a time. It moves the career to the next Monday's
+development report, or stops earlier at the first practice of a race weekend. On larger screens, **+1 DAY**
+advances a single day. Everything due along the way (development work, fittings, contract deadlines)
+happens exactly once, in order. The season calendar can be browsed from RACE without moving time.
+In this prototype the development season ends on March 1, 2027; season review is not available yet.
 
 ## Calendar & Race Weekends
 
-Open **RACE** to browse the 23-round starting calendar. Each card shows the round, venue,
-country, weekend dates and any **SPRINT** marker. A Sprint marker identifies a shorter-format
+Open **RACE** for the next-event card and a month calendar. Switch months to browse the
+23-round season; tap a marked date, event row or **View weekend** for its briefing. Weekends
+occupy their actual dates, including those spanning two months. A **SPRINT** marker identifies a shorter-format
 weekend; Sprint sessions and races are not simulated yet.
 
 The next event is highlighted. **THIS WEEKEND** includes the opening and race dates.
@@ -128,7 +133,9 @@ The HQ next-event card shows the same date-based schedule and countdown.
 
 ## Circuit Characteristics
 
-Tap an event for its circuit briefing. Different tracks reward different technical strengths:
+Tap an event for its main demands and fitted-car suitability first. **More details** reveals
+all demands and technical background. Circuit illustrations are stylized art, not surveyed maps.
+Different tracks reward different technical strengths:
 Monza and Las Vegas emphasize straight-line efficiency and braking; Monaco rewards low-speed
 performance, traction and mechanical grip; Suzuka and Silverstone emphasize high-speed aero.
 Sepang places broad demands on aero, tyres and cooling.
@@ -136,6 +143,39 @@ Sepang places broad demands on aero, tyres and cooling.
 Track demands appear as LOW, MEDIUM, HIGH or VERY HIGH. These are initial game-model descriptions,
 not exact measurements. Madrid's current profile reflects its confirmed mixed-speed layout and
 strong tyre-energy demands. Imported earlier careers retain their original circuit profiles.
+
+## Car Development
+
+Open **TEAM → Development** to run your factory. **Start a project** lists the eight areas of the car. Each
+shows what it helps (for example high-speed aero or traction), upcoming races where that matters, about how
+many weeks it takes, its cost and the likely size of the gain.
+
+- **Objective:** Performance, a Reliability fix, or a Track package (a low-drag rear wing or a high-cooling
+  bodywork package, which help only at matching circuits).
+- **Approach:** Conservative, Balanced or Aggressive. Aggressive work takes longer and costs more. It can bring a
+  bigger gain, but it carries more risk and a new part may start out less reliable.
+- **Capacity and budget:** how many projects can run at once depends on your Aero and Chassis departments.
+  Projects are paid from your season development budget (shown in $M). This is not team finances.
+
+Projects move through **Research → Design → Manufacture → Ready**. Each Monday your departments produce
+Research, Aero or Technical, and Manufacturing points; the team works on all active projects at once. Better
+facilities and staff produce more points per week. A finished part is fitted at the **next race weekend**,
+unless you choose **Hold back** to save it for a later race.
+
+After each **CONTINUE**, watch the week play out: points rise from the busy departments and project bars
+fill. Reports where parts were fitted show what changed on the car and at that weekend's circuit, and
+**Paddock news** shows what rival teams brought.
+
+Development rarely goes exactly to plan. A project may hit a **wind tunnel correlation issue**, a
+**prototype defect** or a **material shortage**, spot a **rival's concept**, be offered **extra simulation
+time** or a **lighter material**, or produce a **breakthrough**. You choose how to respond;
+if you don't, the first option is taken on Monday. Investigating or remaking costs time or money but can
+make the result more dependable. **Refine design** spends extra time and money for a better part.
+
+When a part is fitted, the result is shown as **ABOVE EXPECTATION**, **ON TARGET**, **BELOW EXPECTATION**
+or **DIDN'T WORK — REVERTED** (money spent, previous part kept). Your car's suitability at each circuit
+updates from the parts actually fitted. Rival teams develop under the same rules. Careers imported from
+earlier versions keep their original development rules and fitting schedule.
 
 ## Car Characteristics
 
@@ -165,3 +205,11 @@ Use **HQ** to return to the working headquarters. Tap workers or departments for
 The tested save format preserves driver details, contracts and scouting information, including
 older-format migration. A player-facing save/load screen and durable device storage do not exist
 yet. Closing or reloading the prototype should not be treated as saving a career.
+
+## Appearance
+
+The default presentation uses warm light content inside a dark racing shell. Use **DARK** in the
+top-right corner for dark content, and **LIGHT** to switch back. Web remembers this preference
+locally when browser storage is available. This remembers appearance only: it does not save your
+campaign. Switching themes preserves the current session; native persistent appearance settings
+are not implemented yet. Team colors stay the same in both modes.

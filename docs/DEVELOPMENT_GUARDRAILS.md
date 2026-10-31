@@ -986,3 +986,29 @@ circuit demands. Keep driver/car comfort separate. No team/track-name branches, 
 ordering, universal car overall or fake finishing predictions. Development balance stays intact.
 Separate real-world evidence from authored game weights; record uncertainty and source-access
 failures rather than claiming unperformed research. Metadata is not an implemented race system.
+
+# 35. PROGRESSIVE DISCLOSURE IS THE PRODUCT'S INTERACTION LANGUAGE
+
+GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT.
+
+FIRST-LEVEL SCREENS SHOW DECISION-LEVEL INFORMATION.
+SECOND-LEVEL SCREENS SHOW MANAGEMENT DETAIL.
+DEEPER VIEWS SHOW ANALYTICAL DETAIL.
+
+Show the player's pairing, next weekend or organization pulse first. Lists do not repeat full
+dossiers. Keep contract/scouting/circuit depth reachable through clearly labeled disclosures.
+Use shared mobile-first visual primitives and the HQ's miniature management-game personality.
+Screens consume domain read models; cosmetic artwork never supplies performance or fake results.
+Do not remove uncertainty or expose hidden numeric ratings to simplify a layout. Honest empty
+states describe unavailable mechanics without fabricated projects, cash, morale or records.
+
+# 36. GRAPHIC DESIGN BIBLE IS AUTHORITATIVE FOR VISUAL WORK
+
+All material UI/art/visual work must follow [docs/GRAPHIC_DESIGN_BIBLE.md](GRAPHIC_DESIGN_BIBLE.md).
+Visual consistency is a project architecture concern. Separate agents must not independently
+invent different portrait, car or facility styles, color rules, icon languages, lighting or
+rendering approaches. When the owner intentionally changes visual direction, update the Bible
+in the same change. This presentation rule authorizes no gameplay, balance or persistence work.
+Future visual milestone prompts must include the required Bible-reading instruction recorded there.
+
+**ONE GAME. ONE VISUAL LANGUAGE.**

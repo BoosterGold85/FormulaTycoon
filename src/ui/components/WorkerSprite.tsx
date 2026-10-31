@@ -5,6 +5,7 @@ import type { HeadquartersWorker } from '../../simulation/headquarters';
 import { sceneDepth } from '../scene/depth';
 import { WorkerFigure, spriteSize } from './WorkerFigure';
 import { workerAppearance } from './workerAppearance';
+import { workerPose } from './workerPoses';
 import { gridToScreen, type Projection } from '../isometric';
 
 type Props = {
@@ -24,13 +25,13 @@ const UNIFORM: Record<Uniform, string> = {
   orange: '#F08A2C'
 };
 
-/** How each activity moves the body and arm during the working loop. */
-const WORK_MOTION: Record<WorkActivity, { period: number; bob: number; arm: [string, string] }> = {
-  TYPING: { period: 260, bob: 0, arm: ['-8deg', '8deg'] },
-  SIMULATOR: { period: 420, bob: 0.6, arm: ['-12deg', '6deg'] },
-  CAR_SERVICE: { period: 750, bob: 2.2, arm: ['-50deg', '-10deg'] },
-  FABRICATING: { period: 380, bob: 0.8, arm: ['-70deg', '15deg'] },
-  HAULING: { period: 900, bob: 1.6, arm: ['-90deg', '-30deg'] }
+/** Existing activity cadence and body motion; arm artwork uses workerPoses at the same cadence. */
+const WORK_MOTION: Record<WorkActivity, { period: number; bob: number }> = {
+  TYPING: { period: 260, bob: 0 },
+  SIMULATOR: { period: 420, bob: 0.6 },
+  CAR_SERVICE: { period: 750, bob: 2.2 },
+  FABRICATING: { period: 380, bob: 0.8 },
+  HAULING: { period: 900, bob: 1.6 }
 };
 
 /**
@@ -153,6 +154,8 @@ export const WorkerSprite = React.memo(function WorkerSprite({
 
   const animated = useMemo(() => {
     const walking = worker.state === 'WALKING';
+    const pose = workerPose(worker.state, activity, worker.role);
+    const angle = (range: [number, number]) => cycle.interpolate({ inputRange: [0, 1], outputRange: range.map(value => `${value}deg`) });
     const bob = walking ? 1.2 * k : (motion?.bob ?? 0.4) * k;
     return {
       body: cycle.interpolate({ inputRange: [0, 1], outputRange: [0, walking ? -bob : bob] }),
@@ -160,12 +163,10 @@ export const WorkerSprite = React.memo(function WorkerSprite({
       legB: cycle.interpolate({ inputRange: [0, 1], outputRange: [walking ? -2 * k : 0, 0] }),
       lean: cycle.interpolate({ inputRange: [0, 0.65, 1], outputRange: walking ? ['0deg', '0deg', '0deg'] : activity === 'CAR_SERVICE' ? ['0deg', '12deg', '4deg'] : activity === 'FABRICATING' ? ['2deg', '8deg', '2deg'] : ['0deg', '0deg', '0deg'] }),
       carry: cycle.interpolate({ inputRange: [0, 1], outputRange: [0, activity === 'HAULING' && !walking ? -2 * k : 0] }),
-      arm: cycle.interpolate({
-        inputRange: [0, 1],
-        outputRange: walking ? ['-20deg', '20deg'] : motion?.arm ?? ['0deg', '0deg']
-      })
+      arm: angle(pose.shoulder), elbow: angle(pose.elbow),
+      farArm: angle(pose.farShoulder), farElbow: angle(pose.farElbow)
     };
-  }, [cycle, k, motion, worker.state, activity]);
+  }, [cycle, k, motion, worker.state, worker.role, activity]);
 
   const size = useMemo(() => spriteSize(k), [k]);
 
@@ -197,6 +198,10 @@ export const WorkerSprite = React.memo(function WorkerSprite({
             { width: size.body * 1.7, height: size.shadow * 2, bottom: 0, borderRadius: size.body }
           ]}
         />
+        <View pointerEvents="none" style={[styles.shadow, {
+          width: size.body * 1.05, height: size.shadow, bottom: size.shadow * 0.6,
+          borderRadius: size.body, backgroundColor: 'rgba(6,14,22,0.48)'
+        }]} />
         <WorkerFigure worker={worker} activity={activity} k={k} size={size} look={look} animated={animated} facing={facing} uniform={UNIFORM[worker.uniform]} />
       </Pressable>
     </Animated.View>
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
   },
   shadow: {
     position: 'absolute',
-    backgroundColor: 'rgba(0,0,0,0.35)'
+    backgroundColor: 'rgba(0,0,0,0.25)'
   },
   shadowSelected: {
     backgroundColor: 'rgba(242,181,68,0.55)',

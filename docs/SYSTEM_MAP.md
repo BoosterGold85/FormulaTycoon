@@ -140,3 +140,14 @@ save/load resumes from root currentDate. Weekly work/fitting dates remain the fr
 mapping for v1/v2; no content-ID change rewrites development history. Schema stays v5 because no
 persistent state changes. Future session archives must retain calendar/event identity and completion
 state before processing results/rewards. See development-notes/MILESTONE-D0.md.
+
+## UI V1 read boundaries
+
+- Existing driver disclosure → managementViews roster groups → compact roster/shared DriverProfile.
+- Existing calendar/date/status queries → monthView → Monday-first grid; selection never advances time.
+- Existing event detail → next-weekend hero/briefing → deeper demands and rationale disclosure.
+- Existing fitted truth/next-circuit briefing/project stages/HQ counts → executive TEAM overview.
+- Shared visual tokens/primitives/art → every non-HQ screen; five worker-art files → HQ renderer only.
+
+No extra universe, persisted UI selection, performance formula, payroll/morale/result truth or
+management command was introduced. History is a truthful empty view until result systems exist.

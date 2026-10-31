@@ -12,6 +12,8 @@ export type GameDefinition = {
   calendarId?: string;
   driverEra?: 2026;
   driverDataVersion?: 1 | 2;
+  /** Development rules for NEW careers created from this definition (saved careers keep theirs). */
+  developmentRules?: DevelopmentRules;
   headquarters: { layout: HeadquartersLayout; roster: WorkerDefinition[] };
   development: DevelopmentContext;
 };
@@ -29,4 +31,8 @@ export type GameUniverse = {
   /** Clock-free car/development state; temporal kernel views derive from currentDate. */
   development: DevelopmentState;
   drivers?: DriverWorld;
+  /** Save v6: development rules this career runs. Migrated careers keep 1; new careers use 2. */
+  developmentRules: DevelopmentRules;
 };
+/** 1 = released compatibility cadence; 2 = real race-weekend fitting, events and quality bonus. */
+export type DevelopmentRules = 1 | 2;

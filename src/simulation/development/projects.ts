@@ -189,6 +189,13 @@ export function advanceProjects(
     const part = getPart(context, project.partId);
     let current = project;
     let budget = 1; // one real week
+    // Rules-2 decisions can cost real time; rules-1 projects never carry this field.
+    if (current.delayWeeks) {
+      const lost = Math.min(budget, current.delayWeeks);
+      budget -= lost;
+      const { delayWeeks: _spent, ...rest } = current;
+      current = current.delayWeeks - lost > 1e-9 ? { ...current, delayWeeks: current.delayWeeks - lost } : rest;
+    }
     while (current.stage !== 'READY' && budget > 1e-9) {
       const speed = stageSpeed(profile, team, part, current.stage);
       const remaining = stageWork(current, part) - current.progress;
