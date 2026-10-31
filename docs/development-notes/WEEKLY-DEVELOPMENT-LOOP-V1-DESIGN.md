@@ -20,6 +20,100 @@ circuit packages and READY → fitted. The loop is missing three things:
 
 Hiccups and breakthroughs with decisions are the one feature that genuinely needs new persisted state.
 
+## OWNER DECISIONS (2026-10-31) AND REVISED DESIGN
+
+The owner answered the eight open questions. This section **supersedes** any conflicting text below (the original
+audit is kept as the reasoning record). Three answers are short; the interpretations marked *confirm* are explicit
+assumptions to confirm in the implementation brief.
+
+| # | Question | Owner answer | Design consequence |
+|---|---|---|---|
+| 1 | Turn unit | "A weekly turn up to FP1" | Weekly turn. The primary action advances to whichever comes first: the next Monday development boundary or the next race weekend's FP1 (`weekendStartDate`, a Friday in all 23 events). The loop pauses at FP1; qualifying and the race are not implemented, so continuing from FP1 goes to the next Monday. Both are derived dates; no new clock |
+| 2 | Fitting | "Real race weekend" | Real-weekend fitting is IN scope as a **new development rules version** (rules 2). It is not a silent change: released rules-1 careers keep the 24-week compatibility cadence |
+| 3 | Events and save v6 | "Yes" | Approved: persisted events and decisions, save v6, rules version |
+| 3b | Rivals get events | "Yes" (*confirm*) | Rivals use the same events, resolved by their policy, under rules 2 only |
+| 4 | Points affect quality | "Yes they should" (*confirm*: read as "points should affect upgrade quality") | Quality bonus from **bonus points** (below). No double-counting of staff quality, which is already in `expectedGain` |
+| 5 | Concurrency | "They can but only a logical amount" (*confirm*) | Use the existing facility-based department slots as the limit for everyone (Wellington: 2 aero + 1 chassis, 3 total; the maximum possible is 3 + 2). No extra UI-only cap. The overview leads with one focus project |
+| 6 | Money | "That works, $ please" | Show $M project cost and remaining development budget (existing values), labelled "Development budget", not team finances |
+| 7 | Single season | "That's fine" | V1 covers one season; the advance control stops at the season boundary with an honest message |
+| 8 | Thresholds | "Yes" | ABOVE EXPECTATION ≥ 1.15 × predicted; approaches Conservative 0.35 / Balanced 0.60 / Aggressive 0.90 |
+
+### Revised turn (supersedes WEEKLY FLOW timing)
+
+- "Continue" target = min(next development Monday, next FP1). This is computed by a pure selector from `currentDate`
+  and the career's pinned `calendarId`, then executed through `advanceCampaignTo`. All crossed work runs once.
+- **At FP1:** the weekend card shows "Fitted for this weekend" (rules 2), the car's suitability at this circuit, and
+  the next development report. The only action is "Continue to Monday". No sessions, results or rewards are generated.
+- **Monday:** the weekly report plus any events awaiting decisions. Optional "Next day" stepping is unchanged.
+
+### Real-weekend fitting: development rules 2 (supersedes FITTING COMPATIBILITY for new careers)
+
+- **Rules identity:** a persisted development rules version per career. v5 → v6 migration assigns **rules 1** (the
+  released 24-event cadence, unchanged kernel, unchanged history). New careers start on **rules 2**. Old dates are
+  never reinterpreted, as the campaign-time rules require.
+- **Rules-2 fitting instruction:** a new D0 instruction kind, `DEVELOPMENT_FITTING`, due on each career-calendar
+  event's `weekendStartDate`.
+  - ID: `fitting:<calendarId>:<eventId>`.
+  - Priority: 15, after development (10) and before contracts (20). No same-date collision exists today, because
+    fitting falls on Fridays and development on Mondays, but the order is defined anyway.
+  - It calls the existing `introduceReadyUpgrades` for every team (same `'upgrade', project.id` outcome key) with the
+    real event.
+  - In rules 2, the weekly kernel's legacy-week fitting is disabled. Planning, work and maturation keep their order.
+- **Hold:** READY work fits at the next weekend automatically, but the player may set "Hold" on a READY project, for
+  example to save a low-drag package for a later race. Hold is a persisted per-project flag. AI policy never holds in V1.
+- **Rules-2 AI planning inputs** derive from the real calendar: the last-race cutoff and the package lookahead use
+  real event dates mapped through the existing week view. This changes rival behaviour, so it is rules 2 only.
+- **Submission identity:** rules-2 submissions record the real `eventId`, `calendarId` and the fitting `date`.
+  Rules-1 submissions keep legacy event IDs and weeks. v6 validation accepts each form only under its rules version.
+- **Season tail:** work that becomes READY after the final round (Yas Marina, December 6) cannot be fitted this
+  season. Rules 2 flags it "Misses the final race" before start (`estimateWeeksToReady` versus the last FP1). Because
+  the existing season reset drops unfinished projects, this is disclosed. Carry-over is future work.
+
+### Points affecting quality (supersedes "Quality is not points")
+
+- **Base points** are still 10 × existing stage progress (they set duration, not quality). Staff and facilities are
+  already reflected in speed and `expectedGain`, so base points add no further quality, which would double-count.
+- **Bonus points** are the quality lever. They come from (a) event outcomes such as "Design breakthrough: +8 Aero
+  bonus" and (b) an optional per-project **Refine** decision at the end of DESIGN: about one extra week of design work,
+  plus the matching cost, for +10 bonus points.
+- **Effect:** each bonus point adds +1% to `expectedGain` at fitting, capped at +25%. The existing correlation noise
+  and fail chance still apply. There is no second outcome calculation.
+- **Storage:** bonus points are persisted per project (v6) and apply equally to rivals. AI refines when aggression > 0.55
+  and its pacing budget allows.
+
+### Revised save impact (supersedes SAVE IMPACT and V1 SCOPE save notes)
+
+One **v6** schema change carries everything:
+
+- the career development rules version (1 or 2);
+- per project: `events[]` (id, stage, choice | null, defaulted), `correlationAdjustment`, `bonusPoints` and `hold`;
+- rules-2 submission identity (`calendarId`, `eventId`, `date`).
+
+The v5 → v6 migration is additive (rules 1; empty, 0 or false defaults). Freeze the v5 contract and fixture, test
+v5 → v6, validate both source and output, and keep historical hashes unchanged. Weekly points, ETA, progress, labels
+and activity remain derived.
+
+### Revised implementation sequence (supersedes the original sequence)
+
+1. **Foundation (save v6 + rules 2):**
+   - frozen v5 contract and fixture, v6 schema and migration;
+   - rules version;
+   - `DEVELOPMENT_FITTING` instruction with real-event submissions;
+   - rules-2 AI calendar inputs;
+   - equivalence tests proving rules 1 is byte-identical to today.
+2. **Player commands:** start project (part, objective, approach), Hold/Release, Refine and event decisions. All go
+   through domain transitions and `startProject` rules.
+3. **Time control:** "Continue" (next Monday or FP1), "Next day", season stop, through `advanceCampaignTo`.
+4. **Events:** six-event catalogue, the `'development-event'` stream, deterministic defaults, AI policy and bonus points.
+5. **Read models:** points (base and bonus), progress, ETA, fitting weekend, "misses final race", outcome labels,
+   department activity, part guidance by upcoming demands, and $M budget.
+6. **Presentation** (read and follow the Graphic Design Bible): Team development hub, part selector, weekend
+   card, HQ department status and Monday or fitting effects. Browser checks in both themes. Player Manual update.
+
+Added tests: rules-1 equivalence; rules-2 fitting exactly once per weekend and per project (daily, jump and reload);
+no fitting before FP1; Hold persists across weekends and save/reload; the bonus-point cap; rival parity under rules 2;
+v5 → v6 fixture; Continue stops at the correct Monday or FP1 date.
+
 ## CURRENT SYSTEM INVENTORY
 
 | Area | Current implementation (authoritative) | Notes for the loop |
@@ -526,4 +620,7 @@ Behavioural tests, defined before implementation:
 7. V1b events: frozen v5 contract and fixture, v6 migration, event stream, `correlationAdjustment`, AI policy behind
    the rules version, then tests.
 
-NEEDS OWNER DESIGN DECISIONS FIRST
+*Superseded by the revised sequence in OWNER DECISIONS: the owner chose real-weekend fitting, so the v6 foundation
+comes first and V1a/V1b merge into one milestone with a single schema change.*
+
+READY TO DESIGN IMPLEMENTATION MILESTONE
