@@ -2,9 +2,10 @@
 
 ## Milestone
 
-**WEEKLY DEVELOPMENT LOOP V1: IMPLEMENTED, AWAITING OWNER TESTING.** Branch `feature/weekly-development-loop-v1`
+**WEEKLY DEVELOPMENT LOOP V1: OWNER PLAY-TESTED AND MERGED TO MAIN** (merge `4432478`, together with UI V1.1).
+Save v6 and development rules 2 are now RELEASED: any change to the v6 event vocabulary or rules needs a new save version or rules version. Branch `feature/weekly-development-loop-v1`
 (from the visual branch head `19961ff` and the approved design). Notes: [WEEKLY-DEVELOPMENT-LOOP-V1](development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md).
-Qualifying and races were NOT started. No merge to main. The previous UI V1.1 status follows below.
+Qualifying and races were NOT started. Merged into main after owner approval; the merged tree equals the tested branch (380/380 tests, types, web export). The UI V1.1 status follows below.
 
 ### Weekly Development Loop V1
 
