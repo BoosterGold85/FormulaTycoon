@@ -22,10 +22,14 @@ type Props = {
   height: number;
   selection: Selection;
   onSelect: (selection: Selection) => void;
+  /** Display-only: actual player project stage per department, and one-shot turn bubbles. */
+  activity?: Record<string, { project: string; stage: string } | undefined>;
+  bubbles?: Record<string, string>;
+  bubbleKey?: string;
 };
 
 /** The isometric headquarters viewport: static building plus live workers. */
-export function HeadquartersScene({ layout, state, width, height, selection, onSelect }: Props) {
+export function HeadquartersScene({ layout, state, width, height, selection, onSelect, activity = {}, bubbles, bubbleKey }: Props) {
   const reducedMotion = useReducedMotion();
   const projection = useMemo(() => {
     // Keep clear of the status strip and leave spare room below for info cards.
@@ -71,6 +75,10 @@ export function HeadquartersScene({ layout, state, width, height, selection, onS
             projection={projection}
             selected={selection?.kind === 'department' && selection.id === department.id}
             onPress={onDepartmentPress}
+            activity={activity[department.id] ? `${activity[department.id]!.project} · ${activity[department.id]!.stage}` : undefined}
+            bubble={bubbles?.[department.id]}
+            bubbleKey={bubbleKey}
+            reducedMotion={reducedMotion}
           />
         ))}
       </View>

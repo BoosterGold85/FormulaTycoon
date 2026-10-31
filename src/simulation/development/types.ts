@@ -27,6 +27,24 @@ export type DevelopmentProject = {
   cost: number;
   startedWeek: number;
   circuitPackage?: CircuitPackage;
+  /** Development rules 2 only (save v6). Absent under the released rules-1 kernel. */
+  events?: DevelopmentEventRecord[];
+  /** Rules 2: per-project correlation shift from decisions, applied once at fitting. */
+  correlationAdjustment?: number;
+  /** Rules 2: quality bonus points; each adds 1% to the prediction, capped at +/-25%. */
+  bonusPoints?: number;
+  /** Rules 2: real weeks of work lost to decisions, consumed before stage work. */
+  delayWeeks?: number;
+  /** Rules 2: a READY project the team keeps back from the next race weekend. */
+  hold?: boolean;
+};
+
+/** One hiccup/breakthrough raised on a project stage and the decision taken (rules 2). */
+export type DevelopmentEventRecord = {
+  type: string;
+  stage: ProjectStage;
+  choice: string | null;
+  defaulted: boolean;
 };
 
 export type UpgradeOutcome = 'DELIVERED' | 'UNDERPERFORMED' | 'REVERTED';

@@ -7,7 +7,10 @@ import {
 
 import { observeDriver, decideTeamOption } from '../../simulation/drivers';
 import { createGameSave } from '../../persistence/gameSave';
-import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, type GameDefinition } from '../../simulation/universe';
+import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, advanceCampaignTo, advanceCampaignByDays, type GameDefinition, type GameUniverse } from '../../simulation/universe';
+import { nextTurnTarget, summarizeTurn, type CommandResult, type TurnReport, type TurnTarget } from '../../simulation/developmentLoop';
+
+export type SessionTurnReport = TurnReport & { target: TurnTarget };
 
 /** Longest catch-up per timer callback, e.g. after the app was backgrounded. */
 const MAX_CATCH_UP_MS = 2000;
@@ -73,8 +76,35 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
   }, []);
   const checkpoint = useCallback(() => createGameSave(universeRef.current!), []);
 
+  // Transient UI report of the last turn; the facts it summarizes live in the universe.
+  const [report, setReport] = useState<SessionTurnReport | null>(null);
+  /** Weekly turn: advance through the D0 pipeline to the next Monday or race-weekend FP1. */
+  const continueTurn = useCallback(() => {
+    const current = universeRef.current!;
+    const target = nextTurnTarget(current);
+    if (!target) return;
+    const next = advanceCampaignTo(current, definition, target.date);
+    universeRef.current = next; setSnapshot(next);
+    const summary = summarizeTurn(current, next, definition);
+    setReport(summary ? { ...summary, target } : null);
+  }, [definition]);
+  const nextDay = useCallback(() => {
+    const current = universeRef.current!;
+    if (!nextTurnTarget(current)) return;
+    const next = advanceCampaignByDays(current, definition, 1);
+    universeRef.current = next; setSnapshot(next);
+  }, [definition]);
+  /** Player development commands are pure domain transitions; refusals are returned, never applied. */
+  const runDevelopment = useCallback((command: (universe: GameUniverse) => CommandResult) => {
+    const result = command(universeRef.current!);
+    if (result.ok) { universeRef.current = result.universe; setSnapshot(result.universe); }
+    return result;
+  }, []);
+  const dismissReport = useCallback(() => setReport(null), []);
+
   // Snapshot is for display; commands always read the latest authoritative ref.
-  return { universe: snapshot, restartHeadquarters: restartDay, advanceWeek, checkpoint, scoutDriver, exerciseOption };
+  return { universe: snapshot, restartHeadquarters: restartDay, advanceWeek, checkpoint, scoutDriver, exerciseOption,
+    continueTurn, nextDay, runDevelopment, report, dismissReport };
 }
 
 function hasVisibleChange(previous: HeadquartersState, next: HeadquartersState): boolean {

@@ -12,6 +12,15 @@ import type {
   UpgradeSubmission
 } from './types';
 
+/**
+ * Optional development-rules-2 fitting hooks. Without them (rules 1) behaviour is unchanged:
+ * every READY project is fitted and resolved with its own prediction and the team correlation.
+ */
+export type FittingOptions = {
+  eligible?: (project: DevelopmentProject) => boolean;
+  adjust?: (project: DevelopmentProject, profile: TeamDevelopmentProfile) => { expectedGain: number; correlation: number };
+};
+
 /** Reliability a fix project restores. */
 const RELIABILITY_FIX = 14;
 
@@ -52,9 +61,11 @@ export function introduceReadyUpgrades(
   context: DevelopmentContext,
   seed: number,
   season: number,
-  event: GrandPrix
+  event: GrandPrix,
+  options: FittingOptions = {}
 ): { team: TeamDevelopmentState; submissions: UpgradeSubmission[] } {
-  const ready = team.projects.filter(project => project.stage === 'READY');
+  const eligible = options.eligible ?? (() => true);
+  const ready = team.projects.filter(project => project.stage === 'READY' && eligible(project));
   if (ready.length === 0) return { team, submissions: [] };
 
   const parts = { ...team.parts };
@@ -70,7 +81,10 @@ export function introduceReadyUpgrades(
     let outcome: UpgradeOutcome = 'DELIVERED';
 
     if (project.reason === 'PERFORMANCE') {
-      ({ actualGain, outcome } = resolvePerformanceGain(project, profile, random));
+      const adjusted = options.adjust ? options.adjust(project, profile) : null;
+      ({ actualGain, outcome } = adjusted
+        ? resolvePerformanceGain({ ...project, expectedGain: adjusted.expectedGain }, { ...profile, correlation: adjusted.correlation }, random)
+        : resolvePerformanceGain(project, profile, random));
       if (outcome !== 'REVERTED') {
         parts[project.partId] = {
           rating: clamp(current.rating + actualGain, ratingFloor, ratingCeiling),
@@ -96,7 +110,7 @@ export function introduceReadyUpgrades(
       partId: project.partId,
       reason: project.reason,
       description: random.pick(part.descriptions[project.reason]),
-      expectedGain: project.expectedGain,
+      expectedGain: options.adjust && project.reason === 'PERFORMANCE' ? options.adjust(project, profile).expectedGain : project.expectedGain,
       actualGain,
       outcome,
       cost: project.cost
@@ -108,7 +122,7 @@ export function introduceReadyUpgrades(
       ...team,
       parts,
       circuitPackages,
-      projects: team.projects.filter(project => project.stage !== 'READY')
+      projects: team.projects.filter(project => !ready.includes(project))
     },
     submissions
   };

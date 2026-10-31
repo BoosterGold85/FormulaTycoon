@@ -91,18 +91,21 @@ export function createDevelopmentWorld(
  */
 export function advanceDevelopmentWeek(
   world: DevelopmentWorld,
-  context: DevelopmentContext
+  context: DevelopmentContext,
+  options: { fitting?: boolean; planningContext?: DevelopmentContext } = {}
 ): DevelopmentWorld {
   const week = world.week + 1;
   if (week > context.regulations.seasonWeeks) return world;
-  const event = context.calendar.find(item => item.week === week);
+  // Rules 2 fits at real race weekends through its own campaign instruction instead.
+  const event = options.fitting === false ? undefined : context.calendar.find(item => item.week === week);
+  const planning = options.planningContext ?? context;
   const teams: Record<string, TeamDevelopmentState> = {};
   const submissions: UpgradeSubmission[] = [];
 
   for (const profile of context.teams) {
     let team = world.teams[profile.id]!;
     if (profile.controlledBy === 'AI') {
-      team = planRivalWeek(team, profile, context, world.seed, world.season, week);
+      team = planRivalWeek(team, profile, planning, world.seed, world.season, week);
     }
     team = advanceProjects(team, profile, context);
     team = matureReliability(team, profile);

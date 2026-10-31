@@ -58,14 +58,14 @@ test('low wear/warm-up distinctions, verified altitude/cooling and Sepang/Lusail
 });
 
 test('old v5 careers and V4 migration stay on their pinned content; new v5 careers roundtrip v2 without schema change',()=>{
- const old=value(deserializeSave(JSON.stringify(v4),definition));expect(old.saveVersion).toBe(5);expect(old.universe.calendarId).toBe('calendar.2026.v1');
+ const old=value(deserializeSave(JSON.stringify(v4),definition));expect(old.saveVersion).toBe(6);expect(old.universe.calendarId).toBe('calendar.2026.v1');
  expect(value(deserializeSave(value(serializeSave(old,definition)),definition))).toEqual(old);
  let a=old.universe,b=value(deserializeSave(value(serializeSave(old,definition)),definition)).universe;
  for(let w=0;w<12;w++){a=advanceUniverseWeek(a,definition);b=advanceUniverseWeek(b,definition);}
  expect(a).toEqual(b);expect(a.calendarId).toBe('calendar.2026.v1');
  const {gameVersion,saveId,createdAt,updatedAt}=old;
  const current=value(createSaveEnvelope(createGameUniverse(definition,17),{gameVersion,saveId,createdAt,updatedAt},definition));
- expect(current.saveVersion).toBe(5);expect(current.universe.calendarId).toBe('calendar.2026.v2');
+ expect(current.saveVersion).toBe(6);expect(current.universe.calendarId).toBe('calendar.2026.v2');
  expect(value(deserializeSave(value(serializeSave(current,definition)),definition))).toEqual(current);
  const wrong=JSON.parse(JSON.stringify(current));wrong.universe.calendarId='calendar.2026.v3';expect(deserializeSave(JSON.stringify(wrong),definition).ok).toBe(false);
 });

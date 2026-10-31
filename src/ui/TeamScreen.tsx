@@ -8,11 +8,14 @@ import {CarArt,GarageArt} from './art/IdentityArt';
 import {TeamDriverPortrait} from './art/DriverPortrait';
 import {DevelopmentSummary,WorkshopArt} from './components/DevelopmentSummary';
 import {DriverProfile} from './DriverProfile';
+import {DevelopmentHub} from './DevelopmentHub';
+import {selectDevelopmentHub,type CommandResult} from '../simulation/developmentLoop';
 
-type Props={universe:GameUniverse;definition:GameDefinition;onNavigate:(tab:NavTab)=>void;onScout:(id:string)=>void;onOption:(id:string)=>void};
+type Props={universe:GameUniverse;definition:GameDefinition;onNavigate:(tab:NavTab)=>void;onScout:(id:string)=>void;onOption:(id:string)=>void;
+ run:(command:(u:GameUniverse)=>CommandResult)=>CommandResult;initialView?:'overview'|'development'};
 export function TeamScreen(props:Props){const {ui,styles,teamInk}=useDesign();
- const {universe,definition,onNavigate}=props,model=selectTeamOverview(universe,definition);
- const [view,setView]=useState<'overview'|'car'|'development'|'organization'>('overview'),[driver,setDriver]=useState<string|null>(null);
+ const {universe,definition,onNavigate}=props,model=selectTeamOverview(universe,definition),hub=selectDevelopmentHub(universe,definition);
+ const [view,setView]=useState<'overview'|'car'|'development'|'organization'>(props.initialView??'overview'),[driver,setDriver]=useState<string|null>(null);
  return <Screen key={driver??view} title={driver?'Driver dossier':view==='overview'?'Your team':view==='car'?'Your car':view==='development'?'Development':'Your headquarters'} kicker={model.brand.name} subtitle={view==='overview'?'Race control / Your organization':undefined} tab="TEAM" onNavigate={onNavigate}>
   {driver?<DriverProfile {...props} world={universe.drivers!} observer={universe.playerTeamId!} id={driver} onBack={()=>setDriver(null)} backLabel="Back to team"/>:view!=='overview'?<>
    <Action label="Back to team" onPress={()=>setView('overview')} secondary/>
@@ -22,8 +25,7 @@ export function TeamScreen(props:Props){const {ui,styles,teamInk}=useDesign();
     <Section title="Concerns"/><Text style={styles.body}>{model.briefing?.fit?.concerns.join(' · ')||'No major technical shortfall.'}</Text>
     <Disclosure title="Fitted components">{model.fittedParts.map(p=><Fact key={p.id} label={p.name} value={`Spec ${p.spec}`}/>)}</Disclosure>
    </>:view==='development'?<>
-    <Section title="Factory work"/><Text style={styles.muted}>Follow each project from research through manufacture. Progress describes the current stage.</Text>
-    {model.projects.length?model.projects.map(p=><DevelopmentSummary key={p.id} project={p}/>):<EmptyState title="No active projects" text="Your team has no development work in progress. Project management controls are not available yet." art={<WorkshopArt/>}/>}
+    <DevelopmentHub universe={universe} definition={definition} run={props.run}/>
    </>:<>
     <GarageArt/><Text style={styles.heading}>People make the difference.</Text><Text style={styles.muted}>{model.brand.philosophy}</Text><Fact label="Working" value={String(model.staff.WORKING)}/><Fact label="Arriving" value={String(model.staff.WALKING)}/><Fact label="Idle" value={String(model.staff.IDLE)}/>
     <Text style={styles.muted}>These are the visible headquarters workers. Facilities construction, finances and organization-wide morale are not simulated yet.</Text><Action label="Go to HQ" onPress={()=>onNavigate('HQ')}/>
@@ -39,7 +41,9 @@ export function TeamScreen(props:Props){const {ui,styles,teamInk}=useDesign();
    <View>{model.drivers.map(d=><CompactRow key={d.id} label={d.name} detail={`${d.form} · ${d.contractEnd?`Through ${d.contractEnd}`:'Available'}`} accessibilityLabel={`View ${d.name}`} onPress={()=>setDriver(d.id)} leading={<TeamDriverPortrait teamId={d.teamId} size={50}/>}/>)}</View>
    <Section title="Development"/>
    <Pressable accessibilityRole="button" accessibilityLabel="View development" onPress={()=>setView('development')} style={({pressed})=>({paddingVertical:6,borderBottomWidth:1,borderBottomColor:ui.line,backgroundColor:pressed?ui.panel:'transparent'})}>
-    {model.projects.length?<DevelopmentSummary project={model.projects[0]!}/>:<View style={styles.row}><WorkshopArt/><View style={{flex:1,gap:5}}><Text style={[styles.heading,{fontSize:17}]}>No active projects</Text><Text style={styles.muted}>View development</Text></View><Text style={{fontSize:23,color:ui.accent}}>›</Text></View>}
+    {hub.focus?<DevelopmentSummary project={{name:hub.focus.name,stage:hub.focus.stageLabel.toUpperCase(),progress:hub.focus.wholeProgress}}
+      caption={hub.focus.pendingEvent?`Decision needed · ${hub.focus.pendingEvent.title}`:`${hub.focus.wholeProgress}% complete${hub.focus.fitsAt?` · fits at ${hub.focus.fitsAt.name}`:''}${hub.projects.length>1?` · ${hub.projects.length} projects`:''}`}/>
+     :<View style={styles.row}><WorkshopArt/><View style={{flex:1,gap:5}}><Text style={[styles.heading,{fontSize:17}]}>Factory idle</Text><Text style={styles.muted}>${hub.budget.remainingM}M budget · Start a project</Text></View><Text style={{fontSize:23,color:ui.accent}}>›</Text></View>}
    </Pressable>
    <Section title="Organization"/>
    <Pressable accessibilityRole="button" accessibilityLabel="View organization" onPress={()=>setView('organization')} style={{minHeight:70,flexDirection:'row',alignItems:'center',gap:12}}><View style={{flex:1,gap:6}}><Text style={[styles.heading,{fontSize:17}]}>Inside headquarters</Text><Text style={styles.muted}>{model.staff.WORKING} staff at work · View organization</Text></View><GarageArt/><Text style={{fontSize:23,color:ui.accent}}>›</Text></Pressable>

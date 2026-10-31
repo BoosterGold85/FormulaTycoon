@@ -20,7 +20,8 @@ function withProject(calendarId='calendar.2026.v2'):GameUniverse {
  const started=development.startProject(universe.development.teams[teamId]!,profile,definition.development,
   {partId:'FRONT_WING',reason:'PERFORMANCE',ambition:.5,week:0,season:1});
  if(!started.ok)throw new Error(started.reason);
- return {...universe,development:{...universe.development,teams:{...universe.development.teams,[teamId]:started.team}}};
+ // D0 equivalence evidence is for the released rules-1 kernel (all migrated careers).
+ return {...universe,developmentRules:1,development:{...universe.development,teams:{...universe.development.teams,[teamId]:started.team}}};
 }
 function daily(universe:GameUniverse,target:CampaignDate):GameUniverse {
  let current=universe;
@@ -30,7 +31,7 @@ function daily(universe:GameUniverse,target:CampaignDate):GameUniverse {
 function reload(universe:GameUniverse):GameUniverse {
  const envelope=value(createSaveEnvelope(universe,{saveId:'d0-progression',gameVersion:'0.1.0',
   createdAt:'2026-10-30T12:00:00.000Z',updatedAt:'2026-10-30T12:00:00.000Z'},definition));
- expect(envelope.saveVersion).toBe(5);
+ expect(envelope.saveVersion).toBe(6);
  return value(deserializeSave(value(serializeSave(envelope,definition)),definition)).universe;
 }
 
@@ -124,7 +125,7 @@ test('normal commands reject time travel/implicit rollover; explicit reset follo
 });
 
 test('clock-only dates and week advancement without DriverWorld use the same bridge',()=>{
- const initial=createGameUniverse({...definition,driverEra:undefined},17);
+ const initial={...createGameUniverse({...definition,driverEra:undefined},17),developmentRules:1 as const};
  const oneDay=advanceCampaignTo(initial,definition,date('2026-03-03'));
  expect(oneDay.development).toBe(initial.development);
  expect(oneDay.currentDate).toBe('2026-03-03');

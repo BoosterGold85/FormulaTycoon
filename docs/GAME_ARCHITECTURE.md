@@ -414,3 +414,31 @@ rail on wide screens and a bottom strip on phones. HQ environment geometry/mater
 independent; its controls/cards follow the selected theme. Theme-specific backgrounds/grounding
 never alter canonical team palettes or displayed gameplay facts. Team text contrast correction is
 presentation only. See the Graphic Design Bible for the owner-approved default light direction.
+
+## Weekly Development Loop V1 (development rules 2, save v6)
+
+`simulation/developmentLoop` composes existing owners; it is not a second development system. Every career persists
+`developmentRules`:
+
+- **Rules 1** (all migrated v1–v5 careers): the released kernel and the 24-event compatibility fitting, unchanged.
+- **Rules 2** (new careers):
+  - The D0 `DEVELOPMENT_WEEK` handler runs `rules2Week`: default unanswered player events, then the unchanged kernel
+    with legacy fitting disabled and rival planning on the career's real weekends, then raise seeded stage events.
+  - A new `DEVELOPMENT_FITTING` instruction (priority 15) fits READY, non-held work when entering each event's
+    `weekendStartDate`, through `introduceReadyUpgrades` with optional eligibility and prediction hooks.
+  - Rules-1 calls pass no hooks, so their behaviour is byte-identical.
+
+Player commands (`startPlayerProject`, `setProjectHold`, `refinePlayerProject`, `decideProjectEvent`) are pure domain
+transitions through the `developmentView` bridge and the shared `startProject` rules. The UI only dispatches them.
+`nextTurnTarget` derives the next Monday or earlier FP1 from the root date and the pinned calendar; there is no second
+clock. Read models derive points (10 per average-team week of stage work), progress, ETA, fitting weekend, outcome
+labels, part guidance and HQ department activity. The turn report is transient UI session state.
+
+**Randomness and state:**
+- The only new RNG namespace is `'development-event', projectId, stage`. The `'plan'` and `'upgrade'` keys are unchanged.
+- Delays are stored as real `delayWeeks`, consumed by `advanceProjects` before stage work, because frozen V5
+  semantics forbid negative progress.
+
+**Save v6:** frozen `contracts/v6.json` and `validationV5`; the v5 → v6 migration attaches rules 1; v6-only fields are
+validated against a frozen vocabulary before the shared V5 rules run. Details:
+development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md.

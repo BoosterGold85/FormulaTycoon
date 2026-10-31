@@ -5,6 +5,7 @@ import {advanceHeadquarters,createHeadquartersState} from '../headquarters';
 import {NEW_CAREER_DATE,addCampaignDays,campaignContext,legacyWeekDate,nextCampaignDate,seasonStart,type CampaignDate} from '../campaignTime';
 import {developmentState,developmentView} from '../campaignTime/developmentView';
 import {dueCampaignEvents} from './campaignEvents';
+import {fitAtWeekend,rules2Week} from '../developmentLoop/step';
 import type {GameDefinition,GameUniverse} from './types';
 export * from './types';
 
@@ -14,7 +15,7 @@ export function assertDefinition(universe:GameUniverse,definition:GameDefinition
 export function createGameUniverse(definition:GameDefinition,seed:number):GameUniverse {
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new Error('Universe seed must be a uint32');
  const calendarId=definition.calendarId??DEFAULT_CALENDAR_ID;calendarById(calendarId);
- return {definitionVersion:definition.version,calendarId,currentDate:NEW_CAREER_DATE,seed,playerTeamId:definition.driverEra?'team.wellington':null,
+ return {definitionVersion:definition.version,calendarId,currentDate:NEW_CAREER_DATE,seed,developmentRules:definition.developmentRules??1,playerTeamId:definition.driverEra?'team.wellington':null,
   ...(definition.driverEra?{drivers:createDriverWorld(definition.driverDataVersion!==1)}:{}),
   headquarters:createHeadquartersState(definition.headquarters.layout,definition.headquarters.roster),
   development:developmentState(createDevelopmentWorld(definition.development,seed))};
@@ -50,9 +51,16 @@ function advanceTo(universe:GameUniverse,definition:GameDefinition,target:Campai
     case 'SEASON_TRANSITION':
      current={...current,development:developmentState(startNextSeason(developmentView(current.development,addCampaignDays(event.date,-1)),definition.development,transition!.standings,{regulationReset:transition!.regulationReset}))};
      break;
-    case 'DEVELOPMENT_WEEK':
-     current={...current,development:developmentState(advanceDevelopmentWeek(developmentView(current.development,addCampaignDays(event.date,-1)),definition.development))};
+    case 'DEVELOPMENT_WEEK': {
+     const view=developmentView(current.development,addCampaignDays(event.date,-1));
+     current={...current,development:developmentState(current.developmentRules===2?rules2Week(view,definition.development,current.calendarId):advanceDevelopmentWeek(view,definition.development))};
      break;
+    }
+    case 'DEVELOPMENT_FITTING': {
+     const weekend=calendarById(current.calendarId).events.find(e=>e.id===event.eventId)!;
+     current={...current,development:developmentState(fitAtWeekend(developmentView(current.development,event.date),definition.development,current.calendarId,weekend))};
+     break;
+    }
     case 'CONTRACT_STATUS_CHECK':
      if(current.drivers)current={...current,drivers:refreshDriverStatuses(current.drivers,event.date)};
      break;

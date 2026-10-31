@@ -1,14 +1,14 @@
 import type {GameDefinition,GameUniverse} from '../simulation/universe';
 import {releasedContentFor} from './contracts';
-import {validateDatedUniverseV4} from './contracts/datedValidationV4';
-import {isReleasedCalendarId} from '../game/calendar/releasedIds';
+import {validateUniverseV5} from './contracts/validationV5';
+import {validateDevelopmentRulesV6} from './developmentRulesValidation';
 import {requireValid} from './validation';
 
-/** V5 adds exactly one static-content identity, never a second campaign clock. */
+/** V6 = V5 structure + per-career development rules + rules-2 project decisions/fitting records. */
 export function validateUniverse(input:unknown,definition:GameDefinition):asserts input is GameUniverse {
  requireValid(input&&typeof input==='object'&&!Array.isArray(input),'universe');
- const {calendarId,...dated}=input as Record<string,unknown>;
- requireValid(dated.definitionVersion===definition.version,'universe.definitionVersion');
- requireValid(isReleasedCalendarId(calendarId),'universe.calendarId');
- validateDatedUniverseV4(dated,releasedContentFor(definition.version));
+ const raw=input as Record<string,unknown>;
+ requireValid(raw.definitionVersion===definition.version,'universe.definitionVersion');
+ const projection=validateDevelopmentRulesV6(raw,definition);
+ validateUniverseV5(projection,releasedContentFor(definition.version));
 }

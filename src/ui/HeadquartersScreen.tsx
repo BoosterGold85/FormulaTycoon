@@ -10,8 +10,10 @@ import { SelectionCard } from './components/SelectionCard';
 import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { useTheme } from './theme';
+import { reportBubbles, type TurnReport } from '../simulation/developmentLoop';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent,activity={},report=null }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
+  activity?:Record<string,{project:string;stage:string}|undefined>;report?:(TurnReport&{to:string})|null }) {
   const {theme}=useTheme(),styles=makeStyles(theme);
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
@@ -50,6 +52,9 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
             height={size.height}
             selection={selection}
             onSelect={setSelection}
+            activity={activity}
+            bubbles={report?reportBubbles(report):undefined}
+            bubbleKey={report?.to}
           />
         ) : null}
 

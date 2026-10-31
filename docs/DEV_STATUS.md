@@ -2,6 +2,35 @@
 
 ## Milestone
 
+**WEEKLY DEVELOPMENT LOOP V1: IMPLEMENTED, AWAITING OWNER TESTING.** Branch `feature/weekly-development-loop-v1`
+(from the visual branch head `19961ff` and the approved design). Notes: [WEEKLY-DEVELOPMENT-LOOP-V1](development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md).
+Qualifying and races were NOT started. No merge to main. The previous UI V1.1 status follows below.
+
+### Weekly Development Loop V1
+
+- **COMPLETED:**
+  - Player projects via the shared `startProject` rules.
+  - Weekly turn up to FP1.
+  - Development rules 2: real race-weekend fitting, events, refine, hold and bonus quality.
+  - Rivals on the same rules.
+  - Save v6, with frozen v5 contract and fixture and v5 → v6 migration to rules 1.
+  - Read models and Team hub, part selector, turn report, HQ department activity and bubbles.
+  - Player Manual.
+- **TESTED:**
+  - 375/375 tests, 20 suites (21 new).
+  - TypeScript and web export pass.
+  - Existing UI and theme browser suites pass at 390 × 844 and 1440 × 1000 (both themes).
+  - New browser loop passes: start projects, 20 turns, weekend fitting, decisions, HQ activity. No errors or overflow.
+- **NOT VERIFIED:** native iPhone, live Cloudflare preview, multi-season balance.
+- **KNOWN ISSUES:**
+  - Single development season (stops at March 1, 2027).
+  - Unfinished work is dropped at the reset.
+  - Event odds and deltas are first-pass.
+  - The turn report is not saved.
+- **NEXT:** owner play-test feedback on loop feel and balance before qualifying design.
+
+## Milestone
+
 **UI V1.1 + DEFAULT LIGHT / ALTERNATE DARK THEME COMPLETE — OWNER REVIEW.**
 The owner paused feature expansion after D0. Qualifying has NOT started.
 

@@ -58,7 +58,7 @@ fs.mkdirSync(root,{recursive:true});
  const suitability=await page.getByTestId('team-car-suitability').boundingBox();if(!suitability||suitability.height>26)throw new Error('Team suitability wraps at mobile width');
  await shot('06-team-dashboard');
  await button('View car').click();await button('Fitted components').click();await page.getByText('Spec 1',{exact:true}).first().waitFor();await check();await button('Back to team').click();
- await button('View development').click();await must('No active projects');if((await body()).includes('62%'))throw new Error('Invented project');await button('Back to team').click();
+ await button('View development').click();await must('Your factory is idle');await must('$45M left');if((await body()).includes('62%'))throw new Error('Invented project');await button('Back to team').click();
  await button('View organization').click();await must('Your headquarters');await must('Independent dynasty rebuilding');await check();await button('Back to team').click();
  await driver('Carlos Sainor');await button('Contract details').click();if(!(await body()).includes('$30M / year'))throw new Error('Team profile');await button('Back to team').click();
  await button('Manage drivers').click();await button('Prospects').click();await driver('Rafael Cordeiro');await button('Scouting report').click();await page.getByText(/Reports: 1\./).waitFor();
