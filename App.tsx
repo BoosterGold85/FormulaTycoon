@@ -37,7 +37,7 @@ function GameApplication() {
    {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen key={teamEntry.key} initialView={teamEntry.view} run={session.runDevelopment} universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={next=>{setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
    {session.report?<View pointerEvents="box-none" style={{position:'absolute',left:12,right:12,bottom:12,maxWidth:560,alignSelf:'center'}}>
-    <TurnReportCard report={session.report} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
+    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={session.report} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
    </View>
   </View>
  </View>;

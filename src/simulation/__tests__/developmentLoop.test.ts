@@ -238,3 +238,55 @@ test.each([
  const save=value(createSaveEnvelope(withProjects(),meta,definition));mutate(save);
  expect(validateSave(save,definition).ok).toBe(false);
 });
+
+test('play-test tuning: an engaged player sees a decision roughly every two to three weeks',()=>{
+ let u=createGameUniverse(definition,1),events=0,weeks=0;
+ const parts=['FLOOR','FRONT_WING','REAR_SUSPENSION','DIFFUSER_REAR_EDGE','REAR_WING','FRONT_SUSPENSION','NOSE','BODYWORK_COOLING'] as const;
+ while(compareCampaignDates(u.currentDate,date('2026-09-28'))<0){
+  for(const partId of parts){const r=startPlayerProject(u,definition,{partId,objective:'PERFORMANCE',approach:'BALANCED'});if(r.ok)u=r.universe;}
+  const target=nextTurnTarget(u)!,before=u;u=advanceCampaignTo(u,definition,target.date);
+  if(target.kind==='MONDAY')weeks++;
+  events+=summarizeTurn(before,u,definition)!.newEvents.length;
+ }
+ expect(weeks).toBe(30);
+ expect(events).toBeGreaterThanOrEqual(9);expect(events).toBeLessThanOrEqual(20);
+});
+
+test('fitting reports what changed on the car and at that circuit, qualitatively',()=>{
+ const start=withProjects(1);
+ let u=start,report:ReturnType<typeof summarizeTurn>=null;
+ while(!report?.fitted.length){const target=nextTurnTarget(u)!,before=u;u=advanceCampaignTo(u,definition,target.date);report=summarizeTurn(before,u,definition);}
+ const change=report!.carChange!;
+ expect(change.venue!.name).toBe(report!.fitted[0]!.venue);
+ expect(change.up.length+change.down.length).toBeGreaterThan(0);
+ expect(JSON.stringify(change)).not.toMatch(/score|\d+\.\d/);
+ // No fitting, no car-change section.
+ const quiet=summarizeTurn(start,advanceCampaignTo(start,definition,date('2026-03-06')),definition)!;
+ expect(quiet.carChange).toBeNull();
+});
+
+test('paddock news names rival teams only, at most three items, without hidden gains',()=>{
+ let u=createGameUniverse(definition,2),news:string[]=[];
+ while(!news.length){const target=nextTurnTarget(u)!,before=u;u=advanceCampaignTo(u,definition,target.date);news=summarizeTurn(before,u,definition)!.rivalNews;}
+ expect(news.length).toBeLessThanOrEqual(3);
+ for(const item of news){expect(item).not.toMatch(/Wellington|\d/);expect(TEAM_BRANDS.some(t=>item.startsWith(t.name))).toBe(true);}
+});
+
+test('turn report carries replay data derived from project truth',()=>{
+ const u=withProjects(),next=advanceCampaignTo(u,definition,date('2026-03-09'));
+ const report=summarizeTurn(u,next,definition)!;
+ expect(report.projects).toHaveLength(3);
+ for(const p of report.projects){expect(p.from).toBeLessThanOrEqual(p.to);expect(p.to).toBeLessThanOrEqual(100);}
+ const total=Object.values(report.departments).flat().reduce((s,x)=>s+x.points,0);
+ expect(Math.abs(total-report.points.reduce((s,x)=>s+x.points,0))).toBeLessThanOrEqual(3);
+});
+
+test('new play-test events are valid v6 decisions; foreign choices are rejected',()=>{
+ const save=value(createSaveEnvelope(withProjects(),meta,definition));
+ const ok=JSON.parse(JSON.stringify(save));ok.universe.development.teams[teamId].projects[0].events=[{type:'EXTRA_SIMULATION_TIME',stage:'RESEARCH',choice:'BUY_TIME',defaulted:false}];
+ expect(validateSave(ok,definition).ok).toBe(true);
+ const bad=JSON.parse(JSON.stringify(save));bad.universe.development.teams[teamId].projects[0].events=[{type:'EXTRA_SIMULATION_TIME',stage:'RESEARCH',choice:'ADAPT_IDEA',defaulted:false}];
+ expect(validateSave(bad,definition).ok).toBe(false);
+ expect(DEVELOPMENT_EVENTS.map(e=>e.type)).toEqual(expect.arrayContaining(['RIVAL_CONCEPT','LIGHTWEIGHT_MATERIAL','EXTRA_SIMULATION_TIME']));
+ expect(DEVELOPMENT_EVENTS.every(e=>e.choices.some(c=>!c.costShare))).toBe(true);
+});

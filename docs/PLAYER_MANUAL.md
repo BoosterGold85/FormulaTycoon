@@ -162,8 +162,13 @@ Research, Aero or Technical, and Manufacturing points; the team works on all act
 facilities and staff produce more points per week. A finished part is fitted at the **next race weekend**,
 unless you choose **Hold back** to save it for a later race.
 
+After each **CONTINUE**, watch the week play out: points rise from the busy departments and project bars
+fill. Reports where parts were fitted show what changed on the car and at that weekend's circuit, and
+**Paddock news** shows what rival teams brought.
+
 Development rarely goes exactly to plan. A project may hit a **wind tunnel correlation issue**, a
-**prototype defect** or a **material shortage**, or produce a **breakthrough**. You choose how to respond;
+**prototype defect** or a **material shortage**, spot a **rival's concept**, be offered **extra simulation
+time** or a **lighter material**, or produce a **breakthrough**. You choose how to respond;
 if you don't, the first option is taken on Monday. Investigating or remaking costs time or money but can
 make the result more dependable. **Refine design** spends extra time and money for a better part.
 

@@ -24,7 +24,7 @@ type Props = {
   onSelect: (selection: Selection) => void;
   /** Display-only: actual player project stage per department, and one-shot turn bubbles. */
   activity?: Record<string, { project: string; stage: string } | undefined>;
-  bubbles?: Record<string, string>;
+  bubbles?: Record<string, Array<{ category: string; points: number }>>;
   bubbleKey?: string;
 };
 

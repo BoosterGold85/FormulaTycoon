@@ -6,7 +6,7 @@ import {addCampaignDays,campaignContext,compareCampaignDates,legacyWeekDate,type
 import {developmentView} from '../campaignTime/developmentView';
 import {advanceProjects,departmentSlots,estimateWeeksToReady,expectedGain,getPart,partImportance,projectCost,spendingLimit,stageSpeed,stageWork,
  type DevelopmentProject,type ProjectStage,type TeamDevelopmentState,type UpgradeSubmission} from '../development';
-import {AXIS_LABELS,technicalCar} from '../trackPerformance';
+import {AXIS_LABELS,technicalCar,technicalPerformanceAtTrack} from '../trackPerformance';
 import type {GameDefinition,GameUniverse} from '../universe/types';
 import {APPROACH_AMBITION,type Approach} from './commands';
 import {canRefine,choiceCost,effectiveBonus,eventDefinition,pendingEvent,REFINE_CHOICE} from './events';
@@ -188,6 +188,7 @@ export function summarizeTurn(before: GameUniverse, after: GameUniverse, definit
   const gained: Record<PointCategory, number> = { Research: 0, Aero: 0, Technical: 0, Manufacturing: 0 };
   const byDepartment: Record<string, Partial<Record<PointCategory, number>>> = {};
   const changes: string[] = [];
+  const projects: Array<{ id: string; name: string; from: number; to: number; stage: string }> = [];
   for (const old of was.projects) {
     const part = getPart(definition.development, old.partId);
     const cur = now.projects.find(p => p.id === old.id);
@@ -202,6 +203,7 @@ export function summarizeTurn(before: GameUniverse, after: GameUniverse, definit
       byDepartment[dept] = { ...byDepartment[dept], [category]: (byDepartment[dept]?.[category] ?? 0) + amount };
     }
     if (to > from) changes.push(`${part.name}: ${STAGE_LABEL[endStage]}${endStage === 'READY' ? ' — built' : ' started'}`);
+    projects.push({ id: old.id, name: part.name, from: wholeProgress(old, part), to: cur ? wholeProgress(cur, part) : 100, stage: STAGE_LABEL[endStage] });
   }
   const fitted = after.development.submissions.slice(before.development.submissions.length);
   const mine = fitted.filter(s => s.teamId === teamId).map(s => ({ part: getPart(definition.development, s.partId).name, venue: submissionVenue(after, definition, s), label: outcomeLabel(s) }));
@@ -209,8 +211,48 @@ export function summarizeTurn(before: GameUniverse, after: GameUniverse, definit
     part: getPart(definition.development, p.partId).name, title: eventDefinition(pendingEvent(p)!.type)!.title }));
   const points = (Object.entries(gained) as Array<[PointCategory, number]>).filter(([, v]) => v >= 0.5).map(([category, v]) => ({ category, points: Math.round(v) }));
   const departments = Object.fromEntries(Object.entries(byDepartment).map(([dept, cats]) => [dept,
-    (Object.entries(cats) as Array<[PointCategory, number]>).filter(([, v]) => v >= 0.5).map(([c, v]) => `+${Math.round(v)} ${c}`).join(' · ')]).filter(([, text]) => text));
-  return { from: before.currentDate, to: after.currentDate, points, departments, changes, fitted: mine, rivalUpgrades: fitted.filter(s => s.teamId !== teamId).length, newEvents };
+    (Object.entries(cats) as Array<[PointCategory, number]>).filter(([, v]) => v >= 0.5).map(([category, v]) => ({ category, points: Math.round(v) }))])
+    .filter(([, list]) => (list as unknown[]).length)) as Record<string, Array<{ category: PointCategory; points: number }>>;
+  return { from: before.currentDate, to: after.currentDate, points, departments, projects, changes, fitted: mine,
+    carChange: mine.length ? carChange(before, after, definition, teamId) : null,
+    rivalUpgrades: fitted.filter(s => s.teamId !== teamId).length, rivalNews: rivalNews(after, definition, fitted.filter(s => s.teamId !== teamId)), newEvents };
+}
+function wholeProgress(project: DevelopmentProject, part: PartDefinition): number {
+  const index = project.stage === 'READY' ? 3 : STAGES.indexOf(project.stage);
+  const works = STAGES.map(stage => stageWork({ ...project, stage }, part)), total = works.reduce((a, b) => a + b, 0);
+  const done = works.reduce((sum, w, i) => sum + (i < index ? w : i === index ? Math.min(w, Math.max(0, project.progress)) : 0), 0);
+  return total ? Math.min(100, Math.round(done / total * 100)) : 100;
+}
+
+/**
+ * What the fitted parts changed: the existing technical translation before vs after the turn,
+ * plus this weekend's circuit suitability. Qualitative only; no scores or rankings disclosed.
+ */
+export function carChange(before: GameUniverse, after: GameUniverse, definition: GameDefinition, teamId: string) {
+  const profile = definition.development.teams.find(t => t.id === teamId)!;
+  const a = technicalCar(before.development.teams[teamId]!, profile).values, b = technicalCar(after.development.teams[teamId]!, profile).values;
+  const moves = TECHNICAL_AXES.map(axis => ({ label: AXIS_LABELS[axis], delta: b[axis] - a[axis] })).filter(m => Math.abs(m.delta) >= 0.15)
+    .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
+  const calendar = calendarById(after.calendarId);
+  const event = calendar.events.find(e => e.weekendStartDate === after.currentDate);
+  let venue: { name: string; before: string; after: string; improved: boolean; worse: boolean } | null = null;
+  if (event) {
+    const track = calendar.tracks[event.trackId]!;
+    const was = technicalPerformanceAtTrack(before, definition, teamId, track).suitability, now = technicalPerformanceAtTrack(after, definition, teamId, track).suitability;
+    venue = { name: track.name, before: was.label, after: now.label, improved: now.score - was.score >= 0.1, worse: was.score - now.score >= 0.1 };
+  }
+  return { up: moves.filter(m => m.delta > 0).slice(0, 4).map(m => m.label), down: moves.filter(m => m.delta < 0).slice(0, 2).map(m => m.label === AXIS_LABELS.reliability ? 'Reliability (new part, settles with running)' : m.label), venue };
+}
+
+/** Paddock news: which rivals brought what. Only what a rival would visibly do; hidden gains stay hidden. */
+export function rivalNews(universe: GameUniverse, definition: GameDefinition, submissions: UpgradeSubmission[]) {
+  return submissions.filter(s => s.reason !== 'RELIABILITY')
+    .map(s => ({ s, weight: s.reason === 'PERFORMANCE' ? s.expectedGain * partImportance(s.partId) : 0.05 }))
+    .sort((x, y) => y.weight - x.weight || (x.s.teamId < y.s.teamId ? -1 : 1)).slice(0, 3).map(({ s }) => {
+      const part = getPart(definition.development, s.partId).name.toLowerCase(), team = teamBrand(s.teamId).name;
+      if (s.reason === 'CIRCUIT_SPECIFIC') return `${team} brought a track-specific ${part} package`;
+      return s.outcome === 'REVERTED' ? `${team} tried a new ${part} but went back to the old one` : `${team} brought a new ${part}`;
+    });
 }
 export type TurnReport = NonNullable<ReturnType<typeof summarizeTurn>>;
 
@@ -233,7 +275,7 @@ export function selectDepartmentActivity(universe: GameUniverse, definition: Gam
   return activity;
 }
 
-/** HQ bubble text per department for a turn report (display only). */
-export function reportBubbles(report: Pick<TurnReport, 'departments'>): Record<string, string> {
+/** HQ bubble content per department for a turn report (display only). */
+export function reportBubbles(report: Pick<TurnReport, 'departments'>): Record<string, Array<{ category: PointCategory; points: number }>> {
   return report.departments;
 }

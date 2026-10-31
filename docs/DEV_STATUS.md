@@ -27,7 +27,9 @@ Qualifying and races were NOT started. No merge to main. The previous UI V1.1 st
   - Unfinished work is dropped at the reset.
   - Event odds and deltas are first-pass.
   - The turn report is not saved.
-- **NEXT:** owner play-test feedback on loop feel and balance before qualifying design.
+- **Play-test pass 1 (after the owner said the loop felt flat):** week replay, what-changed report, paddock news
+  and more frequent decisions (9 events). 380/380 tests; UI and theme browser suites pass.
+- **NEXT:** second owner play-test on loop feel and balance before qualifying design.
 
 ## Milestone
 

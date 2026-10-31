@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { DepartmentDefinition } from '../../game/models';
 import { gridToScreen, type Projection } from '../isometric';
+import { usePlayback } from '../hooks/usePlayback';
 
 export const DepartmentSign = React.memo(function DepartmentSign({
   department,
@@ -19,7 +20,7 @@ export const DepartmentSign = React.memo(function DepartmentSign({
   onPress: (department: DepartmentDefinition) => void;
   /** Actual player project in this department, e.g. "Floor · Design" (display only). */
   activity?: string;
-  bubble?: string;
+  bubble?: Array<{ category: string; points: number }>;
   bubbleKey?: string;
   reducedMotion?: boolean;
 }) {
@@ -41,24 +42,24 @@ export const DepartmentSign = React.memo(function DepartmentSign({
           {activity ? <Text style={styles.activity} numberOfLines={1}>{activity}</Text> : null}
         </View>
       </Pressable>
-      {bubble ? <ProgressBubble key={bubbleKey} text={bubble} reducedMotion={reducedMotion} /> : null}
+      {bubble?.length ? <ProgressBubble key={bubbleKey} items={bubble} runKey={bubbleKey} reducedMotion={reducedMotion} /> : null}
     </View>
   );
 });
 
-/** One-shot "+10 Research" lift after a turn; purely presentational, timed by animation only. */
-function ProgressBubble({ text, reducedMotion }: { text: string; reducedMotion: boolean }) {
-  const t = useRef(new Animated.Value(0)).current;
+/** Replays the week's actual output: the counter climbs over the workweek, then fades (presentation only). */
+function ProgressBubble({ items, runKey, reducedMotion }: { items: Array<{ category: string; points: number }>; runKey?: string; reducedMotion: boolean }) {
+  const t = usePlayback(runKey, 3000);
+  const fade = useRef(new Animated.Value(1)).current;
   useEffect(() => {
-    const run = Animated.timing(t, { toValue: 1, duration: reducedMotion ? 2800 : 2600, easing: Easing.out(Easing.quad), useNativeDriver: true });
+    if (t < 1) { fade.setValue(1); return; }
+    const run = Animated.timing(fade, { toValue: 0, duration: 900, delay: 900, easing: Easing.in(Easing.quad), useNativeDriver: true });
     run.start();
     return () => run.stop();
-  }, [t, reducedMotion]);
-  const style = reducedMotion
-    ? { opacity: t.interpolate({ inputRange: [0, 0.85, 1], outputRange: [1, 1, 0] }) }
-    : { opacity: t.interpolate({ inputRange: [0, 0.15, 0.75, 1], outputRange: [0, 1, 1, 0] }),
-        transform: [{ translateY: t.interpolate({ inputRange: [0, 1], outputRange: [-14, -40] }) }] };
-  return <Animated.View pointerEvents="none" style={[styles.bubble, style]}><Text style={styles.bubbleText}>{text}</Text></Animated.View>;
+  }, [t >= 1, fade]);
+  const text = items.map(i => `+${Math.round(i.points * t)} ${i.category}`).join(' · ');
+  const lift = reducedMotion ? -30 : -30 - 16 * t;
+  return <Animated.View pointerEvents="none" style={[styles.bubble, { opacity: fade, transform: [{ translateY: lift }] }]}><Text style={styles.bubbleText}>{text}</Text></Animated.View>;
 }
 
 const styles = StyleSheet.create({

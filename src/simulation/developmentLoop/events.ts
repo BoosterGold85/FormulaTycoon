@@ -22,6 +22,10 @@ export type DevelopmentEventDefinition = {
 
 /** V1 catalogue. Every event offers at least one choice with no extra cost. */
 export const DEVELOPMENT_EVENTS: DevelopmentEventDefinition[] = [
+  { type: 'EXTRA_SIMULATION_TIME', stage: 'RESEARCH', title: 'Extra simulation time available',
+    text: 'Spare CFD and simulator capacity has opened up this week.', risky: 1, choices: [
+      { id: 'DECLINE_TIME', label: 'Decline', detail: 'No change' },
+      { id: 'BUY_TIME', label: 'Book the time', detail: '8% more cost, better concept', costShare: 0.08, bonusPoints: 6 }] },
   { type: 'WIND_TUNNEL_CORRELATION', stage: 'RESEARCH', method: 'WIND_TUNNEL', title: 'Wind tunnel correlation issue',
     text: 'Tunnel and CFD numbers disagree on this concept.', risky: 1, choices: [
       { id: 'INVESTIGATE', label: 'Investigate thoroughly', detail: 'About a week slower, more trustworthy result', delayWeeks: 1, correlation: 15 },
@@ -38,6 +42,10 @@ export const DEVELOPMENT_EVENTS: DevelopmentEventDefinition[] = [
     text: 'The design could be simplified to save time.', risky: 0, choices: [
       { id: 'KEEP_CONCEPT', label: 'Keep the full concept', detail: 'No change' },
       { id: 'SIMPLIFY', label: 'Simplify', detail: 'Most of a week sooner, slightly weaker part', gainWeeks: 0.7, bonusPoints: -10 }] },
+  { type: 'RIVAL_CONCEPT', stage: 'DESIGN', title: 'Rival concept spotted',
+    text: 'Photos from the paddock show a rival solving the same problem differently.', risky: 1, choices: [
+      { id: 'STAY_COURSE', label: 'Stay on course', detail: 'No change' },
+      { id: 'ADAPT_IDEA', label: 'Adapt the idea', detail: 'About a week longer, better part', delayWeeks: 1, bonusPoints: 12 }] },
   { type: 'PROTOTYPE_DEFECT', stage: 'MANUFACTURING', title: 'Prototype defect',
     text: 'Inspection found a flaw in the first parts made.', risky: 1, choices: [
       { id: 'REMAKE', label: 'Remake the parts', detail: 'Most of a week slower, 10% more cost', delayWeeks: 0.7, costShare: 0.1 },
@@ -45,9 +53,14 @@ export const DEVELOPMENT_EVENTS: DevelopmentEventDefinition[] = [
   { type: 'MATERIAL_SHORTAGE', stage: 'MANUFACTURING', title: 'Material shortage',
     text: 'A supplier cannot deliver composite on time.', risky: 0, choices: [
       { id: 'EXPEDITE', label: 'Pay to expedite', detail: '15% more cost, no delay', costShare: 0.15 },
-      { id: 'WAIT', label: 'Wait for supply', detail: 'About a week slower', delayWeeks: 1 }] }
+      { id: 'WAIT', label: 'Wait for supply', detail: 'About a week slower', delayWeeks: 1 }] },
+  { type: 'LIGHTWEIGHT_MATERIAL', stage: 'MANUFACTURING', title: 'Lighter material offered',
+    text: 'A supplier can provide a lighter composite for this part.', risky: 1, choices: [
+      { id: 'STANDARD_MATERIAL', label: 'Keep standard material', detail: 'No change' },
+      { id: 'USE_LIGHTWEIGHT', label: 'Use the lighter material', detail: '12% more cost, better part', costShare: 0.12, bonusPoints: 6 }] }
 ];
-export const EVENT_CHANCE = 0.25;
+/** Tuned after the first play-test: roughly one decision every two to three weeks while projects run. */
+export const EVENT_CHANCE = 0.5;
 export const REFINE_BONUS = 10;
 export const BONUS_CAP = 25;
 const REFINE: EventChoice = { id: 'REFINE', label: 'Refine design', detail: 'About a week longer, 10% more cost, better part', delayWeeks: 1, costShare: 0.1, bonusPoints: REFINE_BONUS };
