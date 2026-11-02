@@ -102,8 +102,8 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
             </View>
           </>
         ) : hq && (showCard || live) ? (
-          <View style={[styles.cardDock, size && size.width > 500 ? { left: (size.width - 440) / 2, right: undefined, width: 440 } : null]} pointerEvents="box-none"
-            onLayout={e => { const { x, y, width } = e.nativeEvent.layout; setDock(d => d && d.x === x + width / 2 && d.y === y ? d : { x: x + width / 2, y }); }}>
+          <View style={size && size.width > 500 ? styles.cardDockWide : styles.cardDock} pointerEvents="box-none"
+            onLayout={e => { const { x, y, width } = e.nativeEvent.layout; const sinkY = size && size.width > 500 ? y + 40 : y; setDock(d => d && d.x === x + width / 2 && d.y === sinkY ? d : { x: x + width / 2, y: sinkY }); }}>
             <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment} />
           </View>
         ) : null}
@@ -190,9 +190,14 @@ const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.cr
     position: 'absolute',
     left: 14,
     right: 14,
-    bottom: 14,
-    maxWidth: 440,
-    alignSelf: 'center'
+    bottom: 14
+  },
+  /** Wide screens: development card top-right, clear of the scene's centre (owner request). */
+  cardDockWide: {
+    position: 'absolute',
+    top: 48,
+    right: 14,
+    width: 400
   },
   toast: {
     position: 'absolute',
