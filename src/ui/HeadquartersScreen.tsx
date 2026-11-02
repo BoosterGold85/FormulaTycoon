@@ -11,11 +11,11 @@ import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { useTheme } from './theme';
 import { DAY_MS, stopTime, type HqDevelopment, type WeekTimeline } from '../simulation/developmentLoop';
-import type { PendingDecision } from './components/HqDevelopmentCard';
+import type { LastWeek, PendingDecision } from './components/HqDevelopmentCard';
 import { HqDevelopmentCard } from './components/HqDevelopmentCard';
 import { useWeekPlayback } from './hooks/useWeekPlayback';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},hq=null,replay=null,onReplayDone=()=>{},onOpenDevelopment=()=>{},showCard=true,pending=[],onDecide=()=>{} }: {pending?:PendingDecision[];onDecide?:(projectId:string,choiceId:string)=>void; nextEvent?:{venue:string;detail:string};currentDate?:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
+export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},hq=null,replay=null,onReplayDone=()=>{},onOpenDevelopment=()=>{},showCard=true,pending=[],onDecide=()=>{},lastWeek=[] }: {pending?:PendingDecision[];lastWeek?:LastWeek[];onDecide?:(projectId:string,choiceId:string)=>void; nextEvent?:{venue:string;detail:string};currentDate?:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
   activity?:Record<string,{project:string;stage:string}|undefined>;hq?:HqDevelopment|null;
   /** An already processed week to replay (presentation only), keyed per turn. */
   replay?:{timeline:WeekTimeline;key:string;weekOf?:string|null}|null;onReplayDone?:()=>void;onOpenDevelopment?:()=>void;showCard?:boolean }) {
@@ -54,7 +54,9 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
     decision: decision ? { ...decision, onChoose: (choiceId: string) => onDecide(decision.projectId, choiceId), onLater: () => setDeferred(d => [...d, `${replay.key}:${decision.projectId}`]) } : null } : null;
   const sceneReplay = live && size ? {
     pieces: replay!.timeline.pieces.filter(p => p.day === live.frame.day),
-    callouts: replay!.timeline.callouts.filter(c => c.day === live.frame.day || ((c.kind === 'STALL' || c.kind === 'SETBACK') && c.day < live.frame.day)),
+    // Stage change in two beats: "RESEARCH COMPLETE", then once the day's work lands "DESIGN STARTED".
+    callouts: replay!.timeline.callouts.filter(c => c.day === live.frame.day || ((c.kind === 'STALL' || c.kind === 'SETBACK') && c.day < live.frame.day))
+      .map(c => c.kind === 'STAGE_COMPLETE' && live.frame.state > live.frame.day && c.text ? { ...c, title: c.text } : c),
     sink: dock ?? { x: size.width / 2, y: size.height - 80 }, runKey: `${replay!.key}:${live.frame.day}`, dayMs: DAY_MS[live.speed],
     tallies: departmentTallies(replay!.timeline, live.frame.state) } : null;
 
@@ -111,7 +113,7 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
         ) : hq && (showCard || live) ? (
           <View style={size && size.width > 500 ? styles.cardDockWide : styles.cardDock} pointerEvents="box-none"
             onLayout={e => { const { x, y, width } = e.nativeEvent.layout; const sinkY = size && size.width > 500 ? y + 40 : y; setDock(d => d && d.x === x + width / 2 && d.y === sinkY ? d : { x: x + width / 2, y: sinkY }); }}>
-            <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment}
+            <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment} lastWeek={lastWeek}
               decision={hq.mode === 'DECISION' && pending[0] ? { ...(pending.find(p => p.projectId === hq.focus?.id) ?? pending[0]), onChoose: (choiceId: string) => { const d = pending.find(p => p.projectId === hq.focus?.id) ?? pending[0]!; onDecide(d.projectId, choiceId); } } : null} />
           </View>
         ) : null}

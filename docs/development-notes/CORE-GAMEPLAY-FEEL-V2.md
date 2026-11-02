@@ -278,6 +278,20 @@ setback day, mid-week), summaries, weekend handoff, at 390×844 and 1440×1000, 
 - A choice cannot affect work inside the already-processed week without new event timing. That would need a
   versioned development-rule design and was NOT done. The replay pauses at the discovery point and says so honestly.
 
+## CORE GAMEPLAY FEEL PASS (after the decision interrupt)
+
+Presentation only:
+- Old/new ETA and fit shown during the replay.
+- QUALITY UP/DOWN beat.
+- Sliding bars.
+- Two-beat stage transitions.
+- HQ LAST WEEK alert.
+- Quiet strong/slow-week lines.
+- The race-weekend card continues straight into the next week (still gated by decisions).
+- Phone callout clamp.
+
+The kernel, variation odds, turn structure and save are unchanged.
+
 ## KNOWN LIMITATIONS
 
 - The first turn of a career (and any Monday → FP1 turn) has no replay, because work is credited at the

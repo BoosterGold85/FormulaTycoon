@@ -78,6 +78,7 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
 
   // Transient UI report of the last turn; the facts it summarizes live in the universe.
   const [report, setReport] = useState<SessionTurnReport | null>(null);
+  const [lastWork, setLastWork] = useState<SessionTurnReport['stories']>([]);
   /** Weekly turn: advance through the D0 pipeline to the next Monday or race-weekend FP1. */
   const continueTurn = useCallback(() => {
     const current = universeRef.current!;
@@ -89,6 +90,8 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
     // Simulate first (above, once), present second: the report only reads the two universes.
     const summary = summarizeWeek(current, next, definition);
     setReport(summary ? { ...summary, target: result.target } : null);
+    // The last WORKING week stays available to the HQ card as a short alert (session-only presentation).
+    if (summary?.stories.length) setLastWork(summary.stories);
     return result;
   }, [definition]);
   const nextDay = useCallback(() => {
@@ -106,7 +109,7 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
 
   // Snapshot is for display; commands always read the latest authoritative ref.
   return { universe: snapshot, restartHeadquarters: restartDay, advanceWeek, checkpoint, scoutDriver, exerciseOption,
-    continueTurn, nextDay, runDevelopment, report, dismissReport };
+    continueTurn, nextDay, runDevelopment, report, dismissReport, lastWork };
 }
 
 function hasVisibleChange(previous: HeadquartersState, next: HeadquartersState): boolean {

@@ -45,7 +45,7 @@ function GameApplication() {
    <View style={{flex:1,minWidth:0}}>
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>
      <HeadquartersScreen activity={hasTeam?selectDepartmentActivity(session.universe,DEFAULT_GAME_DEFINITION):{}} hq={hasTeam?selectHqDevelopment(session.universe,DEFAULT_GAME_DEFINITION):null}
-      replay={playing&&timeline?{timeline,key:reportKey!,weekOf:session.report!.weekOf}:null} onReplayDone={onReplayDone} onOpenDevelopment={openDevelopment} showCard={!session.report} pending={pending} onDecide={onDecide}
+      replay={playing&&timeline?{timeline,key:reportKey!,weekOf:session.report!.weekOf}:null} onReplayDone={onReplayDone} onOpenDevelopment={openDevelopment} showCard={!session.report} pending={pending} lastWeek={session.lastWork} onDecide={onDecide}
       state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
    </View>
    {tab==='RACE'?<CalendarScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={setTab}/>:null}
@@ -53,7 +53,7 @@ function GameApplication() {
    {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen key={teamEntry.key} initialView={teamEntry.view} run={session.runDevelopment} universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={next=>{setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
    {session.report&&!playing?<View pointerEvents="box-none" style={wide?{position:'absolute',top:48,right:14,width:400}:{position:'absolute',left:12,right:12,bottom:82}}>
-    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={{...session.report,newEvents:session.report.newEvents.filter(e=>pending.some(p=>p.projectId===e.projectId))}} onClose={session.dismissReport} onOpenDevelopment={pending.length?reviewDecision:openDevelopment}/></View>:null}
+    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={{...session.report,newEvents:session.report.newEvents.filter(e=>pending.some(p=>p.projectId===e.projectId))}} onClose={session.dismissReport} onOpenDevelopment={pending.length?reviewDecision:openDevelopment} onContinueWeek={continueTurn}/></View>:null}
    </View>
   </View>
  </View>;

@@ -82,7 +82,7 @@ export function HeadquartersScene({ layout, state, width, height, selection, onS
           />
         ))}
       </View>
-      {replay ? <WorkBubbles layout={layout} workers={state.workers} projection={projection} pieces={replay.pieces} callouts={replay.callouts}
+      {replay ? <WorkBubbles width={width} layout={layout} workers={state.workers} projection={projection} pieces={replay.pieces} callouts={replay.callouts}
         sink={replay.sink} runKey={replay.runKey} dayMs={replay.dayMs} reducedMotion={reducedMotion} /> : null}
       {state.workers.map(worker => (
           <WorkerSprite

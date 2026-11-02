@@ -285,3 +285,25 @@ test('decisions raised this week become replay stops on the day the stage began 
  }
  expect(buildWeekTimeline({...w.report,newEvents:[]}).decisions).toHaveLength(0);
 });
+
+test('a great week moves the authoritative ETA earlier, and the replay keeps the old estimate visible beside it',()=>{
+ const w=findWeek(x=>{const s=floorStory(x);return !!s&&s.swing==='BREAKTHROUGH'&&!!s.readyBefore&&!!s.readyAfter&&s.readyAfter<s.readyBefore;},30);
+ const s=floorStory(w)!;
+ const after=w.after.development.teams[teamId]!.projects.find(p=>p.id===s.projectId)!;
+ expect(s.readyAfter).toBe(selectProjectView(w.after,definition,after).readyDate);
+ const frames=w.timeline.states.map(x=>x.projects.find(p=>p.projectId===s.projectId)!);
+ for(const f of frames)expect(f.readyWas).toBe(s.readyBefore);
+ expect(frames[0]!.ready).toBe(s.readyBefore);expect(frames.at(-1)!.ready).toBe(s.readyAfter);
+ // It flips on the breakthrough day, not before.
+ frames.forEach((f,k)=>expect(f.ready).toBe(k>s.day?s.readyAfter:s.readyBefore));
+});
+
+test('the quality beat shows only a real quality change, from its day, with the sign of the existing bonus points',()=>{
+ const up=findWeek(x=>(floorStory(x)?.quality??0)>0);
+ const s=floorStory(up)!;
+ const frames=up.timeline.states.map(x=>x.projects.find(p=>p.projectId===s.projectId)!.quality);
+ frames.forEach((q,k)=>expect(q).toBe(k>s.day||k===up.timeline.days?'up':null));
+ const plain=findWeek(x=>{const f=floorStory(x);return !!f&&f.quality===0&&f.swing==='NORMAL';});
+ const id=floorStory(plain)!.projectId;
+ expect(plain.timeline.states.every(x=>x.projects.find(p=>p.projectId===id)!.quality===null)).toBe(true);
+});

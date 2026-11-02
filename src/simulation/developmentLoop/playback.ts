@@ -18,7 +18,10 @@ export const DECISION_EFFECT_NOTE = "This week's results are already in. Your ch
 export type Piece = { day: number; projectId: string; department: string; category: PointCategory; points: number; accent: boolean };
 export type CalloutKind = 'STALL' | 'SETBACK' | 'BREAKTHROUGH' | 'DECISION' | 'STAGE_COMPLETE' | 'PART_READY';
 export type Callout = { day: number; projectId: string; department: string; kind: CalloutKind; title: string; text: string | null };
-export type ProjectFrame = { projectId: string; name: string; pct: number; stage: string; ready: string | null; fit: string | null };
+/** readyWas/fitWas: the estimate at the start of the week, so a moved ETA reads "May 25 (was May 18)".
+ * quality: a quality swing from this week's EXISTING bonus points, shown from its day on. */
+export type ProjectFrame = { projectId: string; name: string; pct: number; stage: string; ready: string | null; fit: string | null;
+  readyWas: string | null; fitWas: string | null; quality: 'up' | 'down' | null };
 export type DayState = { projects: ProjectFrame[]; counters: Partial<Record<PointCategory, number>> };
 /** A decision raised this week: the replay pauses after that day's work until the player answers or defers it. */
 export type DecisionStop = { day: number; projectId: string; title: string };
@@ -96,8 +99,11 @@ export function buildWeekTimeline(report: Pick<WeekReport, 'projects' | 'stories
       const passed = bounds.filter(b => b.at <= cum && (b.at > 0 || k > 0)).length;
       const stage = k === days ? project.stage : passed === 0 ? STAGE_NAME[project.fromStage]! : bounds[passed - 1]!.next ?? 'Ready';
       const switched = k === days || (swingDay !== null && k > swingDay);
+      const q = story?.quality ?? 0;
       return { projectId: project.id, name: project.name, pct, stage,
-        ready: (switched ? story?.readyAfter : story?.readyBefore) ?? null, fit: (switched ? story?.fitAfter : story?.fitBefore) ?? null };
+        ready: (switched ? story?.readyAfter : story?.readyBefore) ?? null, fit: (switched ? story?.fitAfter : story?.fitBefore) ?? null,
+        readyWas: story?.readyBefore ?? null, fitWas: story?.fitBefore ?? null,
+        quality: q && (k === days || (swingDay !== null && k > swingDay)) ? (q > 0 ? 'up' : 'down') : null };
     }) });
   }
   // A stage event is raised when the project enters its new stage: stop on that day, else midweek.

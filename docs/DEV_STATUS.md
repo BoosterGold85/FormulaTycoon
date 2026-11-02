@@ -56,6 +56,15 @@ from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAME
   - The replay holds on decisions (`stepPlayback`: Skip and 2× cannot pass them). The prompt states the week's
     results are already in and the choice applies from now on.
   - No save or rules change: events, the kernel default and v6/v7 semantics are untouched. 407/407 tests.
+- **Core gameplay feel pass (on the decision-interrupt foundation):**
+  - The replay shows a moved ETA and fit beside the old ones ("May 25 (was May 18) · now fits Monaco (was Montreal)").
+  - A QUALITY UP/DOWN beat appears from the swing day, from the existing bonus points.
+  - Bars slide as work arrives, and stage changes play in two beats (RESEARCH COMPLETE → DESIGN STARTED).
+  - The HQ card carries a LAST WEEK alert: setback/breakthrough and ETA/fit change, session only.
+  - Strong or slow weeks get one quiet summary line.
+  - The race-weekend Report Card's primary action is CONTINUE WEEK, gated: one press instead of two when nothing
+    happens at the weekend.
+  - Phone callouts are clamped on screen. No simulation, save or rules change. 409/409 tests.
 - **NEXT MILESTONE:** owner play-test of the week feel (pace, bubble size, swing frequency), then the qualifying design
   only on explicit instruction.
 

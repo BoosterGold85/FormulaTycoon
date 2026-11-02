@@ -19,7 +19,7 @@ type Point={x:number;y:number};
  * development card. Callouts mark stalls, breakthroughs and stage changes. With reduced motion the pops
  * appear in place without moving. Display only.
  */
-export function WorkBubbles({layout,workers,projection,pieces,callouts,sink,runKey,dayMs,reducedMotion}:{layout:HeadquartersLayout;workers:HeadquartersWorker[];
+export function WorkBubbles({width=Infinity,layout,workers,projection,pieces,callouts,sink,runKey,dayMs,reducedMotion}:{width?:number;layout:HeadquartersLayout;workers:HeadquartersWorker[];
  projection:Projection;pieces:Piece[];callouts:Callout[];sink:Point;runKey:string;dayMs:number;reducedMotion:boolean}){
  const k=projection.tileX/17,lift=spriteSize(k).height+6;
  const sign=(id:string):Point=>{const d:DepartmentDefinition=layout.departments.find(x=>x.id===id)??layout.departments[0]!;const p=gridToScreen(d.labelPoint,projection,d.labelHeight);return {x:p.x,y:p.y-30};};
@@ -41,7 +41,7 @@ export function WorkBubbles({layout,workers,projection,pieces,callouts,sink,runK
  return <View pointerEvents="none" style={[StyleSheet.absoluteFill,{zIndex:2600}]}>
   {busy.flatMap(d=>desks(d).map((p,i)=><Working key={`${runKey}:w:${d}:${i}`} at={p} still={reducedMotion} warn={stalled.includes(d)} phase={i}/>))}
   {stalled.filter(d=>!busy.includes(d)).flatMap(d=>desks(d).map((p,i)=><Working key={`${runKey}:s:${d}:${i}`} at={p} still warn phase={i}/>))}
-  {callouts.map(c=>{const p=sign(c.department);return <View key={`${runKey}:c:${c.projectId}:${c.kind}:${c.day}`} style={[styles.calloutSlot,{left:p.x,top:p.y-28}]}>
+  {callouts.map(c=>{const p=sign(c.department);return <View key={`${runKey}:c:${c.projectId}:${c.kind}:${c.day}`} style={[styles.calloutSlot,{left:Math.min(Math.max(p.x,124),width-124),top:p.y-28}]}>
    <View style={[styles.callout,{borderColor:CALLOUT_TONE[c.kind]}]}><Text style={[styles.calloutText,{color:CALLOUT_TONE[c.kind]}]} numberOfLines={1}>{c.title.toUpperCase()}</Text></View></View>;})}
   {pops.map(({key,...p})=><Pop key={key} {...p} to={sink} life={dayMs*0.95} still={reducedMotion}/>)}
  </View>;

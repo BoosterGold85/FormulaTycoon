@@ -179,7 +179,9 @@ Watch at **1×** or **2×**, or **SKIP** to the summary. The speed never changes
 decision comes up during the week, the replay pauses and asks you straight away. The week's results are already decided,
 so your answer applies to the project from then on. You can watch the rest of the week first, but the game won't advance
 until you decide. While a decision is open, the Continue button reads **DECISION REQUIRED** and the HQ card shows the
-options. Ordinary good and bad weeks never pause the game.
+options. Ordinary good and bad weeks never pause the game. When a week moves the ready date or the race a part
+will be fitted at, the card shows the new and old estimates side by side. After the replay the HQ card keeps a short
+**Last week** note.
 
 Not every week goes to plan:
 
