@@ -18,7 +18,9 @@ export type CalloutKind = 'STALL' | 'SETBACK' | 'BREAKTHROUGH' | 'DECISION' | 'S
 export type Callout = { day: number; projectId: string; department: string; kind: CalloutKind; title: string; text: string | null };
 export type ProjectFrame = { projectId: string; name: string; pct: number; stage: string; ready: string | null; fit: string | null };
 export type DayState = { projects: ProjectFrame[]; counters: Partial<Record<PointCategory, number>> };
-export type WeekTimeline = { days: number; pieces: Piece[]; callouts: Callout[]; states: DayState[] };
+/** A decision raised this week: the replay pauses after that day's work until the player answers or defers it. */
+export type DecisionStop = { day: number; projectId: string; title: string };
+export type WeekTimeline = { days: number; pieces: Piece[]; callouts: Callout[]; states: DayState[]; decisions: DecisionStop[] };
 
 const STAGE_NAME: Record<string, string> = { RESEARCH: 'Research', DESIGN: 'Design', MANUFACTURING: 'Manufacture', READY: 'Ready' };
 const PATTERNS = [[1, 1.15, 0.9, 1.05, 0.9], [0.9, 1, 1.15, 0.95, 1], [1.1, 0.9, 1, 1.1, 0.9], [0.95, 1.05, 1, 0.9, 1.1], [1, 0.95, 1.1, 1, 0.95]];
@@ -35,7 +37,7 @@ export function splitPoints(total: number, weights: number[]): number[] {
   return out;
 }
 
-export function buildWeekTimeline(report: Pick<WeekReport, 'projects' | 'stories'>): WeekTimeline {
+export function buildWeekTimeline(report: Pick<WeekReport, 'projects' | 'stories'> & Partial<Pick<WeekReport, 'newEvents'>>): WeekTimeline {
   const days = WORKDAYS.length, pieces: Piece[] = [], callouts: Callout[] = [];
   const perProject = report.projects.filter(p => p.segments.length).map(project => {
     const story = report.stories.find(s => s.projectId === project.id);
@@ -96,8 +98,16 @@ export function buildWeekTimeline(report: Pick<WeekReport, 'projects' | 'stories
         ready: (switched ? story?.readyAfter : story?.readyBefore) ?? null, fit: (switched ? story?.fitAfter : story?.fitBefore) ?? null };
     }) });
   }
-  return { days, pieces, callouts, states };
+  // A stage event is raised when the project enters its new stage: stop on that day, else midweek.
+  const decisions = (report.newEvents ?? []).map(e => {
+    const entered = callouts.find(c => c.projectId === e.projectId && c.kind === 'STAGE_COMPLETE');
+    return { day: entered ? entered.day : 2, projectId: e.projectId, title: e.title };
+  }).sort((a, b) => a.day - b.day);
+  return { days, pieces, callouts, states, decisions };
 }
+
+/** Presentation time (1x ms) at which a decision stop holds the replay: just after that day's work arrives. */
+export const stopTime = (stop: Pick<DecisionStop, 'day'>) => (stop.day + ARRIVAL + 0.05) * DAY_MS[1];
 
 export type PlaybackFrame = { day: number; state: number; done: boolean };
 /** Which day is playing and which state is shown, from elapsed presentation time only. */

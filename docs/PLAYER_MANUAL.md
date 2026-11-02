@@ -175,7 +175,9 @@ department doing the work and flow into the project card:
 - the Workshop for chassis design;
 - Manufacturing for building the part.
 
-Watch at **1×** or **2×**, or **SKIP** to the summary. The speed never changes what happened.
+Watch at **1×** or **2×**, or **SKIP** to the summary. The speed never changes what happened. If an engineering
+decision comes up during the week, the replay pauses and asks you straight away. Your answer applies to the project from
+then on. **Decide later** carries on watching; an unanswered decision takes its first option on Monday.
 
 Not every week goes to plan:
 

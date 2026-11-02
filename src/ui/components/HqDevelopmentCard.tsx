@@ -6,7 +6,9 @@ import {Action,Chip,useDesign} from '../design/system';
 
 const short=(date:string|null)=>date?formatCampaignDate(date as Parameters<typeof formatCampaignDate>[0]).replace(/, \d{4}$/,''):'after the final race';
 const CATEGORY=(c:string)=>c.toUpperCase();
-export type LivePlayback={frame:PlaybackFrame;timeline:WeekTimeline;speed:PlaybackSpeed;setSpeed:(s:PlaybackSpeed)=>void;skip:()=>void;weekOf?:string|null};
+export type PendingDecision={projectId:string;part:string;title:string;text:string;options:Array<{id:string;label:string;detail:string;costM:number;available:boolean}>};
+export type LivePlayback={frame:PlaybackFrame;timeline:WeekTimeline;speed:PlaybackSpeed;setSpeed:(s:PlaybackSpeed)=>void;skip:()=>void;weekOf?:string|null;
+ decision?:(PendingDecision&{onChoose:(choiceId:string)=>void;onLater:()=>void})|null};
 
 /** HQ = PLAY. What the factory is building, what needs attention and, during a replay, the live week. */
 export function HqDevelopmentCard({hq,live,onOpen}:{hq:HqDevelopment;live:LivePlayback|null;onOpen:()=>void}){
@@ -41,8 +43,22 @@ function Bar({pct,tone}:{pct:number;tone?:string}){const {ui}=useDesign();
   <View style={{flex:1,height:8,backgroundColor:ui.line,borderRadius:4,overflow:'hidden'}}><View style={{width:`${pct}%`,height:8,backgroundColor:tone??ui.accent,borderRadius:4}}/></View>
   <Text style={{color:ui.ink,fontSize:13,fontWeight:'900',minWidth:38,textAlign:'right'}}>{pct}%</Text></View>;}
 
+/** The replay is held on the day a decision came up; answering is the existing domain command. */
+function DecisionPrompt({d,day}:{d:NonNullable<LivePlayback['decision']>;day:string}){
+ const {ui,styles}=useDesign();
+ return <View accessibilityLabel="Week paused: engineering decision required" style={{backgroundColor:ui.surface,borderColor:ui.gold,borderWidth:1.5,borderRadius:8,padding:12,gap:7}}>
+  <Text style={[styles.eyebrow,{color:ui.gold}]}>WEEK PAUSED · {day} · DECISION REQUIRED</Text>
+  <Text style={[styles.heading,{fontSize:17}]}>{d.title}</Text>
+  <Text style={styles.muted}>{d.part} · {d.text}</Text>
+  {d.options.map(o=><Action key={o.id} secondary={!o.available} label={`${o.label} — ${o.detail}${o.costM?` ($${o.costM}M)`:''}${o.available?'':' · over budget'}`} onPress={()=>{if(o.available)d.onChoose(o.id);}}/>)}
+  <Pressable accessibilityRole="button" accessibilityLabel="Decide later" onPress={d.onLater} style={{minHeight:44,justifyContent:'center'}}>
+   <Text style={styles.muted}>Decide later · if unanswered, the first option is taken on Monday</Text></Pressable>
+ </View>;
+}
+
 function LiveWeek({live}:{live:LivePlayback}){
  const {ui,styles}=useDesign();
+ if(live.decision)return <DecisionPrompt d={live.decision} day={WORKDAYS[live.frame.day]!}/>;
  const {frame,timeline,speed}=live,state=timeline.states[frame.state]!;
  const swing=[...timeline.callouts].filter(c=>c.day<=frame.day&&(c.kind==='STALL'||c.kind==='SETBACK'||c.kind==='BREAKTHROUGH'||c.kind==='DECISION')).pop();
  const stage=[...timeline.callouts].filter(c=>c.day===frame.day&&(c.kind==='STAGE_COMPLETE'||c.kind==='PART_READY')).pop();

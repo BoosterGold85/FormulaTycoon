@@ -252,6 +252,15 @@ Passive variation changes released outcomes, so it is **development rules 3** an
 Browser captures are in the session scratchpad (not committed): HQ idle/active, replay frames (Monday,
 setback day, mid-week), summaries, weekend handoff, at 390×844 and 1440×1000, light and dark.
 
+## OWNER PLAY-TEST CHANGES
+
+- **Progress visibility:** pops come from the department's desks, one per point. Desks show "working" markers and
+  signs show weekly tallies. Reduce Motion keeps the replay and drops only the movement.
+- **Layout:** on wide screens the development card and the **REPORT CARD** summary dock top-right.
+- **Decision stops:** a decision raised this week pauses the replay on the day the stage began (or Wednesday) and
+  prompts with the existing options. The choice is the existing domain command. "Decide later" resumes; Skip stops at
+  the decision.
+
 ## KNOWN LIMITATIONS
 
 - The first turn of a career (and any Monday → FP1 turn) has no replay, because work is credited at the

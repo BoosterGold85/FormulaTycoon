@@ -13,7 +13,7 @@ import {GameHud} from './src/ui/components/GameHud';
 import {BottomNav} from './src/ui/components/BottomNav';
 import {HistoryScreen} from './src/ui/HistoryScreen';
 import {TurnReportCard} from './src/ui/components/TurnReportCard';
-import {buildWeekTimeline,nextTurnTarget,selectDepartmentActivity,selectDevelopmentHub,selectHqDevelopment} from './src/simulation/developmentLoop';
+import {buildWeekTimeline,decideProjectEvent,nextTurnTarget,selectDepartmentActivity,selectDevelopmentHub,selectHqDevelopment} from './src/simulation/developmentLoop';
 
 export default function App(){return <ThemeProvider><GameApplication/></ThemeProvider>;}
 function GameApplication() {
@@ -30,6 +30,9 @@ function GameApplication() {
  const [replayed,setReplayed]=useState<string|undefined>(undefined);
  const playing=!!reportKey&&hasWork&&replayed!==reportKey;
  const onReplayDone=useCallback(()=>setReplayed(reportKey),[reportKey]);
+ const hub=hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION):null;
+ const pending=(hub?.projects??[]).filter(p=>p.pendingEvent).map(p=>({projectId:p.id,part:p.name,...p.pendingEvent!}));
+ const onDecide=(projectId:string,choiceId:string)=>{session.runDevelopment(u=>decideProjectEvent(u,DEFAULT_GAME_DEFINITION,projectId,choiceId));};
  const continueTurn=()=>{if(playing)return;setTab('HQ');session.continueTurn();};
  return <View style={{flex:1}}>
   <GameHud currentDate={session.universe.currentDate} nextEvent={selectNextEvent(session.universe)}
@@ -40,7 +43,7 @@ function GameApplication() {
    <View style={{flex:1,minWidth:0}}>
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>
      <HeadquartersScreen activity={hasTeam?selectDepartmentActivity(session.universe,DEFAULT_GAME_DEFINITION):{}} hq={hasTeam?selectHqDevelopment(session.universe,DEFAULT_GAME_DEFINITION):null}
-      replay={playing&&timeline?{timeline,key:reportKey!,weekOf:session.report!.weekOf}:null} onReplayDone={onReplayDone} onOpenDevelopment={openDevelopment} showCard={!session.report}
+      replay={playing&&timeline?{timeline,key:reportKey!,weekOf:session.report!.weekOf}:null} onReplayDone={onReplayDone} onOpenDevelopment={openDevelopment} showCard={!session.report} pending={pending} onDecide={onDecide}
       state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
    </View>
    {tab==='RACE'?<CalendarScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={setTab}/>:null}
@@ -48,7 +51,7 @@ function GameApplication() {
    {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen key={teamEntry.key} initialView={teamEntry.view} run={session.runDevelopment} universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={next=>{setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
    {session.report&&!playing?<View pointerEvents="box-none" style={wide?{position:'absolute',top:48,right:14,width:400}:{position:'absolute',left:12,right:12,bottom:82}}>
-    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={session.report} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
+    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={{...session.report,newEvents:session.report.newEvents.filter(e=>pending.some(p=>p.projectId===e.projectId))}} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
    </View>
   </View>
  </View>;

@@ -10,11 +10,12 @@ import { SelectionCard } from './components/SelectionCard';
 import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { useTheme } from './theme';
-import { DAY_MS, type HqDevelopment, type WeekTimeline } from '../simulation/developmentLoop';
+import { DAY_MS, stopTime, type HqDevelopment, type WeekTimeline } from '../simulation/developmentLoop';
+import type { PendingDecision } from './components/HqDevelopmentCard';
 import { HqDevelopmentCard } from './components/HqDevelopmentCard';
 import { useWeekPlayback } from './hooks/useWeekPlayback';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},hq=null,replay=null,onReplayDone=()=>{},onOpenDevelopment=()=>{},showCard=true }: { nextEvent?:{venue:string;detail:string};currentDate?:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
+export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},hq=null,replay=null,onReplayDone=()=>{},onOpenDevelopment=()=>{},showCard=true,pending=[],onDecide=()=>{} }: {pending?:PendingDecision[];onDecide?:(projectId:string,choiceId:string)=>void; nextEvent?:{venue:string;detail:string};currentDate?:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
   activity?:Record<string,{project:string;stage:string}|undefined>;hq?:HqDevelopment|null;
   /** An already processed week to replay (presentation only), keyed per turn. */
   replay?:{timeline:WeekTimeline;key:string;weekOf?:string|null}|null;onReplayDone?:()=>void;onOpenDevelopment?:()=>void;showCard?:boolean }) {
@@ -42,9 +43,15 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
   }, [onNavigate]);
 
   const counts = countWorkersByState(state);
-  const playback = useWeekPlayback(replay?.timeline ?? null, replay?.key, onReplayDone);
+  // Decisions raised this week pause the replay until answered or deferred (presentation only: the
+  // choice is a normal domain command and acts on the project from now on).
+  const [deferred, setDeferred] = useState<string[]>([]);
+  const stop = replay?.timeline.decisions.find(d => pending.some(p => p.projectId === d.projectId) && !deferred.includes(`${replay.key}:${d.projectId}`)) ?? null;
+  const playback = useWeekPlayback(replay?.timeline ?? null, replay?.key, onReplayDone, stop ? stopTime(stop) : null);
+  const decision = playback.held && stop ? pending.find(p => p.projectId === stop.projectId) ?? null : null;
   const [dock, setDock] = useState<{ x: number; y: number } | null>(null);
-  const live = playback.playing && replay && playback.frame ? { frame: playback.frame, timeline: replay.timeline, speed: playback.speed, setSpeed: playback.setSpeed, skip: playback.skip, weekOf: replay.weekOf } : null;
+  const live = playback.playing && replay && playback.frame ? { frame: playback.frame, timeline: replay.timeline, speed: playback.speed, setSpeed: playback.setSpeed, skip: playback.skip, weekOf: replay.weekOf,
+    decision: decision ? { ...decision, onChoose: (choiceId: string) => onDecide(decision.projectId, choiceId), onLater: () => setDeferred(d => [...d, `${replay.key}:${decision.projectId}`]) } : null } : null;
   const sceneReplay = live && size ? {
     pieces: replay!.timeline.pieces.filter(p => p.day === live.frame.day),
     callouts: replay!.timeline.callouts.filter(c => c.day === live.frame.day || ((c.kind === 'STALL' || c.kind === 'SETBACK') && c.day < live.frame.day)),

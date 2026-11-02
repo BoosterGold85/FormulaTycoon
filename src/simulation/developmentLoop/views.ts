@@ -212,7 +212,7 @@ export function summarizeTurn(before: GameUniverse, after: GameUniverse, definit
   const fitted = after.development.submissions.slice(before.development.submissions.length);
   const mine = fitted.filter(s => s.teamId === teamId).map(s => ({ part: getPart(definition.development, s.partId).name, venue: submissionVenue(after, definition, s), label: outcomeLabel(s) }));
   const newEvents = now.projects.filter(p => pendingEvent(p) && !was.projects.find(q => q.id === p.id && pendingEvent(q))).map(p => ({
-    part: getPart(definition.development, p.partId).name, title: eventDefinition(pendingEvent(p)!.type)!.title }));
+    projectId: p.id, part: getPart(definition.development, p.partId).name, title: eventDefinition(pendingEvent(p)!.type)!.title }));
   const points = (Object.entries(gained) as Array<[PointCategory, number]>).filter(([, v]) => v > 0).map(([category, v]) => ({ category, points: v }));
   const departments = Object.fromEntries(Object.entries(byDepartment).map(([dept, cats]) => [dept,
     (Object.entries(cats) as Array<[PointCategory, number]>).filter(([, v]) => v > 0).map(([category, v]) => ({ category, points: v }))])

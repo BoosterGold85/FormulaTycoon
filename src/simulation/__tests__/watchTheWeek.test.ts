@@ -8,7 +8,7 @@ import {advanceCampaignTo,createGameUniverse,type GameUniverse} from '../univers
 import {dueCampaignEvents} from '../universe/campaignEvents';
 import {buildWeekTimeline,DAY_MS,departmentQuality,effectiveBonus,eventDefinition,fitAtWeekend,nextTurnTarget,pendingEvent,playbackFrame,
  rules2Week,rules3Week,selectHqDevelopment,selectProjectView,splitPoints,startPlayerProject,summarizeWeek,variationBonus,weekOdds,weekVariation,
- BONUS_CAP,reasonFor,type WeekReport,type WeekTimeline} from '../developmentLoop';
+ BONUS_CAP,reasonFor,stopTime,type WeekReport,type WeekTimeline} from '../developmentLoop';
 import {developmentView} from '../campaignTime/developmentView';
 import {addCampaignDays} from '../campaignTime';
 import {calendarById} from '../../game/calendar';
@@ -272,4 +272,16 @@ test('part culmination explains the result honestly and READY parts are never re
  const w=findWeek(x=>x.report.waiting.length>0,40);
  const ready=w.after.development.teams[teamId]!.projects.find(p=>p.stage==='READY')!;
  expect(w.report.waiting[0]).toMatchObject({name:getPart(definition.development,ready.partId).name,readyFor:selectProjectView(w.after,definition,ready).fitsAt?.name??null});
+});
+
+test('decisions raised this week become replay stops on the day the stage began (or midweek), after that day arrives',()=>{
+ const w=findWeek(x=>x.report.newEvents.length>0);
+ expect(w.timeline.decisions.map(d=>d.projectId)).toEqual(expect.arrayContaining(w.report.newEvents.map(e=>e.projectId)));
+ for(const d of w.timeline.decisions){
+  const entered=w.timeline.callouts.find(c=>c.projectId===d.projectId&&c.kind==='STAGE_COMPLETE');
+  expect(d.day).toBe(entered?entered.day:2);
+  const t=stopTime(d),f=playbackFrame(w.timeline,t,1);
+  expect(f.day).toBe(d.day);expect(f.state).toBe(d.day+1);expect(f.done).toBe(false);
+ }
+ expect(buildWeekTimeline({...w.report,newEvents:[]}).decisions).toHaveLength(0);
 });

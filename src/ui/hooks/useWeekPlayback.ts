@@ -7,12 +7,15 @@ const TICK_MS=100;
  * never touches the universe: speed only scales time, Skip jumps to the final frame. It only
  * re-renders when the visible day/state changes (about ten times per week), not every frame.
  */
-export function useWeekPlayback(timeline:WeekTimeline|null,runKey:string|undefined,onDone:()=>void){
+/** holdAt: presentation time (1x ms) of the next unanswered decision; the replay waits there. */
+export function useWeekPlayback(timeline:WeekTimeline|null,runKey:string|undefined,onDone:()=>void,holdAt:number|null=null){
  const [speed,setSpeed]=useState<PlaybackSpeed>(1);
  const [frame,setFrame]=useState<PlaybackFrame|null>(null);
  const speedRef=useRef(speed);speedRef.current=speed;
  const doneRef=useRef(onDone);doneRef.current=onDone;
  const skipRef=useRef(false);
+ const holdRef=useRef(holdAt);holdRef.current=holdAt;
+ const [held,setHeld]=useState(false);
  useEffect(()=>{
   if(!timeline||!runKey){setFrame(null);return;}
   skipRef.current=false;
@@ -21,6 +24,12 @@ export function useWeekPlayback(timeline:WeekTimeline|null,runKey:string|undefin
   let units=0,last=Date.now(),shown='';
   const update=()=>{
    const now=Date.now();units+=(now-last)*DAY_MS[1]/DAY_MS[speedRef.current];last=now;
+   // A pending decision holds the replay; Skip jumps to it rather than past it.
+   const hold=holdRef.current;
+   if(hold!==null&&skipRef.current){units=Math.max(units,hold);skipRef.current=false;}
+   const holding=hold!==null&&units>=hold;
+   if(holding)units=hold;
+   setHeld(holding);
    const next=playbackFrame(timeline,units,1,skipRef.current);
    const key=`${next.day}:${next.state}:${next.done}`;
    if(key!==shown){shown=key;setFrame(next);}
@@ -29,5 +38,5 @@ export function useWeekPlayback(timeline:WeekTimeline|null,runKey:string|undefin
   const timer=setInterval(update,TICK_MS);update();
   return ()=>clearInterval(timer);
  },[timeline,runKey]);
- return {frame,speed,setSpeed,skip:()=>{skipRef.current=true;},playing:!!frame&&!frame.done};
+ return {frame,speed,setSpeed,skip:()=>{skipRef.current=true;},playing:!!frame&&!frame.done,held};
 }

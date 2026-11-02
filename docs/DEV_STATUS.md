@@ -40,6 +40,13 @@ from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAME
   - Signs show a running "+5 RESEARCH this week" tally.
   - iPhone Reduce Motion no longer skips the replay or hides the pops; it only removes the movement.
   - Pop animation is now one simple JS-driven value.
+- **Owner play-test fixes 2 and 3:**
+  - On wide screens, the development card and the summary (now headed **REPORT CARD**) dock top-right.
+  - A decision raised during the week pauses the replay. It stops on the day the project's stage began, or on
+    Wednesday, after that day's work arrives, and the card prompts with the options.
+  - Answering is the normal `decideProjectEvent` command and acts on the project from then on, never on the
+    already-decided week. "Decide later" resumes, and the Monday default still applies. Skip stops at the decision.
+  - The Report Card only lists decisions still unanswered. 398/398 tests.
 - **NEXT MILESTONE:** owner play-test of the week feel (pace, bubble size, swing frequency), then the qualifying design
   only on explicit instruction.
 
