@@ -47,6 +47,15 @@ from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAME
   - Answering is the normal `decideProjectEvent` command and acts on the project from then on, never on the
     already-decided week. "Decide later" resumes, and the Monday default still applies. Skip stops at the decision.
   - The Report Card only lists decisions still unanswered. 398/398 tests.
+- **Development decision interrupt pass:**
+  - The player's Continue and +1 DAY are now the gated domain commands `continuePlayerTurn` and `advancePlayerDay`.
+    They refuse with DECISION_REQUIRED while the player's own project has a pending event, so the normal flow never
+    reaches the released Monday default.
+  - HUD shows DECISION REQUIRED; the HQ card answers it inline. HQ priority: decision, ready part, work in progress,
+    idle.
+  - The replay holds on decisions (`stepPlayback`: Skip and 2× cannot pass them). The prompt states the week's
+    results are already in and the choice applies from now on.
+  - No save or rules change: events, the kernel default and v6/v7 semantics are untouched. 407/407 tests.
 - **NEXT MILESTONE:** owner play-test of the week feel (pace, bubble size, swing frequency), then the qualifying design
   only on explicit instruction.
 

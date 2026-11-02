@@ -12,6 +12,8 @@ export type PlaybackSpeed = 1 | 2;
 export const DAY_MS: Record<PlaybackSpeed, number> = { 1: 1600, 2: 850 };
 /** Share of a day after which that day's bubbles have "arrived" at the project card. */
 export const ARRIVAL = 0.6;
+/** Honest causality: a decision taken during a replay acts on the project from the next processed work. */
+export const DECISION_EFFECT_NOTE = "This week's results are already in. Your choice applies to this project from now on.";
 
 export type Piece = { day: number; projectId: string; department: string; category: PointCategory; points: number; accent: boolean };
 export type CalloutKind = 'STALL' | 'SETBACK' | 'BREAKTHROUGH' | 'DECISION' | 'STAGE_COMPLETE' | 'PART_READY';
@@ -115,4 +117,16 @@ export function playbackFrame(timeline: Pick<WeekTimeline, 'days'>, elapsedMs: n
   const dayMs = DAY_MS[speed], d = Math.floor(Math.max(0, elapsedMs) / dayMs);
   if (skipped || d >= timeline.days) return { day: timeline.days - 1, state: timeline.days, done: true };
   return { day: d, state: (elapsedMs - d * dayMs) / dayMs >= ARRIVAL ? d + 1 : d, done: false };
+}
+
+/**
+ * One tick of the presentation clock, in 1x milliseconds. Speed scales elapsed time; Skip jumps to the
+ * end, but an unanswered decision (holdAt) can never be passed by either: the clock waits there.
+ */
+export function stepPlayback(units: number, elapsedMs: number, speed: PlaybackSpeed, holdAt: number | null, skip: boolean, days: number) {
+  const end = days * DAY_MS[1];
+  let next = skip ? end : units + elapsedMs * DAY_MS[1] / DAY_MS[speed];
+  const held = holdAt !== null && next >= holdAt;
+  if (held) next = holdAt!;
+  return { units: next, held, skipped: skip && !held };
 }

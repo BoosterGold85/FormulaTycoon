@@ -261,6 +261,23 @@ setback day, mid-week), summaries, weekend handoff, at 390×844 and 1440×1000, 
   prompts with the existing options. The choice is the existing domain command. "Decide later" resumes; Skip stops at
   the decision.
 
+## DEVELOPMENT DECISION INTERRUPT PASS
+
+**Semantics checked:**
+- Events are raised once per project stage, after that week's work.
+- Rivals answer immediately by AI policy.
+- Player events persist as pending (`choice: null`).
+- The released rules default a pending event (first affordable option, `defaulted: true`) at the start of the next
+  development week.
+- `decideProjectEvent` answers exactly once.
+
+**Design:**
+- Gating the player's advancement through `continuePlayerTurn` / `advancePlayerDay` needs no persistent or rule
+  change.
+- The kernel default stays for headless or non-player paths.
+- A choice cannot affect work inside the already-processed week without new event timing. That would need a
+  versioned development-rule design and was NOT done. The replay pauses at the discovery point and says so honestly.
+
 ## KNOWN LIMITATIONS
 
 - The first turn of a career (and any Monday → FP1 turn) has no replay, because work is credited at the

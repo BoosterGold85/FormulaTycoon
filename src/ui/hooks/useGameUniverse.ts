@@ -7,8 +7,8 @@ import {
 
 import { observeDriver, decideTeamOption } from '../../simulation/drivers';
 import { createGameSave } from '../../persistence/gameSave';
-import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, advanceCampaignTo, advanceCampaignByDays, type GameDefinition, type GameUniverse } from '../../simulation/universe';
-import { nextTurnTarget, summarizeWeek, type CommandResult, type WeekReport, type TurnTarget } from '../../simulation/developmentLoop';
+import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, type GameDefinition, type GameUniverse } from '../../simulation/universe';
+import { advancePlayerDay, continuePlayerTurn, summarizeWeek, type CommandResult, type WeekReport, type TurnTarget } from '../../simulation/developmentLoop';
 
 export type SessionTurnReport = WeekReport & { target: TurnTarget };
 
@@ -81,19 +81,20 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
   /** Weekly turn: advance through the D0 pipeline to the next Monday or race-weekend FP1. */
   const continueTurn = useCallback(() => {
     const current = universeRef.current!;
-    const target = nextTurnTarget(current);
-    if (!target) return;
-    const next = advanceCampaignTo(current, definition, target.date);
+    // Gated domain turn: an unanswered player decision refuses the turn instead of being defaulted.
+    const result = continuePlayerTurn(current, definition);
+    if (!result.ok) return result;
+    const next = result.universe;
     universeRef.current = next; setSnapshot(next);
     // Simulate first (above, once), present second: the report only reads the two universes.
     const summary = summarizeWeek(current, next, definition);
-    setReport(summary ? { ...summary, target } : null);
+    setReport(summary ? { ...summary, target: result.target } : null);
+    return result;
   }, [definition]);
   const nextDay = useCallback(() => {
-    const current = universeRef.current!;
-    if (!nextTurnTarget(current)) return;
-    const next = advanceCampaignByDays(current, definition, 1);
-    universeRef.current = next; setSnapshot(next);
+    const result = advancePlayerDay(universeRef.current!, definition);
+    if (result.ok) { universeRef.current = result.universe; setSnapshot(result.universe); }
+    return result;
   }, [definition]);
   /** Player development commands are pure domain transitions; refusals are returned, never applied. */
   const runDevelopment = useCallback((command: (universe: GameUniverse) => CommandResult) => {

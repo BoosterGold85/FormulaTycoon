@@ -33,11 +33,13 @@ function GameApplication() {
  const hub=hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION):null;
  const pending=(hub?.projects??[]).filter(p=>p.pendingEvent).map(p=>({projectId:p.id,part:p.name,...p.pendingEvent!}));
  const onDecide=(projectId:string,choiceId:string)=>{session.runDevelopment(u=>decideProjectEvent(u,DEFAULT_GAME_DEFINITION,projectId,choiceId));};
- const continueTurn=()=>{if(playing)return;setTab('HQ');session.continueTurn();};
+ // Gated: an unanswered decision takes the player to it on HQ instead of advancing (domain refuses too).
+ const continueTurn=()=>{if(playing)return;setTab('HQ');if(pending.length)return;session.continueTurn();};
+ const reviewDecision=()=>{session.dismissReport();setTab('HQ');};
  return <View style={{flex:1}}>
   <GameHud currentDate={session.universe.currentDate} nextEvent={selectNextEvent(session.universe)}
    turn={{target:nextTurnTarget(session.universe),pendingDecisions:hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION).pendingDecisions:0,
-    onContinue:continueTurn,onNextDay:session.nextDay,playing}}/>
+    onContinue:continueTurn,onNextDay:session.nextDay,playing,blocked:pending.length}}/>
   <View style={{flex:1,flexDirection:'row'}}>
    <BottomNav active={tab} onSelect={next=>{if(next==='TEAM')setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} sidebar/>
    <View style={{flex:1,minWidth:0}}>
@@ -51,7 +53,7 @@ function GameApplication() {
    {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen key={teamEntry.key} initialView={teamEntry.view} run={session.runDevelopment} universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={next=>{setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
    {session.report&&!playing?<View pointerEvents="box-none" style={wide?{position:'absolute',top:48,right:14,width:400}:{position:'absolute',left:12,right:12,bottom:82}}>
-    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={{...session.report,newEvents:session.report.newEvents.filter(e=>pending.some(p=>p.projectId===e.projectId))}} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
+    <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={{...session.report,newEvents:session.report.newEvents.filter(e=>pending.some(p=>p.projectId===e.projectId))}} onClose={session.dismissReport} onOpenDevelopment={pending.length?reviewDecision:openDevelopment}/></View>:null}
    </View>
   </View>
  </View>;

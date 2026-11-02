@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState} from 'react';
-import {DAY_MS,playbackFrame,type PlaybackFrame,type PlaybackSpeed,type WeekTimeline} from '../../simulation/developmentLoop';
+import {playbackFrame,stepPlayback,type PlaybackFrame,type PlaybackSpeed,type WeekTimeline} from '../../simulation/developmentLoop';
 
 const TICK_MS=100;
 /**
@@ -23,14 +23,12 @@ export function useWeekPlayback(timeline:WeekTimeline|null,runKey:string|undefin
   // Progress is kept in 1x milliseconds so a speed change mid-week continues from the same moment.
   let units=0,last=Date.now(),shown='';
   const update=()=>{
-   const now=Date.now();units+=(now-last)*DAY_MS[1]/DAY_MS[speedRef.current];last=now;
-   // A pending decision holds the replay; Skip jumps to it rather than past it.
-   const hold=holdRef.current;
-   if(hold!==null&&skipRef.current){units=Math.max(units,hold);skipRef.current=false;}
-   const holding=hold!==null&&units>=hold;
-   if(holding)units=hold;
-   setHeld(holding);
-   const next=playbackFrame(timeline,units,1,skipRef.current);
+   const now=Date.now();
+   // A pending decision holds the replay; neither 2x nor Skip can pass it (stepPlayback).
+   const step=stepPlayback(units,now-last,speedRef.current,holdRef.current,skipRef.current,timeline.days);last=now;
+   units=step.units;if(step.held)skipRef.current=false;
+   setHeld(step.held);
+   const next=playbackFrame(timeline,units,1,step.skipped);
    const key=`${next.day}:${next.state}:${next.done}`;
    if(key!==shown){shown=key;setFrame(next);}
    if(next.done){clearInterval(timer);doneRef.current();}

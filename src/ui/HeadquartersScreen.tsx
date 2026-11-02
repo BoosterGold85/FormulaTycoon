@@ -111,7 +111,8 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
         ) : hq && (showCard || live) ? (
           <View style={size && size.width > 500 ? styles.cardDockWide : styles.cardDock} pointerEvents="box-none"
             onLayout={e => { const { x, y, width } = e.nativeEvent.layout; const sinkY = size && size.width > 500 ? y + 40 : y; setDock(d => d && d.x === x + width / 2 && d.y === sinkY ? d : { x: x + width / 2, y: sinkY }); }}>
-            <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment} />
+            <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment}
+              decision={hq.mode === 'DECISION' && pending[0] ? { ...(pending.find(p => p.projectId === hq.focus?.id) ?? pending[0]), onChoose: (choiceId: string) => { const d = pending.find(p => p.projectId === hq.focus?.id) ?? pending[0]!; onDecide(d.projectId, choiceId); } } : null} />
           </View>
         ) : null}
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable,Text,View} from 'react-native';
 import {formatCampaignDate} from '../../simulation/campaignTime';
-import {WORKDAYS,type HqDevelopment,type PlaybackFrame,type PlaybackSpeed,type WeekTimeline} from '../../simulation/developmentLoop';
+import {DECISION_EFFECT_NOTE,WORKDAYS,type HqDevelopment,type PlaybackFrame,type PlaybackSpeed,type WeekTimeline} from '../../simulation/developmentLoop';
 import {Action,Chip,useDesign} from '../design/system';
 
 const short=(date:string|null)=>date?formatCampaignDate(date as Parameters<typeof formatCampaignDate>[0]).replace(/, \d{4}$/,''):'after the final race';
@@ -11,7 +11,9 @@ export type LivePlayback={frame:PlaybackFrame;timeline:WeekTimeline;speed:Playba
  decision?:(PendingDecision&{onChoose:(choiceId:string)=>void;onLater:()=>void})|null};
 
 /** HQ = PLAY. What the factory is building, what needs attention and, during a replay, the live week. */
-export function HqDevelopmentCard({hq,live,onOpen}:{hq:HqDevelopment;live:LivePlayback|null;onOpen:()=>void}){
+export function HqDevelopmentCard({hq,live,onOpen,decision}:{hq:HqDevelopment;live:LivePlayback|null;onOpen:()=>void;
+ /** HQ links straight to the decision: answer it here, not buried in the hub. */
+ decision?:(PendingDecision&{onChoose:(choiceId:string)=>void})|null}){
  const {ui,styles}=useDesign();
  const shell={backgroundColor:ui.surface,borderColor:ui.border,borderWidth:1,borderRadius:8,padding:12,gap:7,shadowColor:ui.shadow,shadowOpacity:.18,shadowRadius:10,shadowOffset:{width:0,height:4}} as const;
  if(live)return <LiveWeek live={live}/>;
@@ -21,6 +23,7 @@ export function HqDevelopmentCard({hq,live,onOpen}:{hq:HqDevelopment;live:LivePl
   <Text style={[styles.eyebrow,{color:ui.gold}]}>FACTORY IDLE</Text>
   <Text style={styles.body}>No active development project.</Text>{race}
   <Action label="START PROJECT" onPress={onOpen}/></View>;
+ if(hq.mode==='DECISION'&&decision)return <DecisionPrompt d={decision}/>;
  if(hq.mode==='DECISION')return <View accessibilityLabel="Engineering decision required" style={[shell,{borderColor:ui.gold,borderWidth:1.5}]}>
   <Text style={[styles.eyebrow,{color:ui.gold}]}>ENGINEERING DECISION REQUIRED</Text>
   <Text style={[styles.heading,{fontSize:17}]} numberOfLines={1}>{f.pendingEvent!.title}</Text>
@@ -44,15 +47,16 @@ function Bar({pct,tone}:{pct:number;tone?:string}){const {ui}=useDesign();
   <Text style={{color:ui.ink,fontSize:13,fontWeight:'900',minWidth:38,textAlign:'right'}}>{pct}%</Text></View>;}
 
 /** The replay is held on the day a decision came up; answering is the existing domain command. */
-function DecisionPrompt({d,day}:{d:NonNullable<LivePlayback['decision']>;day:string}){
+function DecisionPrompt({d,day}:{d:Omit<NonNullable<LivePlayback['decision']>,'onLater'>&{onLater?:()=>void};day?:string}){
  const {ui,styles}=useDesign();
- return <View accessibilityLabel="Week paused: engineering decision required" style={{backgroundColor:ui.surface,borderColor:ui.gold,borderWidth:1.5,borderRadius:8,padding:12,gap:7}}>
-  <Text style={[styles.eyebrow,{color:ui.gold}]}>WEEK PAUSED · {day} · DECISION REQUIRED</Text>
+ return <View accessibilityLabel={day?'Week paused: engineering decision required':'Engineering decision required'} style={{backgroundColor:ui.surface,borderColor:ui.gold,borderWidth:1.5,borderRadius:8,padding:12,gap:7}}>
+  <Text style={[styles.eyebrow,{color:ui.gold}]}>{day?`WEEK PAUSED · ${day} · ENGINEERING DECISION`:'DECISION REQUIRED · ANSWER TO CONTINUE'}</Text>
   <Text style={[styles.heading,{fontSize:17}]}>{d.title}</Text>
   <Text style={styles.muted}>{d.part} · {d.text}</Text>
   {d.options.map(o=><Action key={o.id} secondary={!o.available} label={`${o.label} — ${o.detail}${o.costM?` ($${o.costM}M)`:''}${o.available?'':' · over budget'}`} onPress={()=>{if(o.available)d.onChoose(o.id);}}/>)}
-  <Pressable accessibilityRole="button" accessibilityLabel="Decide later" onPress={d.onLater} style={{minHeight:44,justifyContent:'center'}}>
-   <Text style={styles.muted}>Decide later · if unanswered, the first option is taken on Monday</Text></Pressable>
+  <Text style={styles.muted}>{DECISION_EFFECT_NOTE}</Text>
+  {d.onLater?<Pressable accessibilityRole="button" accessibilityLabel="Watch the rest of the week" onPress={d.onLater} style={{minHeight:44,justifyContent:'center'}}>
+   <Text style={[styles.muted,{fontWeight:'800'}]}>Watch the rest of the week first · you must decide before continuing</Text></Pressable>:null}
  </View>;
 }
 

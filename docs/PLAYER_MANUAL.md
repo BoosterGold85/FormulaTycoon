@@ -176,8 +176,10 @@ department doing the work and flow into the project card:
 - Manufacturing for building the part.
 
 Watch at **1×** or **2×**, or **SKIP** to the summary. The speed never changes what happened. If an engineering
-decision comes up during the week, the replay pauses and asks you straight away. Your answer applies to the project from
-then on. **Decide later** carries on watching; an unanswered decision takes its first option on Monday.
+decision comes up during the week, the replay pauses and asks you straight away. The week's results are already decided,
+so your answer applies to the project from then on. You can watch the rest of the week first, but the game won't advance
+until you decide. While a decision is open, the Continue button reads **DECISION REQUIRED** and the HQ card shows the
+options. Ordinary good and bad weeks never pause the game.
 
 Not every week goes to plan:
 
@@ -195,8 +197,8 @@ result. The **Paddock** section mentions what rival teams brought, and occasiona
 
 Development rarely goes exactly to plan. A project may hit a **wind tunnel correlation issue**, a
 **prototype defect** or a **material shortage**, spot a **rival's concept**, be offered **extra simulation
-time** or a **lighter material**, or produce a **breakthrough**. You choose how to respond;
-if you don't, the first option is taken on Monday. Investigating or remaking costs time or money but can
+time** or a **lighter material**, or produce a **breakthrough**. You choose how to respond,
+and the game waits for your answer before it moves on. Investigating or remaking costs time or money but can
 make the result more dependable. **Refine design** spends extra time and money for a better part.
 
 When a part is fitted, the result is shown as **ABOVE EXPECTATION**, **ON TARGET**, **BELOW EXPECTATION**
