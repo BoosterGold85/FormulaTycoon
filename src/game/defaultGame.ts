@@ -4,11 +4,11 @@ import type { GameDefinition } from '../simulation/universe/types';
 
 /** Application composition only; individual engines can still run with custom definitions. */
 export const DEFAULT_GAME_DEFINITION: GameDefinition = {
-  version: 'development-loop-2026-v6',
+  version: 'development-loop-2026-v7',
   calendarId: 'calendar.2026.v2',
   driverEra: 2026,
   driverDataVersion: 2,
-  developmentRules: 2,
+  developmentRules: 3,
   headquarters: { layout: HEADQUARTERS_LAYOUT, roster: STARTING_STAFF },
   development: CANONICAL_DEVELOPMENT_CONTEXT
 };

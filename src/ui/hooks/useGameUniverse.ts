@@ -8,9 +8,9 @@ import {
 import { observeDriver, decideTeamOption } from '../../simulation/drivers';
 import { createGameSave } from '../../persistence/gameSave';
 import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, advanceCampaignTo, advanceCampaignByDays, type GameDefinition, type GameUniverse } from '../../simulation/universe';
-import { nextTurnTarget, summarizeTurn, type CommandResult, type TurnReport, type TurnTarget } from '../../simulation/developmentLoop';
+import { nextTurnTarget, summarizeWeek, type CommandResult, type WeekReport, type TurnTarget } from '../../simulation/developmentLoop';
 
-export type SessionTurnReport = TurnReport & { target: TurnTarget };
+export type SessionTurnReport = WeekReport & { target: TurnTarget };
 
 /** Longest catch-up per timer callback, e.g. after the app was backgrounded. */
 const MAX_CATCH_UP_MS = 2000;
@@ -85,7 +85,8 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
     if (!target) return;
     const next = advanceCampaignTo(current, definition, target.date);
     universeRef.current = next; setSnapshot(next);
-    const summary = summarizeTurn(current, next, definition);
+    // Simulate first (above, once), present second: the report only reads the two universes.
+    const summary = summarizeWeek(current, next, definition);
     setReport(summary ? { ...summary, target } : null);
   }, [definition]);
   const nextDay = useCallback(() => {

@@ -4,3 +4,7 @@ export * from './step';
 export * from './commands';
 export * from './turn';
 export * from './views';
+export * from './variation';
+export * from './weekStory';
+export * from './playback';
+export * from './hqCard';

@@ -442,3 +442,20 @@ labels, part guidance and HQ department activity. The turn report is transient U
 **Save v6:** frozen `contracts/v6.json` and `validationV5`; the v5 → v6 migration attaches rules 1; v6-only fields are
 validated against a frozen vocabulary before the shared V5 rules run. Details:
 development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md.
+
+## Core Gameplay Feel V2 — Watch the Week (development rules 3, save v7)
+
+- **Rules 3** (new careers) = rules 2 plus passive weekly variation. `rules3Week` passes a per-project `workScale`
+  into the unchanged kernel (`advanceDevelopmentWeek` → `advanceProjects`, applied after decision delays). It then
+  adds any quality swing to the EXISTING `bonusPoints`, never past the ±25 effective cap. The draw is
+  `weekVariation` (`variation.ts`), keyed `'development-week', projectId, stage, season:week`: a new namespace,
+  drawn once per processed week, pure, so read models recompute it. Odds and sizes read existing department quality
+  only (facilities for research/manufacturing, staff for design).
+- **Rules 1 and 2** pass no `workScale`; a golden continuation of the frozen v6 fixture proves rules 2 is unchanged.
+- **Presentation:** `summarizeWeek` (stories, completions, waiting parts, weekend handoff),
+  `buildWeekTimeline`/`playbackFrame` (pure MON–FRI split of whole points) and `selectHqDevelopment` are read models.
+  `useWeekPlayback` is a presentation clock over the immutable timeline; speed and Skip cannot change outcomes. The
+  HQ is the play surface (development card + department bubbles); the Team hub remains the management surface.
+- **Save v7:** `contracts/v7.json`, frozen V6 semantics (`validationV6.ts`, `validateDevelopmentRulesV6`), retained
+  `driver-world-v6.json`. The v6 → v7 migration is identity-only, so careers keep rules 1/2. Rules-3 projects use
+  the frozen rules-2 project vocabulary. Details: development-notes/CORE-GAMEPLAY-FEEL-V2.md.

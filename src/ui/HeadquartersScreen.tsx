@@ -10,10 +10,14 @@ import { SelectionCard } from './components/SelectionCard';
 import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { useTheme } from './theme';
-import { reportBubbles, type TurnReport } from '../simulation/developmentLoop';
+import { DAY_MS, type HqDevelopment, type WeekTimeline } from '../simulation/developmentLoop';
+import { HqDevelopmentCard } from './components/HqDevelopmentCard';
+import { useWeekPlayback } from './hooks/useWeekPlayback';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent,activity={},report=null }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
-  activity?:Record<string,{project:string;stage:string}|undefined>;report?:(TurnReport&{to:string})|null }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},hq=null,replay=null,onReplayDone=()=>{},onOpenDevelopment=()=>{},showCard=true }: { nextEvent?:{venue:string;detail:string};currentDate?:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
+  activity?:Record<string,{project:string;stage:string}|undefined>;hq?:HqDevelopment|null;
+  /** An already processed week to replay (presentation only), keyed per turn. */
+  replay?:{timeline:WeekTimeline;key:string;weekOf?:string|null}|null;onReplayDone?:()=>void;onOpenDevelopment?:()=>void;showCard?:boolean }) {
   const {theme}=useTheme(),styles=makeStyles(theme);
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
@@ -38,6 +42,13 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
   }, [onNavigate]);
 
   const counts = countWorkersByState(state);
+  const playback = useWeekPlayback(replay?.timeline ?? null, replay?.key, onReplayDone);
+  const [dock, setDock] = useState<{ x: number; y: number } | null>(null);
+  const live = playback.playing && replay && playback.frame ? { frame: playback.frame, timeline: replay.timeline, speed: playback.speed, setSpeed: playback.setSpeed, skip: playback.skip, weekOf: replay.weekOf } : null;
+  const sceneReplay = live && size ? {
+    pieces: replay!.timeline.pieces.filter(p => p.day === live.frame.day),
+    callouts: replay!.timeline.callouts.filter(c => c.day === live.frame.day || ((c.kind === 'STALL' || c.kind === 'SETBACK') && c.day < live.frame.day)),
+    sink: dock ?? { x: size.width / 2, y: size.height - 80 }, runKey: `${replay!.key}:${live.frame.day}`, speedScale: DAY_MS[live.speed] / DAY_MS[1] } : null;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -53,8 +64,7 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
             selection={selection}
             onSelect={setSelection}
             activity={activity}
-            bubbles={report?reportBubbles(report):undefined}
-            bubbleKey={report?.to}
+            replay={sceneReplay}
           />
         ) : null}
 
@@ -90,6 +100,11 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
               <SelectionCard selection={selection} state={state} layout={HEADQUARTERS_LAYOUT} />
             </View>
           </>
+        ) : hq && (showCard || live) ? (
+          <View style={[styles.cardDock, size && size.width > 500 ? { left: (size.width - 440) / 2, right: undefined, width: 440 } : null]} pointerEvents="box-none"
+            onLayout={e => { const { x, y, width } = e.nativeEvent.layout; setDock(d => d && d.x === x + width / 2 && d.y === y ? d : { x: x + width / 2, y }); }}>
+            <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment} />
+          </View>
         ) : null}
 
         {toast ? (
@@ -167,7 +182,9 @@ const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.cr
     position: 'absolute',
     left: 14,
     right: 14,
-    bottom: 14
+    bottom: 14,
+    maxWidth: 440,
+    alignSelf: 'center'
   },
   toast: {
     position: 'absolute',

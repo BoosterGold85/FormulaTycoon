@@ -57,3 +57,12 @@ decision fields, plus real-weekend submission identity:
 - `validationV5.ts` preserves the released V5 universe rules for V5 sources and for the structure V6 shares.
 - `driver-world-v5.json` is the retained V5 fixture (hash-tested).
 - V5 → V6 attaches rules 1 only, so released careers keep their cadence, kernel and history. New careers use rules 2.
+
+V7 (Core Gameplay Feel V2) adds development rules 3 (rules 2 + passive seeded weekly variation):
+- `v7.json` is v6 content with a new definition identity (`development-loop-2026-v7`, new careers on rules 3).
+- `validationV6.ts` + `validateDevelopmentRulesV6` preserve released V6 semantics (rules 1/2 only), and
+  `historicalV6Validation.ts` is the V6 envelope boundary. It is kept apart from V1–V5 source validation, which still
+  cold-loads without live registries; V6 reads the append-only static calendar registry, as released.
+- `driver-world-v6.json` is the retained V6 fixture (hash-tested, mid-season rules-2 career with a pending decision).
+- V6 → V7 is identity only: a career keeps its rules, so no released career gains weekly variation.
+  Rules-3 projects use only the existing rules-2 fields and vocabulary.

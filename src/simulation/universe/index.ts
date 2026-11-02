@@ -5,7 +5,7 @@ import {advanceHeadquarters,createHeadquartersState} from '../headquarters';
 import {NEW_CAREER_DATE,addCampaignDays,campaignContext,legacyWeekDate,nextCampaignDate,seasonStart,type CampaignDate} from '../campaignTime';
 import {developmentState,developmentView} from '../campaignTime/developmentView';
 import {dueCampaignEvents} from './campaignEvents';
-import {fitAtWeekend,rules2Week} from '../developmentLoop/step';
+import {fitAtWeekend,rules2Week,rules3Week} from '../developmentLoop/step';
 import type {GameDefinition,GameUniverse} from './types';
 export * from './types';
 
@@ -53,7 +53,7 @@ function advanceTo(universe:GameUniverse,definition:GameDefinition,target:Campai
      break;
     case 'DEVELOPMENT_WEEK': {
      const view=developmentView(current.development,addCampaignDays(event.date,-1));
-     current={...current,development:developmentState(current.developmentRules===2?rules2Week(view,definition.development,current.calendarId):advanceDevelopmentWeek(view,definition.development))};
+     current={...current,development:developmentState(current.developmentRules===3?rules3Week(view,definition.development,current.calendarId):current.developmentRules===2?rules2Week(view,definition.development,current.calendarId):advanceDevelopmentWeek(view,definition.development))};
      break;
     }
     case 'DEVELOPMENT_FITTING': {

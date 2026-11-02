@@ -7,13 +7,14 @@ import v3 from './v3.json';
 import v4 from './v4.json';
 import v5 from './v5.json';
 import v6 from './v6.json';
+import v7 from './v7.json';
 import initialV3 from './v3-initial.json';
 
 export type ReleasedDriverContent = {
   ids: string[]; teamIds: string[]; buckets: string[]; traits: string[]; aligned: boolean;
 };
 export type ReleasedContent = {
-  saveVersion: 1 | 2 | 3 | 4 | 5 | 6;
+  saveVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   calendarId?: string;
   definition: GameDefinition;
   legacyTeamMap: Record<string, string>;
@@ -37,10 +38,11 @@ export const SAVE_V3 = freezeSnapshot(v3 as unknown as ReleasedContent);
 export const SAVE_V4 = freezeSnapshot(v4 as unknown as ReleasedContent);
 export const SAVE_V5 = freezeSnapshot(v5 as unknown as ReleasedContent);
 export const SAVE_V6 = freezeSnapshot(v6 as unknown as ReleasedContent);
+export const SAVE_V7 = freezeSnapshot(v7 as unknown as ReleasedContent);
 export const INITIAL_V3 = freezeSnapshot(initialV3 as unknown as {drivers: DriverWorld; caldera: TeamDevelopmentState});
 
 export function releasedContentFor(definitionVersion: string): ReleasedContent {
-  const contract = [SAVE_V1, SAVE_V2, SAVE_V3, SAVE_V4, SAVE_V5, SAVE_V6].find(c => c.definition.version === definitionVersion);
+  const contract = [SAVE_V1, SAVE_V2, SAVE_V3, SAVE_V4, SAVE_V5, SAVE_V6, SAVE_V7].find(c => c.definition.version === definitionVersion);
   if (!contract) throw new Error('Unknown released content: explicit validation/migration required');
   return contract;
 }

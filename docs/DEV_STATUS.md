@@ -2,6 +2,42 @@
 
 ## Milestone
 
+**CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: READY FOR OWNER PLAY-TEST** (branch `claude/adoring-brahmagupta-g738lm`,
+from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md). Qualifying NOT started. Not merged.
+
+- **COMPLETED:**
+  - HQ development card: active, decision, ready and idle states.
+  - CONTINUE WEEK / CONTINUE TO FP1, which returns to HQ.
+  - MON–FRI replay of the processed week at 1×, 2× or Skip.
+  - Department bubbles flowing into the card, with live bar, ETA and counters.
+  - Stall, setback and breakthrough callouts, and stage-transition callouts.
+  - Week summary, part completion with quality and reason, ready-and-waiting parts, honest fitting reasons and the
+    race-weekend handoff.
+  - Development rules 3: passive seeded weekly variation through existing kernel work and `bonusPoints`.
+  - Save v7 with frozen v6 and identity migration.
+  - Player Manual, architecture and contract docs.
+- **IN PROGRESS:** none.
+- **TESTED:**
+  - 397/397 tests, 21 suites (16 new in `watchTheWeek.test.ts`).
+  - TypeScript and the web export pass.
+  - The existing UI suite passes in light and dark, and the theme suite passes, at 390×844 and 1440×1000.
+  - New browser play-test passes: Floor career over 20 turns at phone size, plus 6 turns in each theme and size.
+    No errors, no overflow; the 1× week measured 8.1–8.6 s.
+- **NOT VERIFIED:** native iPhone feel and FPS, the live Cloudflare preview, multi-season balance of variation odds,
+  and the owner's answer to "do I want to press Continue again?".
+- **KNOWN ISSUES:**
+  - The first turn of a career, and any Monday → FP1 turn, has no replay (work is credited at the Monday boundary).
+  - Bubble values are small (2–3 points per day).
+  - Variation odds and sizes are a first pass.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:**
+  - The week story recomputes the seeded swing instead of reading a stored log. This is pure and tested, but a future
+    kernel change must keep `weekStories` in step with `rules3Week`.
+  - V6 historical validation reads the static calendar registry, which is append-only.
+- **NEXT MILESTONE:** owner play-test of the week feel (pace, bubble size, swing frequency), then the qualifying design
+  only on explicit instruction.
+
+## Previous milestone
+
 **WEEKLY DEVELOPMENT LOOP V1: OWNER PLAY-TESTED AND MERGED TO MAIN** (merge `4432478`, together with UI V1.1).
 Save v6 and development rules 2 are now RELEASED: any change to the v6 event vocabulary or rules needs a new save version or rules version. Branch `feature/weekly-development-loop-v1`
 (from the visual branch head `19961ff` and the approved design). Notes: [WEEKLY-DEVELOPMENT-LOOP-V1](development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md).

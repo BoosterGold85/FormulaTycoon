@@ -1,15 +1,17 @@
 import {migrateCalendarUniverse} from './calendarMigration';
 import {migrateDevelopmentRulesUniverse} from './developmentRulesMigration';
+import {migrateWeeklyVariationUniverse} from './weeklyVariationMigration';
 import { migrateV3Universe } from './dateMigration';
 import { migrateDriverAlignment } from './alignmentMigration';
 import { assertHistoricalSave } from './historicalSaveValidation';
+import {assertHistoricalSaveV6} from './historicalV6Validation';
 import { migrateTenTeamUniverse } from './teamMigration';
 import type { GameDefinition, GameUniverse } from '../simulation/universe';
 import { validateUniverse } from './universeValidation';
 import { object, number, saveId, text, timestamp, requireValid } from './validation';
 
 /** Independent from the older trusted checkpoint's SAVE_VERSION. */
-export const CURRENT_SAVE_VERSION = 6 as const;
+export const CURRENT_SAVE_VERSION = 7 as const;
 export type GameSaveEnvelope = {
   saveVersion: typeof CURRENT_SAVE_VERSION;
   gameVersion: string;
@@ -22,7 +24,13 @@ export type SaveErrorCode = 'INVALID_DATA' | 'UNSUPPORTED_VERSION' | 'INVALID_JS
 export type SaveResult<T> = { ok: true; value: T } | { ok: false; error: { code: SaveErrorCode; message: string } };
 export const failure = (code: SaveErrorCode, message: string): SaveResult<never> => ({ ok: false, error: { code, message } });
 
-/** Migration dispatch: validate released schemas before upgrading to v6; never guess missing/unknown versions. */
+/** Every pre-V6 path reaches the validated V6 boundary before the V6 -> V7 identity migration. */
+function toV7(raw:Record<string,unknown>,universe:GameUniverse):SaveResult<unknown> {
+  assertHistoricalSaveV6({...raw,saveVersion:6,universe});
+  return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe:migrateWeeklyVariationUniverse(universe)}};
+}
+
+/** Migration dispatch: validate released schemas before upgrading to v7; never guess missing/unknown versions. */
 export function migrateSave(input: unknown, definition?: GameDefinition): SaveResult<unknown> {
   try {
     if (!input || typeof input !== 'object' || Array.isArray(input) || !Object.hasOwn(input, 'saveVersion')) {
@@ -43,20 +51,26 @@ export function migrateSave(input: unknown, definition?: GameDefinition): SaveRe
       assertHistoricalSave(v4,4);
       const v5={...raw,saveVersion:5,universe:migrateCalendarUniverse(v4.universe)};
       assertHistoricalSave(v5,5);
-      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe:migrateDevelopmentRulesUniverse(v5.universe)}};
+      return toV7(raw,migrateDevelopmentRulesUniverse(v5.universe));
     }
     if(version===4){
       assertHistoricalSave(input,4);
       const raw=input as Record<string,unknown>;
       const v5={...raw,saveVersion:5,universe:migrateCalendarUniverse(raw.universe)};
       assertHistoricalSave(v5,5);
-      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe:migrateDevelopmentRulesUniverse(v5.universe)}};
+      return toV7(raw,migrateDevelopmentRulesUniverse(v5.universe));
     }
     if(version===5){
       // Released V5 keeps its frozen semantics; V6 adds rules identity only (rules 1, no retiming).
       assertHistoricalSave(input,5);
       const raw=input as Record<string,unknown>;
-      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe:migrateDevelopmentRulesUniverse(raw.universe)}};
+      return toV7(raw,migrateDevelopmentRulesUniverse(raw.universe));
+    }
+    if(version===6){
+      // Released V6 keeps its frozen semantics and its rules (1/2); V7 changes identity only.
+      assertHistoricalSaveV6(input);
+      const raw=input as Record<string,unknown>;
+      return {ok:true,value:{...raw,saveVersion:CURRENT_SAVE_VERSION,universe:migrateWeeklyVariationUniverse(raw.universe)}};
     }
     if(version!==CURRENT_SAVE_VERSION)return failure('UNSUPPORTED_VERSION',`Unsupported save version: ${version}`);
     return { ok: true, value: input };

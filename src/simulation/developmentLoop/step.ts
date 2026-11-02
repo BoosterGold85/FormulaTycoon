@@ -2,8 +2,9 @@ import type {CalendarEvent} from '../../game/calendar';
 import type {DevelopmentContext} from '../../game/development';
 import {advanceDevelopmentWeek,getPart,introduceReadyUpgrades,spendingLimit,type DevelopmentWorld,type TeamDevelopmentState,type UpgradeSubmission} from '../development';
 import {clamp} from '../development/random';
-import {applyChoice,applyRefine,affordable,canRefine,effectiveBonus,eventDefinition,pendingEvent,recordEvent,rollStageEvent,REFINE_CHOICE} from './events';
+import {BONUS_CAP,applyChoice,applyRefine,affordable,canRefine,effectiveBonus,eventDefinition,pendingEvent,recordEvent,rollStageEvent,REFINE_CHOICE} from './events';
 import {grandPrixFor,planningContext} from './rules';
+import {weekVariation,type WeekVariation} from './variation';
 
 const AGGRESSIVE = 0.55;
 
@@ -18,6 +19,38 @@ export function rules2Week(world: DevelopmentWorld, context: DevelopmentContext,
   let current = resolvePendingDefaults(world, context);
   current = advanceDevelopmentWeek(current, context, { fitting: false, planningContext: planningContext(context, calendarId) });
   return raiseEvents(current, context);
+}
+
+/**
+ * Rules-3 weekly work: identical to rules 2 plus passive weekly variation. Each project's week is
+ * rolled once from 'development-week' (see variation.ts); speed scales the kernel's own work rule and
+ * quality adds to the existing bonusPoints. Nothing else is stored.
+ */
+export function rules3Week(world: DevelopmentWorld, context: DevelopmentContext, calendarId: string): DevelopmentWorld {
+  let current = resolvePendingDefaults(world, context);
+  const applied: Array<{ teamId: string; projectId: string; variation: WeekVariation }> = [];
+  const week = current.week + 1, season = current.season;
+  current = advanceDevelopmentWeek(current, context, { fitting: false, planningContext: planningContext(context, calendarId),
+    workScale: (teamId, project) => {
+      const profile = context.teams.find(t => t.id === teamId)!;
+      const variation = weekVariation(world.seed, profile, project, getPart(context, project.partId), season, week);
+      applied.push({ teamId, projectId: project.id, variation });
+      return variation.scale;
+    } });
+  for (const { teamId, projectId, variation } of applied) {
+    if (!variation.bonus) continue;
+    const team = current.teams[teamId]!;
+    current = { ...current, teams: { ...current.teams, [teamId]: { ...team, projects: team.projects.map(p => p.id !== projectId ? p :
+      { ...p, bonusPoints: variationBonus(p.bonusPoints ?? 0, variation.bonus) }) } } };
+  }
+  return raiseEvents(current, context);
+}
+
+/** Weekly variation never pushes quality beyond the existing +/-25 effective cap (decisions still can),
+ * keeping every rules-3 project inside the frozen rules-2 bounds. */
+export function variationBonus(previous: number, bonus: number): number {
+  const next = previous + bonus;
+  return bonus > 0 ? Math.max(previous, Math.min(next, BONUS_CAP)) : Math.min(previous, Math.max(next, -BONUS_CAP));
 }
 
 function mapTeams(world: DevelopmentWorld, context: DevelopmentContext, fn: (team: TeamDevelopmentState, profileIndex: number) => TeamDevelopmentState): DevelopmentWorld {

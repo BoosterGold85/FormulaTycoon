@@ -35,4 +35,6 @@ export type GameUniverse = {
   developmentRules: DevelopmentRules;
 };
 /** 1 = released compatibility cadence; 2 = real race-weekend fitting, events and quality bonus. */
-export type DevelopmentRules = 1 | 2;
+export type DevelopmentRules = 1 | 2 | 3;
+/** Rules 2 and later fit at the career's real race weekends and support decisions/refine/hold. */
+export const usesRaceWeekends = (rules: DevelopmentRules | undefined): boolean => rules === 2 || rules === 3;

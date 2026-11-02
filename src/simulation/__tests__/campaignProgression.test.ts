@@ -31,7 +31,7 @@ function daily(universe:GameUniverse,target:CampaignDate):GameUniverse {
 function reload(universe:GameUniverse):GameUniverse {
  const envelope=value(createSaveEnvelope(universe,{saveId:'d0-progression',gameVersion:'0.1.0',
   createdAt:'2026-10-30T12:00:00.000Z',updatedAt:'2026-10-30T12:00:00.000Z'},definition));
- expect(envelope.saveVersion).toBe(6);
+ expect(envelope.saveVersion).toBe(7);
  return value(deserializeSave(value(serializeSave(envelope,definition)),definition)).universe;
 }
 

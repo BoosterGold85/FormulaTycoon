@@ -1,6 +1,6 @@
 import {addCampaignDays,campaignContext,compareCampaignDates,nextCampaignDate,type CampaignDate} from '../campaignTime';
 import {calendarById} from '../../game/calendar';
-import type {GameUniverse} from './types';
+import {usesRaceWeekends,type GameUniverse} from './types';
 
 /** Transient work instructions, not saved session/results or a second campaign clock. */
 export type CampaignEventKind='DEVELOPMENT_WEEK'|'SEASON_TRANSITION'|'DEVELOPMENT_FITTING'|'CONTRACT_STATUS_CHECK';
@@ -20,7 +20,7 @@ export function compareCampaignEvents(a:CampaignEvent,b:CampaignEvent):number {
  * Recompute after loading: currentDate is the processed-through watermark, not a saved queue.
  */
 export function dueCampaignEvents(universe:Pick<GameUniverse,'currentDate'|'drivers'>&Partial<Pick<GameUniverse,'developmentRules'|'calendarId'>>,target:CampaignDate):CampaignEvent[] {
- const weekends=universe.developmentRules===2&&universe.calendarId?calendarById(universe.calendarId).events:[];
+ const weekends=usesRaceWeekends(universe.developmentRules)&&universe.calendarId?calendarById(universe.calendarId).events:[];
  nextCampaignDate(universe.currentDate,target);
  if(target===universe.currentDate)return [];
  const events:CampaignEvent[]=[];

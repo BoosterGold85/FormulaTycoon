@@ -6,11 +6,12 @@ import type {GameUniverse} from '../universe/types';
 /**
  * Development rules version, persisted per career (save v6).
  * 1 = released 24-event compatibility cadence, unchanged kernel (all migrated careers).
- * 2 = real race-weekend fitting, real-calendar AI planning, events and quality bonus points.
+ * 2 = real race-weekend fitting, real-calendar AI planning, events and quality bonus points (save v6).
+ * 3 = rules 2 plus passive seeded weekly variation (normal/setback/breakthrough weeks), save v7.
  */
 export type {DevelopmentRules} from '../universe/types';
 import type {DevelopmentRules} from '../universe/types';
-export const NEW_CAREER_DEVELOPMENT_RULES: DevelopmentRules = 2;
+export const NEW_CAREER_DEVELOPMENT_RULES: DevelopmentRules = 3;
 
 /** The career's pinned race weekends expressed in the shape the existing kernel already reads. */
 export function careerGrandPrix(calendarId: string): GrandPrix[] {

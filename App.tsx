@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import {View} from 'react-native';
+import React,{useCallback,useMemo,useState} from 'react';
+import {View,useWindowDimensions} from 'react-native';
 import {DEFAULT_GAME_DEFINITION} from './src/game/defaultGame';
 import type {NavTab} from './src/game/hudPlaceholders';
 import {useGameUniverse} from './src/ui/hooks/useGameUniverse';
@@ -13,7 +13,7 @@ import {GameHud} from './src/ui/components/GameHud';
 import {BottomNav} from './src/ui/components/BottomNav';
 import {HistoryScreen} from './src/ui/HistoryScreen';
 import {TurnReportCard} from './src/ui/components/TurnReportCard';
-import {nextTurnTarget,selectDepartmentActivity,selectDevelopmentHub} from './src/simulation/developmentLoop';
+import {buildWeekTimeline,nextTurnTarget,selectDepartmentActivity,selectDevelopmentHub,selectHqDevelopment} from './src/simulation/developmentLoop';
 
 export default function App(){return <ThemeProvider><GameApplication/></ThemeProvider>;}
 function GameApplication() {
@@ -22,21 +22,32 @@ function GameApplication() {
  const [teamEntry,setTeamEntry]=useState<{key:number;view:'overview'|'development'}>({key:0,view:'overview'});
  const openDevelopment=()=>{session.dismissReport();setTeamEntry(e=>({key:e.key+1,view:'development'}));setTab('TEAM');};
  const hasTeam=!!session.universe.playerTeamId;
+ const wide=useWindowDimensions().width>=1000;
+ // Presentation phases of the last processed turn: replay in the HQ, then the summary card.
+ const reportKey=session.report?`${session.report.from}>${session.report.to}`:undefined;
+ const timeline=useMemo(()=>session.report?buildWeekTimeline(session.report):null,[session.report]);
+ const hasWork=!!timeline&&timeline.pieces.length+timeline.callouts.length>0;
+ const [replayed,setReplayed]=useState<string|undefined>(undefined);
+ const playing=!!reportKey&&hasWork&&replayed!==reportKey;
+ const onReplayDone=useCallback(()=>setReplayed(reportKey),[reportKey]);
+ const continueTurn=()=>{if(playing)return;setTab('HQ');session.continueTurn();};
  return <View style={{flex:1}}>
   <GameHud currentDate={session.universe.currentDate} nextEvent={selectNextEvent(session.universe)}
    turn={{target:nextTurnTarget(session.universe),pendingDecisions:hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION).pendingDecisions:0,
-    onContinue:session.continueTurn,onNextDay:session.nextDay}}/>
+    onContinue:continueTurn,onNextDay:session.nextDay,playing}}/>
   <View style={{flex:1,flexDirection:'row'}}>
    <BottomNav active={tab} onSelect={next=>{if(next==='TEAM')setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} sidebar/>
    <View style={{flex:1,minWidth:0}}>
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>
-     <HeadquartersScreen activity={hasTeam?selectDepartmentActivity(session.universe,DEFAULT_GAME_DEFINITION):{}} report={session.report} nextEvent={selectNextEvent(session.universe)} currentDate={session.universe.currentDate} state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
+     <HeadquartersScreen activity={hasTeam?selectDepartmentActivity(session.universe,DEFAULT_GAME_DEFINITION):{}} hq={hasTeam?selectHqDevelopment(session.universe,DEFAULT_GAME_DEFINITION):null}
+      replay={playing&&timeline?{timeline,key:reportKey!,weekOf:session.report!.weekOf}:null} onReplayDone={onReplayDone} onOpenDevelopment={openDevelopment} showCard={!session.report}
+      state={session.universe.headquarters} restartDay={session.restartHeadquarters} onNavigate={setTab}/>
    </View>
    {tab==='RACE'?<CalendarScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={setTab}/>:null}
    {tab==='DRIVERS'&&session.universe.drivers&&session.universe.playerTeamId?<DriversScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} world={session.universe.drivers} observer={session.universe.playerTeamId} onNavigate={setTab} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen key={teamEntry.key} initialView={teamEntry.view} run={session.runDevelopment} universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={next=>{setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
-   {session.report?<View pointerEvents="box-none" style={{position:'absolute',left:12,right:12,bottom:12,maxWidth:560,alignSelf:'center'}}>
+   {session.report&&!playing?<View pointerEvents="box-none" style={{position:'absolute',left:12,right:12,bottom:wide?12:82,maxWidth:560,alignSelf:'center'}}>
     <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={session.report} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
    </View>
   </View>
