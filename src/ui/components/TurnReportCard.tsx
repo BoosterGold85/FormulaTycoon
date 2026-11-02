@@ -15,7 +15,6 @@ export function TurnReportCard({report,onClose,onOpenDevelopment}:{report:Sessio
  const tall=useWindowDimensions().height;
  const weekend=report.weekend;
  const body=weekend?<>
-  <Text style={[styles.eyebrow,{color:ui.accent}]}>RACE WEEKEND</Text>
   <Text accessibilityRole="header" style={[styles.heading,{fontSize:22}]}>{weekend.venue.toUpperCase()}</Text>
   <View style={styles.between}><Text style={styles.muted}>Car suitability</Text><Chip text={weekend.suitability} tone="accent"/></View>
   <Text style={styles.body}>Latest development: {weekend.fitted.length?`${weekend.fitted.join(' · ')} fitted`:'no new parts this weekend'}</Text>
@@ -24,7 +23,6 @@ export function TurnReportCard({report,onClose,onOpenDevelopment}:{report:Sessio
   {report.carChange?<CarChange report={report}/>:null}
   <Text style={styles.muted}>Practice, qualifying and the race are not simulated yet. This week's factory work is reported on Monday.</Text>
  </>:<>
-  <Text style={styles.eyebrow}>WEEK COMPLETE · {short(report.to)}</Text>
   {report.stories.map(s=>{const row=report.projects.find(p=>p.id===s.projectId)!;const swing=SWING_LABEL[s.swing as keyof typeof SWING_LABEL];
    const moved=s.readyBefore!==s.readyAfter,fitMoved=s.fitBefore!==s.fitAfter;
    return <View key={s.projectId} style={{gap:4}}>
@@ -49,6 +47,10 @@ export function TurnReportCard({report,onClose,onOpenDevelopment}:{report:Sessio
   {!report.stories.length&&!report.completed.length&&!report.waiting.length?<Text style={styles.muted}>{report.projects.length?'A quiet week in the factory.':'Your factory is idle. Start a project to put the team to work.'}</Text>:null}
  </>;
  return <View accessibilityLabel="Turn report" style={{backgroundColor:ui.surface,borderColor:ui.border,borderWidth:1,borderRadius:8,maxHeight:tall*0.62,overflow:'hidden'}}>
+  <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:10,paddingHorizontal:14,paddingVertical:9,backgroundColor:ui.navBackground,borderTopWidth:3,borderTopColor:ui.accent}}>
+   <Text accessibilityRole="header" style={{color:ui.navText,fontSize:15,fontWeight:'900',fontStyle:'italic',letterSpacing:1.2}}>REPORT CARD</Text>
+   <Text style={{color:weekend?ui.navAccent:ui.navMuted,fontSize:11,fontWeight:'800',letterSpacing:1}}>{weekend?'RACE WEEKEND':`WEEK COMPLETE · ${short(report.to).toUpperCase()}`}</Text>
+  </View>
   <ScrollView contentContainerStyle={{padding:14,gap:8}}>
    {body}
    {report.newEvents.map(e=><View key={e.part} style={{gap:2,borderTopWidth:1,borderTopColor:ui.line,paddingTop:6}}>

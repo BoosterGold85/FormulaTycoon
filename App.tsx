@@ -47,7 +47,7 @@ function GameApplication() {
    {tab==='DRIVERS'&&session.universe.drivers&&session.universe.playerTeamId?<DriversScreen universe={session.universe} definition={DEFAULT_GAME_DEFINITION} world={session.universe.drivers} observer={session.universe.playerTeamId} onNavigate={setTab} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='TEAM'&&session.universe.drivers&&session.universe.playerTeamId?<TeamScreen key={teamEntry.key} initialView={teamEntry.view} run={session.runDevelopment} universe={session.universe} definition={DEFAULT_GAME_DEFINITION} onNavigate={next=>{setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} onScout={session.scoutDriver} onOption={session.exerciseOption}/>:null}
    {tab==='HISTORY'?<HistoryScreen onNavigate={setTab}/>:null}
-   {session.report&&!playing?<View pointerEvents="box-none" style={{position:'absolute',left:12,right:12,bottom:wide?12:82,maxWidth:560,alignSelf:'center'}}>
+   {session.report&&!playing?<View pointerEvents="box-none" style={wide?{position:'absolute',top:48,right:14,width:400}:{position:'absolute',left:12,right:12,bottom:82}}>
     <TurnReportCard key={`${session.report.from}>${session.report.to}`} report={session.report} onClose={session.dismissReport} onOpenDevelopment={openDevelopment}/></View>:null}
    </View>
   </View>
