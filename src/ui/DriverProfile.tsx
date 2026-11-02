@@ -33,7 +33,7 @@ export function DriverProfile({universe,definition,world,observer,id,onBack,onSc
   </Disclosure>
   {d.category!=='GRID'?<Disclosure title="Scouting report">
    <Text style={styles.eyebrow}>SCOUTING · {d.confidence.toUpperCase()} CONFIDENCE</Text>
-   <Fact label="Potential" value={d.potential}/><Text style={styles.body}>Last report {d.lastObserved}. Reports: {d.reports}.</Text>
+   <Fact label="Potential" value={d.potential}/><Text style={styles.body}>{d.lastObserved?`Last report ${d.lastObserved}. Reports: ${d.reports}.`:'No scouting reports filed yet.'}</Text>
    <Action label="Improve scouting report" onPress={()=>onScout(id)}/>
    <Text style={styles.muted}>Report review is currently free and instant. Estimates narrow as knowledge improves.</Text>
   </Disclosure>:null}

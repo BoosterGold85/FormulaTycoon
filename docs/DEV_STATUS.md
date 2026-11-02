@@ -30,6 +30,8 @@ Qualifying and races were NOT started. Merged into main after owner approval; th
   - The turn report is not saved.
 - **Play-test pass 1 (after the owner said the loop felt flat):** week replay, what-changed report, paddock news
   and more frequent decisions (9 events). 380/380 tests; UI and theme browser suites pass.
+- **Post-merge UI review fix:** the prospect scouting report now shows "Last report week of Mar 23, 2026" (or "No scouting
+  reports filed yet") instead of "2026 W0". Display only; saved observation fields unchanged. 381/381 tests.
 - **NEXT:** second owner play-test on loop feel and balance before qualifying design.
 
 ## Milestone

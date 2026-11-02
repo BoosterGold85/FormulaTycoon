@@ -222,3 +222,13 @@ test('public driver commands reject inherited IDs and unsupported calendar/contr
  expect(()=>refreshDriverStatuses(world,legacyWeekDate((10000)-2025,0))).toThrow('Invalid');
  expect(signDriverContract(world,{teamId:observer,driverId:'driver.vale',seat:1,startSeason:10000,endSeason:10001,annualSalaryM:1,performanceBonusM:0,option:null},NEW_CAREER_DATE).ok).toBe(false);
 });
+
+test('scouting report shows a readable campaign date, and none before the first report',()=>{
+ const world=createDriverWorld();
+ const observer=Object.keys(world.knowledge)[0]!;
+ const id=Object.keys(world.knowledge[observer]!).find(d=>world.drivers[d]!.category==='PROSPECT')!;
+ expect(driverView(world,observer,id,NEW_CAREER_DATE).lastObserved).toBeNull();
+ const date=legacyWeekDate(1,3);
+ const seen=observeDriver(world,observer,id,date);
+ expect(driverView(seen,observer,id,date).lastObserved).toBe('week of Mar 23, 2026');
+});

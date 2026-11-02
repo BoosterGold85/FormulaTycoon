@@ -1,4 +1,4 @@
-import {campaignContext,type CampaignDate} from '../campaignTime';
+import {campaignContext,formatCampaignDate,legacyWeekDate,type CampaignDate} from '../campaignTime';
 import {formLabel} from './performance';
 import { BUCKETS, type Bucket, type Driver, type DriverWorld } from '../../game/drivers/types';
 import { teamBrand } from '../../game/brandRegistry';
@@ -45,7 +45,8 @@ export function driverView(world:DriverWorld,observer:string,id:string,date:Camp
    potential:known.precision<40?'Uncertain':d.hidden.potential>=96?'Very High':d.hidden.potential>=90?'High':'Established ceiling',
    confidence:known.precision>=90?'High':known.precision>=50?'Medium':'Low',reports:known.reports,
    summary:d.summary,commercial:`${d.commercial.home} · ${d.commercial.region} · ${known.precision>=100?gradeFor(d.commercial.globalAppeal)+' global reach':'Commercial reach under review'}`,
-   history:d.history.seasons.map(s=>({...s,team:teamBrand(s.teamId).name})), lastObserved:`${known.lastSeason} W${known.lastWeek}`};
+   history:d.history.seasons.map(s=>({...s,team:teamBrand(s.teamId).name})), 
+   lastObserved:known.reports>0?`week of ${formatCampaignDate(legacyWeekDate(known.lastSeason-2025,known.lastWeek))}`:null};
 }
 export function observeDriver(world:DriverWorld,observer:string,id:string,date:CampaignDate):DriverWorld {
  const {season,week}=campaignContext(date);
