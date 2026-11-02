@@ -8,7 +8,8 @@ export const DepartmentSign = React.memo(function DepartmentSign({
   projection,
   selected,
   onPress,
-  activity
+  activity,
+  tally
 }: {
   department: DepartmentDefinition;
   projection: Projection;
@@ -16,6 +17,8 @@ export const DepartmentSign = React.memo(function DepartmentSign({
   onPress: (department: DepartmentDefinition) => void;
   /** Actual player project in this department, e.g. "Floor · Design" (display only). */
   activity?: string;
+  /** During a week replay: this department's running output so far, e.g. "+7 AERO this week". */
+  tally?: string;
 }) {
   const point = gridToScreen(department.labelPoint, projection, department.labelHeight);
   return (
@@ -33,6 +36,7 @@ export const DepartmentSign = React.memo(function DepartmentSign({
             {department.shortName.toUpperCase()}
           </Text>
           {activity ? <Text style={styles.activity} numberOfLines={1}>{activity}</Text> : null}
+          {tally ? <Text style={styles.tally} numberOfLines={1}>{tally}</Text> : null}
         </View>
       </Pressable>
     </View>
@@ -45,6 +49,15 @@ const styles = StyleSheet.create({
   },
   swatchActive: {
     borderColor: '#63E6A8'
+  },
+  tally: {
+    color: '#F6F2E9',
+    fontSize: 9,
+    fontWeight: '900',
+    marginTop: 1,
+    paddingHorizontal: 4,
+    borderRadius: 4,
+    backgroundColor: 'rgba(99,230,168,0.28)'
   },
   activity: {
     maxWidth: 92,

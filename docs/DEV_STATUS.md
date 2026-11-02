@@ -33,6 +33,13 @@ from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAME
   - The week story recomputes the seeded swing instead of reading a stored log. This is pure and tested, but a future
     kernel change must keep `weekStories` in step with `rules3Week`.
   - V6 historical validation reads the static calendar registry, which is append-only.
+- **Owner play-test fix 1** (owner saw no bubbles or progress during the week):
+  - Pops now come from the department's desks, one per point, up to six per piece. Before, they needed seated
+    workers, but every Continue restarts the HQ workday so most workers are still arriving.
+  - Desks show a pulsing "working" marker (amber "!" on a struggling department).
+  - Signs show a running "+5 RESEARCH this week" tally.
+  - iPhone Reduce Motion no longer skips the replay or hides the pops; it only removes the movement.
+  - Pop animation is now one simple JS-driven value.
 - **NEXT MILESTONE:** owner play-test of the week feel (pace, bubble size, swing frequency), then the qualifying design
   only on explicit instruction.
 

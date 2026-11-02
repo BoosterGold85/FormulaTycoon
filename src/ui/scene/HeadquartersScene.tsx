@@ -27,7 +27,7 @@ type Props = {
   /** Display-only: actual player project stage per department, and one-shot turn bubbles. */
   activity?: Record<string, { project: string; stage: string } | undefined>;
   /** Display-only replay of the processed week's work (see WorkBubbles). */
-  replay?: { pieces: Piece[]; callouts: Callout[]; sink: { x: number; y: number }; runKey: string; speedScale: number } | null;
+  replay?: { pieces: Piece[]; callouts: Callout[]; sink: { x: number; y: number }; runKey: string; dayMs: number; tallies: Record<string, string> } | null;
 };
 
 /** The isometric headquarters viewport: static building plus live workers. */
@@ -78,10 +78,12 @@ export function HeadquartersScene({ layout, state, width, height, selection, onS
             selected={selection?.kind === 'department' && selection.id === department.id}
             onPress={onDepartmentPress}
             activity={activity[department.id] ? `${activity[department.id]!.project} · ${activity[department.id]!.stage}` : undefined}
+            tally={replay?.tallies[department.id]}
           />
         ))}
       </View>
-      {replay && !reducedMotion ? <WorkBubbles departments={layout.departments} projection={projection} {...replay} /> : null}
+      {replay ? <WorkBubbles layout={layout} workers={state.workers} projection={projection} pieces={replay.pieces} callouts={replay.callouts}
+        sink={replay.sink} runKey={replay.runKey} dayMs={replay.dayMs} reducedMotion={reducedMotion} /> : null}
       {state.workers.map(worker => (
           <WorkerSprite
             key={worker.id}

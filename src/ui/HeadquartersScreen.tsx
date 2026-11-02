@@ -48,7 +48,8 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
   const sceneReplay = live && size ? {
     pieces: replay!.timeline.pieces.filter(p => p.day === live.frame.day),
     callouts: replay!.timeline.callouts.filter(c => c.day === live.frame.day || ((c.kind === 'STALL' || c.kind === 'SETBACK') && c.day < live.frame.day)),
-    sink: dock ?? { x: size.width / 2, y: size.height - 80 }, runKey: `${replay!.key}:${live.frame.day}`, speedScale: DAY_MS[live.speed] / DAY_MS[1] } : null;
+    sink: dock ?? { x: size.width / 2, y: size.height - 80 }, runKey: `${replay!.key}:${live.frame.day}`, dayMs: DAY_MS[live.speed],
+    tallies: departmentTallies(replay!.timeline, live.frame.state) } : null;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -117,6 +118,13 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},h
       <BottomNav active="HQ" onSelect={onSelectTab} />
     </SafeAreaView>
   );
+}
+
+/** Running output per department up to the shown state, e.g. "+7 AERO this week" (display only). */
+function departmentTallies(timeline: WeekTimeline, state: number): Record<string, string> {
+  const sums: Record<string, Record<string, number>> = {};
+  for (const p of timeline.pieces) if (p.day < state) { sums[p.department] ??= {}; sums[p.department]![p.category] = (sums[p.department]![p.category] ?? 0) + p.points; }
+  return Object.fromEntries(Object.entries(sums).map(([d, c]) => [d, Object.entries(c).map(([cat, v]) => `+${v} ${cat.toUpperCase()}`).join(' · ') + ' this week']));
 }
 
 const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.create({
