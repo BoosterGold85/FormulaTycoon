@@ -1,0 +1,222 @@
+# Qualifying V1: design note
+
+Status: **DESIGN, AWAITING OWNER APPROVAL. No code yet.**
+Base: main `a204428`, which includes Watch the Week and save v7.
+
+## Owner decisions
+
+| Topic | Decision |
+|---|---|
+| Format | Q1/Q2/Q3 knockout: 22 → 16 → 10. |
+| Control | A pre-session plan, plus at most one mid-session call per segment. |
+| Weather | In V1, as simple seeded weather. Forecast quality depends on the Research work (bubbles) the team has produced up to this point. |
+| Sprints | The 6 sprint rounds run normal Saturday qualifying. Sprint qualifying and sprint races come later. |
+| PR #2 | Merged first. Qualifying builds on main as save v8, with v7 frozen. |
+
+## 1. Session format
+
+- **Saturday** = `weekendStartDate + 1`. FP1 is the Friday. All dates are campaign dates; no wall clock is used.
+- Each segment is a fixed number of whole-minute slots:
+
+  | Segment | Minutes | Cars | Knocked out | Positions decided |
+  |---|---|---|---|---|
+  | Q1 | 18 | 22 | 6 | P17–P22 |
+  | Q2 | 15 | 16 | 6 | P11–P16 |
+  | Q3 | 12 | 10 | — | P1–P10 |
+
+- A **run** is an out-lap, then a flying lap, then an in-lap, and occupies about 3 slots.
+  - Only the flying lap is timed.
+  - A car can make 1 or 2 runs per segment, if the tyres and time allow it.
+- **Ties** are broken by who set the time first, then by the seeded stream. Every car is classified.
+  - A car with no time, because of a crash or because it never left the garage, is placed last in its segment by the
+    tie rules.
+- **Track evolution:** the circuit's `trackEvolution` makes later laps faster within each segment. This is why "go late"
+  is tempting, and why traffic tends to build up at the end.
+
+## 2. Player choices (per driver)
+
+**Pre-session plan**, set on the plan screen and locked before the session:
+
+1. **Tyres per segment:**
+   - new soft;
+   - used soft;
+   - medium, the Q1 "banker" (if it's enough, you save a soft set);
+   - intermediate or wet, offered only when the conditions call for them.
+2. **Runs per segment:** 1 run, or 2 runs.
+   - 2 runs means more chances, but uses more tyre sets and spends more time in traffic.
+3. **Exit timing:** early, middle or late.
+   - Early means a clean track but less grip, and it's safe if rain is coming.
+   - Late means peak grip but busy traffic and weather risk.
+4. **Traffic approach:**
+   - "Find space": lose a few slots to find a gap, which risks running out of time.
+   - "Push through": a higher chance of a compromised lap.
+
+**Tyre allocation:** a simple qualifying allowance of 4 new soft sets plus 1 medium set.
+
+- Spending sets in Q1 and Q2 leaves fewer new sets for Q3. This is the main trade-off.
+- The race-tyre consequences come later, with the race itself.
+
+**Mid-session call:** at most one per segment. The replay pauses after the first runs and asks:
+
+- Go now?
+- Wait for the final minutes?
+- Stay in the garage (for example, when you're safely through)?
+
+When the weather changes, you also get "switch to inters". You answer once for each of your drivers.
+
+The headless default is the AI policy's answer, the same pattern as the existing development decision defaults.
+
+**Rivals:** an AI policy decides each rival's plan and calls.
+
+- The policy reads the team's car level, its risk profile and its own forecast.
+- It uses the team's own seeded stream, so your choices never change a rival's luck. Real traffic between cars is
+  still shared.
+
+## 3. How lap time is built (high level)
+
+Each flying lap's time is a reference time minus a performance term, plus these session factors:
+
+- **Car fit** (the dominant factor): the fitted car at this track, read through the existing
+  `technicalPerformanceAtTrack` boundary after Friday's fitting. A newly fitted floor shows up on Saturday.
+  - No track-specific or team-specific branches.
+- **Driver:**
+  - talent and composure;
+  - the Qualifying Specialist and Wet Weather Specialist traits;
+  - form, confidence and comfort with the car (kept separate from car/track fit).
+- **Session execution:**
+  - track evolution at that minute;
+  - tyre compound and age;
+  - a traffic penalty from cars on track in the same slots;
+  - weather grip.
+- **Seeded noise and mistakes:** a small spread on every lap, plus a lap-ruining mistake that becomes more likely with
+  "Push through", wet conditions and low composure.
+  - Stream key: `randomFor(seed, 'qualifying', calendarId, eventId, teamId, driverId, segment, run)`.
+
+**Calibration targets** (provisional game weights, checked by tests rather than claimed as real-world fact):
+
+- The car spread dominates.
+- Driver and execution can swing about 3–5 positions.
+- A fast car only rarely goes out in Q1.
+
+The exact weights stay hidden from the player.
+
+## 4. Weather and forecast
+
+**Actual weather** is seeded per round, using the circuit's `rainTendency`.
+
+- The states are dry, drying, rain arriving, and wet.
+- There is at most one change in V1, at a seeded minute.
+
+**Forecast:** each team (player and rivals) sees a forecast, issued at FP1, on the plan screen.
+
+- The forecast is the actual timeline with error added: the time of the change, and whether it happens at all.
+- The error shrinks as the team's accumulated Research points grow. These are the same authoritative points the week
+  replay shows as Research bubbles.
+- The player sees forecast confidence as Low, Medium or High, and the Player Manual explains that research work
+  improves it. The formula is not shown.
+- Research has diminishing returns: a well-researched team is better informed, never certain.
+
+**New persistent state:** a per-team `researchPoints` total for the season.
+
+- The existing weekly development step adds to it. This is bookkeeping only; no development outcome changes.
+- **Open point A:** for migrated v7 saves, I recommend seeding it from the research work already done on current
+  projects. That is deterministic and documented as an estimate. The alternative is to start at 0.
+
+## 5. Campaign flow
+
+1. **CONTINUE TO FP1:** Friday, unchanged. Fitting happens, and the forecast is visible.
+2. **CONTINUE TO QUALIFYING:** the turn target becomes Saturday.
+   - The plan screen opens.
+   - Continue is gated by a new reason, `QUALIFYING_PLAN_REQUIRED`, like `DECISION_REQUIRED`.
+3. **Lock plan:**
+   - A new `QUALIFYING` campaign event, with an explicit priority after `DEVELOPMENT_FITTING`, resolves Q1 up to its
+     call.
+   - The replay plays, pauses at the call, then resolves the rest of the segment.
+   - This repeats for Q2 and Q3.
+4. **Report Card:** then the grid appears on the Race tab.
+   - Sunday shows "Race not simulated yet".
+   - Continue goes to the next Monday.
+
+Headless and non-player paths run the whole session at once with policy defaults. No UI is needed.
+
+## 6. Storage and no double processing
+
+There is a new root map, `universe.qualifying: Record<eventId, QualifyingRecord>`. Each record holds:
+
+- `status`: PLAN, then Q1, Q2, Q3 (each waiting for its call), then COMPLETE;
+- `rules: 1`, pinned per career so later tuning never reinterprets saved sessions;
+- the actual weather;
+- each team's forecast as issued;
+- the locked plans and the calls made;
+- for each segment, every car's laps, best time and causal tags;
+- the final grid: 22 entries with position, driver, team, best time, the segment where the car went out, and the
+  reasons.
+
+The size is about 24 rounds × 22 cars, which is small.
+
+Guarantees:
+
+- Each segment is written once, and a completed segment is never recomputed.
+- Processing an event whose record is COMPLETE does nothing, and validation rejects a duplicate grid or one that isn't
+  22 cars.
+- Reload resumes at the exact status. A pending call stays pending, and its outcome doesn't change, because all inputs
+  and RNG keys are fixed.
+- Grids for rounds before a v7 save was migrated are not backfilled. Those rounds show "Not held: qualifying not yet
+  introduced".
+
+## 7. The "why"
+
+Each driver gets 1–3 reasons, chosen from causal tags in the stored laps. Examples:
+
+- "Traffic cost about 0.3 s on the final run."
+- "Rain arrived at 9′; the early run banked the time."
+- "Car fit: strong in high-speed corners", reusing the existing strengths and concerns.
+- "Out in Q2 by 0.04 s."
+- "Saved a new soft for Q3."
+
+Reasons are stored with the result, so the UI never invents them.
+
+## 8. Save v8
+
+- Freeze the v7 contract and its fixture.
+- Add a v7 → v8 migration: an empty `qualifying` map, `researchPoints` per Open point A, and the qualifying rules pin.
+- Validate both the source and the migrated output, and test the migration.
+- v1–v7 stay unchanged.
+- Imports go through the existing validated envelope and repository.
+
+## 9. Screens (step 4, following the Graphic Design Bible)
+
+- **Plan:**
+  - two driver columns with the tyre, runs, timing and traffic pickers;
+  - the forecast card with its confidence;
+  - a car/track fit summary.
+- **Live replay:**
+  - a timing tower with the session clock and a weather strip;
+  - your two cars highlighted;
+  - the pause card for the call;
+  - 1×, 2× and Skip, the same as the week replay.
+- **Report Card:**
+  - grid positions, the gap to the cutoff and to pole, the reasons, and your teammate comparison.
+- **Race tab:** the 22-car grid.
+
+All four screens are checked at 390×844 and 1440×1000, in both themes.
+
+## 10. Tests (step 2)
+
+- Valid 22-car grid every round, with all entrants classified.
+- No double processing, and repeated advancing does nothing once the session is complete.
+- Same seed and same choices give an identical grid; changing one choice changes my result.
+- Choices matter measurably: over many seeds, a good weather call or good tyre management gains positions on average.
+- Over 500 seeds, a better car or better fit qualifies ahead more often, but not always.
+- Spread stays within the calibration bounds.
+- Forecast error shrinks as Research points grow.
+- Rival streams are independent of the player's choices.
+- Save/reload at every status, v7 → v8 migration, and historical fixtures.
+- Headless run of a full season of qualifying.
+- A guard that no race result is produced.
+
+## Open points for approval
+
+- **A:** the migrated `researchPoints` seed. Recommended: estimate from current research work.
+- **B:** the tyre allowance: 4 new softs and 1 medium.
+- **C:** the segment lengths and the 3-slot run.

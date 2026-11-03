@@ -2,8 +2,25 @@
 
 ## Milestone
 
-**CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: READY FOR OWNER PLAY-TEST** (branch `claude/adoring-brahmagupta-g738lm`,
-from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md). Qualifying NOT started. Not merged.
+**QUALIFYING V1: DESIGN NOTE, AWAITING OWNER APPROVAL.** Branch `claude/happy-dirac-pw7zmq`, from main `a204428`.
+Note: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V1-DESIGN.md).
+
+- **COMPLETED:**
+  - Owner decisions recorded: Q1/Q2/Q3 knockout, plan plus one call per segment, seeded weather with a
+    research-driven forecast, sprints treated as normal weekends.
+  - Design note written.
+- **IN PROGRESS:** none. No code until the owner approves.
+- **TESTED:** not applicable; documentation only.
+- **NOT VERIFIED:** calibration targets are provisional game weights.
+- **KNOWN ISSUES:** none yet.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:** none yet. Planned new persistent data: save v8, with v7 frozen.
+- **NEXT MILESTONE:** owner approval of the note and open points A–C, then step 2 (engine, save v8, tests).
+
+## Milestone
+
+**CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: MERGED TO MAIN** (`a204428`, owner-approved, PR #2).
+Before merging, head `de312c8` passed 409/409 tests, TypeScript and the web export. Save v7 and development rules 3
+are now RELEASED. Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md).
 
 - **COMPLETED:**
   - HQ development card: active, decision, ready and idle states.
