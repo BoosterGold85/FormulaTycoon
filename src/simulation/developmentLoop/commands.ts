@@ -1,7 +1,7 @@
 import type {PartId} from '../../game/development';
 import {getPart,startProject,type StartProjectFailure,type TeamDevelopmentState} from '../development';
 import {developmentState,developmentView} from '../campaignTime/developmentView';
-import type {GameDefinition,GameUniverse} from '../universe/types';
+import {usesRaceWeekends,type GameDefinition,type GameUniverse} from '../universe/types';
 import {applyChoice,applyRefine,affordable,canRefine,eventDefinition,pendingEvent} from './events';
 
 export type Objective = 'PERFORMANCE' | 'RELIABILITY' | 'CIRCUIT_SPECIFIC';
@@ -45,7 +45,7 @@ function ownProject(universe: GameUniverse, definition: GameDefinition, projectI
 }
 /** Rules 2: keep a READY (or future READY) project back from the next race weekend. */
 export function setProjectHold(universe: GameUniverse, definition: GameDefinition, projectId: string, hold: boolean): CommandResult {
-  if (universe.developmentRules !== 2) return { ok: false, reason: 'RULES' };
+  if (!usesRaceWeekends(universe.developmentRules)) return { ok: false, reason: 'RULES' };
   const found = ownProject(universe, definition, projectId);
   if (!found) return { ok: false, reason: 'UNKNOWN_PROJECT' };
   if (!!found.project.hold === hold) return { ok: true, universe };
@@ -55,7 +55,7 @@ export function setProjectHold(universe: GameUniverse, definition: GameDefinitio
   return commit(universe, found.ctx, team);
 }
 export function refinePlayerProject(universe: GameUniverse, definition: GameDefinition, projectId: string): CommandResult {
-  if (universe.developmentRules !== 2) return { ok: false, reason: 'RULES' };
+  if (!usesRaceWeekends(universe.developmentRules)) return { ok: false, reason: 'RULES' };
   const found = ownProject(universe, definition, projectId);
   if (!found) return { ok: false, reason: 'UNKNOWN_PROJECT' };
   if (!canRefine(found.project)) return { ok: false, reason: 'NOT_AVAILABLE' };
@@ -65,7 +65,7 @@ export function refinePlayerProject(universe: GameUniverse, definition: GameDefi
 }
 /** Answer the project's pending hiccup/breakthrough exactly once. */
 export function decideProjectEvent(universe: GameUniverse, definition: GameDefinition, projectId: string, choiceId: string): CommandResult {
-  if (universe.developmentRules !== 2) return { ok: false, reason: 'RULES' };
+  if (!usesRaceWeekends(universe.developmentRules)) return { ok: false, reason: 'RULES' };
   const found = ownProject(universe, definition, projectId);
   if (!found) return { ok: false, reason: 'UNKNOWN_PROJECT' };
   const pending = pendingEvent(found.project), event = pending && eventDefinition(pending.type);

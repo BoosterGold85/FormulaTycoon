@@ -1,3 +1,4 @@
+import {migrateWeeklyVariationUniverse} from '../weeklyVariationMigration';
 import {test,expect,jest} from '@jest/globals';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
@@ -21,7 +22,7 @@ test.each([1,2,3,4] as const)('frozen V%i migrates to V5, keeps temporal/earned 
  const source=fixtures[version-1]!,before=JSON.stringify(source);
  assertHistoricalSave(source,version);
  const loaded=value(deserializeSave(before,definition));
- expect(loaded.saveVersion).toBe(6);expect(loaded.universe.calendarId).toBe('calendar.2026.v1');
+ expect(loaded.saveVersion).toBe(7);expect(loaded.universe.calendarId).toBe('calendar.2026.v1');
  expect(loaded.universe.currentDate).toBe(version===2?'2026-03-02':'2026-06-22');
  expect(loaded.universe.seed).toBe(source.universe.seed);expect(loaded.universe.headquarters).toEqual(source.universe.headquarters);
  for(const field of ['saveId','createdAt','updatedAt','gameVersion'] as const)expect(loaded[field]).toBe(source[field]);
@@ -38,8 +39,8 @@ test('V4→V5 attaches only content identity/definition, preserving all meaningf
  expect(migrated.drivers!.contracts.find(c=>c.driverId==='driver.harlton')!.option!.state).toBe('EXERCISED');
  expect(migrated.drivers!.knowledge['team.wellington']!['driver.cordeiro']!.reports).toBe(2);
  const loaded=value(deserializeSave(JSON.stringify(v4),definition));
- // V5 -> V6 then attaches development rules 1 only (released cadence kept).
- let a=migrateDevelopmentRulesUniverse(migrated),b=value(deserializeSave(value(serializeSave(loaded,definition)),definition)).universe;
+ // V5 -> V6 then attaches development rules 1 only (released cadence kept); V6 -> V7 is identity.
+ let a=migrateWeeklyVariationUniverse(migrateDevelopmentRulesUniverse(migrated)),b=value(deserializeSave(value(serializeSave(loaded,definition)),definition)).universe;
  expect(a.developmentRules).toBe(1);expect(a).toEqual(loaded.universe);
  for(let w=0;w<20;w++){a=advanceUniverseWeek(a,definition);b=advanceUniverseWeek(b,definition);}
  expect(a).toEqual(b);expect(a.calendarId).toBe(calendarId);
@@ -75,7 +76,7 @@ test('unknown/missing calendar identity is rejected, never upgraded silently or 
   expect(deserializeSave(JSON.stringify(bad),definition).ok).toBe(false);
  }
  expect(Reflect.set(calendarById(save.universe.calendarId).events[0]!,'trackId','track.madrid')).toBe(false);
- expect(deserializeSave(JSON.stringify({...save,saveVersion:7}),definition)).toMatchObject({ok:false,error:{code:"UNSUPPORTED_VERSION"}});
+ expect(deserializeSave(JSON.stringify({...save,saveVersion:8}),definition)).toMatchObject({ok:false,error:{code:"UNSUPPORTED_VERSION"}});
 });
 
 test('meaningful V4 fixture and released V4 contract retain their original C0.1 bytes',()=>{

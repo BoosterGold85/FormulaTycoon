@@ -7,10 +7,10 @@ import {
 
 import { observeDriver, decideTeamOption } from '../../simulation/drivers';
 import { createGameSave } from '../../persistence/gameSave';
-import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, advanceCampaignTo, advanceCampaignByDays, type GameDefinition, type GameUniverse } from '../../simulation/universe';
-import { nextTurnTarget, summarizeTurn, type CommandResult, type TurnReport, type TurnTarget } from '../../simulation/developmentLoop';
+import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, type GameDefinition, type GameUniverse } from '../../simulation/universe';
+import { advancePlayerDay, continuePlayerTurn, summarizeWeek, type CommandResult, type WeekReport, type TurnTarget } from '../../simulation/developmentLoop';
 
-export type SessionTurnReport = TurnReport & { target: TurnTarget };
+export type SessionTurnReport = WeekReport & { target: TurnTarget };
 
 /** Longest catch-up per timer callback, e.g. after the app was backgrounded. */
 const MAX_CATCH_UP_MS = 2000;
@@ -78,21 +78,26 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
 
   // Transient UI report of the last turn; the facts it summarizes live in the universe.
   const [report, setReport] = useState<SessionTurnReport | null>(null);
+  const [lastWork, setLastWork] = useState<SessionTurnReport['stories']>([]);
   /** Weekly turn: advance through the D0 pipeline to the next Monday or race-weekend FP1. */
   const continueTurn = useCallback(() => {
     const current = universeRef.current!;
-    const target = nextTurnTarget(current);
-    if (!target) return;
-    const next = advanceCampaignTo(current, definition, target.date);
+    // Gated domain turn: an unanswered player decision refuses the turn instead of being defaulted.
+    const result = continuePlayerTurn(current, definition);
+    if (!result.ok) return result;
+    const next = result.universe;
     universeRef.current = next; setSnapshot(next);
-    const summary = summarizeTurn(current, next, definition);
-    setReport(summary ? { ...summary, target } : null);
+    // Simulate first (above, once), present second: the report only reads the two universes.
+    const summary = summarizeWeek(current, next, definition);
+    setReport(summary ? { ...summary, target: result.target } : null);
+    // The last WORKING week stays available to the HQ card as a short alert (session-only presentation).
+    if (summary?.stories.length) setLastWork(summary.stories);
+    return result;
   }, [definition]);
   const nextDay = useCallback(() => {
-    const current = universeRef.current!;
-    if (!nextTurnTarget(current)) return;
-    const next = advanceCampaignByDays(current, definition, 1);
-    universeRef.current = next; setSnapshot(next);
+    const result = advancePlayerDay(universeRef.current!, definition);
+    if (result.ok) { universeRef.current = result.universe; setSnapshot(result.universe); }
+    return result;
   }, [definition]);
   /** Player development commands are pure domain transitions; refusals are returned, never applied. */
   const runDevelopment = useCallback((command: (universe: GameUniverse) => CommandResult) => {
@@ -104,7 +109,7 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
 
   // Snapshot is for display; commands always read the latest authoritative ref.
   return { universe: snapshot, restartHeadquarters: restartDay, advanceWeek, checkpoint, scoutDriver, exerciseOption,
-    continueTurn, nextDay, runDevelopment, report, dismissReport };
+    continueTurn, nextDay, runDevelopment, report, dismissReport, lastWork };
 }
 
 function hasVisibleChange(previous: HeadquartersState, next: HeadquartersState): boolean {

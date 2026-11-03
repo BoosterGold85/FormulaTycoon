@@ -7,7 +7,7 @@ import {developmentView} from '../campaignTime/developmentView';
 import {advanceProjects,departmentSlots,estimateWeeksToReady,expectedGain,getPart,partImportance,projectCost,spendingLimit,stageSpeed,stageWork,
  type DevelopmentProject,type ProjectStage,type TeamDevelopmentState,type UpgradeSubmission} from '../development';
 import {AXIS_LABELS,technicalCar,technicalPerformanceAtTrack} from '../trackPerformance';
-import type {GameDefinition,GameUniverse} from '../universe/types';
+import {usesRaceWeekends,type GameDefinition,type GameUniverse} from '../universe/types';
 import {APPROACH_AMBITION,type Approach} from './commands';
 import {canRefine,choiceCost,effectiveBonus,eventDefinition,pendingEvent,REFINE_CHOICE} from './events';
 import {nextTurnTarget} from './turn';
@@ -44,7 +44,7 @@ function boundariesToReady(project: DevelopmentProject, team: TeamDevelopmentSta
 type Fitting = { name: string; date: CampaignDate; kind: 'RACE_WEEKEND' | 'INTRODUCTION_WINDOW' };
 /** Where READY work is fitted under this career's rules: real FP1 (rules 2) or the retained window (rules 1). */
 export function fittingAfter(universe: GameUniverse, definition: GameDefinition, readyDate: CampaignDate): Fitting | null {
-  if (universe.developmentRules === 2) {
+  if (usesRaceWeekends(universe.developmentRules)) {
     const calendar = calendarById(universe.calendarId);
     const event = calendar.events.find(e => compareCampaignDates(e.weekendStartDate, readyDate) >= 0 && compareCampaignDates(e.weekendStartDate, universe.currentDate) > 0);
     return event ? { name: calendar.tracks[event.trackId]!.name, date: event.weekendStartDate, kind: 'RACE_WEEKEND' } : null;
@@ -86,9 +86,9 @@ export function selectProjectView(universe: GameUniverse, definition: GameDefini
     wholeProgress: total ? Math.min(100, Math.round(done / total * 100)) : 100,
     points, rate: project.stage === 'READY' ? null : { category: pointCategory(part, project.stage), points: round1(stageSpeed(profile, team, part, project.stage) * POINTS_PER_WEEK) },
     readyDate, fitsAt, delayWeeks: round1(project.delayWeeks ?? 0), bonusPoints: Math.round(project.bonusPoints ?? 0),
-    missesFinalRace: universe.developmentRules === 2 && !project.hold && fitsAt === null,
-    hold: !!project.hold, canHold: universe.developmentRules === 2,
-    refine: universe.developmentRules === 2 && canRefine(project) ? { costM: round1(choiceCost(project, REFINE_CHOICE)), affordable: choiceCost(project, REFINE_CHOICE) <= budgetLeft + 1e-9 } : null,
+    missesFinalRace: usesRaceWeekends(universe.developmentRules) && !project.hold && fitsAt === null,
+    hold: !!project.hold, canHold: usesRaceWeekends(universe.developmentRules),
+    refine: usesRaceWeekends(universe.developmentRules) && canRefine(project) ? { costM: round1(choiceCost(project, REFINE_CHOICE)), affordable: choiceCost(project, REFINE_CHOICE) <= budgetLeft + 1e-9 } : null,
     predicted: project.reason === 'PERFORMANCE' ? predictedBand(project) : null,
     costM: round1(project.cost),
     pendingEvent: pending && pendingDef ? { title: pendingDef.title, text: pendingDef.text, options: pendingDef.choices.map(c => ({
@@ -188,36 +188,40 @@ export function summarizeTurn(before: GameUniverse, after: GameUniverse, definit
   const gained: Record<PointCategory, number> = { Research: 0, Aero: 0, Technical: 0, Manufacturing: 0 };
   const byDepartment: Record<string, Partial<Record<PointCategory, number>>> = {};
   const changes: string[] = [];
-  const projects: Array<{ id: string; name: string; from: number; to: number; stage: string }> = [];
+  type Segment = { stage: Exclude<ProjectStage, 'READY'>; category: PointCategory; department: string; points: number };
+  const projects: Array<{ id: string; name: string; from: number; to: number; stage: string; fromStage: ProjectStage; toStage: ProjectStage; segments: Segment[] }> = [];
   for (const old of was.projects) {
     const part = getPart(definition.development, old.partId);
     const cur = now.projects.find(p => p.id === old.id);
     const endStage = cur ? cur.stage : 'READY';
     const from = old.stage === 'READY' ? 3 : STAGES.indexOf(old.stage), to = endStage === 'READY' ? 3 : STAGES.indexOf(endStage);
+    const segments: Segment[] = [];
     for (let i = from; i <= Math.min(to, 2); i++) {
       const stage = STAGES[i]!, work = stageWork({ ...old, stage }, part);
       const start = i === from ? Math.max(0, old.progress) : 0, end = i === to ? Math.max(0, cur!.progress) : work;
-      const amount = Math.max(0, end - start) * POINTS_PER_WEEK, category = pointCategory(part, stage);
+      // Whole presentation points per stage segment: every total below and every replay bubble sums these.
+      const amount = Math.round(Math.max(0, end - start) * POINTS_PER_WEEK), category = pointCategory(part, stage);
       gained[category] += amount;
       const dept = departmentFor(part, stage);
+      segments.push({ stage, category, department: dept, points: amount });
       byDepartment[dept] = { ...byDepartment[dept], [category]: (byDepartment[dept]?.[category] ?? 0) + amount };
     }
     if (to > from) changes.push(`${part.name}: ${STAGE_LABEL[endStage]}${endStage === 'READY' ? ' — built' : ' started'}`);
-    projects.push({ id: old.id, name: part.name, from: wholeProgress(old, part), to: cur ? wholeProgress(cur, part) : 100, stage: STAGE_LABEL[endStage] });
+    projects.push({ id: old.id, name: part.name, from: wholeProgress(old, part), to: cur ? wholeProgress(cur, part) : 100, stage: STAGE_LABEL[endStage], fromStage: old.stage, toStage: endStage, segments });
   }
   const fitted = after.development.submissions.slice(before.development.submissions.length);
   const mine = fitted.filter(s => s.teamId === teamId).map(s => ({ part: getPart(definition.development, s.partId).name, venue: submissionVenue(after, definition, s), label: outcomeLabel(s) }));
   const newEvents = now.projects.filter(p => pendingEvent(p) && !was.projects.find(q => q.id === p.id && pendingEvent(q))).map(p => ({
-    part: getPart(definition.development, p.partId).name, title: eventDefinition(pendingEvent(p)!.type)!.title }));
-  const points = (Object.entries(gained) as Array<[PointCategory, number]>).filter(([, v]) => v >= 0.5).map(([category, v]) => ({ category, points: Math.round(v) }));
+    projectId: p.id, part: getPart(definition.development, p.partId).name, title: eventDefinition(pendingEvent(p)!.type)!.title }));
+  const points = (Object.entries(gained) as Array<[PointCategory, number]>).filter(([, v]) => v > 0).map(([category, v]) => ({ category, points: v }));
   const departments = Object.fromEntries(Object.entries(byDepartment).map(([dept, cats]) => [dept,
-    (Object.entries(cats) as Array<[PointCategory, number]>).filter(([, v]) => v >= 0.5).map(([category, v]) => ({ category, points: Math.round(v) }))])
+    (Object.entries(cats) as Array<[PointCategory, number]>).filter(([, v]) => v > 0).map(([category, v]) => ({ category, points: v }))])
     .filter(([, list]) => (list as unknown[]).length)) as Record<string, Array<{ category: PointCategory; points: number }>>;
   return { from: before.currentDate, to: after.currentDate, points, departments, projects, changes, fitted: mine,
     carChange: mine.length ? carChange(before, after, definition, teamId) : null,
     rivalUpgrades: fitted.filter(s => s.teamId !== teamId).length, rivalNews: rivalNews(after, definition, fitted.filter(s => s.teamId !== teamId)), newEvents };
 }
-function wholeProgress(project: DevelopmentProject, part: PartDefinition): number {
+export function wholeProgress(project: DevelopmentProject, part: PartDefinition): number {
   const index = project.stage === 'READY' ? 3 : STAGES.indexOf(project.stage);
   const works = STAGES.map(stage => stageWork({ ...project, stage }, part)), total = works.reduce((a, b) => a + b, 0);
   const done = works.reduce((sum, w, i) => sum + (i < index ? w : i === index ? Math.min(w, Math.max(0, project.progress)) : 0), 0);
@@ -273,9 +277,4 @@ export function selectDepartmentActivity(universe: GameUniverse, definition: Gam
     activity[dept] ??= { project: part.name, stage: STAGE_LABEL[project.stage] };
   }
   return activity;
-}
-
-/** HQ bubble content per department for a turn report (display only). */
-export function reportBubbles(report: Pick<TurnReport, 'departments'>): Record<string, Array<{ category: PointCategory; points: number }>> {
-  return report.departments;
 }

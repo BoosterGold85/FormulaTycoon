@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { DepartmentDefinition } from '../../game/models';
 import { gridToScreen, type Projection } from '../isometric';
-import { usePlayback } from '../hooks/usePlayback';
 
 export const DepartmentSign = React.memo(function DepartmentSign({
   department,
@@ -10,9 +9,7 @@ export const DepartmentSign = React.memo(function DepartmentSign({
   selected,
   onPress,
   activity,
-  bubble,
-  bubbleKey,
-  reducedMotion = false
+  tally
 }: {
   department: DepartmentDefinition;
   projection: Projection;
@@ -20,9 +17,8 @@ export const DepartmentSign = React.memo(function DepartmentSign({
   onPress: (department: DepartmentDefinition) => void;
   /** Actual player project in this department, e.g. "Floor · Design" (display only). */
   activity?: string;
-  bubble?: Array<{ category: string; points: number }>;
-  bubbleKey?: string;
-  reducedMotion?: boolean;
+  /** During a week replay: this department's running output so far, e.g. "+7 AERO this week". */
+  tally?: string;
 }) {
   const point = gridToScreen(department.labelPoint, projection, department.labelHeight);
   return (
@@ -40,27 +36,12 @@ export const DepartmentSign = React.memo(function DepartmentSign({
             {department.shortName.toUpperCase()}
           </Text>
           {activity ? <Text style={styles.activity} numberOfLines={1}>{activity}</Text> : null}
+          {tally ? <Text style={styles.tally} numberOfLines={1}>{tally}</Text> : null}
         </View>
       </Pressable>
-      {bubble?.length ? <ProgressBubble key={bubbleKey} items={bubble} runKey={bubbleKey} reducedMotion={reducedMotion} /> : null}
     </View>
   );
 });
-
-/** Replays the week's actual output: the counter climbs over the workweek, then fades (presentation only). */
-function ProgressBubble({ items, runKey, reducedMotion }: { items: Array<{ category: string; points: number }>; runKey?: string; reducedMotion: boolean }) {
-  const t = usePlayback(runKey, 3000);
-  const fade = useRef(new Animated.Value(1)).current;
-  useEffect(() => {
-    if (t < 1) { fade.setValue(1); return; }
-    const run = Animated.timing(fade, { toValue: 0, duration: 900, delay: 900, easing: Easing.in(Easing.quad), useNativeDriver: true });
-    run.start();
-    return () => run.stop();
-  }, [t >= 1, fade]);
-  const text = items.map(i => `+${Math.round(i.points * t)} ${i.category}`).join(' · ');
-  const lift = reducedMotion ? -30 : -30 - 16 * t;
-  return <Animated.View pointerEvents="none" style={[styles.bubble, { opacity: fade, transform: [{ translateY: lift }] }]}><Text style={styles.bubbleText}>{text}</Text></Animated.View>;
-}
 
 const styles = StyleSheet.create({
   signActive: {
@@ -69,25 +50,20 @@ const styles = StyleSheet.create({
   swatchActive: {
     borderColor: '#63E6A8'
   },
+  tally: {
+    color: '#F6F2E9',
+    fontSize: 9,
+    fontWeight: '900',
+    marginTop: 1,
+    paddingHorizontal: 4,
+    borderRadius: 4,
+    backgroundColor: 'rgba(99,230,168,0.28)'
+  },
   activity: {
     maxWidth: 92,
     color: '#9FE3C3',
     fontSize: 8,
     fontWeight: '700'
-  },
-  bubble: {
-    position: 'absolute',
-    paddingHorizontal: 7,
-    paddingVertical: 3,
-    borderRadius: 8,
-    backgroundColor: 'rgba(17,29,42,0.92)',
-    borderWidth: 1,
-    borderColor: '#63E6A8'
-  },
-  bubbleText: {
-    color: '#F6F2E9',
-    fontSize: 10,
-    fontWeight: '900'
   },
   anchor: {
     position: 'absolute',

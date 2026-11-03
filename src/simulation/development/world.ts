@@ -4,7 +4,7 @@ import { introduceReadyUpgrades, matureReliability, maxReliability } from './out
 import { advanceProjects } from './projects';
 import { clamp } from './random';
 import { planRivalWeek } from './rivalAi';
-import type { DevelopmentWorld, PartState, TeamDevelopmentState, UpgradeSubmission } from './types';
+import type { DevelopmentProject, DevelopmentWorld, PartState, TeamDevelopmentState, UpgradeSubmission } from './types';
 
 export function getProfile(context: DevelopmentContext, teamId: string): TeamDevelopmentProfile {
   const profile = context.teams.find(team => team.id === teamId);
@@ -92,7 +92,7 @@ export function createDevelopmentWorld(
 export function advanceDevelopmentWeek(
   world: DevelopmentWorld,
   context: DevelopmentContext,
-  options: { fitting?: boolean; planningContext?: DevelopmentContext } = {}
+  options: { fitting?: boolean; planningContext?: DevelopmentContext; workScale?: (teamId: string, project: DevelopmentProject) => number } = {}
 ): DevelopmentWorld {
   const week = world.week + 1;
   if (week > context.regulations.seasonWeeks) return world;
@@ -107,7 +107,7 @@ export function advanceDevelopmentWeek(
     if (profile.controlledBy === 'AI') {
       team = planRivalWeek(team, profile, planning, world.seed, world.season, week);
     }
-    team = advanceProjects(team, profile, context);
+    team = advanceProjects(team, profile, context, options.workScale && (project => options.workScale!(profile.id, project)));
     team = matureReliability(team, profile);
     if (event) {
       const result = introduceReadyUpgrades(team, profile, context, world.seed, world.season, event);

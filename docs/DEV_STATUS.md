@@ -2,6 +2,74 @@
 
 ## Milestone
 
+**CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: READY FOR OWNER PLAY-TEST** (branch `claude/adoring-brahmagupta-g738lm`,
+from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md). Qualifying NOT started. Not merged.
+
+- **COMPLETED:**
+  - HQ development card: active, decision, ready and idle states.
+  - CONTINUE WEEK / CONTINUE TO FP1, which returns to HQ.
+  - MON–FRI replay of the processed week at 1×, 2× or Skip.
+  - Department bubbles flowing into the card, with live bar, ETA and counters.
+  - Stall, setback and breakthrough callouts, and stage-transition callouts.
+  - Week summary, part completion with quality and reason, ready-and-waiting parts, honest fitting reasons and the
+    race-weekend handoff.
+  - Development rules 3: passive seeded weekly variation through existing kernel work and `bonusPoints`.
+  - Save v7 with frozen v6 and identity migration.
+  - Player Manual, architecture and contract docs.
+- **IN PROGRESS:** none.
+- **TESTED:**
+  - 397/397 tests, 21 suites (16 new in `watchTheWeek.test.ts`).
+  - TypeScript and the web export pass.
+  - The existing UI suite passes in light and dark, and the theme suite passes, at 390×844 and 1440×1000.
+  - New browser play-test passes: Floor career over 20 turns at phone size, plus 6 turns in each theme and size.
+    No errors, no overflow; the 1× week measured 8.1–8.6 s.
+- **NOT VERIFIED:** native iPhone feel and FPS, the live Cloudflare preview, multi-season balance of variation odds,
+  and the owner's answer to "do I want to press Continue again?".
+- **KNOWN ISSUES:**
+  - The first turn of a career, and any Monday → FP1 turn, has no replay (work is credited at the Monday boundary).
+  - Bubble values are small (2–3 points per day).
+  - Variation odds and sizes are a first pass.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:**
+  - The week story recomputes the seeded swing instead of reading a stored log. This is pure and tested, but a future
+    kernel change must keep `weekStories` in step with `rules3Week`.
+  - V6 historical validation reads the static calendar registry, which is append-only.
+- **Owner play-test fix 1** (owner saw no bubbles or progress during the week):
+  - Pops now come from the department's desks, one per point, up to six per piece. Before, they needed seated
+    workers, but every Continue restarts the HQ workday so most workers are still arriving.
+  - Desks show a pulsing "working" marker (amber "!" on a struggling department).
+  - Signs show a running "+5 RESEARCH this week" tally.
+  - iPhone Reduce Motion no longer skips the replay or hides the pops; it only removes the movement.
+  - Pop animation is now one simple JS-driven value.
+- **Owner play-test fixes 2 and 3:**
+  - On wide screens, the development card and the summary (now headed **REPORT CARD**) dock top-right.
+  - A decision raised during the week pauses the replay. It stops on the day the project's stage began, or on
+    Wednesday, after that day's work arrives, and the card prompts with the options.
+  - Answering is the normal `decideProjectEvent` command and acts on the project from then on, never on the
+    already-decided week. "Decide later" resumes, and the Monday default still applies. Skip stops at the decision.
+  - The Report Card only lists decisions still unanswered. 398/398 tests.
+- **Development decision interrupt pass:**
+  - The player's Continue and +1 DAY are now the gated domain commands `continuePlayerTurn` and `advancePlayerDay`.
+    They refuse with DECISION_REQUIRED while the player's own project has a pending event, so the normal flow never
+    reaches the released Monday default.
+  - HUD shows DECISION REQUIRED; the HQ card answers it inline. HQ priority: decision, ready part, work in progress,
+    idle.
+  - The replay holds on decisions (`stepPlayback`: Skip and 2× cannot pass them). The prompt states the week's
+    results are already in and the choice applies from now on.
+  - No save or rules change: events, the kernel default and v6/v7 semantics are untouched. 407/407 tests.
+- **Core gameplay feel pass (on the decision-interrupt foundation):**
+  - The replay shows a moved ETA and fit beside the old ones ("May 25 (was May 18) · now fits Monaco (was Montreal)").
+  - A QUALITY UP/DOWN beat appears from the swing day, from the existing bonus points.
+  - Bars slide as work arrives, and stage changes play in two beats (RESEARCH COMPLETE → DESIGN STARTED).
+  - The HQ card carries a LAST WEEK alert: setback/breakthrough and ETA/fit change, session only.
+  - Strong or slow weeks get one quiet summary line.
+  - The race-weekend Report Card's primary action is CONTINUE WEEK, gated: one press instead of two when nothing
+    happens at the weekend.
+  - Phone callouts are clamped on screen. No simulation, save or rules change. 409/409 tests.
+- **NEXT MILESTONE:** owner play-test of the week feel (pace, bubble size, swing frequency), then the qualifying design
+  only on explicit instruction.
+
+## Previous milestone
+
 **WEEKLY DEVELOPMENT LOOP V1: OWNER PLAY-TESTED AND MERGED TO MAIN** (merge `4432478`, together with UI V1.1).
 Save v6 and development rules 2 are now RELEASED: any change to the v6 event vocabulary or rules needs a new save version or rules version. Branch `feature/weekly-development-loop-v1`
 (from the visual branch head `19961ff` and the approved design). Notes: [WEEKLY-DEVELOPMENT-LOOP-V1](development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md).

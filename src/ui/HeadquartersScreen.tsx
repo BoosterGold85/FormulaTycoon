@@ -10,10 +10,15 @@ import { SelectionCard } from './components/SelectionCard';
 import type { HeadquartersState } from '../simulation/headquarters';
 import { HeadquartersScene, type Selection } from './scene/HeadquartersScene';
 import { useTheme } from './theme';
-import { reportBubbles, type TurnReport } from '../simulation/developmentLoop';
+import { DAY_MS, stopTime, type HqDevelopment, type WeekTimeline } from '../simulation/developmentLoop';
+import type { LastWeek, PendingDecision } from './components/HqDevelopmentCard';
+import { HqDevelopmentCard } from './components/HqDevelopmentCard';
+import { useWeekPlayback } from './hooks/useWeekPlayback';
 
-export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,nextEvent,activity={},report=null }: { nextEvent:{venue:string;detail:string};currentDate:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
-  activity?:Record<string,{project:string;stage:string}|undefined>;report?:(TurnReport&{to:string})|null }) {
+export function HeadquartersScreen({ state, restartDay, onNavigate,activity={},hq=null,replay=null,onReplayDone=()=>{},onOpenDevelopment=()=>{},showCard=true,pending=[],onDecide=()=>{},lastWeek=[] }: {pending?:PendingDecision[];lastWeek?:LastWeek[];onDecide?:(projectId:string,choiceId:string)=>void; nextEvent?:{venue:string;detail:string};currentDate?:CampaignDate;state: HeadquartersState; restartDay: () => void; onNavigate: (tab:NavTab)=>void;
+  activity?:Record<string,{project:string;stage:string}|undefined>;hq?:HqDevelopment|null;
+  /** An already processed week to replay (presentation only), keyed per turn. */
+  replay?:{timeline:WeekTimeline;key:string;weekOf?:string|null}|null;onReplayDone?:()=>void;onOpenDevelopment?:()=>void;showCard?:boolean }) {
   const {theme}=useTheme(),styles=makeStyles(theme);
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [selection, setSelection] = useState<Selection>(null);
@@ -38,6 +43,22 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
   }, [onNavigate]);
 
   const counts = countWorkersByState(state);
+  // Decisions raised this week pause the replay until answered or deferred (presentation only: the
+  // choice is a normal domain command and acts on the project from now on).
+  const [deferred, setDeferred] = useState<string[]>([]);
+  const stop = replay?.timeline.decisions.find(d => pending.some(p => p.projectId === d.projectId) && !deferred.includes(`${replay.key}:${d.projectId}`)) ?? null;
+  const playback = useWeekPlayback(replay?.timeline ?? null, replay?.key, onReplayDone, stop ? stopTime(stop) : null);
+  const decision = playback.held && stop ? pending.find(p => p.projectId === stop.projectId) ?? null : null;
+  const [dock, setDock] = useState<{ x: number; y: number } | null>(null);
+  const live = playback.playing && replay && playback.frame ? { frame: playback.frame, timeline: replay.timeline, speed: playback.speed, setSpeed: playback.setSpeed, skip: playback.skip, weekOf: replay.weekOf,
+    decision: decision ? { ...decision, onChoose: (choiceId: string) => onDecide(decision.projectId, choiceId), onLater: () => setDeferred(d => [...d, `${replay.key}:${decision.projectId}`]) } : null } : null;
+  const sceneReplay = live && size ? {
+    pieces: replay!.timeline.pieces.filter(p => p.day === live.frame.day),
+    // Stage change in two beats: "RESEARCH COMPLETE", then once the day's work lands "DESIGN STARTED".
+    callouts: replay!.timeline.callouts.filter(c => c.day === live.frame.day || ((c.kind === 'STALL' || c.kind === 'SETBACK') && c.day < live.frame.day))
+      .map(c => c.kind === 'STAGE_COMPLETE' && live.frame.state > live.frame.day && c.text ? { ...c, title: c.text } : c),
+    sink: dock ?? { x: size.width / 2, y: size.height - 80 }, runKey: `${replay!.key}:${live.frame.day}`, dayMs: DAY_MS[live.speed],
+    tallies: departmentTallies(replay!.timeline, live.frame.state) } : null;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -53,8 +74,7 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
             selection={selection}
             onSelect={setSelection}
             activity={activity}
-            bubbles={report?reportBubbles(report):undefined}
-            bubbleKey={report?.to}
+            replay={sceneReplay}
           />
         ) : null}
 
@@ -90,6 +110,12 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
               <SelectionCard selection={selection} state={state} layout={HEADQUARTERS_LAYOUT} />
             </View>
           </>
+        ) : hq && (showCard || live) ? (
+          <View style={size && size.width > 500 ? styles.cardDockWide : styles.cardDock} pointerEvents="box-none"
+            onLayout={e => { const { x, y, width } = e.nativeEvent.layout; const sinkY = size && size.width > 500 ? y + 40 : y; setDock(d => d && d.x === x + width / 2 && d.y === sinkY ? d : { x: x + width / 2, y: sinkY }); }}>
+            <HqDevelopmentCard hq={hq} live={live} onOpen={onOpenDevelopment} lastWeek={lastWeek}
+              decision={hq.mode === 'DECISION' && pending[0] ? { ...(pending.find(p => p.projectId === hq.focus?.id) ?? pending[0]), onChoose: (choiceId: string) => { const d = pending.find(p => p.projectId === hq.focus?.id) ?? pending[0]!; onDecide(d.projectId, choiceId); } } : null} />
+          </View>
         ) : null}
 
         {toast ? (
@@ -102,6 +128,13 @@ export function HeadquartersScreen({ state, restartDay, onNavigate,currentDate,n
       <BottomNav active="HQ" onSelect={onSelectTab} />
     </SafeAreaView>
   );
+}
+
+/** Running output per department up to the shown state, e.g. "+7 AERO this week" (display only). */
+function departmentTallies(timeline: WeekTimeline, state: number): Record<string, string> {
+  const sums: Record<string, Record<string, number>> = {};
+  for (const p of timeline.pieces) if (p.day < state) { sums[p.department] ??= {}; sums[p.department]![p.category] = (sums[p.department]![p.category] ?? 0) + p.points; }
+  return Object.fromEntries(Object.entries(sums).map(([d, c]) => [d, Object.entries(c).map(([cat, v]) => `+${v} ${cat.toUpperCase()}`).join(' · ') + ' this week']));
 }
 
 const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.create({
@@ -168,6 +201,13 @@ const makeStyles = (theme:ReturnType<typeof useTheme>['theme']) => StyleSheet.cr
     left: 14,
     right: 14,
     bottom: 14
+  },
+  /** Wide screens: development card top-right, clear of the scene's centre (owner request). */
+  cardDockWide: {
+    position: 'absolute',
+    top: 48,
+    right: 14,
+    width: 400
   },
   toast: {
     position: 'absolute',

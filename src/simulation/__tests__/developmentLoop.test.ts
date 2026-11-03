@@ -28,10 +28,10 @@ function withProjects(seed=3){
  return ok(startPlayerProject(u,definition,{partId:'REAR_SUSPENSION',objective:'PERFORMANCE',approach:'CONSERVATIVE'}));
 }
 
-test('new careers run development rules 2 and save as v6; the v5 fixture is frozen',()=>{
+test('new careers run development rules 3 and save as v7; the v5 fixture is frozen',()=>{
  const u=createGameUniverse(definition,1);
- expect(u.developmentRules).toBe(2);
- expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(6);
+ expect(u.developmentRules).toBe(3);
+ expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(7);
  expect(createHash('sha256').update(readFileSync(join(__dirname,'../../persistence/__tests__/fixtures/driver-world-v5.json'))).digest('hex'))
   .toBe('9539ffa5f57ef5306b38fbf741934e35edec1eb1ee11f7d19fd35eac88b386c5');
 });
@@ -43,7 +43,7 @@ test('frozen v5 career migrates to rules 1 unchanged and keeps its released cade
  const {developmentRules,definitionVersion,...rest}=loaded.universe;
  const {definitionVersion:_old,...original}=v5.universe;
  expect(developmentRules).toBe(1);expect(definitionVersion).toBe(definition.version);expect(rest).toEqual(original);
- expect(loaded.saveVersion).toBe(6);
+ expect(loaded.saveVersion).toBe(7);
  // Rules 1 never raises events or real-weekend fittings: every new submission uses legacy event IDs.
  const later=advanceCampaignTo(loaded.universe,definition,date('2026-10-05'));
  const legacyIds=new Set(definition.development.calendar.map(e=>e.id));
@@ -198,7 +198,7 @@ test('read models derive from simulation truth: points, progress, turn report an
  expect(outcomeLabel({expectedGain:2,actualGain:0,outcome:'REVERTED',reason:'PERFORMANCE'} as never)).toBe("DIDN'T WORK — REVERTED");
 });
 
-test('a full rules-2 season keeps every team valid: budgets, homologation, events and saves',()=>{
+test('a full rules-3 season keeps every team valid: budgets, homologation, events and saves',()=>{
  let u=withProjects(11);
  for(let w=0;w<52;w++){
   u=advanceCampaignTo(u,definition,legacyWeekDate(1,w+1));
@@ -218,9 +218,9 @@ test('a full rules-2 season keeps every team valid: budgets, homologation, event
  const rivalEvents=Object.entries(u.development.teams).filter(([id])=>id!==teamId).flatMap(([,t])=>t.projects.flatMap(p=>p.events??[]));
  expect(rivalEvents.every(e=>e.choice!==null)).toBe(true);
  expect(u.development.submissions.length).toBeGreaterThan(50);
- expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(6);
+ expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(7);
  const next=startUniverseSeason(u,definition,TEAM_BRANDS.map(t=>t.id));
- expect(next.developmentRules).toBe(2);
+ expect(next.developmentRules).toBe(3);
 });
 
 test.each([

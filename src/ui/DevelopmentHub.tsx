@@ -40,7 +40,7 @@ export function DevelopmentHub({universe,definition,run}:{universe:GameUniverse;
   {hub.outcomes.length?hub.outcomes.map(o=><View key={o.key} style={[styles.between,{paddingVertical:4}]}>
    <View style={{flex:1}}><Text style={styles.body}>{o.part} · {o.venue}</Text>{o.reliabilityConcern?<Text style={[styles.muted,{color:ui.gold}]}>Reliability concern</Text>:null}</View>
    <Chip text={o.label} tone={o.label==='ABOVE EXPECTATION'?'green':o.label==="DIDN'T WORK — REVERTED"||o.label==='BELOW EXPECTATION'?'red':'accent'}/></View>)
-   :<Text style={styles.muted}>No upgrades fitted yet. {hub.rules===2?'Finished parts are fitted at the next race weekend.':'Finished parts are fitted at the next introduction window.'}</Text>}
+   :<Text style={styles.muted}>No upgrades fitted yet. {hub.rules>=2?'Finished parts are fitted at the next race weekend.':'Finished parts are fitted at the next introduction window.'}</Text>}
  </View>;
 }
 

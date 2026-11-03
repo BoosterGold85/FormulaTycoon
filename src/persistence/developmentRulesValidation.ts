@@ -48,10 +48,20 @@ function validateExtras(project:Record<string,unknown>,path:string,rules:number)
  const copy={...project};for(const k of EXTRAS)delete copy[k];return copy;
 }
 
-/** Validates V6-only facts and returns the V5-shaped projection for the shared structural rules. */
+/** Validates V6-only facts and returns the V5-shaped projection for the shared structural rules.
+ * Released V6 semantics: rules 1 or 2 only. */
 export function validateDevelopmentRulesV6(raw:Record<string,unknown>,definition:GameDefinition):Record<string,unknown> {
+ requireValid(raw.developmentRules===1||raw.developmentRules===2,'universe.developmentRules');
+ return validateRules(raw,definition);
+}
+/** V7 adds rules 3 (rules 2 + passive weekly variation). Variation writes only existing rules-2 project
+ * fields (progress, bonusPoints), so rules-3 projects share the frozen rules-2 vocabulary and bounds. */
+export function validateDevelopmentRulesV7(raw:Record<string,unknown>,definition:GameDefinition):Record<string,unknown> {
+ requireValid(raw.developmentRules===1||raw.developmentRules===2||raw.developmentRules===3,'universe.developmentRules');
+ return validateRules(raw,definition);
+}
+function validateRules(raw:Record<string,unknown>,definition:GameDefinition):Record<string,unknown> {
  const {developmentRules:rules,...rest}=raw;
- requireValid(rules===1||rules===2,'universe.developmentRules');
  const development=rest.development as Record<string,any>;
  requireValid(development&&typeof development==='object'&&!Array.isArray(development),'development');
  requireValid(development.teams&&typeof development.teams==='object'&&Array.isArray(development.submissions),'development.shape');
@@ -60,8 +70,8 @@ export function validateDevelopmentRulesV6(raw:Record<string,unknown>,definition
   requireValid(team&&typeof team==='object'&&Array.isArray(team.projects),`team.${id}`);
   teams[id]={...team,projects:team.projects.map((p:any,i:number)=>{requireValid(p&&typeof p==='object'&&!Array.isArray(p),`team.${id}.project`);return validateExtras(p,`team.${id}.projects[${i}]`,rules as number);})};
  }
- if(rules===2)validateWeekendSubmissions(development.submissions,rest,definition);
- return {...rest,development:{...development,teams,submissions:rules===2?[]:development.submissions}};
+ if(rules!==1)validateWeekendSubmissions(development.submissions,rest,definition);
+ return {...rest,development:{...development,teams,submissions:rules!==1?[]:development.submissions}};
 }
 
 /** Rules 2 fits at the career's own race weekends: identity is the pinned calendar's event ID. */

@@ -162,20 +162,52 @@ Research, Aero or Technical, and Manufacturing points; the team works on all act
 facilities and staff produce more points per week. A finished part is fitted at the **next race weekend**,
 unless you choose **Hold back** to save it for a later race.
 
-After each **CONTINUE**, watch the week play out: points rise from the busy departments and project bars
-fill. Reports where parts were fitted show what changed on the car and at that weekend's circuit, and
-**Paddock news** shows what rival teams brought.
+The **HQ** is where you play. Its development card always shows what the factory is building, its stage, overall
+progress, the expected ready date and the race weekend it should be fitted at. It also tells you when an engineering
+decision is waiting, or when the factory is idle. Press **CONTINUE WEEK** (or **CONTINUE TO FP1** when a race weekend
+comes first).
+
+The week is decided the moment you press Continue; the HQ then replays it Monday to Friday. Points rise from the
+department doing the work and flow into the project card:
+
+- Aero & Design for wind-tunnel research and aero design;
+- the Simulator for rig research;
+- the Workshop for chassis design;
+- Manufacturing for building the part.
+
+Watch at **1×** or **2×**, or **SKIP** to the summary. The speed never changes what happened. If an engineering
+decision comes up during the week, the replay pauses and asks you straight away. The week's results are already decided,
+so your answer applies to the project from then on. You can watch the rest of the week first, but the game won't advance
+until you decide. While a decision is open, the Continue button reads **DECISION REQUIRED** and the HQ card shows the
+options. Ordinary good and bad weeks never pause the game. When a week moves the ready date or the race a part
+will be fitted at, the card shows the new and old estimates side by side. After the replay the HQ card keeps a short
+**Last week** note.
+
+Not every week goes to plan:
+
+- **Most weeks:** the team simply delivers.
+- **Setback or stall:** a department may be slowed by a setback, or stall completely (a correlation problem, rig
+  failure, design rework or prototype failure). Its bubbles dry up, a warning appears over it, and the ready date can
+  slip, sometimes past the race you were aiming for. Serious problems in design or manufacturing can also weaken the
+  part.
+- **Breakthrough:** a department may find a way to work much faster, or find extra performance that makes the part
+  better than first predicted.
+- **Your facilities and staff matter:** better ones stall less often and break through more often.
+
+Reports where parts were fitted show what changed on the car and at that weekend's circuit, with a short reason for the
+result. The **Paddock** section mentions what rival teams brought, and occasionally a rumour about their development.
 
 Development rarely goes exactly to plan. A project may hit a **wind tunnel correlation issue**, a
 **prototype defect** or a **material shortage**, spot a **rival's concept**, be offered **extra simulation
-time** or a **lighter material**, or produce a **breakthrough**. You choose how to respond;
-if you don't, the first option is taken on Monday. Investigating or remaking costs time or money but can
+time** or a **lighter material**, or produce a **breakthrough**. You choose how to respond,
+and the game waits for your answer before it moves on. Investigating or remaking costs time or money but can
 make the result more dependable. **Refine design** spends extra time and money for a better part.
 
 When a part is fitted, the result is shown as **ABOVE EXPECTATION**, **ON TARGET**, **BELOW EXPECTATION**
 or **DIDN'T WORK — REVERTED** (money spent, previous part kept). Your car's suitability at each circuit
 updates from the parts actually fitted. Rival teams develop under the same rules. Careers imported from
-earlier versions keep their original development rules and fitting schedule.
+earlier versions keep their original development rules and fitting schedule. Careers started before this update do not
+get weekly setbacks and breakthroughs.
 
 ## Car Characteristics
 

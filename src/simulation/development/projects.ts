@@ -183,7 +183,9 @@ const NEXT_STAGE: Record<ProjectStage, ProjectStage> = {
 export function advanceProjects(
   team: TeamDevelopmentState,
   profile: TeamDevelopmentProfile,
-  context: DevelopmentContext
+  context: DevelopmentContext,
+  /** Rules 3 only: per-project multiplier on this week's stage work. Absent = released behaviour. */
+  workScale?: (project: DevelopmentProject) => number
 ): TeamDevelopmentState {
   const projects = team.projects.map(project => {
     const part = getPart(context, project.partId);
@@ -196,6 +198,7 @@ export function advanceProjects(
       const { delayWeeks: _spent, ...rest } = current;
       current = current.delayWeeks - lost > 1e-9 ? { ...current, delayWeeks: current.delayWeeks - lost } : rest;
     }
+    if (workScale && project.stage !== 'READY') budget *= Math.max(0, workScale(project));
     while (current.stage !== 'READY' && budget > 1e-9) {
       const speed = stageSpeed(profile, team, part, current.stage);
       const remaining = stageWork(current, part) - current.progress;

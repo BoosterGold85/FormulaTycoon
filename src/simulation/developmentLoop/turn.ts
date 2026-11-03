@@ -1,6 +1,7 @@
 import {calendarById} from '../../game/calendar';
 import {campaignContext,compareCampaignDates,legacyWeekDate,type CampaignDate} from '../campaignTime';
-import type {GameUniverse} from '../universe/types';
+import type {GameDefinition,GameUniverse} from '../universe/types';
+import {advanceCampaignByDays,advanceCampaignTo} from '../universe';
 
 export type TurnTarget = { date: CampaignDate; kind: 'MONDAY' | 'FP1'; eventId?: string; venue?: string };
 /**
@@ -16,4 +17,35 @@ export function nextTurnTarget(universe: Pick<GameUniverse, 'currentDate' | 'cal
   const weekend = calendar.events.find(e => compareCampaignDates(e.weekendStartDate, universe.currentDate) > 0 && compareCampaignDates(e.weekendStartDate, monday) < 0);
   if (!weekend) return { date: monday, kind: 'MONDAY' };
   return { date: weekend.weekendStartDate, kind: 'FP1', eventId: weekend.id, venue: calendar.tracks[weekend.trackId]!.name };
+}
+
+/**
+ * Player decisions that must be answered before the player's turn may advance. Only the player's own
+ * PENDING domain events count (rivals decide by policy when an event is raised). The released kernel
+ * default (first option at the next development week) is unchanged and still applies to any
+ * non-player advancement path, e.g. headless simulation.
+ */
+export function blockingDecisions(universe: Pick<GameUniverse, 'playerTeamId' | 'development'>): string[] {
+  const team = universe.playerTeamId ? universe.development.teams[universe.playerTeamId] : undefined;
+  return (team?.projects ?? []).filter(p => p.events?.some(e => e.choice === null)).map(p => p.id);
+}
+export type PlayerTurnResult =
+  | { ok: true; universe: GameUniverse; target: TurnTarget }
+  | { ok: false; reason: 'DECISION_REQUIRED'; projectIds: string[] }
+  | { ok: false; reason: 'SEASON_COMPLETE' };
+/** The player's Continue: gated by unanswered decisions, then exactly one pass of the D0 pipeline. */
+export function continuePlayerTurn(universe: GameUniverse, definition: GameDefinition): PlayerTurnResult {
+  const blocked = blockingDecisions(universe);
+  if (blocked.length) return { ok: false, reason: 'DECISION_REQUIRED', projectIds: blocked };
+  const target = nextTurnTarget(universe);
+  if (!target) return { ok: false, reason: 'SEASON_COMPLETE' };
+  return { ok: true, universe: advanceCampaignTo(universe, definition, target.date), target };
+}
+/** The player's single-day step, under the same gate. */
+export function advancePlayerDay(universe: GameUniverse, definition: GameDefinition): PlayerTurnResult {
+  const blocked = blockingDecisions(universe);
+  if (blocked.length) return { ok: false, reason: 'DECISION_REQUIRED', projectIds: blocked };
+  const target = nextTurnTarget(universe);
+  if (!target) return { ok: false, reason: 'SEASON_COMPLETE' };
+  return { ok: true, universe: advanceCampaignByDays(universe, definition, 1), target };
 }
