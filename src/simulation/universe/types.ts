@@ -4,6 +4,7 @@ import type { DevelopmentContext } from '../../game/development';
 import type { HeadquartersLayout, WorkerDefinition } from '../../game/models';
 import type { DevelopmentState } from '../development';
 import type { HeadquartersState } from '../headquarters';
+import type { QualifyingState } from '../qualifying/types';
 
 /** Immutable content/configuration supplied to simulation, never copied into runtime entities. */
 export type GameDefinition = {
@@ -14,6 +15,8 @@ export type GameDefinition = {
   driverDataVersion?: 1 | 2;
   /** Development rules for NEW careers created from this definition (saved careers keep theirs). */
   developmentRules?: DevelopmentRules;
+  /** Save v8: NEW careers run Qualifying V1 (requires the driver era). Absent = no qualifying. */
+  qualifyingRules?: 1;
   headquarters: { layout: HeadquartersLayout; roster: WorkerDefinition[] };
   development: DevelopmentContext;
 };
@@ -33,6 +36,8 @@ export type GameUniverse = {
   drivers?: DriverWorld;
   /** Save v6: development rules this career runs. Migrated careers keep 1; new careers use 2. */
   developmentRules: DevelopmentRules;
+  /** Save v8: qualifying sessions, grids and the season's Research totals. Absent on careers without drivers. */
+  qualifying?: QualifyingState;
 };
 /** 1 = released compatibility cadence; 2 = real race-weekend fitting, events and quality bonus. */
 export type DevelopmentRules = 1 | 2 | 3;

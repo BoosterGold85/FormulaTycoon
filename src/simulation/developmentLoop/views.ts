@@ -12,14 +12,9 @@ import {APPROACH_AMBITION,type Approach} from './commands';
 import {canRefine,choiceCost,effectiveBonus,eventDefinition,pendingEvent,REFINE_CHOICE} from './events';
 import {nextTurnTarget} from './turn';
 
-/** Presentation unit: one average-team week of stage work = 10 points. Derived, never stored. */
-export const POINTS_PER_WEEK = 10;
-export type PointCategory = 'Research' | 'Aero' | 'Technical' | 'Manufacturing';
-const STAGES: Array<Exclude<ProjectStage, 'READY'>> = ['RESEARCH', 'DESIGN', 'MANUFACTURING'];
+import {POINTS_PER_WEEK,WORK_STAGES as STAGES,pointCategory,workSegments,type PointCategory} from './workPoints';
+export {POINTS_PER_WEEK,pointCategory,workSegments,type PointCategory} from './workPoints';
 export const STAGE_LABEL: Record<ProjectStage, string> = { RESEARCH: 'Research', DESIGN: 'Design', MANUFACTURING: 'Manufacture', READY: 'Ready' };
-export function pointCategory(part: PartDefinition, stage: Exclude<ProjectStage, 'READY'>): PointCategory {
-  return stage === 'RESEARCH' ? 'Research' : stage === 'MANUFACTURING' ? 'Manufacturing' : part.area === 'AERO' ? 'Aero' : 'Technical';
-}
 const round1 = (n: number) => Math.round(n * 10) / 10;
 export const areaLabel = (part: PartDefinition) => part.area === 'AERO' ? 'Aero' : 'Chassis';
 
@@ -196,11 +191,8 @@ export function summarizeTurn(before: GameUniverse, after: GameUniverse, definit
     const endStage = cur ? cur.stage : 'READY';
     const from = old.stage === 'READY' ? 3 : STAGES.indexOf(old.stage), to = endStage === 'READY' ? 3 : STAGES.indexOf(endStage);
     const segments: Segment[] = [];
-    for (let i = from; i <= Math.min(to, 2); i++) {
-      const stage = STAGES[i]!, work = stageWork({ ...old, stage }, part);
-      const start = i === from ? Math.max(0, old.progress) : 0, end = i === to ? Math.max(0, cur!.progress) : work;
-      // Whole presentation points per stage segment: every total below and every replay bubble sums these.
-      const amount = Math.round(Math.max(0, end - start) * POINTS_PER_WEEK), category = pointCategory(part, stage);
+    // Whole presentation points per stage segment: every total below and every replay bubble sums these.
+    for (const { stage, category, points: amount } of workSegments(old, cur, part)) {
       gained[category] += amount;
       const dept = departmentFor(part, stage);
       segments.push({ stage, category, department: dept, points: amount });

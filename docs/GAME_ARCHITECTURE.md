@@ -459,3 +459,32 @@ development-notes/WEEKLY-DEVELOPMENT-LOOP-V1.md.
 - **Save v7:** `contracts/v7.json`, frozen V6 semantics (`validationV6.ts`, `validateDevelopmentRulesV6`), retained
   `driver-world-v6.json`. The v6 → v7 migration is identity-only, so careers keep rules 1/2. Rules-3 projects use
   the frozen rules-2 project vocabulary. Details: development-notes/CORE-GAMEPLAY-FEEL-V2.md.
+
+## Qualifying V1 (save v8)
+
+- **Owner:** `src/simulation/qualifying`, headless and deterministic. Design: development-notes/QUALIFYING-V1-DESIGN.md.
+- **Campaign:** two new instructions in the one pipeline. `QUALIFYING` (Saturday = FP1 + 1, priority 16) briefs the
+  session if needed and runs it to the player's first call. `QUALIFYING_CLOSE` (Sunday, priority 17) finishes an open
+  session on policy calls (marked `defaulted`). Neither one invents a session for a round that has none. Headless
+  advancement therefore always completes each session.
+- **Turn:** `nextTurnTarget` adds `QUALIFYING` (Friday → Saturday). `continuePlayerTurn`/`advancePlayerDay` refuse
+  with `QUALIFYING_PLAN_REQUIRED` until the player locks a plan, and with `QUALIFYING_CALL_REQUIRED` while a
+  checkpoint call is open. Development decisions are still checked first.
+- **Engine:** each segment runs in two phases around its checkpoint. Traffic counts cars leaving in the same slot,
+  so the pre-call laps never depend on the call. Lap time = car pace at the circuit (read once from
+  `technicalPerformanceAtTrack`, demand-weighted, reliability/cooling excluded) + driver one-lap pace + tyre/allowance +
+  wetness + track evolution + traffic + seeded noise/mistakes. RNG namespaces: `qualifying-weather`,
+  `qualifying-forecast`, `qualifying-slot`, `qualifying-lap`, `qualifying-order`.
+- **Rivals:** `policyPlan`/`policyCall` read only the team's own forecast, the visible track, the timing screen and the
+  car's standing at the circuit. The same policy is the player's recommendation and headless default.
+- **Weather:** at most one seeded change per session (`rainTendency`). Forecast accuracy is
+  `0.35..0.9` from the season's `researchPoints`, which the `DEVELOPMENT_WEEK` handler adds from `workSegments`
+  (the replay's Research bubbles). This is bookkeeping only; development is unchanged, as proven by the v6/v7 golden
+  continuations.
+- **Persistence:** `universe.qualifying = {rules: 1, researchPoints, sessions}`. Each session stores its weather,
+  forecasts, entrants, plans, per-segment calls/laps/order and the final grid with 1–3 stored reasons. Segments are
+  written once.
+- **Save v8:** `contracts/v8.json`, frozen V7 semantics (`validationV7.ts`, `historicalV7Validation.ts`) and the
+  retained `driver-world-v7.json`. The v7 → v8 migration keeps rules and history, adds empty qualifying state
+  (Research estimate from current projects) and backfills no grids. `qualifyingValidation.ts` checks shape, status
+  against `currentDate`, segment survivors and grid order.

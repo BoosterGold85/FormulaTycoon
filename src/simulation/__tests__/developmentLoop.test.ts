@@ -31,7 +31,7 @@ function withProjects(seed=3){
 test('new careers run development rules 3 and save as v7; the v5 fixture is frozen',()=>{
  const u=createGameUniverse(definition,1);
  expect(u.developmentRules).toBe(3);
- expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(7);
+ expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(8);
  expect(createHash('sha256').update(readFileSync(join(__dirname,'../../persistence/__tests__/fixtures/driver-world-v5.json'))).digest('hex'))
   .toBe('9539ffa5f57ef5306b38fbf741934e35edec1eb1ee11f7d19fd35eac88b386c5');
 });
@@ -40,10 +40,11 @@ test('frozen v5 career migrates to rules 1 unchanged and keeps its released cade
  const before=JSON.stringify(v5);
  const loaded=value(deserializeSave(before,definition));
  expect(JSON.stringify(v5)).toBe(before);
- const {developmentRules,definitionVersion,...rest}=loaded.universe;
+ const {developmentRules,definitionVersion,qualifying,...rest}=loaded.universe;
+ expect(qualifying).toMatchObject({rules:1,sessions:{}});
  const {definitionVersion:_old,...original}=v5.universe;
  expect(developmentRules).toBe(1);expect(definitionVersion).toBe(definition.version);expect(rest).toEqual(original);
- expect(loaded.saveVersion).toBe(7);
+ expect(loaded.saveVersion).toBe(8);
  // Rules 1 never raises events or real-weekend fittings: every new submission uses legacy event IDs.
  const later=advanceCampaignTo(loaded.universe,definition,date('2026-10-05'));
  const legacyIds=new Set(definition.development.calendar.map(e=>e.id));
@@ -73,7 +74,9 @@ test('player projects use the same start rules as rivals: slots, budget, homolog
 test('turn target is the next Monday or an earlier FP1, and stops at the season boundary',()=>{
  const u=createGameUniverse(definition,1);
  expect(nextTurnTarget(u)).toEqual({date:'2026-03-06',kind:'FP1',eventId:'event.2026.melbourne',venue:'Melbourne'});
- expect(nextTurnTarget({...u,currentDate:date('2026-03-06')})).toEqual({date:'2026-03-09',kind:'MONDAY'});
+ // Save v8: FP1 Friday -> Saturday qualifying -> Monday.
+ expect(nextTurnTarget({...u,currentDate:date('2026-03-06')})).toEqual({date:'2026-03-07',kind:'QUALIFYING',eventId:'event.2026.melbourne',venue:'Melbourne'});
+ expect(nextTurnTarget({...u,currentDate:date('2026-03-07')})).toEqual({date:'2026-03-09',kind:'MONDAY'});
  expect(nextTurnTarget({...u,currentDate:date('2026-04-06')})).toEqual({date:'2026-04-13',kind:'MONDAY'});
  expect(nextTurnTarget({...u,currentDate:legacyWeekDate(1,52)})).toBeNull();
 });
@@ -218,7 +221,7 @@ test('a full rules-3 season keeps every team valid: budgets, homologation, event
  const rivalEvents=Object.entries(u.development.teams).filter(([id])=>id!==teamId).flatMap(([,t])=>t.projects.flatMap(p=>p.events??[]));
  expect(rivalEvents.every(e=>e.choice!==null)).toBe(true);
  expect(u.development.submissions.length).toBeGreaterThan(50);
- expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(7);
+ expect(value(createSaveEnvelope(u,meta,definition)).saveVersion).toBe(8);
  const next=startUniverseSeason(u,definition,TEAM_BRANDS.map(t=>t.id));
  expect(next.developmentRules).toBe(3);
 });

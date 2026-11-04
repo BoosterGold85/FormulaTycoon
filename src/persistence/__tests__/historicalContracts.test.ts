@@ -86,8 +86,8 @@ test('v3 fixture contains meaningful audited career state and resumes determinis
   b=advanceUniverseWeek(advanceUniverseHeadquarters(b,live,500),live);
  }
  expect(a).toEqual(b);
- expect(CURRENT_SAVE_VERSION).toBe(7);
- expect(deserializeSave(JSON.stringify({...v3,saveVersion:8}),live)).toMatchObject({ok:false,error:{code:'UNSUPPORTED_VERSION'}});
+ expect(CURRENT_SAVE_VERSION).toBe(8);
+ expect(deserializeSave(JSON.stringify({...v3,saveVersion:9}),live)).toMatchObject({ok:false,error:{code:'UNSUPPORTED_VERSION'}});
 });
 
 

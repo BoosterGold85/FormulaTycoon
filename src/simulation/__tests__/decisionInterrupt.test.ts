@@ -6,6 +6,7 @@ import {createGameUniverse,type GameUniverse} from '../universe';
 import {advancePlayerDay,blockingDecisions,buildWeekTimeline,continuePlayerTurn,decideProjectEvent,DECISION_EFFECT_NOTE,DAY_MS,eventDefinition,
  pendingEvent,selectHqDevelopment,startPlayerProject,stepPlayback,stopTime,summarizeWeek} from '../developmentLoop';
 import {resolvePendingDefaults} from '../developmentLoop/step';
+import {acceptRecommendation} from '../qualifying';
 import {developmentView} from '../campaignTime/developmentView';
 import {createSaveEnvelope,deserializeSave,serializeSave,type SaveResult} from '../../persistence/saveEnvelope';
 
@@ -14,6 +15,8 @@ const meta={gameVersion:'0.7.1',saveId:'decision-interrupt',createdAt:'2026-11-0
 const value=<T,>(r:SaveResult<T>):T=>{if(!r.ok)throw new Error(r.error.message);return r.value;};
 const reload=(u:GameUniverse)=>value(deserializeSave(value(serializeSave(value(createSaveEnvelope(u,meta,definition)),definition)),definition)).universe;
 const ok=(r:{ok:boolean;universe?:GameUniverse})=>{if(!r.ok)throw new Error('refused');return r.universe!;};
+/** The gated turn; a qualifying plan or call (save v8) is answered with the recommendation, as a quick player would. */
+const playTurn=(u:GameUniverse)=>{let r=continuePlayerTurn(u,definition);for(let k=0;k<4&&!r.ok&&r.reason.startsWith('QUALIFYING');k++){u=acceptRecommendation(u,definition)!;r=continuePlayerTurn(u,definition);}return r;};
 function career(seed:number){
  let u=createGameUniverse(definition,seed);
  for(const partId of ['FRONT_WING','FLOOR','REAR_SUSPENSION'] as const)u=ok(startPlayerProject(u,definition,{partId,objective:'PERFORMANCE',approach:'BALANCED'}));
@@ -23,7 +26,7 @@ function career(seed:number){
 function untilDecision(seed=1){
  let u=career(seed);
  for(let i=0;i<30;i++){
-  const r=continuePlayerTurn(u,definition);if(!r.ok)throw new Error(r.reason);
+  const r=playTurn(u);if(!r.ok)throw new Error(r.reason);
   if(blockingDecisions(r.universe).length)return {before:u,after:r.universe};
   u=r.universe;
  }
@@ -54,7 +57,7 @@ test('resolving the decision allows advancement and records the player choice ex
  const {u:decided,choice}=choose(after,projectId!);
  expect(decideProjectEvent(decided,definition,projectId!,choice)).toEqual({ok:false,reason:'NOT_AVAILABLE'});
  expect(blockingDecisions(decided)).toEqual([]);
- const next=continuePlayerTurn(decided,definition);expect(next.ok).toBe(true);
+ const next=playTurn(decided);expect(next.ok).toBe(true);
  const later=next.ok?next.universe:decided;
  const project=later.development.teams[teamId]!.projects.find(x=>x.id===projectId);
  const events=(project?.events??[]).filter(e=>e.choice===choice);
@@ -81,7 +84,7 @@ test('HQ surfaces the decision first, then a ready part, then work in progress',
   if(team.projects.some(p=>p.stage==='READY')&&team.projects.some(p=>p.stage!=='READY')){
    const v=selectHqDevelopment(u,definition);expect(v.mode).toBe('READY');expect(v.focus!.stage).toBe('READY');found=true;
   }
-  const r=continuePlayerTurn(u,definition);if(!r.ok)break;u=r.universe;
+  const r=playTurn(u);if(!r.ok)break;u=r.universe;
  }
  expect(found).toBe(true);
  expect(selectHqDevelopment(createGameUniverse(definition,3),definition).mode).toBe('IDLE');
@@ -111,13 +114,13 @@ test('save/reload keeps the pending decision and the gate; deciding after reload
  const [id]=blockingDecisions(after);
  const a=choose(after,id!).u,b=choose(loaded,id!).u;
  expect(b).toEqual(a);
- const na=continuePlayerTurn(a,definition),nb=continuePlayerTurn(reload(b),definition);
+ const na=playTurn(a),nb=playTurn(reload(b));
  expect(nb.ok&&na.ok&&nb.universe).toEqual(na.ok&&na.universe);
 });
 
 test('same seed + same decisions gives the same career; a different decision gives a different one',()=>{
  const play=(pick:number)=>{let u=career(5);
-  for(let i=0;i<18;i++){for(const id of blockingDecisions(u))u=choose(u,id,pick).u;const r=continuePlayerTurn(u,definition);if(!r.ok)break;u=r.universe;}
+  for(let i=0;i<18;i++){for(const id of blockingDecisions(u))u=choose(u,id,pick).u;const r=playTurn(u);if(!r.ok)break;u=r.universe;}
   return u;};
  expect(play(0)).toEqual(play(0));
  expect(JSON.stringify(play(1).development.teams[teamId])).not.toBe(JSON.stringify(play(0).development.teams[teamId]));
@@ -132,7 +135,7 @@ test('rival teams resolve their own events by AI policy and never block the play
    rivalDecided+=team.projects.flatMap(p=>p.events??[]).filter(e=>e.choice!==null&&e.type!=='REFINE').length;
   }
   for(const id of blockingDecisions(u))u=choose(u,id).u;
-  const r=continuePlayerTurn(u,definition);if(!r.ok)break;u=r.universe;
+  const r=playTurn(u);if(!r.ok)break;u=r.universe;
  }
  expect(rivalDecided).toBeGreaterThan(0);
  // Even an (artificial) pending rival event is never a player gate.
@@ -146,7 +149,7 @@ test('ordinary variation never pauses time: weeks without a raised decision have
  let u=career(3),swings=0;
  for(let i=0;i<24;i++){
   for(const id of blockingDecisions(u))u=choose(u,id).u;
-  const r=continuePlayerTurn(u,definition);if(!r.ok)break;
+  const r=playTurn(u);if(!r.ok)break;
   const report=summarizeWeek(u,r.universe,definition)!,t=buildWeekTimeline(report);
   if(!report.newEvents.length){expect(t.decisions).toEqual([]);swings+=report.stories.filter(s=>s.swing!=='NORMAL').length;}
   else expect(t.decisions.map(d=>d.projectId).sort()).toEqual(report.newEvents.map(e=>e.projectId).sort());
