@@ -8,8 +8,8 @@ import {advanceCampaignTo,createGameUniverse,type GameUniverse} from '../univers
 import {dueCampaignEvents} from '../universe/campaignEvents';
 import type {CampaignDate} from '../campaignTime';
 import {advancePlayerDay,continuePlayerTurn,nextTurnTarget,startPlayerProject} from '../developmentLoop';
-import {acceptRecommendation,answerQualifyingCall,closeQualifying,fieldAtTrack,forecastAccuracy,policyPlan,progressSession,recommendedCalls,
- recommendedPlans,runQualifyingDay,sessionAwaitingCall,setQualifyingPlan,teamForecast,upcomingBriefing,
+import {acceptRecommendation,answerQualifyingCall,closeQualifying,fieldAtTrack,forecastAccuracy,policyCall,policyPlan,progressSession,recommendedCalls,
+ recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAwaitingCall,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
  type Call,type DriverPlan,type QualifyingSession,type SegmentPlan,type Weather} from '../qualifying';
 import {SAVE_V7,SAVE_V8} from '../../persistence/contracts';
 import {createSaveEnvelope,deserializeSave,serializeSave,validateSave,type SaveResult} from '../../persistence/saveEnvelope';
@@ -251,4 +251,28 @@ test('save v8: frozen v7 fixture migrates at FP1, keeps its released development
  expect(u.qualifying!.sessions[event.eventId!]!.grid).toHaveLength(22);
  expect(Object.keys(u.qualifying!.sessions)).toEqual([event.eventId]);
  expect(reload(u)).toEqual(u);
+});
+
+test('the pit wall only calls a place "safe" once enough cars have set a time',()=>{
+ const base={segment:'Q1' as const,position:7,hasTime:true,remainingRuns:1,nextRunMinute:16,plannedTyre:'NEW_SOFT' as const,wetNow:0,wetBefore:0,
+  forecast:{kind:'DRY' as const,changeMinute:null,confidence:'LOW' as const}};
+ expect(policyCall({...base,timedCars:5}).action).toBe('PLAN');
+ expect(policyCall({...base,timedCars:18}).action).toBe('STAY_IN');
+ expect(policyCall({...base,timedCars:18,position:15}).action).toBe('PLAN');
+});
+
+test('the recommended call is built from exactly the timing screen the player sees at the call',()=>{
+ for(const seed of [1,2,3,4,5,6]){
+  let u=atFP1(seed);u=ok(setQualifyingPlan(u,definition,recommendedPlans(u,definition)));u=advanceCampaignTo(u,definition,SAT);
+  const s=session(u),card=selectQualifyingCall(u,definition)!,tower=towerAt(u,s,9);
+  expect(card.segment).toBe('Q1');
+  for(const d of card.drivers){
+   const row=tower.rows.find(r=>r.driverId===d.driverId)!;
+   expect(d.position).toBe(row.time===null?null:row.position);
+   if(s.weather.kind!=='DRY')continue;
+   const seen={segment:'Q1' as const,position:d.position,hasTime:row.time!==null,timedCars:tower.rows.filter(r=>r.time!==null).length,remainingRuns:d.plannedRunsLeft,
+    nextRunMinute:null,plannedTyre:s.plans[d.driverId]!.Q1.tyre,wetNow:0,wetBefore:0,forecast:s.forecasts[teamId]!};
+   expect(policyCall(seen)).toEqual(d.recommended);
+  }
+ }
 });

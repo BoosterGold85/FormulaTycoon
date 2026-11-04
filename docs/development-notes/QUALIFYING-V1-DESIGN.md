@@ -1,6 +1,6 @@
 # Qualifying V1: design note
 
-Status: **DESIGN, AWAITING OWNER APPROVAL. No code yet.**
+Status: **APPROVED (A–C) AND BUILT. Ready for owner play-test.** See "As built" at the end.
 Base: main `a204428`, which includes Watch the Week and save v7.
 
 ## Owner decisions
@@ -220,3 +220,35 @@ All four screens are checked at 390×844 and 1440×1000, in both themes.
 - **A:** the migrated `researchPoints` seed. Recommended: estimate from current research work.
 - **B:** the tyre allowance: 4 new softs and 1 medium.
 - **C:** the segment lengths and the 3-slot run.
+
+## As built
+
+Where the build differs from, or adds to, the note above:
+
+- **No full wet tyres.** Wetness peaks below full-wet levels, so intermediates are the only wet tyre. They are
+  not rationed.
+- **Times are gaps only.** Laps are stored against a nominal reference lap, so no circuit lap time is invented.
+  The UI shows gaps ("+0.234", "+0.734 in Q1").
+- **The call sees only finished laps.** Cars still on a flying lap at the checkpoint are unknown to everyone,
+  player and AI alike. The pit wall counts a place as "safe" only once at least as many cars as go through have
+  set a time. (Play-test fix: the first version told a P7 car to stay in while half the field had no time.)
+- **A late single run never waits for space.** Waiting would make it miss the flag, so the AI and the
+  recommended plan use "push through" for it. The player can still choose to wait.
+- **The briefing is lazy.** The session record is created when the player first locks a plan, or on Saturday.
+  Its inputs are fixed from FP1 onward, so the result is identical either way. This also covers v7 saves made on
+  an FP1 Friday.
+- **Research totals reset each season** at the explicit season transition.
+- **Replay speed:** 0.7 s per session minute at 1×; 2× halves it; Skip jumps to the next call or the flag.
+
+Measured over 25–40 seeds at Melbourne (automated tests):
+
+| Check | Result |
+|---|---|
+| Rain at 10 minutes: early run vs waiting | Q1 position 9.8 vs 20.7 |
+| New soft vs medium | 0.55 s quicker |
+| Traffic loss per lap: find space vs push through | 0.024 s vs 0.049 s |
+| Car with +6 part rating | Average P13.7 → P9.3, but not ahead in every seed |
+| Fastest car vs the next fastest | Ahead in 33 of 40 seeds |
+| Fastest car vs the slowest | Ahead in 39 of 40 seeds |
+| Dry pole-to-last spread | About 2.4 s |
+

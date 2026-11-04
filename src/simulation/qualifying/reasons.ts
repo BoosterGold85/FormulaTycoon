@@ -25,12 +25,6 @@ export function reasonsFor(session: QualifyingSession, driverId: string, decided
     const line = bestTime(result.laps, result.order[cutoff - 1]!);
     if (line !== null) out.push(`Out in ${decided} by ${s2(mine - line)}.`);
   }
-  const next = decided === 'Q1' ? null : decided === 'Q2' ? 'Q1' : 'Q2';
-  if (next) {
-    const prev = session.segments[next]!, cut = FORMAT[next].cars - FORMAT[next].out;
-    const through = bestTime(prev.laps, driverId), first = bestTime(prev.laps, prev.order[cut]!);
-    if (through !== null && first !== null && first - through < 0.1) out.push(`Through ${next} by just ${s2(first - through)}.`);
-  }
   // Weather call.
   if (weather.kind !== 'DRY' && weather.changeMinute !== null) {
     const start = FORMAT[decided].offset, end = start + FORMAT[decided].minutes;
@@ -58,6 +52,13 @@ export function reasonsFor(session: QualifyingSession, driverId: string, decided
   if (decided !== 'Q1' && q1.length && q1.every(l => l.tyre === 'MEDIUM' || l.tyre === 'USED_MEDIUM')) out.push('Got through Q1 on mediums, saving a new soft.');
   const calls = result.calls[driverId];
   if (calls && !calls.defaulted && calls.action === 'STAY_IN' && decided !== 'Q3' && position > cutoff) out.push(`Stayed in the garage after ${CHECKPOINT[decided]} minutes and was knocked out.`);
+  // A narrow escape in the previous segment matters less than what decided this one.
+  const next = decided === 'Q1' ? null : decided === 'Q2' ? 'Q1' : 'Q2';
+  if (next) {
+    const prev = session.segments[next]!, cut = FORMAT[next].cars - FORMAT[next].out;
+    const through = bestTime(prev.laps, driverId), first = bestTime(prev.laps, prev.order[cut]!);
+    if (through !== null && first !== null && first - through < 0.1) out.push(`Through ${next} by just ${s2(first - through)}.`);
+  }
   // Car fit is always part of the story.
   const fitLine = fit.rank <= 3 && fit.strengths.length ? `Car fit: strong in ${fit.strengths[0]!.toLowerCase()}.`
     : fit.rank >= 8 && fit.concerns.length ? `Car fit: lacking ${fit.concerns[0]!.toLowerCase()} here.`

@@ -80,11 +80,12 @@ export function ensureBriefing(universe: GameUniverse, definition: GameDefinitio
 
 /** Policy call for one driver at the checkpoint, from the shared timing screen and the team's own forecast. */
 export function defaultCall(ctx: SessionContext, session: QualifyingSession, seg: Segment, driverId: string, provisional: string[]): Call {
-  const segLaps = session.segments[seg]!.laps, plan = session.plans[driverId]![seg];
+  // Only what the timing screen shows at the call: laps already finished (cars still on a flying lap are unknown).
+  const segLaps = session.segments[seg]!.laps.filter(l => l.slot + 2 <= CHECKPOINT[seg]), plan = session.plans[driverId]![seg];
   const hasTime = bestTime(segLaps, driverId) !== null;
-  const timed = provisional.filter(id => bestTime(segLaps, id) !== null);
+  const timed = classify(ctx, seg, provisional, segLaps).filter(id => bestTime(segLaps, id) !== null);
   const now = FORMAT[seg].offset + CHECKPOINT[seg], remaining = plannedSlots(ctx, driverId, seg, plan).filter(s => s >= CHECKPOINT[seg]);
-  return policyCall({ segment: seg, position: hasTime ? timed.indexOf(driverId) + 1 : null, hasTime,
+  return policyCall({ segment: seg, position: hasTime ? timed.indexOf(driverId) + 1 : null, hasTime, timedCars: timed.length,
     remainingRuns: remaining.length, nextRunMinute: remaining.length ? FORMAT[seg].offset + remaining[0]! + 1 : null, plannedTyre: plan.tyre,
     wetNow: wetnessAt(session.weather, now), wetBefore: wetnessAt(session.weather, Math.max(0, now - 3)), forecast: session.forecasts[ctx.entrants[driverId]!.teamId]! });
 }

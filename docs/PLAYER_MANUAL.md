@@ -115,7 +115,8 @@ Development and contract deadlines use this shared career calendar. The HQ **NEW
 currently replays the morning arrivals; it does **not** move the career date forward.
 
 Use **CONTINUE** in the top bar to play a week at a time. It moves the career to the next Monday's
-development report, or stops earlier at the first practice of a race weekend. On larger screens, **+1 DAY**
+development report, or stops earlier at the first practice of a race weekend. After first practice, the next
+step is **PLAN QUALIFYING**, for Saturday. On larger screens, **+1 DAY**
 advances a single day. Everything due along the way (development work, fittings, contract deadlines)
 happens exactly once, in order. The season calendar can be browsed from RACE without moving time.
 In this prototype the development season ends on March 1, 2027; season review is not available yet.
@@ -125,7 +126,8 @@ In this prototype the development season ends on March 1, 2027; season review is
 Open **RACE** for the next-event card and a month calendar. Switch months to browse the
 23-round season; tap a marked date, event row or **View weekend** for its briefing. Weekends
 occupy their actual dates, including those spanning two months. A **SPRINT** marker identifies a shorter-format
-weekend; Sprint sessions and races are not simulated yet.
+weekend. For now, Sprint weekends run normal Saturday qualifying; Sprint qualifying and Sprint races are not
+simulated yet. Once qualifying has run, the weekend's briefing shows the starting grid.
 
 The next event is highlighted. **THIS WEEKEND** includes the opening and race dates.
 **COMPLETED** currently means the date has passed; it does not mean a race result was generated.
@@ -227,7 +229,45 @@ Cold tyre warm-up and tyre wear are different challenges; detailed warm-up is no
 
 Technical suitability is only one part of eventual race performance. It excludes driver ability,
 form, strategy and dynamic weather, and predicts no finishing position. It is separate from the
-driver's comfort with the car shown in Driver Detail. Qualifying and races remain future work.
+driver's comfort with the car shown in Driver Detail. Qualifying uses your fitted car at the circuit;
+races remain future work.
+
+## Qualifying
+
+Every race weekend has a Saturday qualifying session. Your two drivers fight the other 20 cars for grid positions.
+
+**Format.** The session is a knockout:
+- **Q1** (18 minutes): all 22 cars run; the slowest 6 are knocked out (P17–P22).
+- **Q2** (15 minutes): 16 cars run; another 6 are knocked out (P11–P16).
+- **Q3** (12 minutes): the top 10 decide pole and the first five rows.
+
+**Your plan.** After first practice, **PLAN QUALIFYING** opens the plan screen, which shows Saturday's forecast
+and how well your car suits the circuit. For each driver and each segment, choose:
+- **Tyres:** a new soft is quickest. A used soft or the medium can save a new set for later. Inters are for a wet track.
+- **Runs:** one or two runs. A second run is another chance, but it uses another set and spends more time in traffic.
+- **Go out:** early, middle or late. Early means a clean track with less grip, and it's safe if rain is coming. Late
+  means the most grip, but busier traffic and more weather risk.
+- **Traffic:** find space or push through. Finding space waits for a gap; very late in a segment, that can cost you
+  the lap. Pushing through is quicker to start, but you more often hit traffic.
+
+Each car has 4 new soft sets and 1 medium set for the whole session. The team's strategists recommend a plan;
+you can keep it or change it. Lock the plan to start qualifying.
+
+**Weather.** A session can stay dry, have rain arrive, or start wet and dry out. The forecast can be wrong. Its
+confidence (Low, Medium or High) improves with the Research work your factory has done this season. That is the
+same Research shown as bubbles in the week replay. Even a well-researched forecast is never certain.
+
+**Live session and calls.** The session is replayed on a timing screen. You can watch it at 1× or 2×, or skip to the
+next call. Halfway through each segment, the pit wall stops and asks for one call per driver: stick to the plan,
+go now, wait for the end, or stay in the garage to save tyres. When the track is wet or drying, you can also change
+tyres. A recommendation is marked, and you can always choose differently. The replay only shows what your team
+has already run; speed and Skip never change it.
+
+**Report Card.** Afterwards, each driver's grid position comes with a short "why": how close the knockout line
+was, traffic, mistakes, tyre choices, the weather call, and how well the car suits the circuit. The grid is saved
+with the weekend and appears in **RACE** in that weekend's briefing. Your car's performance matters most; your
+choices, the driver and the weather decide the rest. The race itself is not simulated yet. Rival teams make their
+own plans and calls.
 
 ## Headquarters and saving
 

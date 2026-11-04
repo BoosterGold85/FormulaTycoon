@@ -10,9 +10,9 @@ const SWING_LABEL={SETBACK:'SETBACK',STALL:'SETBACK',BREAKTHROUGH:'BREAKTHROUGH'
 
 /** End-of-turn confirmation. The HQ has already replayed the week; this only states the authoritative
  * outcome. Quiet weeks stay quiet. Nothing here changes the career. */
-export function TurnReportCard({report,onClose,onOpenDevelopment,onContinueWeek}:{report:SessionTurnReport;onClose:()=>void;onOpenDevelopment:()=>void;
- /** Race weekends have nothing to play yet: the primary action goes straight on into the next working week. */
- onContinueWeek?:()=>void}){
+export function TurnReportCard({report,onClose,onOpenDevelopment,onContinueWeek,continueLabel='CONTINUE WEEK',weekendNote}:{report:SessionTurnReport;onClose:()=>void;onOpenDevelopment:()=>void;
+ /** At a race weekend the primary action goes straight on (to qualifying on save v8 careers). */
+ onContinueWeek?:()=>void;continueLabel?:string;weekendNote?:string}){
  const {styles,ui}=useDesign();
  const tall=useWindowDimensions().height;
  const weekend=report.weekend;
@@ -23,7 +23,7 @@ export function TurnReportCard({report,onClose,onOpenDevelopment,onContinueWeek}
   {report.fitted.map(f=><View key={f.part+f.venue} style={{gap:2}}><View style={styles.between}><Text style={[styles.body,{flex:1,fontWeight:'800'}]}>{f.part}</Text><Chip text={f.label} tone={LABEL_TONE(f.label)}/></View>
    {f.reason?<Text style={styles.muted}>Reason: {f.reason.toLowerCase()}.</Text>:null}</View>)}
   {report.carChange?<CarChange report={report}/>:null}
-  <Text style={styles.muted}>Practice, qualifying and the race are not simulated yet. Continue to watch this week's factory work.</Text>
+  <Text style={styles.muted}>{weekendNote??"Practice, qualifying and the race are not simulated yet. Continue to watch this week's factory work."}</Text>
  </>:<>
   {report.stories.map(s=>{const row=report.projects.find(p=>p.id===s.projectId)!;const swing=SWING_LABEL[s.swing as keyof typeof SWING_LABEL];
    const moved=s.readyBefore!==s.readyAfter,fitMoved=s.fitBefore!==s.fitAfter;
@@ -67,7 +67,7 @@ export function TurnReportCard({report,onClose,onOpenDevelopment,onContinueWeek}
   </ScrollView>
   <View style={{flexDirection:'row',gap:8,padding:14,paddingTop:6}}>
    <View style={{flex:1}}><Action label={report.newEvents.length?'REVIEW':'View development'} onPress={onOpenDevelopment} secondary={!report.newEvents.length}/></View>
-   <View style={{flex:1}}><Action label={weekend&&onContinueWeek&&!report.newEvents.length?'CONTINUE WEEK':weekend?'ENTER WEEKEND':'CONTINUE'}
+   <View style={{flex:1}}><Action label={weekend&&onContinueWeek&&!report.newEvents.length?continueLabel:weekend?'ENTER WEEKEND':'CONTINUE'}
     onPress={weekend&&onContinueWeek&&!report.newEvents.length?onContinueWeek:onClose} secondary={!!report.newEvents.length}/></View>
   </View>
  </View>;

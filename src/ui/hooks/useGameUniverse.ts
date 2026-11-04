@@ -87,6 +87,8 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
     if (!result.ok) return result;
     const next = result.universe;
     universeRef.current = next; setSnapshot(next);
+    // Into Saturday qualifying: the session screen is the presentation, not a factory report.
+    if (result.target.kind === 'QUALIFYING') { setReport(null); return result; }
     // Simulate first (above, once), present second: the report only reads the two universes.
     const summary = summarizeWeek(current, next, definition);
     setReport(summary ? { ...summary, target: result.target } : null);
@@ -99,8 +101,8 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
     if (result.ok) { universeRef.current = result.universe; setSnapshot(result.universe); }
     return result;
   }, [definition]);
-  /** Player development commands are pure domain transitions; refusals are returned, never applied. */
-  const runDevelopment = useCallback((command: (universe: GameUniverse) => CommandResult) => {
+  /** Player development and qualifying commands are pure domain transitions; refusals are returned, never applied. */
+  const runDevelopment = useCallback(<R extends CommandResult | { ok: true; universe: GameUniverse } | { ok: false; reason: string }>(command: (universe: GameUniverse) => R): R => {
     const result = command(universeRef.current!);
     if (result.ok) { universeRef.current = result.universe; setSnapshot(result.universe); }
     return result;

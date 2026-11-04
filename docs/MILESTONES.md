@@ -94,3 +94,10 @@ must explicitly include:
 > Before making visual changes, read and follow `docs/GRAPHIC_DESIGN_BIBLE.md`. It is the canonical visual source of truth. Preserve its reusable-art, palette, fictional-brand and mobile-readability rules unless the project owner explicitly changes them.
 
 The permanent Bible/portrait infrastructure is part of UI V1.1, not another gameplay milestone.
+
+**QUALIFYING V1 (D) — READY FOR OWNER PLAY-TEST.** Branch `claude/happy-dirac-pw7zmq` (from main `a204428`, after
+the Watch the Week merge). Design: development-notes/QUALIFYING-V1-DESIGN.md.
+- Headless Q1/Q2/Q3 engine and save v8 (frozen v7).
+- Weekend flow: FP1 → plan → Saturday → calls → grid.
+- Plan, live and Report Card screens, and the grid in RACE.
+- The race is not simulated. Not merged.

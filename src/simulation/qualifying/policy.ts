@@ -49,6 +49,8 @@ export function policyPlan(team: PolicyTeam): DriverPlan {
 
 export type CallSituation = {
   segment: Segment; position: number | null; hasTime: boolean; remainingRuns: number;
+  /** Cars in the segment that have set a time so far: a place is only "safe" once the screen is representative. */
+  timedCars: number;
   /** Session minute of the next planned flying lap (null = none left). */
   nextRunMinute: number | null;
   plannedTyre: Tyre; forecast: Forecast;
@@ -69,7 +71,7 @@ export function policyCall(s: CallSituation): Call {
   if (rainComing) return withTyre({ action: 'GO_NOW' });
   if (s.segment === 'Q3') return withTyre({ action: s.remainingRuns > 0 ? 'PLAN' : 'GO_LATE' });
   const cutoff = seg.cars - seg.out;
-  if (s.hasTime && s.position !== null && s.position <= cutoff - 6 && !tyre) return { action: 'STAY_IN' };
+  if (s.hasTime && s.position !== null && s.timedCars >= cutoff && s.position <= cutoff - 6 && !tyre) return { action: 'STAY_IN' };
   if (!s.hasTime || s.position === null || s.position > cutoff - 2) return withTyre({ action: s.remainingRuns > 0 ? 'PLAN' : 'GO_LATE' });
   return withTyre({ action: 'PLAN' });
 }

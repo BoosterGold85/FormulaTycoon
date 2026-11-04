@@ -9,6 +9,8 @@ import {selectCalendarMonth} from '../simulation/calendar/monthView';
 import {selectEventDetail} from '../simulation/calendar/eventDetail';
 import {Action,Card,Chip,Disclosure,EmptyState,Screen,Section,useDesign} from './design/system';
 import {CircuitArt} from './art/CircuitArt';
+import {selectQualifyingGrid} from '../simulation/qualifying';
+import {GridList} from './qualifying/GridList';
 
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 type Props={universe:GameUniverse;definition:GameDefinition;onNavigate:(tab:NavTab)=>void};
@@ -17,6 +19,7 @@ export function CalendarScreen({universe,definition,onNavigate}:Props){const {ui
  const [month,setMonth]=useState(Number((window.next?.weekendStartDate??universe.currentDate).slice(5,7))),[selected,setSelected]=useState<string|null>(null);
  const model=selectCalendarMonth(universe,month),detail=selected?selectEventDetail(universe,definition,selected):null;
  const next=window.next?selectEventDetail(universe,definition,window.next.id):null;
+ const grid=detail?selectQualifyingGrid(universe,detail.id):null;
  return <Screen key={selected??'calendar'} title={detail?'Race weekend':'Race calendar'} kicker={`THE SEASON / ${calendar.season}`} subtitle={formatCampaignDate(universe.currentDate)} tab="RACE" onNavigate={onNavigate}>
   {detail?<>
    <Action label="Back to calendar" onPress={()=>setSelected(null)} secondary/>
@@ -39,7 +42,8 @@ export function CalendarScreen({universe,definition,onNavigate}:Props){const {ui
     {detail.demands.map(d=><View key={d.axis} style={styles.between}><Text style={[styles.muted,{flex:1}]}>{d.label}</Text><Text style={[styles.body,{fontWeight:'700'}]}>{d.level}</Text></View>)}
     <Text style={styles.muted}>Driver, weather and strategy effects are not included. Illustration is stylized, not to scale.</Text>
    </Disclosure>
-   <Text style={styles.muted}>Weekend sessions and results are not available yet.</Text>
+   {grid?<><Section title="Qualifying grid" meta={grid.weather}/><GridList rows={grid.rows} reasons/></>:null}
+   <Text style={styles.muted}>{grid?'The race is not simulated yet.':universe.qualifying?'Qualifying runs on the Saturday of the race weekend. The race is not simulated yet.':'Weekend sessions and results are not available yet.'}</Text>
   </>:<>
    {next?<Card accent={ui.gold} hero onPress={()=>setSelected(next.id)} accessibilityLabel="View weekend">
     <View style={styles.between}><Text style={[styles.eyebrow,{color:ui.gold}]}>NEXT RACE · ROUND {next.round}</Text>{next.sprint?<Chip text="SPRINT" tone="red"/>:null}</View>

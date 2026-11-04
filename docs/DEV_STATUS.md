@@ -2,19 +2,46 @@
 
 ## Milestone
 
-**QUALIFYING V1: DESIGN NOTE, AWAITING OWNER APPROVAL.** Branch `claude/happy-dirac-pw7zmq`, from main `a204428`.
-Note: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V1-DESIGN.md).
+**QUALIFYING V1: READY FOR OWNER PLAY-TEST.** Branch `claude/happy-dirac-pw7zmq`, from main `a204428`. Not merged.
+Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V1-DESIGN.md).
 
 - **COMPLETED:**
-  - Owner decisions recorded: Q1/Q2/Q3 knockout, plan plus one call per segment, seeded weather with a
-    research-driven forecast, sprints treated as normal weekends.
-  - Design note written.
-- **IN PROGRESS:** none. No code until the owner approves.
-- **TESTED:** not applicable; documentation only.
-- **NOT VERIFIED:** calibration targets are provisional game weights.
-- **KNOWN ISSUES:** none yet.
-- **TECHNICAL DEBT / ARCHITECTURAL RISK:** none yet. Planned new persistent data: save v8, with v7 frozen.
-- **NEXT MILESTONE:** owner approval of the note and open points A–C, then step 2 (engine, save v8, tests).
+  - Headless engine in `src/simulation/qualifying`: Q1/Q2/Q3 knockout over 22 cars, a plan per car, one call per
+    segment, tyre allowance, traffic, track evolution, seeded weather with research-driven forecasts, rival AI
+    policy, and 1–3 stored reasons per grid entry.
+  - Campaign integration: `QUALIFYING` (Saturday) and `QUALIFYING_CLOSE` (Sunday) instructions, plus a Saturday turn
+    target with plan and call gates.
+  - Save v8, with the v7 contract and validation frozen, a new v7 fixture from the released build, and a
+    v7 → v8 migration (approved Research estimate, no backfilled grids).
+  - UI: plan screen, live timing replay with the call card, Report Card, and the grid in RACE event detail.
+    The turn bar shows PLAN QUALIFYING and QUALIFYING LIVE.
+  - Player Manual qualifying section.
+- **IN PROGRESS:** none.
+- **TESTED:**
+  - 422/422 tests, 23 suites (13 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+    season; no double processing; determinism and reload at every status; choices mattering; a better car winning
+    more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
+    validation tampering; and v7 fixture migration with a golden development continuation.
+  - The v6 and v7 golden development hashes are unchanged, so qualifying never touches development.
+  - TypeScript and web export pass.
+  - Browser play-test (Playwright, web export, seed 1) at 390×844 and 1440×1000 in light and dark: FP1 → plan →
+    lock → live → three calls → result → RACE grid → Monday. No console errors, no horizontal overflow.
+    Wet sessions were also checked on phone.
+- **NOT VERIFIED:** native iPhone; live Cloudflare preview; balance across a full multi-season career; owner feel.
+- **KNOWN ISSUES:**
+  - Calibration weights (car vs driver seconds, traffic, mistakes, rain odds) are provisional game weights, not
+    researched facts.
+  - The fastest car takes most poles at circuits where it has a clear edge.
+  - No full wet tyres.
+  - The replay position is session-only, so it restarts from the beginning after an app reload.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:**
+  - Session records store every lap, about 22 KB per round (about 0.5 MB per season). Compaction may be needed
+    before multi-season careers.
+  - `qualifyingValidation.ts` reads the live `FORMAT`/`qualifyingDate`. Any change to the format must freeze a
+    copy and bump the save version.
+  - `validateDevelopmentRulesV7` is shared by frozen v7 and current v8 validation (the same pattern as v6).
+- **NEXT MILESTONE:** owner play-test of Qualifying V1. Then either race simulation (E) or a qualifying tuning pass,
+  as the owner decides.
 
 ## Milestone
 
