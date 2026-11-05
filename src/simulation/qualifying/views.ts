@@ -1,7 +1,7 @@
 import {calendarById} from '../../game/calendar';
 import type {GameDefinition,GameUniverse} from '../universe/types';
 import {createBriefing,defaultCall,sessionContext,segmentOf} from './campaign';
-import {answerQualifyingCall,plannableEvent,sessionAwaitingCall,setQualifyingPlan} from './commands';
+import {answerQualifyingCall,continueQualifying,plannableEvent,sessionAtBreak,sessionAwaitingCall,setQualifyingPlan} from './commands';
 import {classify,segmentDrivers} from './session';
 import type {Call,DriverPlan,QualifyingSession} from './types';
 
@@ -27,8 +27,12 @@ export function recommendedCalls(universe: GameUniverse, definition: GameDefinit
   const provisional = classify(ctx, seg, drivers, session.segments[seg]!.laps);
   return Object.fromEntries(drivers.filter(id => ctx.entrants[id]!.teamId === universe.playerTeamId).map(id => [id, defaultCall(ctx, session, seg, id, provisional)]));
 }
-/** Accept every recommendation for the current weekend step (lock the plan, or answer the pending call). */
+/** Accept every recommendation for the current weekend step (lock the plan, answer the call, or continue from a break). */
 export function acceptRecommendation(universe: GameUniverse, definition: GameDefinition): GameUniverse | null {
+  if (sessionAtBreak(universe)) {
+    const r = continueQualifying(universe, definition);
+    return r.ok ? r.universe : null;
+  }
   if (sessionAwaitingCall(universe)) {
     const r = answerQualifyingCall(universe, definition, recommendedCalls(universe, definition));
     return r.ok ? r.universe : null;

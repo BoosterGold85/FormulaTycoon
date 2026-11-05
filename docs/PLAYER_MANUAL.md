@@ -257,15 +257,28 @@ you can keep it or change it. Lock the plan to start qualifying.
 confidence (Low, Medium or High) improves with the Research work your factory has done this season. That is the
 same Research shown as bubbles in the week replay. Even a well-researched forecast is never certain.
 
-**Live session and calls.** The session is replayed on a timing screen, sector by sector. **Your cars** shows each
-driver's out lap, flying lap and in lap, and each sector's gap to the fastest time in that sector as it completes.
-Sector colours mean: **purple**, fastest of anyone so far; **green**, that driver's personal best; **yellow**,
-slower than their best. A short feed reports new fastest times, laps lost and the end of each segment. The replay
-lingers when something happens and moves faster when nothing does. You can watch at 1× or 2×, or skip to the next
-call. Halfway through each segment, the pit wall stops and asks for one call per driver: stick to the plan,
-go now, wait for the end, or stay in the garage to save tyres. When the track is wet or drying, you can also change
-tyres. A recommendation is marked, and you can always choose differently. The replay only shows what your team
-has already run; speed and Skip never change it.
+**Live session and calls.** The session is replayed on a timing screen, sector by sector:
+- **Your cars** shows each driver's out lap, flying lap and in lap. As the lap runs, each sector shows its gap to the
+  fastest time in that sector, plus where the lap would put the driver at its pace so far ("On pace for P9").
+- **Sector colours:** **purple** is fastest of anyone so far; **green** is that driver's personal best; **yellow** is
+  slower than their best.
+- **The tower:** cars on a flying lap are at full strength; cars on out laps, in laps or in the garage are greyed.
+  Your cars are always highlighted. A red line marks the **drop zone**, and rivals fighting around it pulse while
+  they're on a flying lap. Rows slide as positions change.
+- **Focus** shows only your cars and the battle around the drop zone (in Q3, the fight for pole).
+- **Commentary** covers the whole field ("Verhoeven goes fastest!"). **Team radio**, with your team's badge, is
+  your engineer talking to your drivers ("Good S1. You're up two tenths on your best.").
+- **Pace:** the replay lingers when something happens and moves faster when nothing does. You can watch at 1×, 2×
+  or 4×; Skip jumps to the next stop.
+
+Halfway through each part the pit wall asks for one call per driver: stick to the plan, go now, wait for the end,
+or stay in the garage to save tyres. On a wet or drying track you can also change tyres. A recommendation is
+marked; you can always choose differently.
+
+**Breaks.** The session stops after Q1 and after Q2. The break shows who was knocked out, whether your cars made
+it, and the order going into the next part. If you have a car still running, you can change its plan for the next
+part there. Nothing resumes until you press Continue; Skip and the speed controls stop there too. The replay only
+shows what your team has already run: speed, Skip and Focus never change it.
 
 **Report Card.** Afterwards, each driver's grid position comes with a short "why": how close the knockout line
 was, traffic, mistakes, tyre choices, the weather call, and how well the car suits the circuit. The grid is saved

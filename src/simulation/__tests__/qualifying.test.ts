@@ -9,7 +9,7 @@ import {dueCampaignEvents} from '../universe/campaignEvents';
 import type {CampaignDate} from '../campaignTime';
 import {advancePlayerDay,continuePlayerTurn,nextTurnTarget,startPlayerProject} from '../developmentLoop';
 import {acceptRecommendation,answerQualifyingCall,closeQualifying,fieldAtTrack,forecastAccuracy,policyCall,policyPlan,progressSession,recommendedCalls,
- activeBeats,liveTiming,recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAwaitingCall,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
+ activeBeats,continueQualifying,liveTiming,recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAtBreak,sessionAwaitingCall,sessionAwaitingPlayer,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
  type Call,type DriverPlan,type QualifyingSession,type SegmentPlan,type Weather} from '../qualifying';
 import {SAVE_V7,SAVE_V8} from '../../persistence/contracts';
 import {createSaveEnvelope,deserializeSave,serializeSave,validateSave,type SaveResult} from '../../persistence/saveEnvelope';
@@ -31,7 +31,7 @@ function play(u:GameUniverse,plans?:Record<string,DriverPlan>,calls?:(u:GameUniv
  u=ok(setQualifyingPlan(u,definition,plans??recommendedPlans(u,definition)));
  if(weather)u={...u,qualifying:{...u.qualifying!,sessions:{...u.qualifying!.sessions,[melbourne]:{...session(u),weather}}}};
  u=advanceCampaignTo(u,definition,SAT);
- while(sessionAwaitingCall(u))u=ok(answerQualifyingCall(u,definition,calls?calls(u):recommendedCalls(u,definition)));
+ while(sessionAwaitingPlayer(u))u=sessionAtBreak(u)?ok(continueQualifying(u,definition)):ok(answerQualifyingCall(u,definition,calls?calls(u):recommendedCalls(u,definition)));
  return session(u);
 }
 const both=(u:GameUniverse,p:DriverPlan)=>Object.fromEntries(mine(u).map(id=>[id,p]));
@@ -81,11 +81,11 @@ test('same seed + same choices gives the same grid; save/reload at every status 
   if(withReload)u=reload(u);
   u=advanceCampaignTo(u,definition,SAT);
   const statuses:string[]=[];
-  while(sessionAwaitingCall(u)){statuses.push(session(u).status);if(withReload)u=reload(u);u=ok(answerQualifyingCall(u,definition,fixedCalls('PLAN')(u)));}
+  while(sessionAwaitingPlayer(u)){statuses.push(session(u).status);if(withReload)u=reload(u);u=sessionAtBreak(u)?ok(continueQualifying(u,definition)):ok(answerQualifyingCall(u,definition,fixedCalls('PLAN')(u)));}
   return {s:session(u),statuses,u:withReload?reload(u):u};
  };
  const a=run(false),b=run(true);
- expect(a.statuses).toEqual(['Q1_CALL','Q2_CALL','Q3_CALL'].slice(0,a.statuses.length));
+ expect(a.statuses).toEqual(['Q1_CALL','Q1_BREAK','Q2_CALL','Q2_BREAK','Q3_CALL'].slice(0,a.statuses.length));
  expect(a.statuses.length).toBeGreaterThanOrEqual(1);
  expect(b.s).toEqual(a.s);expect(b.u).toEqual(a.u);
  // A different choice gives a different session.
@@ -177,7 +177,10 @@ test('the weekend gates: plan before Saturday, answer each call, then Monday; da
  expect(advancePlayerDay(w,definition)).toEqual({ok:false,reason:'QUALIFYING_CALL_REQUIRED',eventId:melbourne});
  expect(setQualifyingPlan(w,definition,pair(plan({})))).toEqual({ok:false,reason:'NOT_PLANNING'});
  expect(answerQualifyingCall(w,definition,{[ids[0]!]:{action:'FLY' as Call['action']},[ids[1]!]:{action:'PLAN'}})).toEqual({ok:false,reason:'INVALID_CALL'});
- for(let i=0;i<3&&sessionAwaitingCall(w);i++)w=ok(answerQualifyingCall(w,definition,fixedCalls('GO_LATE')(w)));
+ for(let i=0;i<5&&sessionAwaitingPlayer(w);i++){
+  if(sessionAtBreak(w)){expect(continuePlayerTurn(w,definition)).toEqual({ok:false,reason:'QUALIFYING_CALL_REQUIRED',eventId:melbourne});w=ok(continueQualifying(w,definition));}
+  else w=ok(answerQualifyingCall(w,definition,fixedCalls('GO_LATE')(w)));
+ }
  expect(session(w).status).toBe('COMPLETE');
  // The player's own calls are recorded as the player's, never as defaults.
  for(const id of ids)expect(session(w).segments.Q1!.calls[id]).toEqual({action:'GO_LATE',defaulted:false});
@@ -247,7 +250,7 @@ test('save v8: frozen v7 fixture migrates at FP1, keeps its released development
  expect(event.kind).toBe('QUALIFYING');
  u=acceptRecommendation(u,definition)!;
  u=ok(continuePlayerTurn(u,definition) as {ok:boolean;universe?:GameUniverse});
- while(sessionAwaitingCall(u))u=acceptRecommendation(u,definition)!;
+ while(sessionAwaitingPlayer(u))u=acceptRecommendation(u,definition)!;
  expect(u.qualifying!.sessions[event.eventId!]!.grid).toHaveLength(22);
  expect(Object.keys(u.qualifying!.sessions)).toEqual([event.eventId]);
  expect(reload(u)).toEqual(u);
@@ -309,5 +312,49 @@ test('live timing: a lap goes out lap -> flying (S1, S2, S3) -> in lap -> garage
  expect(towerAt(u,s,9).rows.map(r=>[r.driverId,r.time])).toEqual(liveTiming(u,s,27).rows.map(r=>[r.driverId,r.time]));
  // The replay lingers only where something happens; the session end is always a beat to stop on.
  const beats=activeBeats(s);expect(beats.has(54)).toBe(true);expect(beats.size).toBeLessThan(45*3);
- expect(liveTiming(u,s,54).feed.some(f=>f.startsWith('Q1 over'))).toBe(true);
+ expect(liveTiming(u,s,54).commentary.some(f=>f.kind==='ANNOUNCER'&&f.text.startsWith('Q1 over'))).toBe(true);
+});
+
+/** Golden results recorded before the presentation/flow pass (breaks, commentary, pacing): lap times, orders
+ * and grids must stay byte-identical for the same seed and the same choices. */
+const core=(s:QualifyingSession)=>({laps:(['Q1','Q2','Q3'] as const).map(q=>s.segments[q]!.laps),orders:(['Q1','Q2','Q3'] as const).map(q=>s.segments[q]!.order),grid:s.grid});
+const hash=(x:unknown)=>createHash('sha256').update(JSON.stringify(x)).digest('hex');
+test('golden: headless season and recommended player sessions are unchanged by breaks and presentation',()=>{
+ const u=advanceCampaignTo(createGameUniverse(definition,11),definition,d('2026-12-14'));
+ expect(hash(Object.values(u.qualifying!.sessions).map(core))).toBe('8a0b2dfda8a35dba9c929394ca497381eab0afd96c1875a0249a6e6382b23291');
+ const out:unknown[]=[];
+ for(const seed of [1,2,3,4,5]){let v=atFP1(seed);v=acceptRecommendation(v,definition)!;v=advanceCampaignTo(v,definition,SAT);
+  while(sessionAwaitingPlayer(v))v=acceptRecommendation(v,definition)!;out.push(core(session(v)));}
+ expect(hash(out)).toBe('0e965cf457fa77818ad7a42dbc905d225bf6448690a5afc391df1b43686992ce');
+});
+
+test('breaks: the session stops after Q1 and Q2, nothing of the next part runs before Continue, and re-planning applies to it',()=>{
+ let u=atFP1(2);u=ok(setQualifyingPlan(u,definition,recommendedPlans(u,definition)));u=advanceCampaignTo(u,definition,SAT);
+ u=ok(answerQualifyingCall(u,definition,recommendedCalls(u,definition)));
+ const s=session(u);
+ if(s.status!=='Q1_BREAK'){expect(s.status).toBe('COMPLETE');return;} // both cars out in Q1: nothing to wait for
+ expect(s.segments.Q2).toBeUndefined();expect(answerQualifyingCall(u,definition,{})).toEqual({ok:false,reason:'NO_CALL'});
+ const through=s.segments.Q1!.order.slice(0,16).filter(id=>s.entrants.find(e=>e.driverId===id)!.teamId===teamId);
+ const medium={tyre:'MEDIUM' as const,runs:1 as const,timing:'EARLY' as const,traffic:'FIND_SPACE' as const};
+ expect(continueQualifying(u,definition,{'driver.verhoeven':medium})).toEqual({ok:false,reason:'INVALID_PLAN'});
+ const v=ok(continueQualifying(u,definition,Object.fromEntries(through.map(id=>[id,medium]))));
+ expect(session(v).status).toBe('Q2_CALL');
+ for(const id of through){expect(session(v).plans[id]!.Q2).toEqual(medium);expect(session(v).segments.Q2!.laps.filter(l=>l.driverId===id).every(l=>l.tyre==='MEDIUM')).toBe(true);}
+ expect(reload(v)).toEqual(v);expect(reload(u)).toEqual(u);
+});
+
+test('commentary: the announcer covers the field, radio is only for the player, and nothing is said before it happens',()=>{
+ const u=advanceCampaignTo(atFP1(3),definition,SUN),s=session(u),ids=s.entrants.filter(e=>e.teamId===teamId).map(e=>e.driverId);
+ let radio=0,announcer=0;
+ for(let b=0;b<=135;b+=3){
+  const live=liveTiming(u,s,b),local=b-(live.segment==='Q1'?0:live.segment==='Q2'?54:99);
+  for(const line of live.commentary){
+   expect(line.at).toBeLessThanOrEqual(local+0.5);
+   if(line.kind==='RADIO'){radio++;expect(ids).toContain(line.driverId);}else announcer++;
+  }
+  for(const r of live.rows)if(!r.mine)expect(r.predicted).toBeNull();
+ }
+ expect(radio).toBeGreaterThan(0);expect(announcer).toBeGreaterThan(0);
+ // The same beat always reads the same, however it was reached (speed, Skip or Focus are presentation only).
+ expect(liveTiming(u,s,40)).toEqual(liveTiming(u,s,40));
 });

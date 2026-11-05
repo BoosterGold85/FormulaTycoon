@@ -3,7 +3,7 @@ import {campaignContext,compareCampaignDates,legacyWeekDate,type CampaignDate} f
 import type {GameDefinition,GameUniverse} from '../universe/types';
 import {advanceCampaignByDays,advanceCampaignTo} from '../universe';
 import {qualifyingDate} from '../qualifying/campaign';
-import {sessionAwaitingCall} from '../qualifying/commands';
+import {sessionAwaitingPlayer} from '../qualifying/commands';
 
 export type TurnTarget = { date: CampaignDate; kind: 'MONDAY' | 'FP1' | 'QUALIFYING'; eventId?: string; venue?: string };
 /**
@@ -40,10 +40,10 @@ export type PlayerTurnResult =
   | { ok: false; reason: 'DECISION_REQUIRED'; projectIds: string[] }
   | { ok: false; reason: 'QUALIFYING_PLAN_REQUIRED' | 'QUALIFYING_CALL_REQUIRED'; eventId: string }
   | { ok: false; reason: 'SEASON_COMPLETE' };
-/** Qualifying gates the player's turn like an open decision: lock a plan before Saturday, answer each call. */
+/** Qualifying gates the player's turn like an open decision: lock a plan before Saturday, answer each call and break. */
 function qualifyingGate(universe: GameUniverse, target: TurnTarget): PlayerTurnResult | null {
   if (!universe.playerTeamId || !universe.qualifying) return null;
-  const waiting = sessionAwaitingCall(universe);
+  const waiting = sessionAwaitingPlayer(universe);
   if (waiting) return { ok: false, reason: 'QUALIFYING_CALL_REQUIRED', eventId: waiting.eventId };
   if (target.kind === 'QUALIFYING' && !universe.qualifying.sessions[target.eventId!]?.planLocked) return { ok: false, reason: 'QUALIFYING_PLAN_REQUIRED', eventId: target.eventId! };
   return null;

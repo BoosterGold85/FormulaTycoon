@@ -7,7 +7,7 @@ import {carPace,driverPace} from './pace';
 import {policyCall,policyPlan} from './policy';
 import {reasonsFor,type FitNote} from './reasons';
 import {bestTime,classify,plannedSlots,runAfterCheckpoint,runBeforeCheckpoint,segmentDrivers,type SessionContext} from './session';
-import {CHECKPOINT,FORMAT,SEGMENTS,type Call,type DriverPlan,type GridEntry,type QualifyingLap,type QualifyingSession,type QualifyingState,type Segment,type SessionStatus} from './types';
+import {CHECKPOINT,FORMAT,SEGMENTS,type Call,type DriverPlan,type GridEntry,type QualifyingLap,type QualifyingSession,type SegmentPlan,type QualifyingState,type Segment,type SessionStatus} from './types';
 import {sessionWeather,teamForecast,wetnessAt} from './weather';
 
 /** Saturday qualifying: the day after the weekend's FP1, for normal and Sprint weekends alike (V1). */
@@ -17,6 +17,9 @@ export const usesQualifying = (universe: Pick<GameUniverse, 'qualifying' | 'driv
 
 const callStatus: Record<Segment, SessionStatus> = { Q1: 'Q1_CALL', Q2: 'Q2_CALL', Q3: 'Q3_CALL' };
 export const segmentOf = (status: SessionStatus): Segment | null => status === 'Q1_CALL' ? 'Q1' : status === 'Q2_CALL' ? 'Q2' : status === 'Q3_CALL' ? 'Q3' : null;
+/** The segment just completed at a break, and the one that starts after it. */
+export const breakOf = (status: SessionStatus): { done: Segment; next: Segment } | null =>
+  status === 'Q1_BREAK' ? { done: 'Q1', next: 'Q2' } : status === 'Q2_BREAK' ? { done: 'Q2', next: 'Q3' } : null;
 const trackOf = (universe: GameUniverse, eventId: string): CircuitDefinition => {
   const calendar = calendarById(universe.calendarId), event = calendar.events.find(e => e.id === eventId);
   if (!event) throw new Error('Unknown qualifying event');
@@ -108,14 +111,27 @@ function buildGrid(universe: GameUniverse, definition: GameDefinition, session: 
  * A completed segment is never recomputed.
  */
 export function progressSession(universe: GameUniverse, definition: GameDefinition, eventId: string,
-  opts: { playerCalls?: Record<string, Call>; finish?: boolean } = {}): GameUniverse {
+  opts: { playerCalls?: Record<string, Call>; finish?: boolean; resume?: { plans: Record<string, SegmentPlan> } } = {}): GameUniverse {
   let session: QualifyingSession | undefined = universe.qualifying!.sessions[eventId];
   if (!session || session.status === 'COMPLETE') return universe;
   const ctx = sessionContext(universe, definition, session);
-  let pending = opts.playerCalls;
+  let pending = opts.playerCalls, resume = opts.resume;
   for (;;) {
     if (session.status === 'PLANNING') {
       session = { ...session, status: 'Q1_CALL', segments: { Q1: { calls: {}, laps: runBeforeCheckpoint(ctx, session, 'Q1'), order: [] } } };
+      continue;
+    }
+    const pause = breakOf(session.status);
+    if (pause) {
+      // A break waits for the player while one of their cars runs in the next part. Re-planning applies to
+      // the next part only, before any of it is resolved (the two-phase rule is unchanged).
+      const next = pause.next, mineNext = segmentDrivers(session, next).filter(id => ctx.entrants[id]!.teamId === universe.playerTeamId);
+      if (mineNext.length && !resume && !opts.finish) break;
+      const plans: Record<string, DriverPlan> = { ...session.plans };
+      for (const [id, plan] of Object.entries(resume?.plans ?? {})) if (mineNext.includes(id)) plans[id] = { ...plans[id]!, [next]: plan };
+      resume = undefined;
+      session = { ...session, plans };
+      session = { ...session, status: callStatus[next], segments: { ...session.segments, [next]: { calls: {}, laps: runBeforeCheckpoint(ctx, session, next), order: [] } } };
       continue;
     }
     const seg: Segment = segmentOf(session.status)!;
@@ -136,8 +152,7 @@ export function progressSession(universe: GameUniverse, definition: GameDefiniti
       session = { ...session, grid: buildGrid(universe, definition, session) };
       break;
     }
-    const next = SEGMENTS[SEGMENTS.indexOf(seg) + 1]!;
-    session = { ...session, status: callStatus[next], segments: { ...session.segments, [next]: { calls: {}, laps: runBeforeCheckpoint(ctx, session, next), order: [] } } };
+    session = { ...session, status: seg === 'Q1' ? 'Q1_BREAK' : 'Q2_BREAK' };
   }
   return withSession(universe, session);
 }

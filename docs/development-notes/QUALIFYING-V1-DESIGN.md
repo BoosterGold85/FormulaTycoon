@@ -260,3 +260,25 @@ Measured over 25–40 seeds at Melbourne (automated tests):
 | Fastest car vs the slowest | Ahead in 39 of 40 seeds |
 | Dry pole-to-last spread | About 2.4 s |
 
+### Play-test 3 (presentation and session flow only)
+
+- **Breaks:** new statuses `Q1_BREAK` and `Q2_BREAK`. After a part ends, the next part's first phase is NOT resolved
+  until the player continues (`continueQualifying`), optionally re-planning the next part for their cars still
+  running. The two-phase rule is unchanged. Headless and close paths continue on their own. The UI also stops at a
+  break when none of the player's cars is in the next part (a presentation stop with no decision).
+- **Results unchanged:** golden hashes of a headless season (seed 11) and of five recommended player sessions were
+  recorded before this pass and are asserted in tests.
+- **Live view:**
+  - Inactive cars are dimmed, and the player's rows are loudest.
+  - The drop zone is its own divider row, and rivals around it pulse while flying (off with reduced motion).
+  - Rows slide on position changes; Focus mode; 4×.
+  - "On pace for" uses only completed sectors, plus the driver's own best lap (else the fastest sectors plus this
+    lap's average deficit) for the rest. It never peeks at the stored result.
+- **Commentary and radio:** derived from stored laps at each beat; a test checks that nothing is said before it
+  happens, and that radio only ever addresses the player's cars.
+- **Pace:** active beats ~2.3 s and quiet beats ~0.75 s at 1×. Q1 reaches its call in about 44 s (measured in the
+  browser).
+- **Not built: event-driven calls (yellow/red flags, condition-change calls).** Making them real decisions would
+  change results for the sessions where events happen, which conflicts with "results unchanged". Deferred pending
+  the owner's call.
+

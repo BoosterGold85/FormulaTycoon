@@ -60,7 +60,8 @@ export type GridEntry = {
   /** Segment in which the driver's final position was decided. */
   segment: Segment; reasons: string[];
 };
-export type SessionStatus = 'PLANNING' | 'Q1_CALL' | 'Q2_CALL' | 'Q3_CALL' | 'COMPLETE';
+/** *_BREAK: the segment is complete and the player reviews it (and may re-plan the next part) before it starts. */
+export type SessionStatus = 'PLANNING' | 'Q1_CALL' | 'Q1_BREAK' | 'Q2_CALL' | 'Q2_BREAK' | 'Q3_CALL' | 'COMPLETE';
 export type QualifyingSession = {
   eventId: string;
   /** Saturday: the day after the weekend's FP1. */

@@ -16,7 +16,7 @@ const value=<T,>(r:SaveResult<T>):T=>{if(!r.ok)throw new Error(r.error.message);
 const reload=(u:GameUniverse)=>value(deserializeSave(value(serializeSave(value(createSaveEnvelope(u,meta,definition)),definition)),definition)).universe;
 const ok=(r:{ok:boolean;universe?:GameUniverse})=>{if(!r.ok)throw new Error('refused');return r.universe!;};
 /** The gated turn; a qualifying plan or call (save v8) is answered with the recommendation, as a quick player would. */
-const playTurn=(u:GameUniverse)=>{let r=continuePlayerTurn(u,definition);for(let k=0;k<4&&!r.ok&&r.reason.startsWith('QUALIFYING');k++){u=acceptRecommendation(u,definition)!;r=continuePlayerTurn(u,definition);}return r;};
+const playTurn=(u:GameUniverse)=>{let r=continuePlayerTurn(u,definition);for(let k=0;k<8&&!r.ok&&r.reason.startsWith('QUALIFYING');k++){u=acceptRecommendation(u,definition)!;r=continuePlayerTurn(u,definition);}return r;};
 function career(seed:number){
  let u=createGameUniverse(definition,seed);
  for(const partId of ['FRONT_WING','FLOOR','REAR_SUSPENSION'] as const)u=ok(startPlayerProject(u,definition,{partId,objective:'PERFORMANCE',approach:'BALANCED'}));

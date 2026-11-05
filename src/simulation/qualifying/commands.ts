@@ -1,9 +1,9 @@
 import {calendarById} from '../../game/calendar';
 import {compareCampaignDates} from '../campaignTime';
 import type {GameDefinition,GameUniverse} from '../universe/types';
-import {ensureBriefing,progressSession,qualifyingDate,segmentOf,usesQualifying} from './campaign';
+import {breakOf,ensureBriefing,progressSession,qualifyingDate,segmentOf,usesQualifying} from './campaign';
 import {segmentDrivers} from './session';
-import {SEGMENTS,type Call,type DriverPlan,type QualifyingSession} from './types';
+import {SEGMENTS,type Call,type DriverPlan,type QualifyingSession,type SegmentPlan} from './types';
 
 export type QualifyingFailure = 'NO_PLAYER_TEAM' | 'NO_QUALIFYING' | 'NOT_PLANNING' | 'NO_CALL' | 'INVALID_PLAN' | 'INVALID_CALL';
 export type QualifyingResult = { ok: true; universe: GameUniverse } | { ok: false; reason: QualifyingFailure };
@@ -11,6 +11,11 @@ export type QualifyingResult = { ok: true; universe: GameUniverse } | { ok: fals
 const TYRES = ['NEW_SOFT', 'USED_SOFT', 'MEDIUM', 'INTER'], TIMINGS = ['EARLY', 'MIDDLE', 'LATE'], TRAFFIC = ['FIND_SPACE', 'PUSH'];
 const ACTIONS = ['PLAN', 'GO_NOW', 'GO_LATE', 'STAY_IN'];
 const own = (o: object, k: string) => Object.prototype.hasOwnProperty.call(o, k);
+function validSegmentPlan(p: unknown): p is SegmentPlan {
+  const s = p as Record<string, unknown> | undefined;
+  return !!s && typeof s === 'object' && Object.keys(s).length === 4 && TYRES.includes(s.tyre as string) && (s.runs === 1 || s.runs === 2) &&
+    TIMINGS.includes(s.timing as string) && TRAFFIC.includes(s.traffic as string);
+}
 function validPlan(plan: unknown): plan is DriverPlan {
   if (!plan || typeof plan !== 'object') return false;
   const p = plan as Record<string, unknown>;
@@ -34,6 +39,25 @@ export function plannableEvent(universe: GameUniverse) {
 /** The session waiting for the player's call today, if any. */
 export function sessionAwaitingCall(universe: Pick<GameUniverse, 'qualifying' | 'currentDate'>): QualifyingSession | null {
   return Object.values(universe.qualifying?.sessions ?? {}).find(s => s.date === universe.currentDate && segmentOf(s.status) !== null) ?? null;
+}
+
+/** The session waiting for the player at a break between parts, if any. */
+export function sessionAtBreak(universe: Pick<GameUniverse, 'qualifying' | 'currentDate'>): QualifyingSession | null {
+  return Object.values(universe.qualifying?.sessions ?? {}).find(s => s.date === universe.currentDate && breakOf(s.status) !== null) ?? null;
+}
+/** Anything the player must answer today before time can move on: a call or a break. */
+export const sessionAwaitingPlayer = (universe: Pick<GameUniverse, 'qualifying' | 'currentDate'>): QualifyingSession | null =>
+  sessionAwaitingCall(universe) ?? sessionAtBreak(universe);
+
+/** Continue from a break, optionally re-planning the next part for the player's cars still running. */
+export function continueQualifying(universe: GameUniverse, definition: GameDefinition, plans: Record<string, SegmentPlan> = {}): QualifyingResult {
+  if (!universe.playerTeamId) return { ok: false, reason: 'NO_PLAYER_TEAM' };
+  const session = sessionAtBreak(universe);
+  if (!session) return { ok: false, reason: 'NO_CALL' };
+  const next = breakOf(session.status)!.next;
+  const mine = segmentDrivers(session, next).filter(id => session.entrants.find(e => e.driverId === id)!.teamId === universe.playerTeamId);
+  if (!Object.keys(plans).every(id => mine.includes(id) && validSegmentPlan(plans[id]))) return { ok: false, reason: 'INVALID_PLAN' };
+  return { ok: true, universe: progressSession(universe, definition, session.eventId, { resume: { plans: JSON.parse(JSON.stringify(plans)) } }) };
 }
 
 /** Lock (or re-lock) the plan for the player's two cars. Allowed from FP1 until the session starts. */

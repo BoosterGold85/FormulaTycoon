@@ -16,7 +16,14 @@ export type LivePhase = 'GARAGE' | 'OUT_LAP' | 'FLYING' | 'IN_LAP' | 'OFF' | 'MI
 export type LiveSector = { color: SectorColor; time: number; delta: number } | null;
 export type TowerRow = { driverId: string; name: string; teamId: string; team: string; color: string; mine: boolean; position: number;
   time: number | null; gap: string; state: 'TRACK' | 'GARAGE'; danger: boolean; out: boolean;
-  phase: LivePhase; sectors: LiveSector[]; justFinished: boolean };
+  phase: LivePhase; sectors: LiveSector[]; justFinished: boolean;
+  /** A car fighting around the knockout line on a flying lap (Q1/Q2). */
+  nearCut: boolean;
+  /** Player cars on a flying lap: where the lap would put them at its pace so far (null otherwise). */
+  predicted: number | null };
+/** Commentary from stored session data only: the announcer covers the field; radio is the player's engineer. */
+export type CommentaryLine = { kind: 'ANNOUNCER' | 'RADIO'; text: string; driverId?: string; at: number };
+const tenths = (d: number) => { const n = Math.round(Math.abs(d) * 10); return n >= 10 ? `${Math.abs(d).toFixed(1)} seconds` : n <= 1 ? 'a tenth' : `${['', '', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'][n]} tenths`; };
 
 /** Segment for a beat. Each segment owns its end-of-segment beat, so its final classification is shown. */
 export function segmentAtBeat(beat: number): Segment {
@@ -37,12 +44,15 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
     .filter(c => c.at <= local && c.time !== null && !c.l.sectors.slice(0, c.i).some(x => x === null))
     .sort((a, b) => a.at - b.at || (a.l.driverId < b.l.driverId ? -1 : 1));
   const overall: number[] = [], personal = new Map<string, number[]>(), colour = new Map<QualifyingLap, Array<LiveSector>>();
-  const feed: Array<{ at: number; text: string }> = [];
+  const feed: CommentaryLine[] = [];
+  const say = (at: number, text: string) => feed.push({ kind: 'ANNOUNCER', at, text });
+  const radio = (at: number, driverId: string, text: string) => feed.push({ kind: 'RADIO', at, driverId, text });
+  const isMine = (id: string) => session.entrants.find(e => e.driverId === id)!.teamId === universe.playerTeamId;
   for (const c of completions) {
     const pb = personal.get(c.l.driverId) ?? [], time = c.time!;
     const col: SectorColor = overall[c.i] === undefined || time < overall[c.i]! ? 'PURPLE' : pb[c.i] === undefined || time < pb[c.i]! ? 'GREEN' : 'YELLOW';
     // Announce a purple only when it beats an existing best (the first laps are all purple by definition).
-    if (col === 'PURPLE') { if (overall[c.i] !== undefined) feed.push({ at: c.at, text: `${surname(universe, c.l.driverId)} goes purple in S${c.i + 1}` }); overall[c.i] = time; }
+    if (col === 'PURPLE') { if (overall[c.i] !== undefined) say(c.at, `${surname(universe, c.l.driverId)} purple in S${c.i + 1}!`); overall[c.i] = time; }
     if (pb[c.i] === undefined || time < pb[c.i]!) pb[c.i] = time;
     personal.set(c.l.driverId, pb);
     const list = colour.get(c.l) ?? [null, null, null];
@@ -66,21 +76,48 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
   // Lap events: the new fastest time, the player's own laps, laps lost and the flag.
   for (const l of laps) {
     const off = l.sectors.findIndex(x => x === null);
-    if (off >= 0 && l.time === null && sectorBeat(l, off) <= local) feed.push({ at: sectorBeat(l, off), text: `${surname(universe, l.driverId)} goes off in S${off + 1}; lap lost` });
+    const mine = isMine(l.driverId);
+    if (mine && l.slot * 3 <= local) radio(l.slot * 3, l.driverId, 'Out lap. Bring the tyres in.');
+    if (off >= 0 && l.time === null && sectorBeat(l, off) <= local) {
+      say(sectorBeat(l, off), `${surname(universe, l.driverId)}'s off in S${off + 1}, that lap's gone.`);
+      if (mine) radio(sectorBeat(l, off) + 0.1, l.driverId, "We've lost that one. Box this lap.");
+    }
+    // The engineer's split at each sector: against the driver's own best lap, else the car on the knockout line (Q3: pole).
+    if (mine) for (let i = 0; i < 3; i++) {
+      const at = sectorBeat(l, i);
+      if (at > local || l.sectors.slice(0, i + 1).some(x => x === null) || i === 2) continue;
+      const before = bestAt(at), ownBest = laps.find(x => x.driverId === l.driverId && x.time !== null && x.time === before.get(l.driverId) && doneAt(x) <= at);
+      const cutId = rank(before)[seg === 'Q3' ? 0 : FORMAT[seg].cars - FORMAT[seg].out - 1], cutLap = cutId && cutId !== l.driverId ? laps.find(x => x.driverId === cutId && x.time !== null && x.time === before.get(cutId) && doneAt(x) <= at) : undefined;
+      const ref = ownBest ?? cutLap;
+      const col = colour.get(l)?.[i]?.color;
+      const opener = col === 'PURPLE' ? `Purple S${i + 1}!` : col === 'GREEN' ? `Good S${i + 1}.` : `S${i + 1} is a bit slow.`;
+      if (!ref) { radio(at, l.driverId, opener); continue; }
+      const sum = (x: QualifyingLap) => x.sectors.slice(0, i + 1).reduce((a, b) => a! + b!, 0)!, delta = sum(l) - sum(ref);
+      const vs = ref === ownBest ? 'on your best' : seg === 'Q3' ? 'on pole' : 'on the cut';
+      radio(at, l.driverId, Math.abs(delta) < 0.05 ? `${opener} Level ${vs}.` : delta < 0 ? `${opener} You're up ${tenths(delta)} ${vs}.` : `${opener} Down ${tenths(delta)} ${vs}, keep pushing.`);
+    }
     if (l.time === null || doneAt(l) > local) continue;
-    const order = rank(bestAt(doneAt(l))), p = order.indexOf(l.driverId) + 1, mine = session.entrants.find(e => e.driverId === l.driverId)!.teamId === universe.playerTeamId;
-    const improved = bestAt(doneAt(l)).get(l.driverId) === l.time;
-    if (p === 1 && improved) feed.push({ at: doneAt(l), text: `${surname(universe, l.driverId)} goes fastest` });
-    else if (mine) feed.push({ at: doneAt(l), text: improved ? `${surname(universe, l.driverId)} moves to P${p}` : `${surname(universe, l.driverId)} doesn't improve (P${p})` });
+    const at = doneAt(l), now = bestAt(at), order = rank(now), p = order.indexOf(l.driverId) + 1, improved = now.get(l.driverId) === l.time;
+    if (p === 1 && improved) say(at, `${surname(universe, l.driverId)} goes fastest!`);
+    if (!mine) continue;
+    const cut = FORMAT[seg].cars - FORMAT[seg].out, line = now.get(order[cut - 1]!);
+    if (!improved) radio(at + 0.1, l.driverId, `No improvement, still P${p}. Box this lap.`);
+    else if (seg === 'Q3' || p <= cut - 3) radio(at + 0.1, l.driverId, p === 1 ? 'That puts you on top! Box this lap.' : `P${p}. Good lap. Box this lap.`);
+    else if (p <= cut) radio(at + 0.1, l.driverId, `P${p}, just inside the cut. Box, box.`);
+    else radio(at + 0.1, l.driverId, `You're P${p}, need ${line !== undefined ? tenths(l.time - line) : 'more'} to get through.`);
   }
-  for (const l of (result?.laps ?? []).filter(x => flagged(x, seg) && D * 3 <= local)) feed.push({ at: D * 3, text: `${surname(universe, l.driverId)} misses the flag` });
+  for (const l of (result?.laps ?? []).filter(x => flagged(x, seg) && D * 3 <= local)) {
+    say(D * 3, `${surname(universe, l.driverId)} misses the flag!`);
+    if (isMine(l.driverId)) radio(D * 3 + 0.1, l.driverId, "We missed the flag. Sorry, that's our call.");
+  }
   const w = session.weather;
   if (w.changeMinute !== null && w.changeMinute >= FORMAT[seg].offset && w.changeMinute < FORMAT[seg].offset + D && (w.changeMinute - FORMAT[seg].offset) * 3 <= local)
-    feed.push({ at: (w.changeMinute - FORMAT[seg].offset) * 3, text: w.kind === 'RAIN' ? 'Rain starts to fall' : 'The track starts to dry' });
+    say((w.changeMinute - FORMAT[seg].offset) * 3, w.kind === 'RAIN' ? 'Rain is starting to fall!' : 'The track is starting to dry.');
 
   const best = bestAt(local), finished = t >= D && !!result && result.order.length > 0;
   const order = finished ? result!.order : rank(best), cut = FORMAT[seg].cars - FORMAT[seg].out;
-  if (finished && seg !== 'Q3') feed.push({ at: D * 3 + 0.5, text: `${seg} over. Knocked out: ${order.slice(cut).map(id => surname(universe, id)).join(', ')}` });
+  if (finished && seg !== 'Q3') say(D * 3 + 0.5, `${seg} over. Out: ${order.slice(cut).map(id => surname(universe, id)).join(', ')}.`);
+  if (finished && seg === 'Q3') say(D * 3 + 0.5, `Chequered flag! ${surname(universe, order[0]!)} takes pole.`);
   const pole = best.get(order[0]!) ?? null;
   const rows: TowerRow[] = order.map((id, i) => {
     const entrant = session.entrants.find(e => e.driverId === id)!, time = best.get(id) ?? null, b = teamBrand(entrant.teamId);
@@ -96,7 +133,21 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
       const shown = phase === 'OUT_LAP' ? mineLaps[mineLaps.length - 2] : lap;
       sectors = shown ? colour.get(shown) ?? [null, null, null] : sectors;
     }
-    return { driverId: id, name: name(universe, id), teamId: entrant.teamId, team: b.name, color: b.colors.primary,
+    // At current pace: completed sectors plus the driver's best (else the fastest + this lap's average deficit) for the rest.
+    let predicted: number | null = null;
+    if (phase === 'FLYING' && entrant.teamId === universe.playerTeamId) {
+      const done = (colour.get(lap!) ?? []).filter((x): x is NonNullable<LiveSector> => !!x);
+      if (done.length) {
+        const avg = done.reduce((a, x) => a + x.delta, 0) / done.length;
+        const own = laps.filter(x => x.driverId === id && x !== lap && x.time !== null && doneAt(x) <= local).sort((a, b) => a.time! - b.time!)[0];
+        const rest = [0, 1, 2].slice(done.length).reduce((a, k) => a + (own ? own.sectors[k]! : (fastest[k]! + avg)), 0);
+        const projected = done.reduce((a, x) => a + x.time, 0) + rest, mineBest = best.get(id);
+        const target = mineBest !== undefined ? Math.min(mineBest, projected) : projected;
+        predicted = 1 + [...best].filter(([other, tm]) => other !== id && tm < target).length;
+      }
+    }
+    return { driverId: id, name: name(universe, id), teamId: entrant.teamId, team: b.name, color: b.colors.primary, predicted,
+      nearCut: seg !== 'Q3' && phase === 'FLYING' && i >= cut - 3 && i <= cut + 2,
       mine: entrant.teamId === universe.playerTeamId, position: i + 1, time,
       gap: time === null ? 'No time' : i === 0 ? 'Fastest' : `+${(time - pole!).toFixed(3)}`,
       state: phase === 'OUT_LAP' || phase === 'FLYING' || phase === 'IN_LAP' || phase === 'OFF' ? 'TRACK' : 'GARAGE',
@@ -105,7 +156,7 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
   });
   const wet = wetnessAt(session.weather, Math.min(FORMAT[seg].offset + t, SESSION_MINUTES - 1));
   return { segment: seg, minute: t, remaining: Math.max(0, D - t), cutoff: seg === 'Q3' ? null : cut, rows, finished,
-    track: { wet }, feed: feed.sort((a, b) => b.at - a.at).slice(0, 4).map(f => f.text) };
+    track: { wet }, commentary: feed.sort((a, b) => b.at - a.at).slice(0, 6) };
 }
 
 /** Global replay beat of a segment-local beat (Q2 and Q3 start right after the previous segment's final beat). */

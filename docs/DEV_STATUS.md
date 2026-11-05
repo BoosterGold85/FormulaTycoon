@@ -19,9 +19,18 @@ Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V
   - Play-test 2 (owner: "rolls through, too jumpy"): a sector-by-sector replay with purple/green/yellow sectors,
     a "Your cars" panel (out lap, flying lap, in lap) and a live feed. It lingers on action and moves faster
     through quiet minutes. Lap times are unchanged.
-- **IN PROGRESS:** none.
+  - Play-test 3:
+    - breaks after Q1 and Q2, with the next part's plan;
+    - dimmed inactive cars, a drop-zone divider, pulsing rivals at the cut, sliding rows and Focus mode;
+    - 4×, and "on pace for";
+    - commentary plus team radio;
+    - Q1 reaches its call in about 44 s at 1×.
+
+    Golden hashes prove lap times and grids are unchanged.
+- **IN PROGRESS:** none. Event-driven calls (conditions change, yellow and red flags) are not started; they are
+  waiting on the owner's decision, because real decisions on them would change results.
 - **TESTED:**
-  - 424/424 tests, 23 suites (15 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+  - 427/427 tests, 23 suites (18 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
     season; no double processing; determinism and reload at every status; choices mattering; a better car winning
     more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
     validation tampering; and v7 fixture migration with a golden development continuation.

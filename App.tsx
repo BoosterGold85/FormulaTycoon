@@ -14,7 +14,7 @@ import {BottomNav} from './src/ui/components/BottomNav';
 import {HistoryScreen} from './src/ui/HistoryScreen';
 import {TurnReportCard} from './src/ui/components/TurnReportCard';
 import {buildWeekTimeline,decideProjectEvent,nextTurnTarget,selectDepartmentActivity,selectDevelopmentHub,selectHqDevelopment} from './src/simulation/developmentLoop';
-import {answerQualifyingCall,sessionAwaitingCall,setQualifyingPlan,type Call,type DriverPlan} from './src/simulation/qualifying';
+import {answerQualifyingCall,continueQualifying,sessionAwaitingPlayer,setQualifyingPlan,type Call,type DriverPlan,type SegmentPlan} from './src/simulation/qualifying';
 import {QualifyingPlan} from './src/ui/qualifying/QualifyingPlan';
 import {QualifyingLive} from './src/ui/qualifying/QualifyingLive';
 import {QualifyingReport} from './src/ui/qualifying/QualifyingReport';
@@ -38,9 +38,9 @@ function GameApplication() {
  const pending=(hub?.projects??[]).filter(p=>p.pendingEvent).map(p=>({projectId:p.id,part:p.name,...p.pendingEvent!}));
  const onDecide=(projectId:string,choiceId:string)=>{session.runDevelopment(u=>decideProjectEvent(u,DEFAULT_GAME_DEFINITION,projectId,choiceId));};
  // Qualifying weekend screens are presentation over the saved session; the domain gates the turn as well.
- const D=DEFAULT_GAME_DEFINITION,u=session.universe,target=nextTurnTarget(u),awaiting=sessionAwaitingCall(u);
+ const D=DEFAULT_GAME_DEFINITION,u=session.universe,target=nextTurnTarget(u),awaiting=sessionAwaitingPlayer(u);
  const [weekend,setWeekend]=useState<{view:'PLAN'|'LIVE'|'REPORT';eventId:string}|null>(null);
- const replayAt=useRef<Record<string,number>>({});
+ const replayAt=useRef<Record<string,number>>({}),breaksSeen=useRef<Record<string,number[]>>({});
  const navigate=(next:NavTab)=>{setWeekend(null);if(next==='TEAM')setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);};
  // Gated: an unanswered decision takes the player to it on HQ instead of advancing (domain refuses too).
  const continueTurn=()=>{if(playing)return;setTab('HQ');if(pending.length){setWeekend(null);return;}
@@ -62,7 +62,9 @@ function GameApplication() {
    {weekend?<View style={{position:'absolute',top:0,left:0,right:0,bottom:0,zIndex:5}}>
     {weekend.view==='PLAN'?<QualifyingPlan universe={u} definition={D} onLock={lockPlan} onNavigate={navigate}/>
      :weekend.view==='LIVE'&&u.qualifying?.sessions[weekend.eventId]?<QualifyingLive universe={u} definition={D} eventId={weekend.eventId} from={replayAt.current[weekend.eventId]??0}
-      onBeat={b=>{replayAt.current[weekend.eventId]=b;}} onCall={sendCalls} onFinish={()=>setWeekend({view:'REPORT',eventId:weekend.eventId})} onNavigate={navigate}/>
+      onBeat={b=>{replayAt.current[weekend.eventId]=b;}} onCall={sendCalls}
+      acked={breaksSeen.current[weekend.eventId]??[]} onAck={b=>{(breaksSeen.current[weekend.eventId]??=[]).push(b);}}
+      onContinueBreak={(plans:Record<string,SegmentPlan>)=>{session.runDevelopment(x=>continueQualifying(x,D,plans));}} onFinish={()=>setWeekend({view:'REPORT',eventId:weekend.eventId})} onNavigate={navigate}/>
      :weekend.view==='REPORT'?<QualifyingReport universe={u} eventId={weekend.eventId} onClose={()=>setWeekend(null)} onNavigate={navigate}/>:null}
    </View>:null}
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>

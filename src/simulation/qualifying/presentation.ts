@@ -2,7 +2,7 @@ import {calendarById} from '../../game/calendar';
 import {teamBrand} from '../../game/brandRegistry';
 import {formatCampaignDate} from '../campaignTime';
 import type {GameDefinition,GameUniverse} from '../universe/types';
-import {fieldAtTrack,segmentOf,sessionContext} from './campaign';
+import {breakOf,fieldAtTrack,segmentOf,sessionContext} from './campaign';
 import {sessionAwaitingCall} from './commands';
 import {bestTime,plannedSlots,segmentDrivers} from './session';
 import {CHECKPOINT,FORMAT,NEW_SOFT_SETS,SEGMENTS,SESSION_MINUTES,type Call,type CallAction,type Forecast,type QualifyingSession,type Segment,
@@ -49,7 +49,8 @@ export function selectQualifyingPlan(universe: GameUniverse, definition: GameDef
 
 /** Global replay minute (0..45) at which the UI must stop: the open checkpoint, or the end. */
 export function replayTarget(session: QualifyingSession): number {
-  const seg = segmentOf(session.status);
+  const seg = segmentOf(session.status), pause = breakOf(session.status);
+  if (pause) return FORMAT[pause.done].offset + FORMAT[pause.done].minutes;
   return seg ? FORMAT[seg].offset + CHECKPOINT[seg] : session.status === 'COMPLETE' ? SESSION_MINUTES : 0;
 }
 

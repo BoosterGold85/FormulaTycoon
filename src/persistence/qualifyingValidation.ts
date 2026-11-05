@@ -8,7 +8,7 @@ import {array,choice,nullable,number,object,requireValid,text,type Check} from '
 /** Frozen Qualifying V1 vocabulary (save v8). Changing any of it needs a new save or qualifying rules version. */
 const TYRES = ['NEW_SOFT', 'USED_SOFT', 'MEDIUM', 'INTER'];
 const LAP_TYRES = [...TYRES, 'USED_MEDIUM'];
-const STATUS = ['PLANNING', 'Q1_CALL', 'Q2_CALL', 'Q3_CALL', 'COMPLETE'];
+const STATUS = ['PLANNING', 'Q1_CALL', 'Q1_BREAK', 'Q2_CALL', 'Q2_BREAK', 'Q3_CALL', 'COMPLETE'];
 const bool: Check = (v, p) => requireValid(typeof v === 'boolean', p);
 const segmentPlan = object({ tyre: choice(TYRES), runs: choice([1, 2]), timing: choice(['EARLY', 'MIDDLE', 'LATE']), traffic: choice(['FIND_SPACE', 'PUSH']) });
 const driverPlan = object({ Q1: segmentPlan, Q2: segmentPlan, Q3: segmentPlan });
@@ -45,11 +45,12 @@ function validateSession(raw: unknown, path: string, eventId: string, root: { cu
   if (status === 'PLANNING') requireValid(cmp < 0 && compareCampaignDates(root.current, event.weekendStartDate) >= 0, `${path}.status.planning`);
   else if (status === 'COMPLETE') requireValid(cmp >= 0, `${path}.status.complete`);
   else requireValid(cmp === 0, `${path}.status.call`);
+  const pause = status.endsWith('_BREAK');
   const reached = status === 'PLANNING' ? 0 : status === 'COMPLETE' ? 3 : SEGMENTS.indexOf(status.slice(0, 2) as Segment) + 1;
   keysAre(s.segments, SEGMENTS.slice(0, reached), `${path}.segments`);
   let drivers = ids;
   SEGMENTS.slice(0, reached).forEach((seg, i) => {
-    const r = s.segments[seg], p = `${path}.segments.${seg}`, complete = status === 'COMPLETE' || i < reached - 1;
+    const r = s.segments[seg], p = `${path}.segments.${seg}`, complete = status === 'COMPLETE' || pause || i < reached - 1;
     object({ calls: v => requireValid(v && typeof v === 'object' && !Array.isArray(v), `${p}.calls`), laps: array(lap(seg, drivers)), order: v => requireValid(Array.isArray(v), `${p}.order`) })(r, p);
     for (const l of r.laps as Array<{ time: number | null; sectors: Array<number | null> }>)
       requireValid(l.time === null ? l.sectors.some(x => x === null) : l.sectors.every(x => x !== null) && Math.abs(l.sectors.reduce((a, b) => a! + b!, 0)! - l.time) < 0.0015, `${p}.sectors`);
