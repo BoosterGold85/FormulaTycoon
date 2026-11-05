@@ -43,6 +43,8 @@ export type Forecast = { kind: WeatherKind; changeMinute: number | null; confide
 /** One timed (or failed) flying lap. time: seconds versus a nominal reference lap (gaps only are meaningful). */
 export type QualifyingLap = {
   driverId: string; slot: number; tyre: LapTyre; time: number | null;
+  /** Sector times (sum = time). null from the sector where a lap was lost, or all null when no flying lap started. */
+  sectors: Array<number | null>;
   /** Seconds lost to traffic on this lap (0 when clean). */
   traffic: number; mistake: boolean; wet: number;
 };

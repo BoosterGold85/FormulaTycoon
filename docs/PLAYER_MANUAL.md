@@ -257,8 +257,12 @@ you can keep it or change it. Lock the plan to start qualifying.
 confidence (Low, Medium or High) improves with the Research work your factory has done this season. That is the
 same Research shown as bubbles in the week replay. Even a well-researched forecast is never certain.
 
-**Live session and calls.** The session is replayed on a timing screen. You can watch it at 1× or 2×, or skip to the
-next call. Halfway through each segment, the pit wall stops and asks for one call per driver: stick to the plan,
+**Live session and calls.** The session is replayed on a timing screen, sector by sector. **Your cars** shows each
+driver's out lap, flying lap and in lap, and each sector's gap to the fastest time in that sector as it completes.
+Sector colours mean: **purple**, fastest of anyone so far; **green**, that driver's personal best; **yellow**,
+slower than their best. A short feed reports new fastest times, laps lost and the end of each segment. The replay
+lingers when something happens and moves faster when nothing does. You can watch at 1× or 2×, or skip to the next
+call. Halfway through each segment, the pit wall stops and asks for one call per driver: stick to the plan,
 go now, wait for the end, or stay in the garage to save tyres. When the track is wet or drying, you can also change
 tyres. A recommendation is marked, and you can always choose differently. The replay only shows what your team
 has already run; speed and Skip never change it.

@@ -238,7 +238,15 @@ Where the build differs from, or adds to, the note above:
   Its inputs are fixed from FP1 onward, so the result is identical either way. This also covers v7 saves made on
   an FP1 Friday.
 - **Research totals reset each season** at the explicit season transition.
-- **Replay speed:** 0.7 s per session minute at 1×; 2× halves it; Skip jumps to the next call or the flag.
+- **Replay speed (play-test 2, owner: "too jumpy"):** the replay moves in sector beats, three per session minute.
+  A beat where a sector or lap completes holds about 1.1 s at 1×; a quiet beat about 0.35 s. 2× halves both, and
+  Skip jumps to the next call or the flag. Q1 reaches its call in about 21 s.
+- **Sectors (play-test 2):** each stored lap now carries three sector times that sum to the lap. The three noise
+  draws are the sectors' own; traffic and a mistake each land in one sector. The new draws come after every
+  earlier draw, so every lap time and grid is unchanged (verified against the earlier measurements). A lost lap
+  stops at the sector where it went off. Shown colours are current: purple = fastest so far, green = the driver's
+  own best, yellow = slower. Sectors are shown as gaps to the fastest sector, never as absolute times. Save v8 was
+  unreleased, so its lap shape gained `sectors` with no version bump.
 
 Measured over 25–40 seeds at Melbourne (automated tests):
 

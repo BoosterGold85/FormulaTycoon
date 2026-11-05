@@ -16,9 +16,12 @@ Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V
   - UI: plan screen, live timing replay with the call card, Report Card, and the grid in RACE event detail.
     The turn bar shows PLAN QUALIFYING and QUALIFYING LIVE.
   - Player Manual qualifying section.
+  - Play-test 2 (owner: "rolls through, too jumpy"): a sector-by-sector replay with purple/green/yellow sectors,
+    a "Your cars" panel (out lap, flying lap, in lap) and a live feed. It lingers on action and moves faster
+    through quiet minutes. Lap times are unchanged.
 - **IN PROGRESS:** none.
 - **TESTED:**
-  - 422/422 tests, 23 suites (13 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+  - 424/424 tests, 23 suites (15 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
     season; no double processing; determinism and reload at every status; choices mattering; a better car winning
     more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
     validation tampering; and v7 fixture migration with a golden development continuation.

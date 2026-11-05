@@ -16,7 +16,8 @@ const minute = number(0, SESSION_MINUTES - 1, true);
 const forecast = object({ kind: choice(['DRY', 'RAIN', 'DRYING']), changeMinute: nullable(minute), confidence: choice(['LOW', 'MEDIUM', 'HIGH']) });
 const call = object({ action: choice(['PLAN', 'GO_NOW', 'GO_LATE', 'STAY_IN']), tyre: choice(TYRES), defaulted: bool }, ['tyre']);
 const lap = (seg: Segment, drivers: string[]) => object({ driverId: choice(drivers), slot: number(0, FORMAT[seg].minutes + 1, true), tyre: choice(LAP_TYRES),
-  time: nullable(number(0, 1000)), traffic: number(0, 5), mistake: bool, wet: number(0, 1) });
+  time: nullable(number(0, 1000)), sectors: (v, p) => { array(nullable(number(0, 1000)))(v, p); requireValid((v as unknown[]).length === 3, p); },
+  traffic: number(0, 5), mistake: bool, wet: number(0, 1) });
 const keysAre = (v: unknown, keys: string[], p: string) => {
   requireValid(v && typeof v === 'object' && !Array.isArray(v), p);
   const own = Object.keys(v as object);
@@ -50,6 +51,8 @@ function validateSession(raw: unknown, path: string, eventId: string, root: { cu
   SEGMENTS.slice(0, reached).forEach((seg, i) => {
     const r = s.segments[seg], p = `${path}.segments.${seg}`, complete = status === 'COMPLETE' || i < reached - 1;
     object({ calls: v => requireValid(v && typeof v === 'object' && !Array.isArray(v), `${p}.calls`), laps: array(lap(seg, drivers)), order: v => requireValid(Array.isArray(v), `${p}.order`) })(r, p);
+    for (const l of r.laps as Array<{ time: number | null; sectors: Array<number | null> }>)
+      requireValid(l.time === null ? l.sectors.some(x => x === null) : l.sectors.every(x => x !== null) && Math.abs(l.sectors.reduce((a, b) => a! + b!, 0)! - l.time) < 0.0015, `${p}.sectors`);
     if (complete) {
       keysAre(r.calls, drivers, `${p}.calls`);
       for (const id of drivers) call(r.calls[id], `${p}.calls.${id}`);

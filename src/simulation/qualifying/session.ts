@@ -76,7 +76,7 @@ export function resolveRuns(ctx: SessionContext, seg: Segment, starts: Start[], 
     const prior = [...history, ...laps].filter(l => l.driverId === m.driverId);
     const tyre = actualTyre(m.tyre, prior);
     const minute = FORMAT[seg].offset + m.slot + 1, wet = round3(wetnessAt(ctx.weather, Math.min(minute, SESSION_MINUTES - 1)));
-    if (m.slot > lastStart(seg)) { laps.push({ driverId: m.driverId, slot: m.slot, tyre, time: null, traffic: 0, mistake: false, wet }); continue; }
+    if (m.slot > lastStart(seg)) { laps.push({ driverId: m.driverId, slot: m.slot, tyre, time: null, sectors: [null, null, null], traffic: 0, mistake: false, wet }); continue; }
     const e = ctx.entrants[m.driverId]!, r = m.rng, crowd = final.get(m.slot)! - 1;
     const trafficChance = Math.min(m.traffic === 'PUSH' ? 0.45 : 0.25, (m.traffic === 'PUSH' ? 0.045 : 0.02) * crowd);
     const traffic = r.next() < trafficChance ? 0.15 + 0.45 * r.next() : 0;
@@ -84,10 +84,19 @@ export function resolveRuns(ctx: SessionContext, seg: Segment, starts: Start[], 
     const mistake = r.next() < mistakeChance;
     const slickInWet = tyre !== 'INTER' && wet > 0.3;
     const lost = mistake && (slickInWet || r.next() < 0.12);
-    const noise = (r.next() + r.next() + r.next() - 1.5) * 0.14;
-    const time = 90 + (85 - e.car) * CAR_SECONDS + (90 - e.pace) * DRIVER_SECONDS + wetSkillPenalty(e.driver, wet) + tyrePenalty(tyre, wet)
-      - ctx.evolution * 0.55 * Math.pow(minute / (SESSION_MINUTES - 1), 0.8) + noise + traffic + (mistake ? 0.4 + 1.1 * r.next() : 0);
-    laps.push({ driverId: m.driverId, slot: m.slot, tyre, time: lost ? null : round3(time), traffic: round3(traffic), mistake, wet });
+    const n = [r.next(), r.next(), r.next()], noise = (n[0]! + n[1]! + n[2]! - 1.5) * 0.14;
+    const core = 90 + (85 - e.car) * CAR_SECONDS + (90 - e.pace) * DRIVER_SECONDS + wetSkillPenalty(e.driver, wet) + tyrePenalty(tyre, wet)
+      - ctx.evolution * 0.55 * Math.pow(minute / (SESSION_MINUTES - 1), 0.8);
+    const mistakeCost = mistake ? 0.4 + 1.1 * r.next() : 0;
+    const time = core + noise + traffic + mistakeCost;
+    // Sectors: each noise draw is one sector's; traffic and a mistake land in one sector each (draws appended
+    // after every earlier draw, so lap times are unchanged). The three sectors sum exactly to the lap.
+    const trafficSector = r.int(0, 2), mistakeSector = r.int(0, 2);
+    const raw = n.map((x, i) => core / 3 + (x - 0.5) * 0.14 + (i === trafficSector ? traffic : 0) + (i === mistakeSector ? mistakeCost : 0));
+    const s1 = round3(raw[0]!), s2 = round3(raw[1]!), sectors: Array<number | null> = [s1, s2, round3(round3(time) - s1 - s2)];
+    // A lap lost to a mistake stops in the sector where it happened.
+    if (lost) for (let i = mistakeSector; i < 3; i++) sectors[i] = null;
+    laps.push({ driverId: m.driverId, slot: m.slot, tyre, time: lost ? null : round3(time), sectors, traffic: round3(traffic), mistake, wet });
   }
   return laps;
 }

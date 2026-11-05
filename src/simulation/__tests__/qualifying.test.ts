@@ -9,7 +9,7 @@ import {dueCampaignEvents} from '../universe/campaignEvents';
 import type {CampaignDate} from '../campaignTime';
 import {advancePlayerDay,continuePlayerTurn,nextTurnTarget,startPlayerProject} from '../developmentLoop';
 import {acceptRecommendation,answerQualifyingCall,closeQualifying,fieldAtTrack,forecastAccuracy,policyCall,policyPlan,progressSession,recommendedCalls,
- recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAwaitingCall,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
+ activeBeats,liveTiming,recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAwaitingCall,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
  type Call,type DriverPlan,type QualifyingSession,type SegmentPlan,type Weather} from '../qualifying';
 import {SAVE_V7,SAVE_V8} from '../../persistence/contracts';
 import {createSaveEnvelope,deserializeSave,serializeSave,validateSave,type SaveResult} from '../../persistence/saveEnvelope';
@@ -275,4 +275,39 @@ test('the recommended call is built from exactly the timing screen the player se
    expect(policyCall(seen)).toEqual(d.recommended);
   }
  }
+});
+
+test('sectors: every timed lap splits into three sectors summing to its time; a lost lap stops where it went off; lap times unchanged',()=>{
+ const u=advanceCampaignTo(createGameUniverse(definition,11),definition,d('2026-06-01'));
+ let lost=0;
+ for(const s of Object.values(u.qualifying!.sessions))for(const seg of ['Q1','Q2','Q3'] as const)for(const l of s.segments[seg]!.laps){
+  expect(l.sectors).toHaveLength(3);
+  if(l.time!==null){expect(l.sectors.every(x=>x!==null)).toBe(true);expect(Math.abs(l.sectors.reduce((a,b)=>a!+b!,0)!-l.time)).toBeLessThan(0.0015);}
+  else{expect(l.sectors.some(x=>x===null)).toBe(true);const off=l.sectors.findIndex(x=>x===null);expect(l.sectors.slice(off).every(x=>x===null)).toBe(true);lost++;}
+ }
+ expect(lost).toBeGreaterThan(0);
+});
+
+test('live timing: a lap goes out lap -> flying (S1, S2, S3) -> in lap -> garage; colours follow fastest / personal best / slower',()=>{
+ const u=advanceCampaignTo(atFP1(3),definition,SUN),s=session(u);
+ const lap=s.segments.Q1!.laps.find(l=>l.time!==null)!,id=lap.driverId,row=(b:number)=>liveTiming(u,s,b).rows.find(r=>r.driverId===id)!;
+ expect(row(lap.slot*3).phase).toBe('OUT_LAP');
+ expect(row((lap.slot+1)*3).phase).toBe('FLYING');expect(row((lap.slot+1)*3).sectors.every(x=>x===null)).toBe(true);
+ expect(row((lap.slot+1)*3+1).sectors.filter(Boolean)).toHaveLength(1);
+ expect(row((lap.slot+1)*3+2).sectors.filter(Boolean)).toHaveLength(2);
+ expect(row((lap.slot+2)*3).phase).toBe('IN_LAP');expect(row((lap.slot+2)*3).justFinished).toBe(true);expect(row((lap.slot+2)*3).time).toBe(lap.time);
+ // Colours: at every beat, a purple sector is the fastest completed so far; yellow is slower than that driver's best.
+ for(const b of [12,24,36,54]){
+  const rows=liveTiming(u,s,b).rows;
+  for(let i=0;i<3;i++){
+   const shown=rows.map(r=>r.sectors[i]).filter((x):x is NonNullable<typeof x>=>!!x);
+   const purple=shown.filter(x=>x.color==='PURPLE');
+   if(shown.length){expect(purple.length).toBeGreaterThan(0);expect(purple.every(x=>x.time===Math.min(...shown.map(y=>y.time)))).toBe(true);}
+  }
+ }
+ // Whole-minute view is the same timing screen the call card reads.
+ expect(towerAt(u,s,9).rows.map(r=>[r.driverId,r.time])).toEqual(liveTiming(u,s,27).rows.map(r=>[r.driverId,r.time]));
+ // The replay lingers only where something happens; the session end is always a beat to stop on.
+ const beats=activeBeats(s);expect(beats.has(54)).toBe(true);expect(beats.size).toBeLessThan(45*3);
+ expect(liveTiming(u,s,54).feed.some(f=>f.startsWith('Q1 over'))).toBe(true);
 });

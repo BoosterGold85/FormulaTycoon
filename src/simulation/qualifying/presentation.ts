@@ -9,6 +9,7 @@ import {CHECKPOINT,FORMAT,NEW_SOFT_SETS,SEGMENTS,SESSION_MINUTES,type Call,type 
  type Timing,type Traffic,type Tyre} from './types';
 import {recommendedCalls,recommendedPlans,upcomingBriefing} from './views';
 import {CROSSOVER,wetnessAt} from './weather';
+import {BEATS_PER_MINUTE,liveTiming} from './live';
 
 /** Display vocabulary. Read models only: nothing here is saved or changes a result. */
 export const TYRE_LABEL: Record<Tyre | 'USED_MEDIUM', string> = { NEW_SOFT: 'New soft', USED_SOFT: 'Used soft', MEDIUM: 'Medium', USED_MEDIUM: 'Used medium', INTER: 'Inters' };
@@ -51,34 +52,11 @@ export function replayTarget(session: QualifyingSession): number {
   const seg = segmentOf(session.status);
   return seg ? FORMAT[seg].offset + CHECKPOINT[seg] : session.status === 'COMPLETE' ? SESSION_MINUTES : 0;
 }
-export const segmentAt = (minute: number): Segment => minute <= FORMAT.Q1.minutes ? 'Q1' : minute <= FORMAT.Q2.offset + FORMAT.Q2.minutes ? 'Q2' : 'Q3';
 
-export type TowerRow = { driverId: string; name: string; teamId: string; team: string; color: string; mine: boolean; position: number;
-  time: number | null; gap: string; state: 'TRACK' | 'GARAGE'; danger: boolean; out: boolean };
-/**
- * The timing screen at a replay minute, built only from STORED laps: a lap's time is shown once its
- * flying lap has ended (out-lap slot + 2). Pure, so 1x/2x/Skip can never change what happened.
- */
+/** The timing screen at a whole replay minute (the call card and tests read this). */
 export function towerAt(universe: GameUniverse, session: QualifyingSession, minute: number) {
-  const seg = segmentAt(minute), result = session.segments[seg];
-  const t = Math.max(0, Math.min(FORMAT[seg].minutes, minute - FORMAT[seg].offset));
-  const drivers = result ? segmentDrivers(session, seg) : [];
-  const shown = (result?.laps ?? []).filter(l => l.slot + 2 <= t && l.slot <= FORMAT[seg].minutes - 2);
-  const best = new Map<string, number>();
-  for (const l of shown) if (l.time !== null && (!best.has(l.driverId) || l.time < best.get(l.driverId)!)) best.set(l.driverId, l.time);
-  const finished = t >= FORMAT[seg].minutes && result && result.order.length > 0;
-  const order = finished ? result!.order : [...drivers].sort((a, b) => (best.get(a) ?? Infinity) - (best.get(b) ?? Infinity) || drivers.indexOf(a) - drivers.indexOf(b));
-  const pole = best.get(order[0]!) ?? null, cut = FORMAT[seg].cars - FORMAT[seg].out;
-  const onTrack = new Set((result?.laps ?? []).filter(l => l.slot <= t && t < l.slot + 3).map(l => l.driverId));
-  const rows: TowerRow[] = order.map((id, i) => {
-    const entrant = session.entrants.find(e => e.driverId === id)!, time = best.get(id) ?? null;
-    return { driverId: id, name: driverName(universe, id), ...team(entrant.teamId), mine: entrant.teamId === universe.playerTeamId, position: i + 1, time,
-      gap: time === null ? 'No time' : i === 0 ? 'Fastest' : `+${(time - pole!).toFixed(3)}`, state: onTrack.has(id) ? 'TRACK' : 'GARAGE',
-      danger: seg !== 'Q3' && i >= cut, out: !!finished && seg !== 'Q3' && i >= cut };
-  });
-  const wet = wetnessAt(session.weather, Math.min(minute, SESSION_MINUTES - 1));
-  return { segment: seg, minute: t, remaining: FORMAT[seg].minutes - t, cutoff: seg === 'Q3' ? null : cut, rows, finished: !!finished,
-    track: { wet, label: wetLabel(wet) } };
+  const live = liveTiming(universe, session, minute * BEATS_PER_MINUTE);
+  return { ...live, track: { ...live.track, label: wetLabel(live.track.wet) } };
 }
 /** Lap times are stored against a nominal reference lap, so only gaps are shown: never an invented circuit lap time. */
 

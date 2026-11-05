@@ -62,7 +62,7 @@ function GameApplication() {
    {weekend?<View style={{position:'absolute',top:0,left:0,right:0,bottom:0,zIndex:5}}>
     {weekend.view==='PLAN'?<QualifyingPlan universe={u} definition={D} onLock={lockPlan} onNavigate={navigate}/>
      :weekend.view==='LIVE'&&u.qualifying?.sessions[weekend.eventId]?<QualifyingLive universe={u} definition={D} eventId={weekend.eventId} from={replayAt.current[weekend.eventId]??0}
-      onMinute={m=>{replayAt.current[weekend.eventId]=m;}} onCall={sendCalls} onFinish={()=>setWeekend({view:'REPORT',eventId:weekend.eventId})} onNavigate={navigate}/>
+      onBeat={b=>{replayAt.current[weekend.eventId]=b;}} onCall={sendCalls} onFinish={()=>setWeekend({view:'REPORT',eventId:weekend.eventId})} onNavigate={navigate}/>
      :weekend.view==='REPORT'?<QualifyingReport universe={u} eventId={weekend.eventId} onClose={()=>setWeekend(null)} onNavigate={navigate}/>:null}
    </View>:null}
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>

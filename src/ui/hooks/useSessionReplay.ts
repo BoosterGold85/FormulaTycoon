@@ -1,33 +1,33 @@
 import {useEffect,useRef,useState} from 'react';
 
-/** 1x: 0.7 s per session minute (Q1 to its call ~6 s, the whole session ~32 s); 2x halves it. */
-export const MINUTE_MS:Record<1|2,number>={1:700,2:350};
-const TICK_MS=100;
+/** 1x: a beat with a sector or lap completing holds ~1.1 s; a quiet beat ~0.35 s. 2x halves both. */
+export const BEAT_MS={active:1100,quiet:350};
 /**
- * Presentation clock for replaying an ALREADY resolved qualifying session up to `target` (the open
- * call, or the flag). It only moves a whole-minute pointer over stored laps; speed and Skip can never
- * change a result. `from` lets a reopened screen continue where the player left the replay.
+ * Presentation clock for replaying an ALREADY resolved qualifying session, one sector beat at a time,
+ * up to `target` (the open call, or the flag). Speed and Skip never change a result. `from` lets a
+ * reopened screen continue where the player left it.
  */
-export function useSessionReplay(target:number,from:number,onMinute:(m:number)=>void){
+export function useSessionReplay(target:number,from:number,active:(beat:number)=>boolean,onBeat:(b:number)=>void){
  const [speed,setSpeed]=useState<1|2>(1);
- const [minute,setMinute]=useState(Math.min(from,target));
+ const [beat,setBeat]=useState(Math.min(from,target));
  const speedRef=useRef(speed);speedRef.current=speed;
  const posRef=useRef(Math.min(from,target));
  const skipRef=useRef(false);
- const shownRef=useRef(Math.min(from,target));
- const report=useRef(onMinute);report.current=onMinute;
+ const activeRef=useRef(active);activeRef.current=active;
+ const report=useRef(onBeat);report.current=onBeat;
  useEffect(()=>{
   skipRef.current=false;
-  if(posRef.current>=target){shownRef.current=target;setMinute(target);report.current(target);return;}
-  let last=Date.now();
-  const timer=setInterval(()=>{
-   const now=Date.now();
-   posRef.current=skipRef.current?target:Math.min(target,posRef.current+(now-last)/MINUTE_MS[speedRef.current]);last=now;
-   const whole=Math.floor(posRef.current+1e-9);
-   if(whole!==shownRef.current){shownRef.current=whole;setMinute(whole);report.current(whole);}
-   if(posRef.current>=target){skipRef.current=false;clearInterval(timer);}
-  },TICK_MS);
-  return ()=>clearInterval(timer);
+  let timer:ReturnType<typeof setTimeout>|undefined;
+  const step=()=>{
+   posRef.current=skipRef.current?target:Math.min(target,posRef.current+1);
+   setBeat(posRef.current);report.current(posRef.current);
+   if(posRef.current>=target){skipRef.current=false;return;}
+   const ms=(activeRef.current(posRef.current+1)?BEAT_MS.active:BEAT_MS.quiet)/speedRef.current;
+   timer=setTimeout(step,skipRef.current?0:ms);
+  };
+  if(posRef.current>=target){setBeat(target);report.current(target);}
+  else timer=setTimeout(step,BEAT_MS.quiet);
+  return ()=>{if(timer)clearTimeout(timer);};
  },[target]);
- return {minute,speed,setSpeed,skip:()=>{skipRef.current=true;},playing:minute<target};
+ return {beat,speed,setSpeed,skip:()=>{skipRef.current=true;},playing:beat<target};
 }
