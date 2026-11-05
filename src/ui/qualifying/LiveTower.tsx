@@ -4,6 +4,7 @@ import type {LivePhase,LiveSector,SectorColor,TowerRow} from '../../simulation/q
 import {useReducedMotion} from '../hooks/useReducedMotion';
 import {useDesign} from '../design/system';
 import {TyreIcon} from './TyreIcon';
+import {MiniSectors,runningSector} from './MiniSectors';
 
 const CUT_H=22;
 export const PHASE:Record<LivePhase,string>={GARAGE:'In the garage',OUT_LAP:'Out lap',FLYING:'Flying lap',IN_LAP:'In lap',OFF:'Off — lap lost',MISSED:'Missed the flag'};
@@ -29,7 +30,7 @@ export function SectorLegend(){const {styles}=useDesign(),paint=useSector();
 /** Narrowest tower that fits every wide column (fixed widths + gaps + a minimum status column). */
 export const WIDE_TOWER=660;
 const COLS={wide:{h:36,pos:34,bar:6,code:54,status:84,gap:80,int:72,last:72,sector:40,tyre:30,move:30},
- narrow:{h:44,pos:24,bar:5,code:42,status:0,gap:70,int:0,last:0,sector:14,tyre:24,move:18}};
+ narrow:{h:44,pos:24,bar:5,code:42,status:0,gap:70,int:0,last:0,sector:20,tyre:24,move:18}};
 type Cols=typeof COLS.wide;
 
 /**
@@ -37,7 +38,7 @@ type Cols=typeof COLS.wide;
  * cars carry a ring, and rivals fighting around the drop zone pulse while flying. Tap (or hover on web) a row to
  * inspect the driver; the tower itself never changes a result.
  */
-export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onHover}:{rows:TowerRow[];cutoff:number|null;finished:boolean;focus:boolean;wide:boolean;
+export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onHover,progress}:{rows:TowerRow[];cutoff:number|null;finished:boolean;focus:boolean;wide:boolean;progress:Animated.Value;
  selected:string|null;onSelect:(id:string)=>void;onHover:(id:string|null)=>void}){
  const {ui,styles}=useDesign(),c=wide?COLS.wide:COLS.narrow;
  const timedAll=rows.filter(r=>r.time!==null).length,early=cutoff!==null&&timedAll<cutoff;
@@ -57,7 +58,7 @@ export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onH
    {wide?head('TYRE',c.tyre+8,'center'):<View style={{width:c.tyre}}/>}<View style={{width:c.move}}/>
   </View>
   <View style={{height:shown.length*c.h+dividers.length*CUT_H}}>
-   {shown.map((r,i)=><TowerRowView key={r.driverId} row={r} top={y(i)} c={c} wide={wide} selected={selected===r.driverId} onSelect={onSelect} onHover={onHover}/>)}
+   {shown.map((r,i)=><TowerRowView key={r.driverId} row={r} top={y(i)} c={c} wide={wide} selected={selected===r.driverId} onSelect={onSelect} onHover={onHover} progress={progress}/>)}
    {dividers.map(d=><View key={d.kind} pointerEvents="none" accessibilityLabel={d.kind==='NOTIME'?'Cars below have no lap time yet':finished?'Knocked out below this line':'Drop zone below this line'}
     style={{position:'absolute',left:0,right:0,top:dy(d),height:CUT_H,flexDirection:'row',alignItems:'center',gap:10}}>
     <View style={{flex:1,height:d.kind==='CUT'?2:1,backgroundColor:d.kind==='CUT'?ui.danger:ui.line}}/>
@@ -67,8 +68,8 @@ export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onH
  </View>;
 }
 
-function TowerRowView({row,top:y,c,wide,selected,onSelect,onHover}:{row:TowerRow;top:number;c:Cols;wide:boolean;selected:boolean;onSelect:(id:string)=>void;onHover:(id:string|null)=>void}){
- const {ui,styles}=useDesign(),reduced=useReducedMotion(),paint=useSector();
+function TowerRowView({row,top:y,c,wide,selected,onSelect,onHover,progress}:{row:TowerRow;top:number;c:Cols;wide:boolean;selected:boolean;onSelect:(id:string)=>void;onHover:(id:string|null)=>void;progress:Animated.Value}){
+ const {ui,styles}=useDesign(),reduced=useReducedMotion(),running=runningSector(row.phase,row.sectors);
  const top=useRef(new Animated.Value(y)).current,pulse=useRef(new Animated.Value(1)).current,flash=useRef(new Animated.Value(0)).current;
  useEffect(()=>{if(!row.justFinished)return;flash.setValue(reduced?0:.28);if(!reduced)Animated.timing(flash,{toValue:0,duration:1400,useNativeDriver:false}).start();},[row.justFinished,reduced,flash]);
  useEffect(()=>{if(reduced)top.setValue(y);else Animated.timing(top,{toValue:y,duration:450,useNativeDriver:false}).start();},[y,reduced,top]);
@@ -100,9 +101,8 @@ function TowerRowView({row,top:y,c,wide,selected,onSelect,onHover}:{row:TowerRow
     :fig(c.gap,timed?row.gap:'NO TIME',timed?ui.ink:ui.muted,row.mine||row.justFinished)}
    {fig(c.int,row.interval,ui.muted)}
    {fig(c.last,row.last?.text??null,lastColor)}
-   {wide?row.sectors.map((s,i)=><View key={i} accessibilityLabel={s?`Sector ${i+1}: ${COLOR_WORD[s.color]}`:`Sector ${i+1}: not yet`}
-     style={{width:c.sector,height:12,borderRadius:3,backgroundColor:s?paint(s.color).bg:ui.chip}}/>)
-    :<View style={{width:c.sector*3+6,flexDirection:'row',gap:3}}>{row.sectors.map((s,i)=><View key={i} style={{width:c.sector,height:10,borderRadius:2,backgroundColor:s?paint(s.color).bg:ui.chip}}/>)}</View>}
+   <View style={{width:wide?undefined:c.sector*3+6,flexDirection:'row',gap:wide?8:3}}>{row.sectors.map((s,i)=><View key={i} accessibilityLabel={s?`Sector ${i+1}: ${COLOR_WORD[s.color]}`:running===i?`Sector ${i+1}: running`:`Sector ${i+1}: not yet`}>
+    <MiniSectors sector={s} running={running===i} progress={progress} count={wide?4:3} width={c.sector} height={wide?12:10}/></View>)}</View>
    <View style={{width:c.tyre+(wide?8:0),alignItems:'center'}}><TyreIcon tyre={row.tyre} size={c.tyre}/></View>
    <Text style={[styles.figure,{width:c.move,textAlign:'center',fontSize:wide?12:11,color:row.moved>0?ui.green:row.moved<0?ui.danger:ui.muted}]}>
     {row.moved>0?`▲${wide?row.moved:''}`:row.moved<0?`▼${wide?-row.moved:''}`:wide?'–':''}</Text>

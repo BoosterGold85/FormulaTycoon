@@ -2,23 +2,34 @@
 
 ## Milestone
 
-**QUALIFYING BROADCAST PRESENTATION: IN PROGRESS (items 1–4 of 8 done, awaiting owner review).** Branch
+**QUALIFYING BROADCAST PRESENTATION: ITEMS 1–8 DONE, AWAITING OWNER REVIEW.** Branch
 `claude/trusting-hamilton-r5g89o`, fast-forwarded onto `claude/happy-dirac-pw7zmq` (Qualifying V1, still unmerged).
 Presentation only: no results, lap times, RNG keys, seeds or save shapes changed.
 
-- **COMPLETED (1–4):** broadcast palette and brand red on the live and result screens; team colour bars, rings and
-  card edges; bundled condensed/mono type; dense tower (POS, colour bar, code, status, gap, interval, last lap,
-  S1–S3, tyre ring, position change; phone keeps the essentials); tap/hover inspect panel with full name.
-  Read-model additions in `live.ts`/`codes.ts` only (code, tyre, interval, last, moved).
-- **TESTED:** `qualifyingFingerprint.test.ts` (sha256 of all stored qualifying state for seeds 11 and 42, recorded
-  on the untouched engine) and `qualifyingBroadcast.test.ts`; 434+ tests, TypeScript, web export; Playwright flow
-  at 390×844 and 1440×900 with no page errors or overflow; contrast pairs computed (P1 pill moved to dark ink).
-- **NOT VERIFIED:** native fonts/rendering on iOS and Android; the live Cloudflare preview.
-- **KNOWN ISSUES:** at Q2/Q3 start the position arrow can show large jumps for the first timed cars (they pass
-  untimed cars); that is the stored order, shown honestly.
-- **TECHNICAL DEBT / ARCHITECTURAL RISK:** `expo-font` added (Expo SDK module) plus ~570 KB of OFL fonts.
-- **NEXT MILESTONE:** owner review of 1–4, then mini-sectors (honest progress fill), Melbourne track map, LIVE
-  header/countdown and the result-screen moment (items 5–8).
+- **COMPLETED:**
+  - 1–4 (owner-approved): broadcast palette and brand red; team colour bars, rings and card edges; bundled
+    condensed/mono type; dense tower with code, gap, interval, last lap, S1–S3, tyre, position change; inspect panel.
+  - 5: mini-sectors (4 per sector desktop, 3 phone, 6 in Your cars) fill white with the replay glide and take the
+    stored sector colour once it exists.
+  - 6: live track map for Melbourne only (`LIVE_MAP_TRACKS`), sector boundaries, team-colour dots, player cars
+    ringed with codes. Car position = laps since leaving the pits at the shown beat (`TowerRow.onTrack`), gliding
+    toward the next beat via the replay clock's `progress` (visual only; held at 0 when stopped/reduced motion).
+  - 7: LIVE / PAUSED / FINAL header with pulsing dot, venue, Q1/Q2/Q3 badges, mm:ss countdown and part bar.
+  - 8: result moments (helmet, team colour, huge position, headline + detail from `headlines.ts`) and the full grid
+    always visible (two columns on desktop) with knockout lines from stored segments.
+- **TESTED:** fingerprint test (seeds 11 and 42, recorded on the untouched engine) still passes; read-model tests for
+  codes, interval, last lap, tyre, moved, onTrack; headline invariants over six headless seasons (pole, margins,
+  teammate knock-outs, no pronouns); track geometry tests. 437/437 tests, TypeScript, web export; Playwright flow at
+  390×844 and 1440×900 with no page errors or overflow.
+- **NOT VERIFIED:** native fonts/animation on iOS and Android; the live Cloudflare preview; smoothness on low-end
+  phones (22 animated dots plus mini-sector fills).
+- **KNOWN ISSUES:** cars that left in the same minute share a beat position, so the map spaces them slightly in
+  tower order; sectors are equal thirds of the outline (the outline is stylized). At Q2/Q3 start the arrows can show
+  big jumps as the first timed cars pass untimed ones (true to the stored order).
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:** `expo-font` added plus ~570 KB OFL fonts. The track map draws ~160
+  rotated Views; fine in Chromium, unmeasured on native.
+- **NEXT MILESTONE:** owner review of the Melbourne map, then enable maps track by track (each needs a reviewed
+  outline), or merge Qualifying V1 + this presentation.
 
 ## Previous milestone
 

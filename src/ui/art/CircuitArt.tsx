@@ -28,8 +28,10 @@ const OUTLINES:Record<string,number[][]>={
  yas_marina:[[12,67],[21,27],[44,14],[69,27],[91,19],[85,44],[62,58],[72,76],[53,87],[36,68],[25,81]],
 };
 const DEFAULT=[[12,64],[26,25],[47,16],[68,35],[88,24],[91,51],[72,75],[50,66],[36,85],[17,81]];
+/** The stylized outline for a track (0..100 space), shared by the calendar art and the live track map. */
+export const circuitOutline=(trackId:string)=>OUTLINES[trackId.replace('track.','')]??DEFAULT;
 export function CircuitArt({trackId,color:requestedColor,height=130,width=220}:{trackId:string;color?:string;height?:number;width?:number}){const {theme:ui}=useTheme(),color=requestedColor??ui.accent;
- const points=OUTLINES[trackId.replace('track.','')]??DEFAULT,w=width,h=height;
+ const points=circuitOutline(trackId),w=width,h=height;
  return <View accessibilityLabel="Stylized circuit illustration, not to scale" style={{height:h,width:w,alignSelf:'center'}}>{points.map((a,i)=>{
   const b=points[(i+1)%points.length]!,x=a[0]!*w/100,y=a[1]!*h/100,dx=(b[0]!-a[0]!)*w/100,dy=(b[1]!-a[1]!)*h/100;
   return <View key={i} style={{position:'absolute',left:x,top:y,width:Math.hypot(dx,dy)+3,height:5,borderRadius:4,backgroundColor:i===0?ui.gold:color,transformOrigin:'left center',transform:[{rotate:`${Math.atan2(dy,dx)*180/Math.PI}deg`}]}}/>;

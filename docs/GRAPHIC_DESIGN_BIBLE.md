@@ -83,6 +83,13 @@ plus spoken "your car" labels, so colour never carries meaning alone. Lap column
 only, never invented absolute circuit lap times. Desktop tower rows are 36 px secondary inspect targets
 (pointer); phone rows keep 44 px. Text pairs on this surface target 4.5:1, as elsewhere.
 
+Live circuit maps reuse the ONE stylized outline per track in `ui/art/CircuitArt.tsx` (smoothed, drawn with
+React Native Views, no SVG dependency); a map is enabled per track only after owner review (`LIVE_MAP_TRACKS`,
+Melbourne first). Dots use canonical team primaries, the player's cars a white ring plus code, and positions come
+only from the replay beat (a visual glide toward the next beat, held when the replay stops). Mini-sectors fill in
+neutral white while a sector runs and take the stored sector colour only when that sector time exists; they never
+carry invented timing. Result moments use `TeamDriverPortrait` (no new portrait art) with the team colour band.
+
 ## Interaction and information hierarchy
 
 **GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT.**

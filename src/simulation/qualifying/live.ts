@@ -31,7 +31,10 @@ export type TowerRow = { driverId: string; name: string; teamId: string; team: s
   /** Latest completed flying lap in this segment versus the driver's own best: PB, +0.214 or OFF (lost). */
   last: { kind: 'PB' | 'SLOWER' | 'OFF'; text: string } | null;
   /** Places gained (+) or lost (-) over the last session minute, for timed cars; 0 otherwise. */
-  moved: number };
+  moved: number;
+  /** Where the car is for the track map: laps since leaving the pits at this beat (a sector beat is a third of a
+   * lap), and whether it keeps moving toward the next beat. null while in the garage. */
+  onTrack: { laps: number; moving: boolean } | null };
 /** Commentary from stored session data only: the announcer covers the field; radio is the player's engineer. */
 export type CommentaryLine = { kind: 'ANNOUNCER' | 'RADIO'; text: string; driverId?: string; at: number };
 const tenths = (d: number) => { const n = Math.round(Math.abs(d) * 10); return n >= 10 ? `${Math.abs(d).toFixed(1)} seconds` : n <= 1 ? 'a tenth' : `${['', '', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'][n]} tenths`; };
@@ -136,13 +139,16 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
     const entrant = session.entrants.find(e => e.driverId === id)!, time = best.get(id) ?? null, b = teamBrand(entrant.teamId);
     const mineLaps = (result?.laps ?? []).filter(l => l.driverId === id && l.slot * 3 <= local).sort((a, b) => a.slot - b.slot);
     const lap = mineLaps[mineLaps.length - 1];
-    let phase: LivePhase = 'GARAGE', sectors: LiveSector[] = [null, null, null];
+    let phase: LivePhase = 'GARAGE', sectors: LiveSector[] = [null, null, null], onTrack: TowerRow['onTrack'] = null;
     if (lap) {
       const off = lap.sectors.findIndex(x => x === null), lost = lap.time === null && off >= 0 && !flagged(lap, seg);
       if (flagged(lap, seg)) phase = local >= D * 3 ? 'MISSED' : 'OUT_LAP';
       else if (local < (lap.slot + 1) * 3) phase = 'OUT_LAP';
       else if (lost && sectorBeat(lap, off) <= local) phase = local < (lap.slot + 3) * 3 ? 'OFF' : 'GARAGE';
       else phase = local < doneAt(lap) ? 'FLYING' : local < (lap.slot + 3) * 3 ? 'IN_LAP' : 'GARAGE';
+      if (phase === 'OUT_LAP' || phase === 'FLYING' || phase === 'IN_LAP') onTrack = { laps: (local - lap.slot * 3) / 3, moving: true };
+      // A lost lap stops in the middle of the sector where it went wrong.
+      if (phase === 'OFF') onTrack = { laps: (sectorBeat(lap, off) - 1 - lap.slot * 3 + 0.5) / 3, moving: false };
       const shown = phase === 'OUT_LAP' ? mineLaps[mineLaps.length - 2] : lap;
       sectors = shown ? colour.get(shown) ?? [null, null, null] : sectors;
     }
@@ -164,7 +170,7 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
     const last: TowerRow['last'] = !latest ? null : latest.time === null ? { kind: 'OFF', text: 'OFF' }
       : latest.time === time ? { kind: 'PB', text: 'PB' } : { kind: 'SLOWER', text: `+${(latest.time - time!).toFixed(3)}` };
     return { driverId: id, name: name(universe, id), teamId: entrant.teamId, team: b.name, color: b.colors.primary, predicted,
-      code: codes[id] ?? surname(universe, id).slice(0, 3).toUpperCase(), tyre: lap?.tyre ?? null, last,
+      onTrack, code: codes[id] ?? surname(universe, id).slice(0, 3).toUpperCase(), tyre: lap?.tyre ?? null, last,
       interval: time !== null && ahead !== undefined ? `+${(time - ahead).toFixed(3)}` : null,
       moved: time === null || finished ? 0 : (was.get(id) ?? i + 1) - (i + 1),
       nearCut: seg !== 'Q3' && phase === 'FLYING' && i >= cut - 3 && i <= cut + 2,

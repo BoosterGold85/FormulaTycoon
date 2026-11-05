@@ -1,8 +1,8 @@
 import React,{useEffect,useMemo,useState} from 'react';
-import {Pressable,ScrollView,Text,View,useWindowDimensions} from 'react-native';
+import {Animated,Pressable,ScrollView,Text,View,useWindowDimensions} from 'react-native';
 import type {NavTab} from '../../game/hudPlaceholders';
 import type {GameDefinition,GameUniverse} from '../../simulation/universe';
-import {BEATS_PER_MINUTE,CALL_LABEL,FORMAT,SEGMENTS,TYRE_LABEL,activeBeats,breakOf,liveTiming,replayTarget,segmentAtBeat,segmentOf,selectQualifyingCall,wetLabel,
+import {BEATS_PER_MINUTE,CALL_LABEL,FORMAT,SEGMENTS,TYRE_LABEL,activeBeats,breakOf,liveTiming,replayTarget,segmentOf,selectQualifyingCall,selectSessionVenue,wetLabel,
  type Call,type CallAction,type Segment,type SegmentPlan,type TowerRow,type Tyre} from '../../simulation/qualifying';
 import {useSessionReplay,type ReplaySpeed} from '../hooks/useSessionReplay';
 import {Action,Card,Chip,ChoiceList,Screen,Section,Segmented,useDesign} from '../design/system';
@@ -10,6 +10,9 @@ import {BreakCard} from './BreakCard';
 import {Commentary} from './Commentary';
 import {LiveTower,PHASE,SectorLegend,SectorStrip,WIDE_TOWER} from './LiveTower';
 import {TowerDetail} from './TowerDetail';
+import {TrackMap} from './TrackMap';
+import {LiveHeader} from './LiveHeader';
+import {MiniSectors,runningSector} from './MiniSectors';
 import {BroadcastTheme} from '../theme';
 
 type Props={universe:GameUniverse;definition:GameDefinition;eventId:string;from:number;onBeat:(b:number)=>void;
@@ -46,9 +49,10 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
  // While a call is open, show the drop-zone battle by default so the decision is made in sight of the cut.
  const [sheetOpen,setSheetOpen]=useState(true);
  useEffect(()=>{if(call){setFocus(true);setSheetOpen(true);}},[!!call]);
- const controls=<View style={[styles.between,{flexWrap:'wrap',gap:8}]}>
-   <SessionProgress beat={replay.beat} finished={live.finished} remaining={live.remaining}/>
-   <View style={{flexDirection:'row',gap:6,flexWrap:'wrap'}} accessibilityLabel="Replay controls">
+ const {venue,trackId}=selectSessionVenue(universe,eventId);
+ const controls=<LiveHeader venue={venue} beat={replay.beat} progress={replay.progress} state={replay.playing?'LIVE':done?'FINAL':'PAUSED'} controls={
+   <View style={{flexDirection:'row',gap:6,flexWrap:'wrap',alignItems:'center'}} accessibilityLabel="Replay controls">
+    <Text style={[styles.muted,{marginRight:'auto'}]}>{live.finished?`${live.segment} complete`:wetLabel(live.track.wet)}</Text>
     {([1,2,4] as ReplaySpeed[]).map(sp=><Pressable key={sp} accessibilityRole="button" accessibilityLabel={`Replay at ${sp}x`} accessibilityState={{selected:replay.speed===sp}} onPress={()=>replay.setSpeed(sp)}
      style={{minWidth:44,minHeight:44,borderRadius:5,borderWidth:1,borderColor:replay.speed===sp?ui.accent:ui.line,backgroundColor:replay.speed===sp?ui.accentMuted:'transparent',alignItems:'center',justifyContent:'center'}}><Text style={[styles.figure,{color:ui.ink}]}>{sp}×</Text></Pressable>)}
     <Pressable accessibilityRole="button" accessibilityLabel="Skip to the next stop" disabled={!replay.playing} onPress={replay.skip}
@@ -56,27 +60,27 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
     <Pressable accessibilityRole="switch" accessibilityLabel="Focus mode: only your cars and the drop-zone battle" accessibilityState={{checked:focus}} onPress={()=>setFocus(f=>!f)}
      style={{minWidth:64,minHeight:44,paddingHorizontal:8,borderRadius:5,borderWidth:1,borderColor:focus?ui.accent:ui.line,backgroundColor:focus?ui.accent:'transparent',alignItems:'center',justifyContent:'center'}}>
      <Text style={{color:focus?ui.onAccent:ui.ink,fontWeight:'800'}}>FOCUS</Text></Pressable>
-   </View>
-  </View>;
+   </View>}/>;
+ const map=<TrackMap trackId={trackId} rows={live.rows} progress={replay.progress}/>;
  const breakCard=atBreak?<BreakCard key={pendingBreak!.beat} done={pendingBreak!.done} next={pendingBreak!.next} rows={live.rows} plans={breakPlans} editable={engineBreak} onContinue={continueBreak}/>:null;
  const doneCard=done?<Card accent={ui.green}><Text accessibilityRole="header" style={styles.heading}>Chequered flag</Text><Text style={styles.body}>The grid is set. See how your drivers did and why.</Text>
    <Action label="SEE THE RESULT" onPress={onFinish}/></Card>:null;
- const yourCars=<View testID="your-cars" style={{gap:8}}><Section title="Your cars"/>{mine.map(r=><MyCar key={r.driverId} row={r} cutoff={live.cutoff}/>)}</View>;
+ const yourCars=<View testID="your-cars" style={{gap:8}}><Section title="Your cars"/>{mine.map(r=><MyCar key={r.driverId} row={r} cutoff={live.cutoff} progress={replay.progress}/>)}</View>;
  const tower=<View style={{gap:10}}>
    {focus?<Text style={styles.muted}>Focus: your cars and the drop-zone battle. Turn off Focus for the full field.</Text>:null}
    <TowerDetail row={live.rows.find(r=>r.driverId===(selected??hovered))} onClose={()=>{setSelected(null);setHovered(null);}}/>
    <View onLayout={e=>setTowerWidth(e.nativeEvent.layout.width)}>
     <LiveTower rows={live.rows} cutoff={live.cutoff} finished={live.finished} focus={focus} wide={towerWidth>=WIDE_TOWER} selected={selected}
-     onSelect={id=>setSelected(s=>s===id?null:id)} onHover={setHovered}/></View>
+     onSelect={id=>setSelected(s=>s===id?null:id)} onHover={setHovered} progress={replay.progress}/></View>
    <SectorLegend/></View>;
  const commentary=<Commentary lines={live.commentary} names={names} teamColor={teamColor}/>;
  const note=<Text style={styles.muted}>Times are shown as gaps. This replays the session your team has already run; replay speed, Skip and Focus don't change it.</Text>;
- const title=`Qualifying · ${live.segment}`,kicker='SATURDAY · LIVE TIMING',subtitle=live.finished?`${live.segment} complete`:wetLabel(live.track.wet);
- if(wide)return <Screen title={title} kicker={kicker} subtitle={subtitle} tab="HQ" onNavigate={onNavigate} maxWidth={2200}>
+ const title='Live timing',kicker='SATURDAY';
+ if(wide)return <Screen title={title} kicker={kicker} tab="HQ" onNavigate={onNavigate} maxWidth={2200}>
   {controls}
   <View style={{flexDirection:'row',gap:24,alignItems:'flex-start'}}>
    <View style={{flex:1.6,minWidth:0}}>{tower}</View>
-   <View style={{flex:1,minWidth:340,maxWidth:560,gap:14}}>{breakCard}{call?<CallCard model={call} onCall={onCall}/>:null}{doneCard}{yourCars}{commentary}</View>
+   <View style={{flex:1,minWidth:340,maxWidth:560,gap:14}}>{map}{breakCard}{call?<CallCard model={call} onCall={onCall}/>:null}{doneCard}{yourCars}{commentary}</View>
   </View>
   {note}
  </Screen>;
@@ -88,10 +92,11 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
     <Text style={[styles.eyebrow,{color:ui.gold}]}>PIT WALL CALL · {call.segment} · {call.remaining} MIN LEFT</Text><Text style={{color:ui.accent,fontSize:18,fontWeight:'900'}}>{sheetOpen?'▾':'▴'}</Text></Pressable>
    {sheetOpen?<ScrollView contentContainerStyle={{paddingHorizontal:16,paddingBottom:16}}><CallCard model={call} onCall={onCall} bare/></ScrollView>:null}
   </View>:null;
- return <Screen title={title} kicker={kicker} subtitle={subtitle} tab="HQ" onNavigate={onNavigate} overlay={sheet}>
+ return <Screen title={title} kicker={kicker} tab="HQ" onNavigate={onNavigate} overlay={sheet}>
   {call?tower:null}
   {controls}
   {breakCard}{doneCard}
+  {!call?map:null}
   {!call?tower:null}
   {!call&&!atBreak&&!done?yourCars:null}
   {!call?commentary:null}
@@ -100,22 +105,7 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
  </Screen>;
 }
 
-/** Session progress: Q1/Q2/Q3 as large steps and a bar for the current part with a time-left marker. */
-function SessionProgress({beat,finished,remaining}:{beat:number;finished:boolean;remaining:number}){
- const {ui,styles}=useDesign(),seg=segmentAtBeat(beat),local=beat-FORMAT[seg].offset*BEATS_PER_MINUTE,share=Math.max(0,Math.min(1,local/(FORMAT[seg].minutes*BEATS_PER_MINUTE)));
- return <View style={{flex:1,minWidth:240,gap:6}} accessibilityLabel={`${seg}, ${finished?'complete':`${remaining} minutes left`}`}>
-  <View style={{flexDirection:'row',gap:6}}>{SEGMENTS.map(s=>{const i=SEGMENTS.indexOf(s),cur=SEGMENTS.indexOf(seg);
-   return <View key={s} style={{minWidth:52,height:32,paddingHorizontal:10,borderRadius:5,alignItems:'center',justifyContent:'center',
-    backgroundColor:i===cur?ui.accent:i<cur?ui.surfaceElevated:'transparent',borderWidth:1,borderColor:i===cur?ui.accent:ui.line}}>
-    <Text style={[styles.heading,{color:i===cur?ui.onAccent:i<cur?ui.ink:ui.muted,fontSize:20}]}>{s}{i<cur?' ✓':''}</Text></View>;})}</View>
-  <View style={{height:12,borderRadius:6,backgroundColor:ui.surfaceElevated,borderWidth:1,borderColor:ui.line,overflow:'visible'}}>
-   <View style={{width:`${share*100}%`,height:10,borderRadius:6,backgroundColor:ui.accent}}/>
-  </View>
-  <Text style={[styles.figure,{fontSize:15}]}>{finished?`${seg} complete`:`${remaining} min left in ${seg}`}</Text>
- </View>;
-}
-
-function MyCar({row,cutoff}:{row:TowerRow;cutoff:number|null}){const {ui,styles,teamInk}=useDesign();
+function MyCar({row,cutoff,progress}:{row:TowerRow;cutoff:number|null;progress:Animated.Value}){const {ui,styles,teamInk}=useDesign(),running=runningSector(row.phase,row.sectors);
  const danger=cutoff!==null&&row.position>cutoff;
  return <View accessibilityLabel={`${row.name}, ${PHASE[row.phase]}, P${row.position}, ${row.gap}${row.predicted?`, on pace for P${row.predicted}`:''}`} style={{gap:6,padding:12,borderRadius:8,backgroundColor:ui.surface,borderLeftWidth:6,borderLeftColor:row.color}}>
   <View style={styles.between}><View style={{flex:1,minWidth:0}}><Text numberOfLines={1} style={styles.heading}>{row.time===null?'':`P${row.position}  `}{row.name}</Text>
@@ -124,6 +114,8 @@ function MyCar({row,cutoff}:{row:TowerRow;cutoff:number|null}){const {ui,styles,
   <View style={[styles.between,{flexWrap:'wrap'}]}><Text style={[styles.muted,{fontWeight:'800'}]}>{PHASE[row.phase].toUpperCase()}</Text>
    {row.predicted?<Text style={{color:cutoff!==null&&row.predicted>cutoff?ui.danger:ui.green,fontWeight:'900',fontSize:12}}>ON PACE FOR P{row.predicted}</Text>:<Text style={[styles.figure,{color:ui.muted}]}>{row.gap}</Text>}</View>
   <SectorStrip sectors={row.sectors} large/>
+  <View style={{flexDirection:'row',gap:6}}>{row.sectors.map((sec,i)=><View key={i} style={{flex:1,maxWidth:120,flexDirection:'row'}}>
+   <MiniSectors sector={sec} running={running===i} progress={progress} count={6} height={6}/></View>)}</View>
  </View>;
 }
 

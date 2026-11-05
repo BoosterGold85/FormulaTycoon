@@ -257,14 +257,25 @@ you can keep it or change it. Lock the plan to start qualifying.
 confidence (Low, Medium or High) improves with the Research work your factory has done this season. That is the
 same Research shown as bubbles in the week replay. Even a well-researched forecast is never certain.
 
-**Live session and calls.** The session is replayed on a timing screen, sector by sector:
+**Live session and calls.** The session is replayed on a broadcast-style timing screen, sector by sector. The
+header shows a **LIVE** dot (PAUSED while the pit wall waits for you, FINAL at the flag), which part is running
+(Q1, Q2, Q3) and the time left in it.
 - **Your cars** shows each driver's out lap, flying lap and in lap. As the lap runs, each sector shows its gap to the
   fastest time in that sector, plus where the lap would put the driver at its pace so far ("On pace for P9").
 - **Sector colours:** **purple** is fastest of anyone so far; **green** is that driver's personal best; **yellow** is
   slower than their best.
-- **The tower:** cars on a flying lap are at full strength; cars on out laps, in laps or in the garage are greyed.
-  Your cars are always highlighted. A red line marks the **drop zone**, and rivals fighting around it pulse while
+- **The tower:** each row has the team's colour bar and a three-letter driver code; tap a row (or hover on a
+  computer) for the full name and every figure. Columns show the gap to P1, the gap to the car ahead, the last lap
+  against that driver's own best (**PB**, a time slower, or **OFF** for a lost lap), the three sectors, the tyre
+  (**S** soft, **M** medium, **I** intermediate; a dashed ring is a used set) and an arrow when a car has gained or
+  lost places in the last minute. Phones show the essentials. Cars on a flying lap are at full strength; cars on
+  out laps, in laps or in the garage are greyed. Your cars always have a ring in your team's colour. A red line marks the **drop zone**, and rivals fighting around it pulse while
   they're on a flying lap. Rows slide as positions change.
+- **Mini-sectors:** each sector is a row of small blocks that fill in as the car drives through it, then all take
+  the sector's colour once the sector time is in. They show progress only, never their own timing.
+- **Track map** (Melbourne so far): a simplified circuit outline with the sector boundaries, a dot for every car
+  out on track in its team colour, and your cars ringed in white with their code. It shows where each car is in
+  the replay; it is a stylized picture, not a measured layout.
 - **Focus** shows only your cars and the battle around the drop zone (in Q3, the fight for pole).
 - **Commentary** covers the whole field ("Verhoeven goes fastest!"). **Team radio**, with your team's badge, is
   your engineer talking to your drivers ("Good S1. You're up two tenths on your best.").
@@ -286,7 +297,10 @@ it, and the order going into the next part. If you have a car still running, you
 part there. Nothing resumes until you press Continue; Skip and the speed controls stop there too. The replay only
 shows what your team has already run: speed, Skip and Focus never change it.
 
-**Report Card.** Afterwards, each driver's grid position comes with a short "why": how close the knockout line
+**Result.** Afterwards, each of your drivers gets a result card: helmet in team colours, a big grid position and a
+headline for the story of the session ("0.02s from Q2", "Knocked out by teammate Alburn", "Front row"). Below that is
+the full starting grid in team colours, with lines where Q1 and Q2 knocked cars out. Each driver's position also comes
+with a short "why": how close the knockout line
 was, traffic, mistakes, tyre choices, the weather call, and how well the car suits the circuit. The grid is saved
 with the weekend and appears in **RACE** in that weekend's briefing. Your car's performance matters most; your
 choices, the driver and the weather decide the rest. The race itself is not simulated yet. Rival teams make their

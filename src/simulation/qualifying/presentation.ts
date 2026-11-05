@@ -10,6 +10,8 @@ import {CHECKPOINT,FORMAT,NEW_SOFT_SETS,SEGMENTS,SESSION_MINUTES,type Call,type 
 import {recommendedCalls,recommendedPlans,upcomingBriefing} from './views';
 import {CROSSOVER,wetnessAt} from './weather';
 import {BEATS_PER_MINUTE,liveTiming} from './live';
+import {driverCodes} from './codes';
+import {qualifyingHeadline,type Headline} from './headlines';
 
 /** Display vocabulary. Read models only: nothing here is saved or changes a result. */
 export const TYRE_LABEL: Record<Tyre | 'USED_MEDIUM', string> = { NEW_SOFT: 'New soft', USED_SOFT: 'Used soft', MEDIUM: 'Medium', USED_MEDIUM: 'Used medium', INTER: 'Inters' };
@@ -91,7 +93,9 @@ export function selectQualifyingCall(universe: GameUniverse, definition: GameDef
     }) };
 }
 
-export type GridRow = { position: number; driverId: string; name: string; teamId: string; team: string; color: string; mine: boolean; gap: string; segment: Segment; reasons: string[] };
+export type GridRow = { position: number; driverId: string; name: string; code: string; teamId: string; team: string; color: string; mine: boolean; gap: string; segment: Segment; reasons: string[];
+  /** The player's cars only: the one-line story of their session. */
+  headline: Headline | null };
 /** The final grid for a completed session, with each driver's stored reasons. */
 export function selectQualifyingGrid(universe: GameUniverse, eventId: string): { venue: string; date: string; weather: string; rows: GridRow[] } | null {
   const session = universe.qualifying?.sessions[eventId];
@@ -100,7 +104,14 @@ export function selectQualifyingGrid(universe: GameUniverse, eventId: string): {
   const fastest = (seg: Segment) => { const r = session.segments[seg]!; return bestTime(r.laps, r.order[0]!); };
   return { venue: calendar.tracks[event.trackId]!.name, date: formatCampaignDate(session.date),
     weather: session.weather.kind === 'DRY' ? 'Dry session' : session.weather.kind === 'RAIN' ? `Rain from ${sessionMoment(session.weather.changeMinute!)}` : `Wet start, drying from ${sessionMoment(session.weather.changeMinute!)}`,
-    rows: session.grid.map(g => ({ position: g.position, driverId: g.driverId, name: driverName(universe, g.driverId), ...team(g.teamId), mine: g.teamId === universe.playerTeamId,
+    rows: session.grid.map(g => ({ position: g.position, driverId: g.driverId, name: driverName(universe, g.driverId), code: driverCodes(universe)[g.driverId] ?? '', ...team(g.teamId), mine: g.teamId === universe.playerTeamId,
+      headline: g.teamId === universe.playerTeamId ? qualifyingHeadline(universe, session, g.driverId) : null,
       gap: g.time === null ? 'No time' : g.position === 1 ? 'Pole' : `+${(g.time - (fastest(g.segment) ?? g.time)).toFixed(3)} in ${g.segment}`,
       segment: g.segment, reasons: g.reasons })) };
+}
+
+/** Venue of a qualifying session, for the live header and track map. */
+export function selectSessionVenue(universe: GameUniverse, eventId: string): { venue: string; trackId: string } {
+  const calendar = calendarById(universe.calendarId), event = calendar.events.find(e => e.id === eventId)!;
+  return { venue: calendar.tracks[event.trackId]!.name, trackId: event.trackId };
 }
