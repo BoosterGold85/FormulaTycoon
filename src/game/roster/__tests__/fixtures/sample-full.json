@@ -1,0 +1,20 @@
+{
+  "format": "formula-tycoon-roster-pack",
+  "schemaVersion": 1,
+  "id": "sample-upside-down",
+  "name": "Sample: Upside-down grid",
+  "author": "Formula Tycoon tests",
+  "description": "Test pack. Makes the player's two drivers the strongest on the grid and gives one rival new stats.",
+  "type": "full",
+  "teams": [
+    {"slot": 6, "name": "Underdog Works", "colors": {"primary": "#7A3E9D", "secondary": "#F5EFE6", "accent": "#24232B"}}
+  ],
+  "drivers": [
+    {"slot": 11, "name": "Juno Ashgrove", "number": 66, "nationality": "Northland",
+     "stats": {"age": 24, "homeMarket": "Northland", "traits": ["Calm Under Pressure", "Late Braker"],
+               "talent": 99, "racecraft": 98, "adaptability": 97, "composure": 96, "feedback": 95, "marketability": 90, "potential": 100}},
+    {"slot": 12, "name": "Rook Tavener", "number": 67,
+     "stats": {"talent": 97, "racecraft": 96, "potential": 99}},
+    {"slot": 1, "stats": {"age": 38, "talent": 60}}
+  ]
+}

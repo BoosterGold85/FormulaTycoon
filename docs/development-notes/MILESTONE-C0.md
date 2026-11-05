@@ -31,12 +31,12 @@ V1/v2/v3 definitions, calendar/parts/regulations/HQ/staff and driver identity/tr
 are static JSON under `src/persistence/contracts/`. They are recursively frozen and independent
 from all live arrays. Versioned pre-calendar validators retain existing bounds, progress and
 contract semantics without importing live engine rules. Legacy aliases now point at snapshots.
-Migration outputs are explicitly v3, including Caldera and the added reserve/source payload;
+Migration outputs are explicitly v3, including Meridian and the added reserve/source payload;
 future live starting data cannot change old migrations. This is intentional historical data,
 not an alternative mutable career owner. Existing v1/v2 fixture bytes were not edited.
 
 `driver-world-v3.json` represents seed 17, development week 16, 45 actual upgrade submissions,
-pending projects, HQ at 5500ms with workers walking, Cordeiro reports2/precision60 and Harlton's
+pending projects, HQ at 5500ms with workers walking, Park reports2/precision60 and Harlton's
 exercised option. It preserves full source records, IDs, contracts and observer knowledge.
 The v3 fixture is immutable test input, with byte hashes alongside v1/v2. It resumes identically.
 

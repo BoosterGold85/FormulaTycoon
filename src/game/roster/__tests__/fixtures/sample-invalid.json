@@ -1,0 +1,16 @@
+{
+  "format": "formula-tycoon-roster-pack",
+  "schemaVersion": 1,
+  "id": "sample-broken",
+  "name": "Sample: Broken pack",
+  "type": "cosmetic",
+  "teams": [
+    {"slot": 3, "name": "Copperline Racing", "colors": {"primary": "teal"}},
+    {"slot": 14, "name": "Nowhere GP"}
+  ],
+  "drivers": [
+    {"slot": 1, "name": "Ada Quillfeather", "number": 140},
+    {"slot": 2, "name": "Ada Quillfeather", "helmetPatern": 2},
+    {"slot": 3, "stats": {"talent": 90}}
+  ]
+}

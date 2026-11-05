@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "formula-tycoon-roster-pack.v1.schema.json",
+  "title": "Formula Tycoon roster pack, format version 1",
+  "description": "Authoring aid. The game's own validator (src/game/roster/validate.ts) is authoritative and also checks merged-roster rules (unique numbers and names, teammate helmets) and that cosmetic packs carry no stats. See docs/ROSTER_PACKS.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "schemaVersion", "id", "name", "type"],
+  "properties": {
+    "format": {"const": "formula-tycoon-roster-pack"},
+    "schemaVersion": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,47}$"},
+    "name": {"type": "string", "minLength": 1, "maxLength": 60},
+    "author": {"type": "string", "minLength": 1, "maxLength": 60},
+    "description": {"type": "string", "minLength": 1, "maxLength": 280},
+    "type": {"enum": ["cosmetic", "full"]},
+    "teams": {"type": "array", "maxItems": 11, "items": {"$ref": "#/$defs/team"}},
+    "drivers": {"type": "array", "maxItems": 22, "items": {"$ref": "#/$defs/driver"}},
+    "freeAgents": {"type": "array", "maxItems": 21, "items": {"$ref": "#/$defs/driver"}}
+  },
+  "$defs": {
+    "hex": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+    "team": {
+      "type": "object", "additionalProperties": false, "required": ["slot"],
+      "properties": {
+        "slot": {"type": "integer", "minimum": 1, "maximum": 11},
+        "name": {"type": "string", "minLength": 2, "maxLength": 32},
+        "shortName": {"type": "string", "minLength": 1, "maxLength": 14},
+        "base": {"type": "string", "minLength": 1, "maxLength": 40},
+        "identity": {"type": "string", "minLength": 1, "maxLength": 120},
+        "colors": {"$ref": "#/$defs/colors"}
+      }
+    },
+    "colors": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"primary": {"$ref": "#/$defs/hex"}, "secondary": {"$ref": "#/$defs/hex"}, "accent": {"$ref": "#/$defs/hex"}}
+    },
+    "driver": {
+      "type": "object", "additionalProperties": false, "required": ["slot"],
+      "properties": {
+        "slot": {"type": "integer", "minimum": 1, "description": "1-22 for drivers, 1-21 for freeAgents"},
+        "name": {"type": "string", "minLength": 2, "maxLength": 32},
+        "number": {"type": ["integer", "null"], "minimum": 1, "maximum": 99},
+        "nationality": {"type": "string", "minLength": 2, "maxLength": 24, "description": "Display label only"},
+        "archetype": {"type": "string", "minLength": 1, "maxLength": 32},
+        "bio": {"type": "string", "minLength": 1, "maxLength": 200},
+        "helmetPattern": {"type": "integer", "minimum": 0, "maximum": 7},
+        "stats": {"$ref": "#/$defs/stats"}
+      }
+    },
+    "stats": {
+      "type": "object", "additionalProperties": false, "description": "Full packs only. Everything the simulation reads.",
+      "properties": {
+        "age": {"type": "integer", "minimum": 16, "maximum": 45, "description": "Age at the start of the 2026 season"},
+        "homeMarket": {"type": "string", "minLength": 2, "maxLength": 24},
+        "traits": {"type": "array", "maxItems": 3, "uniqueItems": true, "items": {"enum": [
+          "Wet Weather Specialist", "Qualifying Specialist", "Tire Whisperer", "Aggressive Defender", "Late Braker", "Setup Expert",
+          "Technical Leader", "Street Circuit Specialist", "High-Speed Specialist", "Low-Grip Specialist", "Comeback Racer",
+          "Calm Under Pressure", "Sponsor Favorite"]}},
+        "talent": {"type": "number", "minimum": 0, "maximum": 100},
+        "racecraft": {"type": "number", "minimum": 0, "maximum": 100},
+        "adaptability": {"type": "number", "minimum": 0, "maximum": 100},
+        "composure": {"type": "number", "minimum": 0, "maximum": 100},
+        "feedback": {"type": "number", "minimum": 0, "maximum": 100},
+        "marketability": {"type": "number", "minimum": 0, "maximum": 100},
+        "potential": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    }
+  }
+}

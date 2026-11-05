@@ -1,0 +1,1131 @@
+{
+  "format": "formula-tycoon-roster-pack",
+  "schemaVersion": 1,
+  "id": "fictional-default",
+  "name": "Formula Tycoon fictional roster",
+  "author": "Formula Tycoon",
+  "description": "The default fictional grid: 11 original teams, 22 race drivers and 21 free agents.",
+  "type": "full",
+  "teams": [
+    {
+      "slot": 1,
+      "name": "Halcyon Works",
+      "shortName": "Halcyon",
+      "base": "Gothenburg, SWE",
+      "identity": "Engineering-led front-runner, cold and precise",
+      "colors": {
+        "primary": "#5FB3D9",
+        "secondary": "#2B2F36",
+        "accent": "#FFFFFF"
+      }
+    },
+    {
+      "slot": 2,
+      "name": "Solenne Racing",
+      "shortName": "Solenne",
+      "base": "Lyon, FRA",
+      "identity": "Old money, elegant, under pressure to win",
+      "colors": {
+        "primary": "#6B2D5C",
+        "secondary": "#E8D9B0",
+        "accent": "#111111"
+      }
+    },
+    {
+      "slot": 3,
+      "name": "Kestrel GP",
+      "shortName": "Kestrel",
+      "base": "Silverstone, GBR",
+      "identity": "Privateer giant-killer, sharp strategy",
+      "colors": {
+        "primary": "#0F6B5A",
+        "secondary": "#EDE6D6",
+        "accent": "#C7773B"
+      }
+    },
+    {
+      "slot": 4,
+      "name": "Moravia Motorsport",
+      "shortName": "Moravia",
+      "base": "Brno, CZE",
+      "identity": "Factory squad, huge budget, slow politics",
+      "colors": {
+        "primary": "#14213D",
+        "secondary": "#F2A900",
+        "accent": "#FFFFFF"
+      }
+    },
+    {
+      "slot": 5,
+      "name": "Taranis Racing",
+      "shortName": "Taranis",
+      "base": "Turin area, ITA",
+      "identity": "Tech-start-up energy, aero risks",
+      "colors": {
+        "primary": "#5A6470",
+        "secondary": "#B6E23A",
+        "accent": "#0B0B0B"
+      }
+    },
+    {
+      "slot": 6,
+      "name": "Ardent Dynamics",
+      "shortName": "Ardent",
+      "base": "Austin, USA",
+      "identity": "New American entrant, flashy, building up",
+      "colors": {
+        "primary": "#0A0F1F",
+        "secondary": "#FF5A5F",
+        "accent": "#C9CED6"
+      }
+    },
+    {
+      "slot": 7,
+      "name": "Nordhavn Racing",
+      "shortName": "Nordhavn",
+      "base": "Copenhagen, DEN",
+      "identity": "Steady midfielder, driver academy",
+      "colors": {
+        "primary": "#1D4E89",
+        "secondary": "#D9C7A1",
+        "accent": "#D7263D"
+      }
+    },
+    {
+      "slot": 8,
+      "name": "Corvo Racing",
+      "shortName": "Corvo",
+      "base": "Valencia, ESP",
+      "identity": "Scrappy, loud, punches above budget",
+      "colors": {
+        "primary": "#1A1A1A",
+        "secondary": "#FFD23F",
+        "accent": "#8A8D91"
+      }
+    },
+    {
+      "slot": 9,
+      "name": "Altair Engineering",
+      "shortName": "Altair",
+      "base": "Munich area, GER",
+      "identity": "Customer engines, technical partner team",
+      "colors": {
+        "primary": "#F4F4F2",
+        "secondary": "#6A4CC4",
+        "accent": "#333333"
+      }
+    },
+    {
+      "slot": 10,
+      "name": "Pacifica Racing",
+      "shortName": "Pacifica",
+      "base": "Auckland, NZL",
+      "identity": "Underfunded backmarker, loyal fanbase",
+      "colors": {
+        "primary": "#00594F",
+        "secondary": "#9FD3E6",
+        "accent": "#FFFFFF"
+      }
+    },
+    {
+      "slot": 11,
+      "name": "Meridian Speed",
+      "shortName": "Meridian",
+      "base": "Dubai, UAE",
+      "identity": "Rich new owners, impatient for results",
+      "colors": {
+        "primary": "#C97B84",
+        "secondary": "#8C6A3F",
+        "accent": "#F6EFE2"
+      }
+    }
+  ],
+  "drivers": [
+    {
+      "slot": 1,
+      "name": "Jonas Ekdal",
+      "number": 9,
+      "nationality": "NOR",
+      "archetype": "All-round leader",
+      "bio": "Raised on Norwegian ice-racing; never loses composure in the wet.",
+      "helmetPattern": 0,
+      "stats": {
+        "age": 26,
+        "homeMarket": "British",
+        "traits": [
+          "Qualifying Specialist",
+          "Calm Under Pressure"
+        ],
+        "talent": 94,
+        "racecraft": 92,
+        "adaptability": 92,
+        "composure": 91,
+        "feedback": 86,
+        "marketability": 94,
+        "potential": 97
+      }
+    },
+    {
+      "slot": 2,
+      "name": "Tomás Varga",
+      "number": 29,
+      "nationality": "HUN",
+      "archetype": "Fast, raw",
+      "bio": "Explosive over one lap and still learning to look after a race.",
+      "helmetPattern": 1,
+      "stats": {
+        "age": 24,
+        "homeMarket": "Australian",
+        "traits": [
+          "Calm Under Pressure",
+          "Tire Whisperer"
+        ],
+        "talent": 92,
+        "racecraft": 94,
+        "adaptability": 87,
+        "composure": 95,
+        "feedback": 85,
+        "marketability": 84,
+        "potential": 98
+      }
+    },
+    {
+      "slot": 3,
+      "name": "Élodie Marchetti",
+      "number": 15,
+      "nationality": "MON",
+      "archetype": "Qualifying ace",
+      "bio": "Finds a final tenth when the session clock reaches zero.",
+      "helmetPattern": 2,
+      "stats": {
+        "age": 28,
+        "homeMarket": "Monégasque",
+        "traits": [
+          "Qualifying Specialist",
+          "Low-Grip Specialist"
+        ],
+        "talent": 96,
+        "racecraft": 89,
+        "adaptability": 92,
+        "composure": 84,
+        "feedback": 87,
+        "marketability": 92,
+        "potential": 97
+      }
+    },
+    {
+      "slot": 4,
+      "name": "Rafael Quintero",
+      "number": 19,
+      "nationality": "MEX",
+      "archetype": "Veteran racer",
+      "bio": "Reads a race three laps ahead and rarely wastes a set of tyres.",
+      "helmetPattern": 3,
+      "stats": {
+        "age": 40,
+        "homeMarket": "British",
+        "traits": [
+          "Wet Weather Specialist",
+          "Technical Leader"
+        ],
+        "talent": 88,
+        "racecraft": 96,
+        "adaptability": 96,
+        "composure": 94,
+        "feedback": 98,
+        "marketability": 99,
+        "potential": 96
+      }
+    },
+    {
+      "slot": 5,
+      "name": "Callum Rourke",
+      "number": 25,
+      "nationality": "IRL",
+      "archetype": "Rising star",
+      "bio": "Came up through club racing on borrowed money and a lot of nerve.",
+      "helmetPattern": 4,
+      "stats": {
+        "age": 27,
+        "homeMarket": "British",
+        "traits": [
+          "Qualifying Specialist",
+          "Calm Under Pressure"
+        ],
+        "talent": 93,
+        "racecraft": 91,
+        "adaptability": 87,
+        "composure": 94,
+        "feedback": 92,
+        "marketability": 86,
+        "potential": 96
+      }
+    },
+    {
+      "slot": 6,
+      "name": "Priya Nandakumar",
+      "number": 32,
+      "nationality": "IND",
+      "archetype": "Tyre whisperer",
+      "bio": "Can stretch a stint long after everyone else has pitted.",
+      "helmetPattern": 5,
+      "stats": {
+        "age": 19,
+        "homeMarket": "Italian",
+        "traits": [
+          "Wet Weather Specialist",
+          "High-Speed Specialist"
+        ],
+        "talent": 91,
+        "racecraft": 82,
+        "adaptability": 94,
+        "composure": 80,
+        "feedback": 71,
+        "marketability": 84,
+        "potential": 99
+      }
+    },
+    {
+      "slot": 7,
+      "name": "Stefan Holub",
+      "number": 21,
+      "nationality": "CZE",
+      "archetype": "Steady points",
+      "bio": "Turns quiet weekends into points with almost no mistakes.",
+      "helmetPattern": 6,
+      "stats": {
+        "age": 28,
+        "homeMarket": "Dutch",
+        "traits": [
+          "Wet Weather Specialist",
+          "Aggressive Defender"
+        ],
+        "talent": 99,
+        "racecraft": 98,
+        "adaptability": 99,
+        "composure": 97,
+        "feedback": 93,
+        "marketability": 94,
+        "potential": 100
+      }
+    },
+    {
+      "slot": 8,
+      "name": "Akira Tanabe",
+      "number": 36,
+      "nationality": "JPN",
+      "archetype": "Rookie prodigy",
+      "bio": "Junior titles at every level; still raw over a full race distance.",
+      "helmetPattern": 7,
+      "stats": {
+        "age": 21,
+        "homeMarket": "French",
+        "traits": [
+          "Late Braker",
+          "Comeback Racer"
+        ],
+        "talent": 87,
+        "racecraft": 85,
+        "adaptability": 84,
+        "composure": 76,
+        "feedback": 74,
+        "marketability": 74,
+        "potential": 97
+      }
+    },
+    {
+      "slot": 9,
+      "name": "Luca Benvenuti",
+      "number": 8,
+      "nationality": "ITA",
+      "archetype": "Wet specialist",
+      "bio": "Comes alive when the clouds roll in and the grip disappears.",
+      "helmetPattern": 0,
+      "stats": {
+        "age": 44,
+        "homeMarket": "Spanish",
+        "traits": [
+          "Technical Leader",
+          "Low-Grip Specialist"
+        ],
+        "talent": 89,
+        "racecraft": 98,
+        "adaptability": 98,
+        "composure": 94,
+        "feedback": 99,
+        "marketability": 94,
+        "potential": 95
+      }
+    },
+    {
+      "slot": 10,
+      "name": "Noah Okafor",
+      "number": 28,
+      "nationality": "CAN",
+      "archetype": "Aggressive overtaker",
+      "bio": "Will try a move from further back than anyone else on the grid.",
+      "helmetPattern": 1,
+      "stats": {
+        "age": 27,
+        "homeMarket": "Canadian",
+        "traits": [
+          "Wet Weather Specialist",
+          "Sponsor Favorite"
+        ],
+        "talent": 78,
+        "racecraft": 79,
+        "adaptability": 82,
+        "composure": 70,
+        "feedback": 77,
+        "marketability": 86,
+        "potential": 85
+      }
+    },
+    {
+      "slot": 11,
+      "name": "Dakota Reyes",
+      "number": 13,
+      "nationality": "USA",
+      "archetype": "Showman",
+      "bio": "Loves a crowd and a camera, and backs it up with late-race charges.",
+      "helmetPattern": 2,
+      "stats": {
+        "age": 31,
+        "homeMarket": "Spanish",
+        "traits": [
+          "Setup Expert",
+          "Technical Leader"
+        ],
+        "talent": 89,
+        "racecraft": 93,
+        "adaptability": 94,
+        "composure": 94,
+        "feedback": 97,
+        "marketability": 89,
+        "potential": 95
+      }
+    },
+    {
+      "slot": 12,
+      "name": "Mattias Lund",
+      "number": 39,
+      "nationality": "FIN",
+      "archetype": "Elder statesman",
+      "bio": "Has raced in every condition the calendar can offer, and remembers all of it.",
+      "helmetPattern": 3,
+      "stats": {
+        "age": 29,
+        "homeMarket": "Thai",
+        "traits": [
+          "Low-Grip Specialist",
+          "Comeback Racer"
+        ],
+        "talent": 88,
+        "racecraft": 90,
+        "adaptability": 93,
+        "composure": 88,
+        "feedback": 91,
+        "marketability": 85,
+        "potential": 93
+      }
+    },
+    {
+      "slot": 13,
+      "name": "Freya Halvorsen",
+      "number": 24,
+      "nationality": "DEN",
+      "archetype": "Academy graduate",
+      "bio": "First graduate of her team academy and fiercely quick over one lap.",
+      "helmetPattern": 4,
+      "stats": {
+        "age": 29,
+        "homeMarket": "French",
+        "traits": [
+          "Technical Leader"
+        ],
+        "talent": 87,
+        "racecraft": 90,
+        "adaptability": 86,
+        "composure": 90,
+        "feedback": 92,
+        "marketability": 85,
+        "potential": 92
+      }
+    },
+    {
+      "slot": 14,
+      "name": "Bastien Courtois",
+      "number": 42,
+      "nationality": "BEL",
+      "archetype": "Reliable midfielder",
+      "bio": "Engineers trust his feedback; mechanics trust him to bring the car home.",
+      "helmetPattern": 5,
+      "stats": {
+        "age": 22,
+        "homeMarket": "Argentine",
+        "traits": [
+          "Sponsor Favorite",
+          "Late Braker"
+        ],
+        "talent": 85,
+        "racecraft": 81,
+        "adaptability": 84,
+        "composure": 75,
+        "feedback": 73,
+        "marketability": 93,
+        "potential": 95
+      }
+    },
+    {
+      "slot": 15,
+      "name": "Diego Albarrán",
+      "number": 17,
+      "nationality": "ESP",
+      "archetype": "Ragged and brave",
+      "bio": "Brave on the brakes and occasionally too brave in the gravel.",
+      "helmetPattern": 6,
+      "stats": {
+        "age": 29,
+        "homeMarket": "French",
+        "traits": [
+          "Aggressive Defender"
+        ],
+        "talent": 85,
+        "racecraft": 91,
+        "adaptability": 83,
+        "composure": 89,
+        "feedback": 87,
+        "marketability": 78,
+        "potential": 90
+      }
+    },
+    {
+      "slot": 16,
+      "name": "Hugo Lemaire",
+      "number": 34,
+      "nationality": "SUI",
+      "archetype": "Team player",
+      "bio": "Puts the team result first and makes the strategy calls work.",
+      "helmetPattern": 7,
+      "stats": {
+        "age": 20,
+        "homeMarket": "British",
+        "traits": [
+          "Comeback Racer"
+        ],
+        "talent": 87,
+        "racecraft": 83,
+        "adaptability": 88,
+        "composure": 80,
+        "feedback": 75,
+        "marketability": 81,
+        "potential": 98
+      }
+    },
+    {
+      "slot": 17,
+      "name": "Jakob Steiner",
+      "number": 26,
+      "nationality": "AUT",
+      "archetype": "Engineer's driver",
+      "bio": "Lives in the debrief room and talks in data traces.",
+      "helmetPattern": 0,
+      "stats": {
+        "age": 24,
+        "homeMarket": "New Zealander",
+        "traits": [
+          "Aggressive Defender"
+        ],
+        "talent": 83,
+        "racecraft": 88,
+        "adaptability": 85,
+        "composure": 77,
+        "feedback": 77,
+        "marketability": 77,
+        "potential": 92
+      }
+    },
+    {
+      "slot": 18,
+      "name": "Wen Shao",
+      "number": 38,
+      "nationality": "CHN",
+      "archetype": "Late bloomer",
+      "bio": "Took the long road through endurance racing and is still improving.",
+      "helmetPattern": 1,
+      "stats": {
+        "age": 18,
+        "homeMarket": "British",
+        "traits": [
+          "High-Speed Specialist"
+        ],
+        "talent": 85,
+        "racecraft": 77,
+        "adaptability": 85,
+        "composure": 72,
+        "feedback": 66,
+        "marketability": 75,
+        "potential": 98
+      }
+    },
+    {
+      "slot": 19,
+      "name": "Ari Tamihana",
+      "number": 52,
+      "nationality": "NZL",
+      "archetype": "Fan favourite",
+      "bio": "The paddock favourite, cheered at every circuit on the calendar.",
+      "helmetPattern": 2,
+      "stats": {
+        "age": 38,
+        "homeMarket": "German",
+        "traits": [
+          "Setup Expert",
+          "Technical Leader"
+        ],
+        "talent": 84,
+        "racecraft": 88,
+        "adaptability": 86,
+        "composure": 93,
+        "feedback": 98,
+        "marketability": 82,
+        "potential": 89
+      }
+    },
+    {
+      "slot": 20,
+      "name": "Owen Pritchard",
+      "number": 61,
+      "nationality": "WAL",
+      "archetype": "Pay driver",
+      "bio": "Brings budget and steadiness to a team that needs both.",
+      "helmetPattern": 3,
+      "stats": {
+        "age": 21,
+        "homeMarket": "Brazilian",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 85,
+        "racecraft": 83,
+        "adaptability": 86,
+        "composure": 85,
+        "feedback": 78,
+        "marketability": 82,
+        "potential": 96
+      }
+    },
+    {
+      "slot": 21,
+      "name": "Karim Haddad",
+      "number": 48,
+      "nationality": "LBN",
+      "archetype": "Moody talent",
+      "bio": "Brilliant when settled and hard to reach when he is not.",
+      "helmetPattern": 4,
+      "stats": {
+        "age": 35,
+        "homeMarket": "Mexican",
+        "traits": [
+          "Tire Whisperer",
+          "Sponsor Favorite"
+        ],
+        "talent": 84,
+        "racecraft": 92,
+        "adaptability": 87,
+        "composure": 84,
+        "feedback": 91,
+        "marketability": 98,
+        "potential": 91
+      }
+    },
+    {
+      "slot": 22,
+      "name": "Mateo Ferraz",
+      "number": 20,
+      "nationality": "BRA",
+      "archetype": "Wildcard rookie",
+      "bio": "Signed straight out of junior single-seaters with a sky-high ceiling.",
+      "helmetPattern": 5,
+      "stats": {
+        "age": 36,
+        "homeMarket": "Finnish",
+        "traits": [
+          "Qualifying Specialist",
+          "Setup Expert"
+        ],
+        "talent": 87,
+        "racecraft": 85,
+        "adaptability": 84,
+        "composure": 92,
+        "feedback": 96,
+        "marketability": 85,
+        "potential": 90
+      }
+    }
+  ],
+  "freeAgents": [
+    {
+      "slot": 1,
+      "name": "Sun-woo Park",
+      "nationality": "KOR",
+      "archetype": "Sim-racing convert",
+      "bio": "Crossed over from online racing with uncanny one-lap feel.",
+      "helmetPattern": 3,
+      "stats": {
+        "age": 20,
+        "homeMarket": "Brazilian",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 82,
+        "racecraft": 77,
+        "adaptability": 81,
+        "composure": 78,
+        "feedback": 69,
+        "marketability": 75,
+        "potential": 95
+      }
+    },
+    {
+      "slot": 2,
+      "name": "Ilse Vermeulen",
+      "nationality": "NED",
+      "archetype": "Junior champion",
+      "bio": "Reigning junior single-seater champion with a ruthless streak.",
+      "helmetPattern": 4,
+      "stats": {
+        "age": 19,
+        "homeMarket": "Bulgarian",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 83,
+        "racecraft": 79,
+        "adaptability": 76,
+        "composure": 73,
+        "feedback": 68,
+        "marketability": 69,
+        "potential": 97
+      }
+    },
+    {
+      "slot": 3,
+      "name": "Amara Diallo",
+      "nationality": "FRA",
+      "archetype": "Karting phenom",
+      "bio": "Dominated international karting and is learning cars fast.",
+      "helmetPattern": 5,
+      "stats": {
+        "age": 20,
+        "homeMarket": "Irish",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 84,
+        "racecraft": 80,
+        "adaptability": 83,
+        "composure": 70,
+        "feedback": 65,
+        "marketability": 72,
+        "potential": 98
+      }
+    },
+    {
+      "slot": 4,
+      "name": "Tobias Krenn",
+      "nationality": "AUT",
+      "archetype": "Technical prospect",
+      "bio": "Precise, curious and happiest working through setup sheets.",
+      "helmetPattern": 6,
+      "stats": {
+        "age": 21,
+        "homeMarket": "Italian",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 81,
+        "racecraft": 78,
+        "adaptability": 79,
+        "composure": 80,
+        "feedback": 73,
+        "marketability": 72,
+        "potential": 94
+      }
+    },
+    {
+      "slot": 5,
+      "name": "Oskar Wilander",
+      "nationality": "SWE",
+      "archetype": "Balanced prospect",
+      "bio": "Calm and even-handed, with no obvious weakness yet.",
+      "helmetPattern": 7,
+      "stats": {
+        "age": 22,
+        "homeMarket": "Swedish",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 80,
+        "racecraft": 81,
+        "adaptability": 78,
+        "composure": 82,
+        "feedback": 76,
+        "marketability": 70,
+        "potential": 93
+      }
+    },
+    {
+      "slot": 6,
+      "name": "Marisol Ochoa",
+      "nationality": "CHI",
+      "archetype": "Adaptable prospect",
+      "bio": "Adapts to any car quickly and draws a big home following.",
+      "helmetPattern": 0,
+      "stats": {
+        "age": 21,
+        "homeMarket": "Mexican",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 78,
+        "racecraft": 81,
+        "adaptability": 84,
+        "composure": 76,
+        "feedback": 69,
+        "marketability": 82,
+        "potential": 96
+      }
+    },
+    {
+      "slot": 7,
+      "name": "Elias Brunvoll",
+      "nationality": "NOR",
+      "archetype": "Changeable-conditions talent",
+      "bio": "At his best when the track is drying and nobody knows the grip.",
+      "helmetPattern": 1,
+      "stats": {
+        "age": 20,
+        "homeMarket": "Norwegian",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 82,
+        "racecraft": 78,
+        "adaptability": 87,
+        "composure": 74,
+        "feedback": 68,
+        "marketability": 70,
+        "potential": 99
+      }
+    },
+    {
+      "slot": 8,
+      "name": "Joaquín Ferreyra",
+      "nationality": "ARG",
+      "archetype": "Patient racer",
+      "bio": "Patient on the tyres and dangerous in the last ten laps.",
+      "helmetPattern": 2,
+      "stats": {
+        "age": 22,
+        "homeMarket": "Paraguayan",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 79,
+        "racecraft": 84,
+        "adaptability": 80,
+        "composure": 79,
+        "feedback": 72,
+        "marketability": 77,
+        "potential": 97
+      }
+    },
+    {
+      "slot": 9,
+      "name": "Rhys Calloway",
+      "nationality": "AUS",
+      "archetype": "Junior race winner",
+      "bio": "A race winner in the junior ranks who thinks like an engineer.",
+      "helmetPattern": 3,
+      "stats": {
+        "age": 24,
+        "homeMarket": "Indian",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 78,
+        "racecraft": 80,
+        "adaptability": 80,
+        "composure": 83,
+        "feedback": 82,
+        "marketability": 85,
+        "potential": 92
+      }
+    },
+    {
+      "slot": 10,
+      "name": "Lotte Brinkmann",
+      "nationality": "GER",
+      "archetype": "Quiet improver",
+      "bio": "Quietly versatile and getting quicker every season.",
+      "helmetPattern": 4,
+      "stats": {
+        "age": 21,
+        "homeMarket": "Dutch",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 81,
+        "racecraft": 79,
+        "adaptability": 84,
+        "composure": 82,
+        "feedback": 74,
+        "marketability": 73,
+        "potential": 98
+      }
+    },
+    {
+      "slot": 11,
+      "name": "Céline Dufort",
+      "nationality": "CAN",
+      "archetype": "Experienced reserve",
+      "bio": "Experienced reserve with strong North American appeal.",
+      "helmetPattern": 5,
+      "stats": {
+        "age": 26,
+        "homeMarket": "American",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 82,
+        "racecraft": 84,
+        "adaptability": 85,
+        "composure": 87,
+        "feedback": 88,
+        "marketability": 88,
+        "potential": 90
+      }
+    },
+    {
+      "slot": 12,
+      "name": "Hana Itomura",
+      "nationality": "JPN",
+      "archetype": "Test driver",
+      "bio": "Setup specialist who has driven almost every development car.",
+      "helmetPattern": 6,
+      "stats": {
+        "age": 30,
+        "homeMarket": "Japanese",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 84,
+        "racecraft": 85,
+        "adaptability": 86,
+        "composure": 91,
+        "feedback": 95,
+        "marketability": 81,
+        "potential": 89
+      }
+    },
+    {
+      "slot": 13,
+      "name": "Gabriel Moreau",
+      "nationality": "FRA",
+      "archetype": "Comeback racer",
+      "bio": "A former race driver working his way back with a sharper head.",
+      "helmetPattern": 7,
+      "stats": {
+        "age": 33,
+        "homeMarket": "French",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 83,
+        "racecraft": 88,
+        "adaptability": 87,
+        "composure": 90,
+        "feedback": 94,
+        "marketability": 78,
+        "potential": 87
+      }
+    },
+    {
+      "slot": 14,
+      "name": "Inès Barreto",
+      "nationality": "POR",
+      "archetype": "Low-grip specialist",
+      "bio": "Finds grip where others find none.",
+      "helmetPattern": 0,
+      "stats": {
+        "age": 23,
+        "homeMarket": "Portuguese",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 82,
+        "racecraft": 80,
+        "adaptability": 87,
+        "composure": 81,
+        "feedback": 78,
+        "marketability": 77,
+        "potential": 96
+      }
+    },
+    {
+      "slot": 15,
+      "name": "Kwame Asante",
+      "nationality": "GHA",
+      "archetype": "Journeyman",
+      "bio": "Adaptable journeyman with a fast-growing following.",
+      "helmetPattern": 1,
+      "stats": {
+        "age": 25,
+        "homeMarket": "Ghanaian",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 81,
+        "racecraft": 85,
+        "adaptability": 86,
+        "composure": 84,
+        "feedback": 80,
+        "marketability": 85,
+        "potential": 94
+      }
+    },
+    {
+      "slot": 16,
+      "name": "Siddharth Rao",
+      "nationality": "IND",
+      "archetype": "Steady reserve",
+      "bio": "Steady, commercially popular and always ready to step in.",
+      "helmetPattern": 2,
+      "stats": {
+        "age": 24,
+        "homeMarket": "Chinese",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 80,
+        "racecraft": 82,
+        "adaptability": 83,
+        "composure": 85,
+        "feedback": 82,
+        "marketability": 94,
+        "potential": 93
+      }
+    },
+    {
+      "slot": 17,
+      "name": "Leon Brandt",
+      "nationality": "GER",
+      "archetype": "Veteran test driver",
+      "bio": "Veteran engineering reference and mentor to younger drivers.",
+      "helmetPattern": 3,
+      "stats": {
+        "age": 36,
+        "homeMarket": "Czech",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 78,
+        "racecraft": 88,
+        "adaptability": 85,
+        "composure": 93,
+        "feedback": 96,
+        "marketability": 72,
+        "potential": 84
+      }
+    },
+    {
+      "slot": 18,
+      "name": "Nicolás Aranda",
+      "nationality": "URU",
+      "archetype": "Junior with an audience",
+      "bio": "Fast developing junior with a strong online audience.",
+      "helmetPattern": 4,
+      "stats": {
+        "age": 22,
+        "homeMarket": "Italian",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 84,
+        "racecraft": 79,
+        "adaptability": 83,
+        "composure": 76,
+        "feedback": 75,
+        "marketability": 86,
+        "potential": 97
+      }
+    },
+    {
+      "slot": 19,
+      "name": "Yara Saleh",
+      "nationality": "JOR",
+      "archetype": "Professional reserve",
+      "bio": "Professional reserve with wide regional reach.",
+      "helmetPattern": 5,
+      "stats": {
+        "age": 27,
+        "homeMarket": "Emirati",
+        "traits": [
+          "Calm Under Pressure"
+        ],
+        "talent": 79,
+        "racecraft": 82,
+        "adaptability": 81,
+        "composure": 87,
+        "feedback": 85,
+        "marketability": 90,
+        "potential": 88
+      }
+    },
+    {
+      "slot": 20,
+      "name": "Petar Lukić",
+      "nationality": "SRB",
+      "archetype": "Versatile tester",
+      "bio": "Experienced reserve and versatile setup tester.",
+      "helmetPattern": 6,
+      "stats": {
+        "age": 29,
+        "homeMarket": "Spanish",
+        "traits": [
+          "Setup Expert"
+        ],
+        "talent": 85,
+        "racecraft": 87,
+        "adaptability": 90,
+        "composure": 89,
+        "feedback": 91,
+        "marketability": 84,
+        "potential": 92
+      }
+    },
+    {
+      "slot": 21,
+      "name": "Tane Whitmore",
+      "nationality": "NZL",
+      "archetype": "Shared reserve",
+      "bio": "Reserve shared between two partner teams.",
+      "helmetPattern": 7,
+      "stats": {
+        "age": 25,
+        "homeMarket": "Japanese",
+        "traits": [
+          "Wet Weather Specialist"
+        ],
+        "talent": 80,
+        "racecraft": 82,
+        "adaptability": 85,
+        "composure": 84,
+        "feedback": 83,
+        "marketability": 80,
+        "potential": 91
+      }
+    }
+  ]
+}

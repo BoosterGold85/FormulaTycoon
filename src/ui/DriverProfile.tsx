@@ -14,7 +14,7 @@ export function DriverProfile({universe,definition,world,observer,id,onBack,onSc
   <Action label={backLabel} onPress={onBack} secondary/>
   <Card accent={color} hero>
    <Text style={[styles.eyebrow,{color:teamInk(color)}]}>{d.team}</Text>
-   <View style={styles.row}><View style={{flex:1,minWidth:0,gap:7}}><Text accessibilityRole="header" style={[styles.title,{fontSize:32,lineHeight:34}]}>{d.name}</Text><Text style={styles.muted}>{d.nationality} · Age {d.age}</Text><Text style={[styles.eyebrow,{fontSize:10}]}>{d.raceSeat?'RACE DRIVER':d.teamId?'RESERVE':'AVAILABLE'}</Text></View><TeamDriverPortrait teamId={d.teamId} size={140}/></View>
+   <View style={styles.row}><View style={{flex:1,minWidth:0,gap:7}}><Text accessibilityRole="header" style={[styles.title,{fontSize:32,lineHeight:34}]}>{d.name}</Text><Text style={styles.muted}>{d.number!==null?`#${d.number} · `:''}{d.nationality} · Age {d.age}{d.archetype?` · ${d.archetype}`:''}</Text><Text style={[styles.eyebrow,{fontSize:10}]}>{d.raceSeat?'RACE DRIVER':d.teamId?'RESERVE':'AVAILABLE'}</Text></View><TeamDriverPortrait teamId={d.teamId} size={140}/></View>
    <View style={[styles.between,{borderTopWidth:1,borderTopColor:ui.line,paddingTop:12}]}><Chip text={d.form} tone="green"/><Text style={styles.muted}>Car · {fit??'Unassigned'}</Text></View>
   </Card>
   <Section title="Driver profile"/>

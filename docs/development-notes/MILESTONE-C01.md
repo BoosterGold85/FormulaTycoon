@@ -28,8 +28,8 @@ January/February still derive the preceding championship year. Week stays capped
 last one/two days before the next annual anchor. Explicit existing standings/reset command is
 required to cross a season boundary; normal jumps cannot invent results or silently reset teams.
 
-Options map their existing deadline season/week to the same exact day: Ortez/Bearford 2026-12-07;
-Harlton/Botten 2027-12-07. The former is Monday; the latter Tuesday under this explicit non-ISO
+Options map their existing deadline season/week to the same exact day: Albarrán/Lemaire 2026-12-07;
+Quintero/Ferraz 2027-12-07. The former is Monday; the latter Tuesday under this explicit non-ISO
 annual mapping. Both preserve the exact prototype week40 position; no ISO/Monday assumption
 is added for future seasons. Before/on/after are date comparisons, with decisions allowed on
 the date and lapsed the following day. Later event-calendar phase boundaries need an explicit
@@ -74,10 +74,10 @@ strategy, preserving historical V4 acceptance and saved decision dates. This is 
 
 | Driver | Option season | Decision date | Weekday |
 |---|---:|---|---|
-| Lewis Harlton | 2028 | 2027-12-07 | Tuesday |
-| Esteban Ortez | 2027 | 2026-12-07 | Monday |
-| Valtteri Botten | 2028 | 2027-12-07 | Tuesday |
-| Oliver Bearford | 2027 | 2026-12-07 | Monday |
+| Rafael Quintero | 2028 | 2027-12-07 | Tuesday |
+| Diego Albarrán | 2027 | 2026-12-07 | Monday |
+| Mateo Ferraz | 2028 | 2027-12-07 | Tuesday |
+| Hugo Lemaire | 2027 | 2026-12-07 | Monday |
 
 The original source supplies neither decision date nor option salary. Existing prototype timing
 and equal-to-guaranteed-year salary remain; source terms/dataset were not edited. Old W40 decisions

@@ -1,4 +1,5 @@
 import {campaignContext,formatCampaignDate,legacyWeekDate,type CampaignDate} from '../campaignTime';
+import {displayDriver} from '../../game/roster';
 import {formLabel} from './performance';
 import { BUCKETS, type Bucket, type Driver, type DriverWorld } from '../../game/drivers/types';
 import { teamBrand } from '../../game/brandRegistry';
@@ -30,7 +31,10 @@ export function driverView(world:DriverWorld,observer:string,id:string,date:Camp
    const radius=known.precision>=100?0:known.precision>=70?1:known.precision>=40?2:3;
    return [key, radius===0?GRADES[center]:`${GRADES[Math.max(0,center-radius)]} to ${GRADES[Math.min(10,center+radius)]}`];
  })) as Record<Bucket,string>;
- return {id:d.id,name:d.name,nationality:d.nationality,age:d.ageAt2026+season-2026,stage:d.stage,category:d.category,
+ // Display identity comes from the active roster pack by slot ID; the saved name is only a fallback.
+ const shown=displayDriver(d.id);
+ return {id:d.id,name:shown?.name??d.name,nationality:shown?.nationality??d.nationality,number:shown?.number??null,
+   archetype:shown?.archetype??null,helmetPattern:shown?.helmetPattern??0,age:d.ageAt2026+season-2026,stage:d.stage,category:d.category,
    grades:bounds,team:contract?teamBrand(contract.teamId).name:'Available',teamId:contract?.teamId??null,
    contractId:contract?.id??null,raceSeat:!!race,form:formLabel(d.dynamic.form),
    contractEnd:contract?.endSeason??null,optionYear:contract?.option?.season??null,
@@ -44,7 +48,7 @@ export function driverView(world:DriverWorld,observer:string,id:string,date:Camp
    familiarity:contract&&d.familiarity.teamId===contract.teamId?(d.familiarity.organization>=80?'Established':'Adapting'):'New organization',
    potential:known.precision<40?'Uncertain':d.hidden.potential>=96?'Very High':d.hidden.potential>=90?'High':'Established ceiling',
    confidence:known.precision>=90?'High':known.precision>=50?'Medium':'Low',reports:known.reports,
-   summary:d.summary,commercial:`${d.commercial.home} · ${d.commercial.region} · ${known.precision>=100?gradeFor(d.commercial.globalAppeal)+' global reach':'Commercial reach under review'}`,
+   summary:shown?.bio??d.summary,commercial:`${d.commercial.region} · ${known.precision>=100?gradeFor(d.commercial.globalAppeal)+' global reach':'Commercial reach under review'}`,
    history:d.history.seasons.map(s=>({...s,team:teamBrand(s.teamId).name})), 
    lastObserved:known.reports>0?`week of ${formatCampaignDate(legacyWeekDate(known.lastSeason-2025,known.lastWeek))}`:null};
 }

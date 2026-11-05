@@ -57,20 +57,20 @@ fs.writeFileSync(path.join(out,'palette-gallery.html'),html);
   if(await own.count()!==2)throw new Error('Own portrait pair');
   for(const portrait of await own.all()){
    const box=await portrait.boundingBox();if(box.width!==80)throw new Error('Featured portrait must be 80px');
-   if(await portrait.getByTestId('helmet-primary').evaluate(n=>getComputedStyle(n).backgroundColor)!=='rgb(90, 157, 219)')throw new Error('Current Wellington palette');
+   if(await portrait.getByTestId('helmet-primary').evaluate(n=>getComputedStyle(n).backgroundColor)!=='rgb(10, 15, 31)')throw new Error('Current Ardent palette');
   }
   const shot=async name=>{
    if(await app.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Phone overflow');
    await app.screenshot({path:path.join(out,name+'.png'),scale:'css'});
   };
   await shot('drivers-roster-390x844');
-  await app.getByRole('button',{name:'View Carlos Sainor',exact:true}).click();
+  await app.getByRole('button',{name:'View Dakota Reyes',exact:true}).click();
   if((await app.getByTestId('driver-portrait').boundingBox()).width!==140)throw new Error('Dossier template scale');
   await shot('driver-dossier-390x844');
   await app.getByRole('button',{name:'Back to drivers',exact:true}).click();
   await app.getByRole('button',{name:'Starting grid',exact:true}).click();
-  await app.getByRole('button',{name:'View Lewis Harlton',exact:true}).click();
-  if(await app.getByTestId('helmet-primary').evaluate(n=>getComputedStyle(n).backgroundColor)!=='rgb(218, 70, 86)')throw new Error('Rival palette');
+  await app.getByRole('button',{name:'View Rafael Quintero',exact:true}).click();
+  if(await app.getByTestId('helmet-primary').evaluate(n=>getComputedStyle(n).backgroundColor)!=='rgb(107, 45, 92)')throw new Error('Rival palette');
   await shot('rival-dossier-390x844');
   await app.setViewportSize({width:1440,height:1000});await shot('driver-dossier-desktop');
   if(errors.length)throw new Error(JSON.stringify(errors));

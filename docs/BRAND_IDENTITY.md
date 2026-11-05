@@ -20,25 +20,37 @@ not by scattering name strings through simulation. History and saves retain enti
 only display names, so rebranding never changes historical identity.
 
 The runtime registry was not introduced in A.1; B now implements the canonical eleven-team grid. The legacy ten-team definition remains frozen for validation/regression. B explicitly maps its IDs,
-preserves earned development state, initializes Caldera, extends allowances to eleven entries and
+preserves earned development state, initializes Meridian, extends allowances to eleven entries and
 adds schema v1 -> v2 migration. See development-notes/MILESTONE-B.md for mapping/assumptions. Do not infer a one-to-one mapping from colors or inspiration.
 Archived upgrade descriptions/names are historical snapshots, not canonical foreign keys.
 
-## Canonical working grid (runtime identities as of Milestone B)
+## Canonical grid and the roster pack
 
-| Proposed stable ID | Display name | Organization/archetype | Visual direction |
-|---|---|---|---|
-| `team.mclarin` | MCLARIN RACING | Modern British engineering; innovation and commercial strength | Bright warm/orange |
-| `team.ferano` | FERANO CORSE | Historic Italian powerhouse; oldest/prestigious, very high expectations | Original red identity |
-| `team.mercurion` | MERCURION GP | Large technical organization; excellent infrastructure and resources | Silver/charcoal |
-| `team.vortex` | VORTEX RACING | Aggressive performance culture; driver pipeline, high risk | Dark navy |
-| `team.arden` | ARDEN MOTORSPORT | British luxury/performance; strong financial backing | Deep green |
-| `team.wellington` | WELLINGTON RACING | Historic British independent; former dynasty rebuilding | Original blue identity |
-| `team.alpinor` | ALPINOR GP | French manufacturer-style; engineering strength, inconsistent execution | Distinct blue identity |
-| `team.hartman` | HARTMAN RACING | American independent; practical, cost-conscious efficiency | Original workmanlike identity |
-| `team.veloce` | VELOCE RACING | Energetic young-driver organization; scouting and prospect focus | Original energetic identity |
-| `team.auden` | AUDEN MOTORSPORT | European manufacturer entrant; modern facilities, long-term investment | Original modern identity |
-| `team.caldera` | CALDERA RACING | American manufacturer entrant; commercially ambitious, marketing resources | Original commercial identity |
+Display branding (team and driver names, colours, car numbers, nationality labels, archetypes,
+bios and helmet patterns) lives in one data file, the default roster pack
+`src/game/roster/defaultRoster.json`, documented in `docs/ROSTER_PACKS.md`. Players may import
+their own packs; packs map onto the stable IDs below by grid slot. The stable IDs are opaque
+tokens kept for save and seed compatibility: several are historical working names and must never
+be shown as display names. Organization traits (prestige, patience, preferences, risk) remain
+simulation content in `brandRegistry.ts`, not pack data.
+
+| Slot | Stable ID | Default display name | Base | Identity | Primary / secondary / accent |
+|---|---|---|---|---|---|
+| 1 | `team.mclarin` | Halcyon Works | Gothenburg, SWE | Engineering-led front-runner, cold and precise | `#5FB3D9` / `#2B2F36` / `#FFFFFF` |
+| 2 | `team.ferano` | Solenne Racing | Lyon, FRA | Old money, elegant, under pressure to win | `#6B2D5C` / `#E8D9B0` / `#111111` |
+| 3 | `team.mercurion` | Kestrel GP | Silverstone, GBR | Privateer giant-killer, sharp strategy | `#0F6B5A` / `#EDE6D6` / `#C7773B` |
+| 4 | `team.vortex` | Moravia Motorsport | Brno, CZE | Factory squad, huge budget, slow politics | `#14213D` / `#F2A900` / `#FFFFFF` |
+| 5 | `team.arden` | Taranis Racing | Turin area, ITA | Tech-start-up energy, aero risks | `#5A6470` / `#B6E23A` / `#0B0B0B` |
+| 6 | `team.wellington` | Ardent Dynamics | Austin, USA | New American entrant, flashy, building up | `#0A0F1F` / `#FF5A5F` / `#C9CED6` |
+| 7 | `team.alpinor` | Nordhavn Racing | Copenhagen, DEN | Steady midfielder, driver academy | `#1D4E89` / `#D9C7A1` / `#D7263D` |
+| 8 | `team.hartman` | Corvo Racing | Valencia, ESP | Scrappy, loud, punches above budget | `#1A1A1A` / `#FFD23F` / `#8A8D91` |
+| 9 | `team.veloce` | Altair Engineering | Munich area, GER | Customer engines, technical partner team | `#F4F4F2` / `#6A4CC4` / `#333333` |
+| 10 | `team.auden` | Pacifica Racing | Auckland, NZL | Underfunded backmarker, loyal fanbase | `#00594F` / `#9FD3E6` / `#FFFFFF` |
+| 11 | `team.caldera` | Meridian Speed | Dubai, UAE | Rich new owners, impatient for results | `#C97B84` / `#8C6A3F` / `#F6EFE2` |
+
+Slot 6 (Ardent Dynamics) is the player's organization in a new career. Never pair a name with a
+real team's full livery pattern (stripes, logos, wing shapes). Packs shipped with the game must be
+original and fictional; the game cannot vet imported packs and does not try to.
 
 These organizations must grow their own histories, reputation, finances, facilities, development
 and driver philosophies, commercial strength, risk tolerance, fan bases and personalities. AI

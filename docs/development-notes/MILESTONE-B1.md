@@ -14,8 +14,8 @@ Five pre-implementation questions:
 Assumptions for unspecified source fields: option decision deadline stays week 40 of the last
 guaranteed year; option-year salary equals the supplied annual salary (no invented raise).
 Performance bonus remains B's existing $0.35M for starters; reserve has no bonus. Those figures
-are not represented as supplied contract data. New reserve: Yuto Takase, `driver.takase`, Japanese,
-25, associated with Vortex/Veloce, primary reserve employer Vortex. No 23rd race seat.
+are not represented as supplied contract data. New reserve: Tane Whitmore, `driver.takase`, Japanese,
+25, associated with Moravia/Altair, primary reserve employer Moravia. No 23rd race seat.
 
 Derivation: equal-weight mean of Pace/Qualifying -> Talent; Racecraft/Tyre Management ->
 Racecraft; Consistency/Discipline -> Composure. No rounding before centralized letter conversion.
@@ -27,7 +27,7 @@ Schema v3/default content `driver-world-2026-aligned-v3` adds the reserve and op
 contract metadata. V1 retains the explicit team migration and starts aligned driver content.
 V2 is validated against its frozen definition before upgrading: existing abilities, contracts,
 option decisions, knowledge, HQ, development and history are preserved; source metadata and
-Takase are added without replacing the career. Source-backed starting terms are for NEW games.
+Whitmore are added without replacing the career. Source-backed starting terms are for NEW games.
 If a v2 user had changed a name/ability/contract, that saved fact is not silently overwritten.
 Source v2 input is never mutated. V3 reload is identity plus validation. Trusted checkpoints keep
 requiring a compatible definition rather than pretending to be imported save files.
@@ -45,9 +45,9 @@ requiring a compatible definition rather than pretending to be imported save fil
   records, deals/options/provenance, thresholds, derived years, reserve employment conflicts
   and later signing, DTO boundaries, legacy initializer fidelity, v1/v2 migration, v3 round trip,
   deterministic continuation and all existing HQ/development/persistence regressions.
-- Browser: 22/10/11 cohorts and two TEAM contracts, Max $107M/2030, Harlton $60M/2027 + 2028
-  option, Ortez $7M/2026 + 2027 option, Leclair $53M/2030 Reported, Takase $5M/2026 Reserve,
-  Wellington $30M/$12M without options. Foreign option buttons absent. Profile/prospect/scouting,
+- Browser: 22/10/11 cohorts and two TEAM contracts, Holub $107M/2030, Quintero $60M/2027 + 2028
+  option, Albarrán $7M/2026 + 2027 option, Marchetti $53M/2030 Reported, Whitmore $5M/2026 Reserve,
+  Ardent $30M/$12M without options. Foreign option buttons absent. Profile/prospect/scouting,
   navigation retention, HQ 8/8, worker/department cards, NEW DAY 0/8 all pass. No page errors or
   horizontal overflow. Visual review found retained scroll hiding profile identity; minimal
   scroll-to-top effect fixed it, with a browser identity-position regression assertion.

@@ -2,6 +2,70 @@
 
 ## Milestone
 
+**FICTIONAL ROSTER + IMPORTABLE ROSTER PACKS** (branch `claude/blissful-mendel-y9g5tm`, from `a204428`).
+Format guide: [ROSTER_PACKS](ROSTER_PACKS.md). Not merged.
+
+- **COMPLETED:**
+  - Roster swap (next-changes §7): every team and driver display name, colour, nationality label, archetype and
+    bio now comes from the fictional roster. Old sound-alike names are gone from live code, tests, scripts and docs.
+  - One data file, `src/game/roster/defaultRoster.json`: 11 teams, 22 race drivers, 21 free agents with names,
+    colours, numbers, nationalities, archetypes, bios, helmet patterns and stats. It is shipped as the default
+    full pack. Six roster free agents plus 15 new original names fill the existing 21 market slots.
+  - Pack format v1 with a hand-written validator (`src/game/roster/validate.ts`), JSON Schema
+    (`docs/roster-pack.schema.json`) and guide. Packs map by grid slot onto unchanged internal IDs, and anything
+    left out falls back to the default pack.
+  - Cosmetic packs: display-only layer (`game/roster/display.ts`), read by `teamBrand` and `driverView`. They apply
+    to the running career; the simulation never reads them.
+  - Full packs: stats enter only through `createGameUniverse(definition, seed, {roster})`.
+    `planRosterApplication` refuses them for a running career. "Apply names and colours only" is offered instead.
+  - SETTINGS → Roster packs: file picker (web) and paste box, field-level errors, team/driver preview, apply,
+    start a new career with confirmation, reset to default, and download the default pack. The active pack is stored
+    as a device preference (`formula-tycoon.roster-pack`), outside the save, and re-validated on launch.
+  - Car numbers shown on roster rows and the dossier. Turn controls are hidden while settings is open.
+- **Decisions (owner-approved):**
+  - A: the default pack keeps the existing stats, age and home market on every slot; the roster file's 8-attribute
+    ratings are not used. Lap times/grids are not affected because no race simulation exists yet; development,
+    driver and contract results are byte-identical.
+  - B: internal IDs stay. Old working names survive only as opaque ID tokens (`team.*`, `driver.*`,
+    `performance2026` keys) and in frozen historical contracts and fixtures, which must not be rewritten.
+  - C: original car numbers chosen to avoid any current real-grid number.
+- **TESTED:**
+  - 432/432 tests, 23 suites (23 new in `src/game/roster/__tests__/roster.test.ts`). TypeScript and the web export
+    pass.
+  - Determinism: for seeds 1, 7, 42 and 123456, a 20-turn Floor career hashes identically to the pre-change build,
+    with display name/bio fields excluded. Passing the default pack gives the same result as passing none.
+  - The sample cosmetic pack applied mid-career leaves the universe and serialized save byte-identical.
+  - The sample full pack builds the expected stats, keeps every other slot equal to the default, is deterministic,
+    and round-trips through save v7.
+  - Validation errors, the stored preference and schema-vs-validator field parity are covered.
+  - Browser: the new `scripts/check-roster-packs.cjs` passes at 390×844 and 1440×1000 in light and dark (32
+    screenshots in `docs/screenshots/roster-packs/`). Existing `check-ui-visual-v1`, `check-themes` and
+    `check-driver-portraits` pass after updating their expected names, team identity text and palette colours.
+- **NOT VERIFIED:** native file import (native builds get the paste box only; no picker dependency was added), native
+  storage of the pack preference, the live Cloudflare preview build, and the owner's review of the new team colours
+  in HQ art.
+- **KNOWN ISSUES:**
+  - Shown age is the simulation age (decision A), so it can differ from the roster file's age column. Shown
+    nationality is the pack label, while commercial region still follows the slot's original home market. The
+    dossier's commercial line now shows region only.
+  - `helmetPattern` is stored, validated and shown as a number in the preview, but the V1 portrait does not render
+    variants yet (Design Bible rule). Teammates still look identical until the §8 helmet template lands.
+  - Reset to default restores names and colours. A career started from a full pack keeps its stats until a new
+    career is started.
+  - Every launch is still a new career (no durable save). A remembered full pack therefore seeds each launch.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:**
+  - Opaque IDs and `PERFORMANCE_2026` keys still contain historical working names. Renaming them needs a save-v8 ID
+    migration, and frozen v1–v7 contracts/fixtures would still hold the old strings.
+  - Older milestone screenshots in `docs/screenshots/` still show the old names (images were not regenerated).
+  - Legacy ten-team definition names (`src/game/development/teams.ts`) are frozen regression content and were left
+    unchanged.
+  - The display layer is a module-level singleton (`setDisplayRoster`). That is fine for one app-lifetime session;
+    a multi-session host would need it scoped.
+- **NEXT MILESTONE:** owner review of the import screen and new team palette, then the §8 helmet/car art approval
+  step on explicit instruction.
+
+## Previous milestone (Core Gameplay Feel V2)
+
 **CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: READY FOR OWNER PLAY-TEST** (branch `claude/adoring-brahmagupta-g738lm`,
 from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md). Qualifying NOT started. Not merged.
 

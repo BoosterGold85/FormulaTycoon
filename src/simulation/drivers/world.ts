@@ -2,16 +2,32 @@ import {legacyWeekDate} from '../campaignTime';
 import {PERFORMANCE_2026} from '../../game/drivers/performance2026';
 import {CONTRACTS_2026} from '../../game/drivers/contracts2026';
 import {deriveStartingAbilities} from './performance';
-import { GRID } from '../../game/drivers/grid';
+import { GRID, seedFromRoster, type DriverSeed } from '../../game/drivers/grid';
 import { MARKET } from '../../game/drivers/market';
+import type { ResolvedRoster } from '../../game/roster';
 import { BUCKETS, type Driver, type DriverWorld } from '../../game/drivers/types';
 import { TEAM_BRANDS } from '../../game/brandRegistry';
 
+/**
+ * Full-pack careers only: replace the identity and stats of the slots a pack changed. Slots whose stats
+ * match the default keep the built-in reference path, so the default pack builds the unchanged world.
+ */
+function packSeeds(roster: ResolvedRoster | undefined): {seeds: DriverSeed[]; overridden: Set<string>} {
+ const overridden = new Set(roster?.type === 'full' ? Object.keys(roster.statOverrides) : []);
+ if (!roster || roster.type !== 'full') return {seeds: [...GRID, ...MARKET], overridden};
+ const byId = new Map(roster.drivers.map(d => [d.id, d]));
+ const swap = (seed: DriverSeed) => { const d = byId.get(seed.id)!; return seedFromRoster(overridden.has(seed.id) ? d : {...d, stats: {...d.stats, ...statsOf(seed)}}, seed.teamId); };
+ return {seeds: [...GRID.map(swap), ...MARKET.map(swap)], overridden};
+}
+const statsOf = (seed: DriverSeed) => ({age: seed.age, homeMarket: seed.nationality, traits: [...seed.traits], talent: seed.values[0], racecraft: seed.values[1],
+ adaptability: seed.values[2], composure: seed.values[3], feedback: seed.values[4], marketability: seed.values[5], potential: seed.potential});
+
 /** Fixed fictional identities with source-backed starting performance; no scripted future careers. */
-export function createDriverWorld(aligned = true): DriverWorld {
+export function createDriverWorld(aligned = true, roster?: ResolvedRoster): DriverWorld {
  const drivers: DriverWorld['drivers'] = {};
  const contracts: DriverWorld['contracts'] = [];
- [...GRID, ...MARKET.filter(d=>aligned||d.id!=='driver.takase')].forEach((seed, index) => {
+ const {seeds, overridden} = packSeeds(roster);
+ seeds.filter(d=>aligned||d.id!=='driver.takase').forEach((seed, index) => {
    const id = seed.id;
    const experience = seed.age >= 35 ? 90 : seed.age >= 27 ? 76 : seed.age >= 23 ? 52 : 25;
    const region = ['Mexican','Brazilian','Argentine','Paraguayan'].includes(seed.nationality) ? 'Latin America'
@@ -41,7 +57,8 @@ export function createDriverWorld(aligned = true): DriverWorld {
  });
  if(aligned) {
    for(const d of Object.values(drivers)) {
-     const source=PERFORMANCE_2026[d.id];
+     // A full pack's own numbers are that driver's starting ratings; no reference reshaping.
+     const source=overridden.has(d.id)?undefined:PERFORMANCE_2026[d.id];
      if(source) {d.sourcePerformance=JSON.parse(JSON.stringify(source));d.ability=deriveStartingAbilities(d.ability,source);}
    }
    for(const c of contracts) {

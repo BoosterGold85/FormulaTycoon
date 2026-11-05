@@ -10,7 +10,7 @@ Open **DRIVERS** for your current pairing first, then browse Available, Prospect
 the full Grid. Compact rows show Talent, form and contract horizon. Tap a driver for the full
 dossier and six categories; expand **Contract details**, **Scouting report** or background for
 depth. Open **TEAM** for your car's next-circuit suitability, drivers, development and HQ staff.
-The starting organization is Wellington Racing. No finances or morale are invented for the overview.
+The starting organization is Ardent Dynamics. No finances or morale are invented for the overview.
 
 Drivers have six broad evaluation categories, shown as letter grades from F to A+:
 
@@ -33,7 +33,7 @@ have an exceptional season without possessing a veteran's technical experience.
 
 The fixed 2026 starting evaluations are a starting snapshot, not a permanent career ceiling.
 Adaptability, feedback and commercial value are evaluated separately from current-season pace.
-For example, Sainor and Alvarro retain useful veteran strengths despite weaker starting pace
+For example, Reyes and Benvenuti retain useful veteran strengths despite weaker starting pace
 information. Future careers will be driven by Formula Tycoon outcomes rather than scripted history.
 
 Current form is described as **EXCELLENT**, **GOOD**, **NORMAL**, **POOR** or **STRUGGLING**.
@@ -53,7 +53,7 @@ this display does not currently apply a race or development bonus.
 
 Experienced, technically strong drivers can have value beyond raw pace. Technical Feedback
 represents that organizational contribution: car understanding, setup discussion and useful
-engineering information. Veterans such as Harlton, Alvarro and Sainor can remain valuable here.
+engineering information. Veterans such as Quintero, Benvenuti and Reyes can remain valuable here.
 
 Connections to setup, simulator work and upgrade correlation are planned. Feedback does not
 currently change development outcomes or generate an additional hidden bonus.
@@ -80,7 +80,7 @@ while a deal through 2030 has four. This does not mean the 2026 deal has already
 A **team option** is an additional season the team may activate. It is separate from the guaranteed
 term until exercised. The profile shows its year, state and decision deadline. Only the owning
 team can exercise it, and a conflicting seat or driver booking prevents the action. Pending
-options lapse after the displayed deadline. The current Wellington starting pair has no options;
+options lapse after the displayed deadline. The current Ardent starting pair has no options;
 other teams' option terms can be inspected, but their decisions are not yours to make.
 
 After the effective deal ends, the seat becomes vacant unless another contract covers it.
@@ -91,8 +91,8 @@ contracts with identical mechanical reliability. Newly created career contracts 
 New careers use the aligned 2026 deals; imported earlier prototype careers retain their existing
 signed terms and decisions.
 
-A reserve deal is distinct from a race seat. Yuto Takase is associated with the Vortex/Veloce
-system and has a Vortex reserve contract through 2026. He is outside the 22-driver starting grid
+A reserve deal is distinct from a race seat. Tane Whitmore is associated with the Moravia/Altair
+system and has a Moravia reserve contract through 2026. This reserve is outside the 22-driver starting grid
 and does not appear as a third driver in the race-seat TEAM comparison.
 
 ## Scouting
@@ -238,10 +238,34 @@ The tested save format preserves driver details, contracts and scouting informat
 older-format migration. A player-facing save/load screen and durable device storage do not exist
 yet. Closing or reloading the prototype should not be treated as saving a career.
 
+## Roster packs
+
+The game ships with its own fictional grid: 11 original teams, 22 race drivers and 21 free
+agents. Open **SETTINGS** in the top bar to change who you see.
+
+- **Choose pack file** (web) or paste the pack's text, and the game checks it. If anything is
+  wrong you get a list of problems, each naming the team or driver slot and what to fix. Nothing
+  changes until a pack passes.
+- A passing pack shows a **preview** of every team with its colours and drivers, numbers,
+  nationalities and helmets. Entries the pack leaves out use the default roster, marked DEFAULT.
+- **Cosmetic packs** change names, colours, car numbers, nationality labels, bios and helmets.
+  Apply them to your current career at any time: results, stats and your save are unchanged.
+- **Full packs** can also change driver stats (age, ratings, potential, traits, home market).
+  Stats only take effect when you **start a new career** with the pack, which ends the current
+  one; they never change a season in progress. You can also apply only a full pack's names and
+  colours to your current career.
+- **Reset to default roster** brings back the default names and colours. A career started from a
+  full pack keeps its stats; start a new career to return to the default stats too.
+- **Download the default pack** (web) gives you a complete pack to edit.
+
+Packs map onto the grid by slot: team slot 6 is always your organization, and driver slots 11
+and 12 are its race drivers. On web the game remembers your pack between visits; a remembered
+full pack is used for each new career. Pack authors: see `docs/ROSTER_PACKS.md` in the project.
+
 ## Appearance
 
 The default presentation uses warm light content inside a dark racing shell. Use **DARK** in the
-top-right corner for dark content, and **LIGHT** to switch back. Web remembers this preference
+top bar for dark content, and **LIGHT** to switch back. Web remembers this preference
 locally when browser storage is available. This remembers appearance only: it does not save your
 campaign. Switching themes preserves the current session; native persistent appearance settings
 are not implemented yet. Team colors stay the same in both modes.

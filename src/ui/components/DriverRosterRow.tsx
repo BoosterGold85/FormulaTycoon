@@ -15,7 +15,7 @@ export function DriverRosterRow({driver:d,onPress,featured=false}:{driver:Return
   <TeamDriverPortrait teamId={d.teamId} size={featured?80:48}/>
   <View style={{flex:1,minWidth:0,gap:5}}>
    <Text style={{fontSize:featured?20:15,fontWeight:'900',color:ui.ink,letterSpacing:-.4}}>{d.name}</Text>
-   <Text style={[styles.muted,{fontSize:11}]}>{d.team}</Text>
+   <Text style={[styles.muted,{fontSize:11}]}>{d.number!==null?`#${d.number} · `:''}{d.team}</Text>
    <Text style={[styles.muted,{fontSize:11}]}>{d.form} · {d.contractEnd?`Through ${d.contractEnd}`:'No contract'}</Text>
   </View>
   <View style={{maxWidth:featured?65:90,alignItems:'flex-end',gap:2}}><Text style={[styles.eyebrow,{fontSize:10,letterSpacing:.7}]}>TALENT</Text><Text style={{fontSize:featured?28:15,fontWeight:'900',color:featured?ui.ink:ui.green}}>{d.grades.talent}</Text><Text style={{color:ui.accent,fontSize:17}}>›</Text></View>

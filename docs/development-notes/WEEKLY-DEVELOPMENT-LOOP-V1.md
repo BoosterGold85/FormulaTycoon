@@ -81,7 +81,7 @@ The v6 event vocabulary was extended while v6 is still unreleased (preview branc
    (the existing `technicalCar` before vs after the turn) and that weekend's circuit suitability label, using
    the existing `technicalPerformanceAtTrack`. Qualitative only: no scores or rankings. The temporary
    reliability dip of a new spec is labelled as such.
-3. **Paddock news:** up to three notable rival changes per turn ("Vortex Racing brought a new floor", "… went
+3. **Paddock news:** up to three notable rival changes per turn ("Moravia Motorsport brought a new floor", "… went
    back to the old one"). Only observable facts are shown; hidden rival gains stay hidden.
 4. **More decisions:** the event chance rises from 0.25 to 0.5 per stage, and three events are added: Extra
    simulation time (research), Rival concept spotted (design), Lighter material offered (manufacturing).

@@ -146,7 +146,7 @@ GOOD:
 
 NOT:
 
-`Ferano Corse`
+`Solenne Racing`
 
 Names, branding and display information may change later.
 

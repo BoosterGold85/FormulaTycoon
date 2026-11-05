@@ -109,7 +109,7 @@ static registration and immutable revisions; no new registry framework is needed
 but asserts only a target gain and a larger gain than another circuit. Both gains could remain
 positive, so that test alone does not prove a reversal. Pending-project exclusion and all-eight-
 part influence are readable in the implementation but not directly asserted by the shipped vector
-suite; audit probes exercised both successfully. Actual canonical Wellington/Alpinor reversal,
+suite; audit probes exercised both successfully. Actual canonical Ardent/Nordhavn reversal,
 delivered/reverted work, mutation/name independence and all required generic contrasts *are*
 asserted by other shipped tests.
 
@@ -280,7 +280,7 @@ not race forecasts:
 | team.auden | 10 | 10 | 10 | 10 | 10 |
 | team.caldera | 11 | 11 | 11 | 11 | 11 |
 
-The top five remain hierarchical and Wellington/Alpinor swap 6/7, as claimed. Tiny Monza/LasVegas
+The top five remain hierarchical and Ardent/Nordhavn swap 6/7, as claimed. Tiny Monza/LasVegas
 margins are not overstated as practical race parity.
 
 | +10 fitted rating | Monaco gain | Monza gain | Suzuka gain | Silverstone gain |

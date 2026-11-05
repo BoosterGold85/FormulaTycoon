@@ -1,4 +1,4 @@
-import React,{useCallback,useMemo,useState} from 'react';
+import React,{useCallback,useMemo,useState,useSyncExternalStore} from 'react';
 import {View,useWindowDimensions} from 'react-native';
 import {DEFAULT_GAME_DEFINITION} from './src/game/defaultGame';
 import type {NavTab} from './src/game/hudPlaceholders';
@@ -13,12 +13,28 @@ import {GameHud} from './src/ui/components/GameHud';
 import {BottomNav} from './src/ui/components/BottomNav';
 import {HistoryScreen} from './src/ui/HistoryScreen';
 import {TurnReportCard} from './src/ui/components/TurnReportCard';
+import {RosterPackScreen,type RosterPackActions} from './src/ui/RosterPackScreen';
+import {activeDisplayRoster,DEFAULT_ROSTER,setDisplayRoster,subscribeDisplayRoster} from './src/game/roster';
+import {clearRosterPreference,readRosterPreference,writeRosterPreference} from './src/ui/rosterPreference';
+
+// Read once at launch, before the first render: the display layer and (full packs) the new career's stats.
+const STARTUP_ROSTER=readRosterPreference();
+setDisplayRoster(STARTUP_ROSTER.display);
 import {buildWeekTimeline,decideProjectEvent,nextTurnTarget,selectDepartmentActivity,selectDevelopmentHub,selectHqDevelopment} from './src/simulation/developmentLoop';
 
 export default function App(){return <ThemeProvider><GameApplication/></ThemeProvider>;}
 function GameApplication() {
- const session=useGameUniverse(DEFAULT_GAME_DEFINITION);
+ const session=useGameUniverse(DEFAULT_GAME_DEFINITION,1,STARTUP_ROSTER.career);
  const [tab,setTab]=useState<NavTab>('HQ');
+ const [settings,setSettings]=useState(false);
+ // Re-render the whole presentation when the display roster changes. The universe is untouched.
+ const displayRoster=useSyncExternalStore(subscribeDisplayRoster,activeDisplayRoster,activeDisplayRoster);
+ const rosterActions:RosterPackActions={
+  applyCosmetic:(pack,roster)=>{setDisplayRoster(roster);writeRosterPreference({mode:'cosmetic',pack});},
+  startNewCareer:(pack,roster)=>{setDisplayRoster(roster);session.startNewCareer(roster);setReplayed(undefined);
+   if(pack)writeRosterPreference({mode:roster.type,pack});else clearRosterPreference();},
+  reset:()=>{setDisplayRoster(DEFAULT_ROSTER);clearRosterPreference();}
+ };
  const [teamEntry,setTeamEntry]=useState<{key:number;view:'overview'|'development'}>({key:0,view:'overview'});
  const openDevelopment=()=>{session.dismissReport();setTeamEntry(e=>({key:e.key+1,view:'development'}));setTab('TEAM');};
  const hasTeam=!!session.universe.playerTeamId;
@@ -38,11 +54,13 @@ function GameApplication() {
  const reviewDecision=()=>{session.dismissReport();setTab('HQ');};
  return <View style={{flex:1}}>
   <GameHud currentDate={session.universe.currentDate} nextEvent={selectNextEvent(session.universe)}
-   turn={{target:nextTurnTarget(session.universe),pendingDecisions:hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION).pendingDecisions:0,
-    onContinue:continueTurn,onNextDay:session.nextDay,playing,blocked:pending.length}}/>
+   turn={settings?undefined:{target:nextTurnTarget(session.universe),pendingDecisions:hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION).pendingDecisions:0,
+    onContinue:continueTurn,onNextDay:session.nextDay,playing,blocked:pending.length}} onSettings={()=>setSettings(true)}/>
   <View style={{flex:1,flexDirection:'row'}}>
    <BottomNav active={tab} onSelect={next=>{if(next==='TEAM')setTeamEntry(e=>({key:e.key+1,view:'overview'}));setTab(next);}} sidebar/>
    <View style={{flex:1,minWidth:0}}>
+   {settings?<View style={{position:'absolute',top:0,left:0,right:0,bottom:0,zIndex:20}}><RosterPackScreen display={displayRoster} careerRoster={session.careerRoster} actions={rosterActions}
+    onClose={()=>setSettings(false)} tab={tab} onNavigate={next=>{setSettings(false);setTab(next);}}/></View>:null}
    <View style={{flex:1,display:tab==='HQ'?'flex':'none'}}>
      <HeadquartersScreen activity={hasTeam?selectDepartmentActivity(session.universe,DEFAULT_GAME_DEFINITION):{}} hq={hasTeam?selectHqDevelopment(session.universe,DEFAULT_GAME_DEFINITION):null}
       replay={playing&&timeline?{timeline,key:reportKey!,weekOf:session.report!.weekOf}:null} onReplayDone={onReplayDone} onOpenDevelopment={openDevelopment} showCard={!session.report} pending={pending} lastWeek={session.lastWork} onDecide={onDecide}

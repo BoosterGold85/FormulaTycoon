@@ -130,10 +130,17 @@ The generic `DriverPortrait` receives colors only, never team IDs, driver state 
 
 ## Authoritative team visual palette
 
-`src/game/brandRegistry.ts` owns `team.colors = {primary, secondary, accent}` for the eleven
-fictional organizations. Existing `team.color` is a compatibility alias of `colors.primary`, not
-an independently authored color. Do not scatter team-specific palette tables around screens.
-Do not persist palette copies, `driver.helmetColor` or `driver.suitColor`.
+Team colours are authored in the roster pack (`src/game/roster/defaultRoster.json`, see
+`docs/ROSTER_PACKS.md`) and resolved by `src/game/brandRegistry.ts`: `TEAM_BRANDS` carries the
+default pack's palette, and `teamBrand(id)` returns the player's active pack (default or imported)
+as `team.colors = {primary, secondary, accent}` for the eleven fictional organizations. Existing
+`team.color` is a compatibility alias of `colors.primary`, not an independently authored color.
+Do not scatter team-specific palette tables around screens. Do not persist palette copies,
+`driver.helmetColor` or `driver.suitColor`; an imported pack is a display preference, never save data.
+
+Packs also carry a per-driver `helmetPattern` (0–7, teammates always differ). The V1 portrait
+ignores it: all drivers still share one geometry. It is reserved for the parametric helmet template
+planned in the art-style milestone, which must read it through the same colour-token interface.
 
 Actual flow: current employment contract → existing `driverView(...).teamId` → canonical brand
 colors → presentation fallback → portrait. The world has no authoritative `driver.teamId` field;

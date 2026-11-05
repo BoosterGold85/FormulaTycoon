@@ -26,8 +26,8 @@ Historical record of B (`e065ebd`). B.1 supersedes its generic starting ratings/
 
 ## Deliberate assumptions
 
-- Wellington is the initial player organization; no new-game team chooser in B. Its two seats
-  are Sainor/Alburn. Other teams remain AI; no full personnel AI or hiring UI is introduced.
+- Ardent is the initial player organization; no new-game team chooser in B. Its two seats
+  are Reyes/Lund. Other teams remain AI; no full personnel AI or hiring UI is introduced.
 - Ages, abilities, contract amounts and reputation summaries are fictional design values, not
   copied real statistics/birth dates/contracts. All 42 cast profiles are fixed across seeds.
 - All starters get 2026–2027 contracts with a 2028 team option, deadline 2027 W40. No claims about
@@ -40,7 +40,7 @@ Historical record of B (`e065ebd`). B.1 supersedes its generic starting ratings/
 - Current-car fit uses downforce/mechanical-grip proxies, not a new braking/balance/race model.
   Technical feedback/marketability interfaces do not secretly award development/sponsor effects.
 - Existing development math is unchanged. Ten calibrated profiles map to canonical organizations;
-  Caldera starts from a distinct initialization (level 62, budget 40, correlation 65, aggression .45).
+  Meridian starts from a distinct initialization (level 62, budget 40, correlation 65, aggression .45).
   ATR has eleven entries, 70–120%. Rebalance is future work, not a claim of championship realism.
 
 ## Legacy content migration
@@ -53,7 +53,7 @@ kestrel→auden (all targets `team.*`). This is a product mapping, not a histori
 
 Keep seed, season/week, HQ, parts, specs, projects, spend, allowances and upgrade history. Rewrite
 actual team references; keep opaque pending project IDs, preserving their keyed RNG outcomes.
-Caldera alone gets fresh initial parts/zero spend; driver world initializes for the current date,
+Meridian alone gets fresh initial parts/zero spend; driver world initializes for the current date,
 with past starting contracts naturally expired where applicable. No retroactive driver results.
 The original save remains untouched; caller must explicitly save migrated data. v2 identity load
 is idempotent. Invalid/unknown legacy IDs fail instead of resetting the career.

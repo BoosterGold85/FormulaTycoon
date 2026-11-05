@@ -110,7 +110,7 @@ test('track identities express distinct technical demands and owner-verified met
 
 test('event detail is domain disclosure with no numeric car score, field ranking, driver or result',()=>{
  const u=createGameUniverse(definition,1),view=selectEventDetail(u,definition,'event.2026.monza');
- expect(view.playerTeam).toBe('Wellington Racing');expect(view.fit?.label).toBeDefined();expect(view.demands).toHaveLength(11);
+ expect(view.playerTeam).toBe('Ardent Dynamics');expect(view.fit?.label).toBeDefined();expect(view.demands).toHaveLength(11);
  expect(view.fit).not.toHaveProperty('score');expect(view).not.toHaveProperty('rank');expect(view).not.toHaveProperty('driver');expect(view).not.toHaveProperty('result');
  expect(()=>selectEventDetail(u,definition,'event.2026.unknown')).toThrow();
 });

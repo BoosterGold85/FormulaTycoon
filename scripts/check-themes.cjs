@@ -30,9 +30,9 @@ const out=path.resolve(process.env.FORMULA_ARTIFACT_DIR||'docs/screenshots/defau
   await switchTo(mode==='light'?'dark':'light');
   if(await own.evaluate(n=>getComputedStyle(n).backgroundColor)!==teamColor)throw new Error('Theme changed canonical team art');
   await switchTo(mode);
-  await button('View Carlos Sainor').click();await shot('dossier-phone');
+  await button('View Dakota Reyes').click();await shot('dossier-phone');
   await button('Contract details').click();await p.getByText(/\$30M \/ year/).waitFor();
-  await button('Back to drivers').click();await button('Prospects').click();await button('View Rafael Cordeiro').click();await button('Scouting report').click();
+  await button('Back to drivers').click();await button('Prospects').click();await button('View Sun-woo Park').click();await button('Scouting report').click();
   await button('Improve scouting report').click();await p.getByText(/Reports: 1\./).waitFor();
   await switchTo(mode==='light'?'dark':'light');await p.getByText(/Reports: 1\./).waitFor();
   await switchTo(mode);await p.getByText(/Reports: 1\./).waitFor();

@@ -98,9 +98,9 @@ Required before C changes any calendar, part, regulation, team, layout or driver
 
 **M8. Fictional IP risk in working identities.** Files: `game/drivers/grid.ts`, `brandRegistry.ts`, `performance2026.ts`.
 - Problem:
-  - Driver identities pair real first names with lightly altered surnames (for example Lewis Harlton, Max Verhoeven,
-    Charles Leclair).
-  - Team names closely echo real teams (for example Mclarin).
+  - Driver identities pair real first names with lightly altered surnames (for example Rafael Quintero, Stefan Holub,
+    Élodie Marchetti).
+  - Team names closely echoed real teams (since replaced by the fictional default roster pack).
   - A real third-party dataset label (`P2P 2026`) and its values are persisted in saves (not displayed).
 - Why it matters: guardrail 14 forbids near-copies as permanent identities. These are owner-supplied working
   identities, already tracked in DEV_STATUS as release risk.
@@ -121,7 +121,7 @@ Required before C changes any calendar, part, regulation, team, layout or driver
   `CANONICAL_DEVELOPMENT_CONTEXT`, so the name is a trap.
 - **L4:** `sourcePerformance` (about 4KB) is copied into every new save but never read at runtime, and it is not checked
   for equality with the canonical content. That is acceptable as a historical snapshot; either validate it or store a reference.
-- **L5:** The HQ HUD still shows the placeholder "Your Team" although state holds Wellington.
+- **L5:** The HQ HUD still shows the placeholder "Your Team" although state holds Ardent.
 - **L6:** Documentation drift:
   - `docs/ROADMAP.md` still describes a ten-team "Milestone 1";
   - `DEVELOPMENT_ENGINE.md` describes the ten-team context;
@@ -129,13 +129,13 @@ Required before C changes any calendar, part, regulation, team, layout or driver
 - **L7:** `migrateSave` replaces v1/v2 validation messages with one generic error, which makes failed imports harder to diagnose.
 - **L8:** Grade conversion has no float tolerance. All 69 derived values grade correctly today: Takase's Composure is
   exactly 85, giving A, and no value lies within 0.05 of a threshold. Future derived means could produce artifacts such as 84.99999999999999.
-- **L9:** The reserve driver Takase shows the affiliated Vortex car under "Current car" although he holds no race seat.
+- **L9:** The reserve driver Whitmore shows the affiliated Moravia car under "Current car" although that driver holds no race seat.
 - **L10:** DEV_STATUS "TESTED" still cites the author's browser script under `/workspace/artifacts`, which is not in
   the repository.
 
 ### OBSERVATIONS
 
-- Wellington is set to PLAYER, so its development never auto-plans headlessly. Projects that Northstar had pending
+- Ardent is set to PLAYER, so its development never auto-plans headlessly. Projects that Northstar had pending
   in a migrated v1 save still complete.
 - Caldera's profile reuses Kestrel's facilities, staff and power unit, overriding level 62, budget 40,
   correlation 65 and aggression 0.45. The eleven-entry wind tunnel allowance runs from 70% to 120%.
@@ -150,7 +150,7 @@ Required before C changes any calendar, part, regulation, team, layout or driver
 ## Data integrity
 
 - **Canonical 2026 ratings:**
-  - All 23 records (22 starters plus Takase) match the independent fixture exactly, including the three unranked
+  - All 23 records (22 starters plus Whitmore) match the independent fixture exactly, including the three unranked
     13/18 contexts.
   - Values are stored unrounded, and the three source-backed buckets are equal-weight means (no rounding before grading).
   - Adaptability, Technical Feedback and Marketability keep their authored values.
@@ -158,8 +158,8 @@ Required before C changes any calendar, part, regulation, team, layout or driver
   - No screen recreates thresholds.
   - No raw values, `overallReference` or universal overall appear in DTOs, selectors or UI. Browser text confirms this.
 - **Canonical contracts:** all 23 salary, team, end-year and provenance records match.
-  - Exactly four options exist: Harlton 2028 (decide by 2027 W40), Ortez 2027 (2026 W40), Bearford 2027 (2026 W40)
-    and Botten 2028 (2027 W40).
+  - Exactly four options exist: Quintero 2028 (decide by 2027 W40), Albarrán 2027 (2026 W40), Lemaire 2027 (2026 W40)
+    and Ferraz 2028 (2027 W40).
   - Only the owner can act on an option. A driver or seat booked elsewhere blocks exercise, and an exercised option blocks
     a rival signing.
   - Years remaining are derived and never stored.
@@ -218,13 +218,13 @@ verify runtime == fixture but cannot see the original document):
 - **v1 → v3:** the full legacy schema is validated first, then the explicit ten-to-eleven map is applied.
   - HQ, parts, projects, spend, allowances and history are preserved.
   - Opaque pending project IDs are kept, so keyed outcomes are unchanged.
-  - Caldera is initialized fresh at a 120% allowance.
+  - Meridian is initialized fresh at a 120% allowance.
   - The driver world is initialized at the save's current date.
   - Unmapped or invalid IDs fail.
   - The legacy IDs that remain are classified as intentional: the frozen ten-team fixture and profiles, the
     migration map, the project-ID prefix check in validation, and the tests and fixtures. No dead usage remains.
 - **v2 → v3:** validated against the B definition. Abilities, signed terms, option decisions and knowledge are retained.
-  Only source snapshots and Takase are added.
+  Only source snapshots and Whitmore are added.
 - **v3:** identity plus full validation. Missing, invalid, future and unknown versions fail with codes, with no partial or default
   game. Input is never mutated: migrations deep-copy, and the result is detached.
 - **Persisted identity:** stable IDs (`team.*`, `driver.*`, `contract.*`) are persisted. Display names are not used as keys.
@@ -255,7 +255,7 @@ The 161 tests protect the important player expectations:
 
 Meaningful gaps:
 1. A guard that legacy definitions cannot drift (H1).
-2. An explicit owner exercise and lapse test for Bearford and Botten. This is covered generically, and the audit probe
+2. An explicit owner exercise and lapse test for Lemaire and Ferraz. This is covered generically, and the audit probe
    passed for all four options.
 3. A test of 11-team canonical development over several seasons (balance evidence remains documented debt).
 4. Option-button eligibility, which is tested only in the browser.
@@ -300,12 +300,12 @@ Dev dependencies are `jest`, `jest-expo`, `@types/jest`, `@types/react` and `typ
   - NEW DAY 0/8;
   - grid 22, prospects 10, market 11;
   - six buckets on detail with no overall;
-  - Verhoeven $107M/2030 with 4 future years;
-  - the Harlton, Ortez, Bearford and Botten option texts and deadlines, with no foreign option buttons;
-  - Sainor with no option;
+  - Holub $107M/2030 with 4 future years;
+  - the Quintero, Albarrán, Lemaire and Ferraz option texts and deadlines, with no foreign option buttons;
+  - Reyes with no option;
   - prospect ranges and Unknown, with 2 reviews moving confidence LOW to MEDIUM;
-  - Takase as a reserve on $5M with the Vortex/Veloce system;
-  - TEAM showing exactly Sainor and Alburn;
+  - Whitmore as a reserve on $5M with the Moravia/Altair system;
+  - TEAM showing exactly Reyes and Lund;
   - RACE "Coming soon";
   - scouting persisting across navigation, and the HQ session retained (8/8 after return).
 

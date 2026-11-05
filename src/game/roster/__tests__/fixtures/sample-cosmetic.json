@@ -1,0 +1,23 @@
+{
+  "format": "formula-tycoon-roster-pack",
+  "schemaVersion": 1,
+  "id": "sample-coastal-league",
+  "name": "Sample: Coastal League",
+  "author": "Formula Tycoon tests",
+  "description": "Test pack. Renames three teams and four drivers; everything else falls back to the default roster.",
+  "type": "cosmetic",
+  "teams": [
+    {"slot": 1, "name": "Brightwater Racing", "base": "Harbourtown", "identity": "Seaside outfit with a lighthouse crest", "colors": {"primary": "#2A7FBA", "secondary": "#F5EFE6", "accent": "#E4572E"}},
+    {"slot": 6, "name": "Ironpine Motorsport", "shortName": "Ironpine", "colors": {"primary": "#3B5D3A", "secondary": "#E9D8A6"}},
+    {"slot": 11, "name": "Saltmarsh GP"}
+  ],
+  "drivers": [
+    {"slot": 1, "name": "Orla Penhallow", "number": 71, "nationality": "Coastal", "helmetPattern": 5},
+    {"slot": 2, "name": "Teodor Vasquell", "number": 58},
+    {"slot": 11, "name": "Imke Sandvoort", "number": 64, "archetype": "Harbour hero", "bio": "Learned to race on the sea-front circuit."},
+    {"slot": 12, "name": "Bram Okonkwo-Lisle", "helmetPattern": 6}
+  ],
+  "freeAgents": [
+    {"slot": 1, "name": "Pell Marrow", "archetype": "Test prospect"}
+  ]
+}

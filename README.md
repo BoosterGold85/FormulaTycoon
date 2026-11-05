@@ -100,6 +100,12 @@ As of October 2026, Expo is transitioning to SDK 58. Expo's current guidance say
 
 This is intentionally **not** the full game. Race simulation and a complete championship career are future milestones (see `docs/ROADMAP.md`).
 
+## Roster packs
+
+All teams and drivers are fictional and live in one data file, `src/game/roster/defaultRoster.json`.
+Players can import their own cosmetic or full roster packs from **SETTINGS**. Format, slot mapping and
+rules: [docs/ROSTER_PACKS.md](docs/ROSTER_PACKS.md).
+
 ## Architecture and development handoff
 
 Start with [DEV_STATUS](docs/DEV_STATUS.md), [GAME_ARCHITECTURE](docs/GAME_ARCHITECTURE.md),

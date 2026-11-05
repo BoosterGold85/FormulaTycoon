@@ -1,4 +1,5 @@
 import type { DevelopmentContext, PartId } from '../../game/development';
+import { displayTeam } from '../../game/roster';
 import type { DevelopmentWorld, UpgradeSubmission } from './types';
 
 export type EventDocumentEntry = {
@@ -33,7 +34,7 @@ export function buildEventDocument(
     eventName: event.name,
     teams: context.teams.map(team => ({
       teamId: team.id,
-      teamName: team.name,
+      teamName: displayTeam(team.id)?.name ?? team.name,
       entries: context.parts.map(part => ({
         partId: part.id,
         partName: part.name,

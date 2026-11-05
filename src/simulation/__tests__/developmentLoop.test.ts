@@ -269,7 +269,7 @@ test('paddock news names rival teams only, at most three items, without hidden g
  let u=createGameUniverse(definition,2),news:string[]=[];
  while(!news.length){const target=nextTurnTarget(u)!,before=u;u=advanceCampaignTo(u,definition,target.date);news=summarizeTurn(before,u,definition)!.rivalNews;}
  expect(news.length).toBeLessThanOrEqual(3);
- for(const item of news){expect(item).not.toMatch(/Wellington|\d/);expect(TEAM_BRANDS.some(t=>item.startsWith(t.name))).toBe(true);}
+ for(const item of news){expect(item).not.toMatch(/Ardent|\d/);expect(TEAM_BRANDS.some(t=>item.startsWith(t.name))).toBe(true);}
 });
 
 test('turn report carries replay data derived from project truth',()=>{

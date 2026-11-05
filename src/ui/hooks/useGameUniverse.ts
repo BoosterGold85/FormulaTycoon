@@ -7,6 +7,7 @@ import {
 
 import { observeDriver, decideTeamOption } from '../../simulation/drivers';
 import { createGameSave } from '../../persistence/gameSave';
+import type { ResolvedRoster } from '../../game/roster';
 import { createGameUniverse, advanceUniverseHeadquarters, restartUniverseHeadquarters, advanceUniverseWeek, type GameDefinition, type GameUniverse } from '../../simulation/universe';
 import { advancePlayerDay, continuePlayerTurn, summarizeWeek, type CommandResult, type WeekReport, type TurnTarget } from '../../simulation/developmentLoop';
 
@@ -20,10 +21,10 @@ const MAX_CATCH_UP_MS = 2000;
  * worker visibly changes (state, route or assignment); in-between positions are
  * animated natively from the simulation's route.
  */
-export function useGameUniverse(definition: GameDefinition, seed = 1) {
+export function useGameUniverse(definition: GameDefinition, seed = 1, roster?: ResolvedRoster) {
   // One authoritative session owner. The visible HQ snapshot is just a rendering projection.
   const universeRef = useRef<ReturnType<typeof createGameUniverse> | null>(null);
-  if (!universeRef.current) universeRef.current = createGameUniverse(definition, seed);
+  if (!universeRef.current) universeRef.current = createGameUniverse(definition, seed, {roster});
   const [snapshot, setSnapshot] = useState(() => universeRef.current!);
   const [dayId, setDayId] = useState(0);
 
@@ -106,10 +107,17 @@ export function useGameUniverse(definition: GameDefinition, seed = 1) {
     return result;
   }, []);
   const dismissReport = useCallback(() => setReport(null), []);
+  /** The only way a full roster pack's stats reach the game: a brand-new career, same seed. */
+  const [careerRoster, setCareerRoster] = useState(() => roster?.type === 'full' ? roster : undefined);
+  const startNewCareer = useCallback((next?: ResolvedRoster) => {
+    const fresh = createGameUniverse(definition, seed, {roster: next});
+    universeRef.current = fresh; setSnapshot(fresh); setReport(null); setLastWork([]); setDayId(id => id + 1);
+    setCareerRoster(next?.type === 'full' ? next : undefined);
+  }, [definition, seed]);
 
   // Snapshot is for display; commands always read the latest authoritative ref.
   return { universe: snapshot, restartHeadquarters: restartDay, advanceWeek, checkpoint, scoutDriver, exerciseOption,
-    continueTurn, nextDay, runDevelopment, report, dismissReport, lastWork };
+    continueTurn, nextDay, runDevelopment, report, dismissReport, lastWork, startNewCareer, careerRoster };
 }
 
 function hasVisibleChange(previous: HeadquartersState, next: HeadquartersState): boolean {

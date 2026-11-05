@@ -7,16 +7,21 @@ import {developmentState,developmentView} from '../campaignTime/developmentView'
 import {dueCampaignEvents} from './campaignEvents';
 import {fitAtWeekend,rules2Week,rules3Week} from '../developmentLoop/step';
 import type {GameDefinition,GameUniverse} from './types';
+import type {ResolvedRoster} from '../../game/roster';
 export * from './types';
 
 export function assertDefinition(universe:GameUniverse,definition:GameDefinition):void {
  if(universe.definitionVersion!==definition.version)throw new Error('Game definition mismatch: explicit content migration required');
 }
-export function createGameUniverse(definition:GameDefinition,seed:number):GameUniverse {
+/**
+ * `roster` is read only when a career is created: a full pack's stats enter here and nowhere else.
+ * A cosmetic pack (or none) builds exactly the default world.
+ */
+export function createGameUniverse(definition:GameDefinition,seed:number,options:{roster?:ResolvedRoster}={}):GameUniverse {
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new Error('Universe seed must be a uint32');
  const calendarId=definition.calendarId??DEFAULT_CALENDAR_ID;calendarById(calendarId);
  return {definitionVersion:definition.version,calendarId,currentDate:NEW_CAREER_DATE,seed,developmentRules:definition.developmentRules??1,playerTeamId:definition.driverEra?'team.wellington':null,
-  ...(definition.driverEra?{drivers:createDriverWorld(definition.driverDataVersion!==1)}:{}),
+  ...(definition.driverEra?{drivers:createDriverWorld(definition.driverDataVersion!==1,options.roster)}:{}),
   headquarters:createHeadquartersState(definition.headquarters.layout,definition.headquarters.roster),
   development:developmentState(createDevelopmentWorld(definition.development,seed))};
 }

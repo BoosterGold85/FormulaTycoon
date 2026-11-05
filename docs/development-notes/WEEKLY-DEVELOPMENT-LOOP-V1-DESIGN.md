@@ -12,9 +12,9 @@ the architecture, loop, system map, milestones, DEV_STATUS and Graphic Design Bi
 budget, department slots, facility and staff speed, aero testing allowance, seeded outcomes, reverts, reliability,
 circuit packages and READY → fitted. The loop is missing three things:
 
-1. **A player project command.** Wellington is `controlledBy: 'PLAYER'`, so the rival AI never plans for it, and
+1. **A player project command.** Ardent is `controlledBy: 'PLAYER'`, so the rival AI never plans for it, and
    no command exists for the player to start work. Its car never develops. On June 1, 2026 every rival has 3–5 projects
-   and $10–25M spent, the field has fitted 33 upgrades, and Wellington has 0.
+   and $10–25M spent, the field has fitted 33 upgrades, and Ardent has 0.
 2. **A player-facing way to pass time.** `advanceCampaignTo` exists, but the UI never calls it.
 3. **A player-facing summary layer**: points, ETA, outcomes and HQ activity.
 
@@ -33,7 +33,7 @@ assumptions to confirm in the implementation brief.
 | 3 | Events and save v6 | "Yes" | Approved: persisted events and decisions, save v6, rules version |
 | 3b | Rivals get events | "Yes" (*confirm*) | Rivals use the same events, resolved by their policy, under rules 2 only |
 | 4 | Points affect quality | "Yes they should" (*confirm*: read as "points should affect upgrade quality") | Quality bonus from **bonus points** (below). No double-counting of staff quality, which is already in `expectedGain` |
-| 5 | Concurrency | "They can but only a logical amount" (*confirm*) | Use the existing facility-based department slots as the limit for everyone (Wellington: 2 aero + 1 chassis, 3 total; the maximum possible is 3 + 2). No extra UI-only cap. The overview leads with one focus project |
+| 5 | Concurrency | "They can but only a logical amount" (*confirm*) | Use the existing facility-based department slots as the limit for everyone (Ardent: 2 aero + 1 chassis, 3 total; the maximum possible is 3 + 2). No extra UI-only cap. The overview leads with one focus project |
 | 6 | Money | "That works, $ please" | Show $M project cost and remaining development budget (existing values), labelled "Development budget", not team finances |
 | 7 | Single season | "That's fine" | V1 covers one season; the advance control stops at the season boundary with an honest message |
 | 8 | Thresholds | "Yes" | ABOVE EXPECTATION ≥ 1.15 × predicted; approaches Conservative 0.35 / Balanced 0.60 / Aggressive 0.90 |
@@ -126,7 +126,7 @@ v5 → v6 fixture; Continue stops at the correct Monday or FP1 date.
 | Fitting | `introduceReadyUpgrades` runs only on legacy 24-event fixture weeks. It applies the gain, reliability hit, spec+1 and homologation count, writes a submission (expected, actual, outcome, description, cost) and removes the project | Outcome history already persisted |
 | Reliability | New specs lose reliability, then mature weekly. AI starts repair projects under 82 | Reliability objective exists |
 | Rival AI | `planRivalWeek`: repairs, then circuit packages 10 weeks ahead, then performance projects by value, focus and pacing (`randomFor(seed,'plan',teamId,season,week)`) | Same mechanics; the player is skipped |
-| Capacity | Department slots: aero 1 + ⌊(wind tunnel + CFD)/4⌋, vehicle dynamics 1 + ⌊rig/3⌋. Wellington: 2 aero, 1 vehicle dynamics. Budget $45M (cap $60M) | — |
+| Capacity | Department slots: aero 1 + ⌊(wind tunnel + CFD)/4⌋, vehicle dynamics 1 + ⌊rig/3⌋. Ardent: 2 aero, 1 vehicle dynamics. Budget $45M (cap $60M) | — |
 | Time (D0) | Root `currentDate` is the only clock. `advanceTo` processes `(old, target]` day by day: development week (priority 10) or season reset, then contract check (priority 20), ties broken by stable ID. Development weeks are 7-day boundaries from March 2 (Mondays). `developmentView` is a temporary bridge | Weekly kernel, Monday boundaries |
 | Track truth | `technicalPerformanceAtTrack` turns fitted parts into the 11-axis technical car and derived suitability (label, strengths, concerns). Suitability is disclosure, never a bonus | Drives "what should we build" |
 | Read models | `selectTeamOverview` shows project name, stage and current-stage % only; there is no estimated completion date. `DevelopmentSummary` component; empty state says "Project management controls are not available yet" | Base for the Team hub |
@@ -134,7 +134,7 @@ v5 → v6 fixture; Continue stops at the correct Monday or FP1 date.
 | Save | External v5, internal checkpoint v3. Development state persists teams, parts, projects, spend and submissions with no clock fields | Projects already serializable |
 | UI commands | `useGameUniverse` exposes scout, option, NEW DAY (HQ replay) and an unused `advanceWeek`. No date-advance UI | Needs a time control |
 
-Measured for a new Wellington career (facilities 3/3/2/3, aero staff 74, vehicle dynamics staff 68, aero allowance 1.05, correlation 72):
+Measured for a new Ardent career (facilities 3/3/2/3, aero staff 74, vehicle dynamics staff 68, aero allowance 1.05, correlation 72):
 
 | Project | Ambition | Work R / D / M (avg-team weeks) | Speed R / D / M per week | ~Weeks to READY | Cost $M | Predicted gain (part rating) |
 |---|---|---|---|---|---|---|
@@ -228,7 +228,7 @@ compatibility dates.
 accumulate outside a project.
 
 - **Unit:** 1 "average-team week" of stage work = **10 points**, a fixed presentation constant in the read model.
-  Floor at Balanced needs 48 Research, 29 Aero and 29 Manufacturing. Wellington produces about +10.5 Research,
+  Floor at Balanced needs 48 Research, 29 Aero and 29 Manufacturing. Ardent produces about +10.5 Research,
   +9.7 Aero and +10.0 Manufacturing per week.
 - **Category by stage and part area:**
 
@@ -363,7 +363,7 @@ The Team screen becomes the development hub, following GLANCE → UNDERSTAND →
 - **Glance (overview card):** focus project name and stage chip; whole-project progress bar; "Ready ~Jun 8 · fits
   next window"; this week "+10 Research"; a risk badge if an event is waiting or reliability is a concern. Empty
   state: "Your factory is idle — Start a project" (action), replacing "not available yet".
-- **Understand (development view):** one row per active project (up to the slots: Wellington 2 aero + 1 vehicle
+- **Understand (development view):** one row per active project (up to the slots: Ardent 2 aero + 1 vehicle
   dynamics), slot availability, budget used and remaining, the latest outcomes from `submissions`, and the next fitting
   window date.
 - **Tap / investigate (project detail):**
@@ -602,7 +602,7 @@ Behavioural tests, defined before implementation:
 3. **Events and save v6:** approve V1b's persisted events and rules version? Should rivals receive the same events
    (recommended, behind a rules version) or the player only?
 4. **Points and quality:** progress only (recommended), or should points affect upgrade quality as in Game Dev Tycoon?
-5. **Concurrency:** expose all existing slots (Wellington 2 aero + 1 vehicle dynamics), or one focus project in V1
+5. **Concurrency:** expose all existing slots (Ardent 2 aero + 1 vehicle dynamics), or one focus project in V1
    while keeping the rules intact?
 6. **Money:** show $M cost and remaining development budget (existing values), or qualitative cost only until finances exist?
 7. **Season end:** accept a single-season V1 with the week-52 stop and the dropped-projects disclosure?

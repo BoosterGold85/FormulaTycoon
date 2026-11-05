@@ -76,7 +76,7 @@ test('contrast fallbacks cover light/dark near-matches and absent accent without
 
 test('all eleven teams expose one canonical palette and existing primary alias; card geometry scales without new assets',()=>{
  for(const team of TEAM_BRANDS){
-  expect(team.color).toBe(team.colors.primary);expect(portraitColorsForTeam(team.id)).toBe(team.colors);
+  expect(team.color).toBe(team.colors.primary);expect(portraitColorsForTeam(team.id)).toEqual(team.colors);
   for(const color of Object.values(team.colors))expect(color).toMatch(/^#[0-9A-Fa-f]{6}$/);
  }
  for(const size of [80,100,120,140]){

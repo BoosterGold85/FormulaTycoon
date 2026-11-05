@@ -31,7 +31,7 @@ test('canonical 2026 world has eleven organizations, twenty-two distinct seats a
    expect(seats).toHaveLength(2);expect(new Set(seats.map(c=>c.seat)).size).toBe(2);
    expect(seats.every(c=>world.drivers[c.driverId]?.familiarity.teamId===team.id)).toBe(true);
  }
- expect(activeContracts(world,NEW_CAREER_DATE,observer).map(c=>world.drivers[c.driverId]!.name)).toEqual(['Carlos Sainor','Alex Alburn']);
+ expect(activeContracts(world,NEW_CAREER_DATE,observer).map(c=>world.drivers[c.driverId]!.name)).toEqual(['Dakota Reyes','Mattias Lund']);
  expect(value(createSaveEnvelope(universe,meta,definition)).universe).toEqual(universe);
 });
 

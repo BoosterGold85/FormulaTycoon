@@ -50,15 +50,19 @@ test.each(Object.entries(expected.contracts))('exact supplied starting contract 
  if(c.option) expect(c.option).toMatchObject({state:'PENDING',decisionDate:legacyWeekDate(row.endSeason-2025,40),salaryM:row.annualSalaryM});
 });
 
+// Display identity (name, bio) moved to the roster pack; every simulation field must still match the frozen save.
+const withoutDisplay=(w:ReturnType<typeof createDriverWorld>)=>({...w,drivers:Object.fromEntries(Object.entries(w.drivers).map(([id,{name:_n,summary:_s,...rest}])=>[id,rest]))});
 test('frozen B initializer retains the original 42 profiles and contracts exactly',()=>{
- expect(createDriverWorld(false)).toEqual(migrateV3Universe(frozenV2.universe as unknown as HistoricalUniverse).drivers);
+ const frozen=migrateV3Universe(frozenV2.universe as unknown as HistoricalUniverse).drivers!;
+ expect(withoutDisplay(createDriverWorld(false))).toEqual(withoutDisplay(frozen));
+ expect(Object.keys(createDriverWorld(false).drivers)).toEqual(Object.keys(frozen.drivers));
  for(const [id,d] of Object.entries(authored.drivers)) {
    if(PERFORMANCE_2026[id])continue;
    expect(world.drivers[id]).toEqual(d);
  }
 });
 
-test('canonical row set is complete; reserve is associated with Vortex/Veloce without an occupied seat',()=>{
+test('canonical row set is complete; reserve is associated with Moravia/Altair without an occupied seat',()=>{
  expect(Object.keys(PERFORMANCE_2026).sort()).toEqual(Object.keys(expected.performance).sort());
  expect(Object.keys(CONTRACTS_2026).sort()).toEqual(Object.keys(expected.contracts).sort());
  expect(activeContracts(world,NEW_CAREER_DATE)).toHaveLength(22);expect(Object.keys(world.drivers)).toHaveLength(43);

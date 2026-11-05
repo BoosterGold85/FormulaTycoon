@@ -21,7 +21,7 @@ No overall driver score or raw internal ability/potential is displayed.
 
 ## Team pairing
 
-![Wellington driver comparison](05-team.png)
+![Ardent driver comparison](05-team.png)
 
 ## Reserve market
 

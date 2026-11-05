@@ -130,20 +130,20 @@ Seed1, untouched canonical starters, researched v2 content. Circuit-specific tec
 
 | Team | Monaco | Monza | Suzuka | Las Vegas | Sepang |
 |---|---:|---:|---:|---:|---:|
-| Mclarin Racing | 4 | 4 | 4 | 4 | 4 |
-| Ferano Corse | 2 | 2 | 2 | 2 | 2 |
-| Mercurion GP | 3 | 3 | 3 | 3 | 3 |
-| Vortex Racing | 1 | 1 | 1 | 1 | 1 |
-| Arden Motorsport | 5 | 5 | 5 | 5 | 5 |
-| Wellington Racing | 7 | 6 | 7 | 6 | 7 |
-| Alpinor GP | 6 | 7 | 6 | 7 | 6 |
-| Hartman Racing | 8 | 8 | 8 | 8 | 8 |
-| Veloce Racing | 9 | 9 | 9 | 9 | 9 |
-| Auden Motorsport | 10 | 10 | 10 | 10 | 10 |
-| Caldera Racing | 11 | 11 | 11 | 11 | 11 |
+| Halcyon Works | 4 | 4 | 4 | 4 | 4 |
+| Solenne Racing | 2 | 2 | 2 | 2 | 2 |
+| Kestrel GP | 3 | 3 | 3 | 3 | 3 |
+| Moravia Motorsport | 1 | 1 | 1 | 1 | 1 |
+| Taranis Racing | 5 | 5 | 5 | 5 | 5 |
+| Ardent Dynamics | 7 | 6 | 7 | 6 | 7 |
+| Nordhavn Racing | 6 | 7 | 6 | 7 | 6 |
+| Corvo Racing | 8 | 8 | 8 | 8 | 8 |
+| Altair Engineering | 9 | 9 | 9 | 9 | 9 |
+| Pacifica Racing | 10 | 10 | 10 | 10 | 10 |
+| Meridian Speed | 11 | 11 | 11 | 11 | 11 |
 
 Order is unchanged across these five venues because their existing numeric profiles were
-confirmed. Wellington/Alpinor still swap6/7: Monza gap about.078 internal points; LasVegas gap
+confirmed. Ardent/Nordhavn still swap6/7: Monza gap about.078 internal points; LasVegas gap
 about.001. The field remains mostly hierarchical. No randomness, starter retune or name-based
 bonus was used to manufacture movement. Different future car concepts can produce more diversity;
 this is not a claimed race prediction or calibrated multi-season balance result.
