@@ -1,13 +1,31 @@
+import {Platform} from 'react-native';
 /** Semantic presentation only. Team identities and game state never depend on these values. */
 const shell={navBackground:'#111D2A',navSurface:'#1E2D3E',navText:'#F6F2E9',navMuted:'#B4C0CD',navBorder:'#304154',navSelected:'#402631',navAccent:'#FF6975'};
-const common={...shell,accent:'#B51E30',onAccent:'#FFFFFF',artGold:'#EDC475',space:{xs:4,sm:8,md:12,lg:18,xl:24,xxl:32},type:{caption:11,small:12,body:14,heading:20,title:30,hero:36}};
+/** Font families loaded at start-up (assets/fonts, SIL OFL). Unloaded or native-missing fonts fall back to the system face. */
+// Web gets a CSS fallback stack; native family names must be a single loaded name.
+const stack=(name:string,fallback:string)=>Platform.OS==='web'?`${name}, ${fallback}`:name;
+const CONDENSED="'Arial Narrow', 'Roboto Condensed', system-ui, sans-serif",MONO="ui-monospace, Menlo, Consolas, monospace";
+export const FONTS={display:stack('BarlowCondensed-ExtraBold',CONDENSED),displayBold:stack('BarlowCondensed-Bold',CONDENSED),displayItalic:stack('BarlowCondensed-ExtraBoldItalic',CONDENSED),
+ mono:stack('JetBrainsMono-Medium',MONO),monoBold:stack('JetBrainsMono-Bold',MONO)};
+/** fonts: optional display/figure faces. Management surfaces keep the system face; the broadcast surface opts in. */
+type FontSet={display?:string;displayBold?:string;displayItalic?:string;mono?:string;monoBold?:string};
+const common={...shell,accent:'#B51E30',onAccent:'#FFFFFF',artGold:'#EDC475',fonts:{} as FontSet,tyreSoft:'#E10F2C',tyreMedium:'#EAB308',tyreInter:'#22C55E',space:{xs:4,sm:8,md:12,lg:18,xl:24,xxl:32},type:{caption:11,small:12,body:14,heading:20,title:30,hero:36}};
 export const THEMES={
  light:{...common,mode:'light' as const,background:'#F2EBDD',surface:'#FAF6EE',surfaceElevated:'#E9E1D3',textPrimary:'#152334',textSecondary:'#4E5D6C',border:'#D5CBBA',accentMuted:'#F5DADD',success:'#176544',warning:'#795311',danger:'#A32135',sectorPurple:'#6E3BB8',sectorGreen:'#1D7A45',sectorYellow:'#D9B23A',onSector:'#FFFFFF',onSectorYellow:'#17202C',shadow:'#493B28',hero:'#F8F1E5',chip:'#EAE3D7',weekend:'#E3E9EC',nextWeekend:'#CEDCE5',completed:'#E7E2D9',artBackground:'#E5DED0',artShadow:'#D1C6B3',overlay:'#FAF6EE',environment:'#0E1621'},
  dark:{...common,mode:'dark' as const,accent:'#F78D97',onAccent:'#17202C',background:'#0B121D',surface:'#142131',surfaceElevated:'#1D2E42',textPrimary:'#F5EFE3',textSecondary:'#A8B8C9',border:'#3D5267',accentMuted:'#402631',success:'#83D8B5',warning:'#EDC475',danger:'#F0999E',sectorPurple:'#B996F5',sectorGreen:'#6FD49A',sectorYellow:'#EDC966',onSector:'#17202C',onSectorYellow:'#17202C',shadow:'#000000',hero:'#172A3B',chip:'#1A2C3D',weekend:'#263E52',nextWeekend:'#22394E',completed:'#29333D',artBackground:'#172B3B',artShadow:'#080F18',overlay:'#142131',environment:'#0E1621'}
 };
 export type ThemeMode=keyof typeof THEMES;
-export function themeTokens(mode:ThemeMode){
- const t=THEMES[mode];
+/**
+ * Broadcast surface (owner-approved, Nov 2026): live timing and session results only. Near-black, bright white
+ * figures, saturated timing colours and brand red, in BOTH light and dark preference. Same semantic keys as the
+ * themes above, so shared components render unchanged; mode stays 'dark' for anything that branches on it.
+ */
+export const BROADCAST={...THEMES.dark,fonts:FONTS as FontSet,accent:'#E10F2C',onAccent:'#FFFFFF',navSelected:'#2A0E13',navAccent:'#FF3B47',
+ background:'#07090D',surface:'#0D1118',surfaceElevated:'#161C28',textPrimary:'#F4F6FA',textSecondary:'#9AA4B5',border:'#2A3344',accentMuted:'#2A0E13',
+ success:'#22C55E',warning:'#EAB308',danger:'#FF3B47',sectorPurple:'#B36BFA',sectorGreen:'#22C55E',sectorYellow:'#EAB308',onSector:'#07090D',onSectorYellow:'#07090D',
+ shadow:'#000000',hero:'#0D1118',chip:'#1A2130',weekend:'#161C28',nextWeekend:'#1A2130',completed:'#121822',artBackground:'#121822',artShadow:'#000000',overlay:'#0D1118'};
+export function themeTokens(mode:ThemeMode|'broadcast'){
+ const t=mode==='broadcast'?BROADCAST:THEMES[mode];
  // Compatibility names resolve to the same semantic source, never a second palette.
  return {...t,bg:t.background,panel:t.surface,raised:t.surfaceElevated,line:t.border,ink:t.textPrimary,muted:t.textSecondary,
   gold:t.warning,green:t.success,red:t.danger,text:t.textPrimary,textMuted:t.textSecondary,panelBorder:t.border};

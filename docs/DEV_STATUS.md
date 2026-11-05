@@ -2,6 +2,26 @@
 
 ## Milestone
 
+**QUALIFYING BROADCAST PRESENTATION: IN PROGRESS (items 1–4 of 8 done, awaiting owner review).** Branch
+`claude/trusting-hamilton-r5g89o`, fast-forwarded onto `claude/happy-dirac-pw7zmq` (Qualifying V1, still unmerged).
+Presentation only: no results, lap times, RNG keys, seeds or save shapes changed.
+
+- **COMPLETED (1–4):** broadcast palette and brand red on the live and result screens; team colour bars, rings and
+  card edges; bundled condensed/mono type; dense tower (POS, colour bar, code, status, gap, interval, last lap,
+  S1–S3, tyre ring, position change; phone keeps the essentials); tap/hover inspect panel with full name.
+  Read-model additions in `live.ts`/`codes.ts` only (code, tyre, interval, last, moved).
+- **TESTED:** `qualifyingFingerprint.test.ts` (sha256 of all stored qualifying state for seeds 11 and 42, recorded
+  on the untouched engine) and `qualifyingBroadcast.test.ts`; 434+ tests, TypeScript, web export; Playwright flow
+  at 390×844 and 1440×900 with no page errors or overflow; contrast pairs computed (P1 pill moved to dark ink).
+- **NOT VERIFIED:** native fonts/rendering on iOS and Android; the live Cloudflare preview.
+- **KNOWN ISSUES:** at Q2/Q3 start the position arrow can show large jumps for the first timed cars (they pass
+  untimed cars); that is the stored order, shown honestly.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:** `expo-font` added (Expo SDK module) plus ~570 KB of OFL fonts.
+- **NEXT MILESTONE:** owner review of 1–4, then mini-sectors (honest progress fill), Melbourne track map, LIVE
+  header/countdown and the result-screen moment (items 5–8).
+
+## Previous milestone
+
 **QUALIFYING V1: READY FOR OWNER PLAY-TEST.** Branch `claude/happy-dirac-pw7zmq`, from main `a204428`. Not merged.
 Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V1-DESIGN.md).
 

@@ -19,3 +19,9 @@ export function ThemeProvider({children}:{children:ReactNode}){
  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 export const useTheme=()=>useContext(ThemeContext);
+/** Live timing and session results: the broadcast palette whatever the light/dark preference (which still toggles elsewhere). */
+export function BroadcastTheme({children}:{children:ReactNode}){
+ const {setMode}=useTheme();
+ const value=useMemo(()=>({theme:themeTokens('broadcast'),setMode}),[setMode]);
+ return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+}

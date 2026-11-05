@@ -8,7 +8,9 @@ import {useSessionReplay,type ReplaySpeed} from '../hooks/useSessionReplay';
 import {Action,Card,Chip,ChoiceList,Screen,Section,Segmented,useDesign} from '../design/system';
 import {BreakCard} from './BreakCard';
 import {Commentary} from './Commentary';
-import {LiveTower,PHASE,SectorLegend,SectorStrip} from './LiveTower';
+import {LiveTower,PHASE,SectorLegend,SectorStrip,WIDE_TOWER} from './LiveTower';
+import {TowerDetail} from './TowerDetail';
+import {BroadcastTheme} from '../theme';
 
 type Props={universe:GameUniverse;definition:GameDefinition;eventId:string;from:number;onBeat:(b:number)=>void;
  /** Breaks the player has already continued from (presentation memory for this app session). */
@@ -17,8 +19,9 @@ type Props={universe:GameUniverse;definition:GameDefinition;eventId:string;from:
 /** End-of-part beats: Q1 and Q2 always stop here, whether or not the session itself is waiting. */
 const BREAK_BEATS:Array<{beat:number;done:Segment;next:Segment}>=[{beat:FORMAT.Q2.offset*BEATS_PER_MINUTE,done:'Q1',next:'Q2'},{beat:FORMAT.Q3.offset*BEATS_PER_MINUTE,done:'Q2',next:'Q3'}];
 
-/** Live view: replays the stored session sector by sector, stopping at every call and break. */
-export function QualifyingLive({universe,definition,eventId,from,onBeat,acked,onAck,onCall,onContinueBreak,onFinish,onNavigate}:Props){
+/** Live view on the broadcast surface: replays the stored session sector by sector, stopping at every call and break. */
+export function QualifyingLive(props:Props){return <BroadcastTheme><LiveView {...props}/></BroadcastTheme>;}
+function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,onContinueBreak,onFinish,onNavigate}:Props){
  const {ui,styles}=useDesign();
  const session=universe.qualifying!.sessions[eventId]!,engineTarget=replayTarget(session)*BEATS_PER_MINUTE;
  const [seen,setSeen]=useState(acked);
@@ -28,6 +31,7 @@ export function QualifyingLive({universe,definition,eventId,from,onBeat,acked,on
  const replay=useSessionReplay(target,from,b=>active.has(b),onBeat);
  const live=liveTiming(universe,session,replay.beat);
  const [focus,setFocus]=useState(false);
+ const [selected,setSelected]=useState<string|null>(null),[hovered,setHovered]=useState<string|null>(null),[towerWidth,setTowerWidth]=useState(0);
  const atBreak=!replay.playing&&!!pendingBreak&&replay.beat===pendingBreak.beat;
  const engineBreak=atBreak&&breakOf(session.status)?.done===pendingBreak!.done;
  const call=!replay.playing&&!atBreak&&segmentOf(session.status)?selectQualifyingCall(universe,definition):null;
@@ -46,7 +50,7 @@ export function QualifyingLive({universe,definition,eventId,from,onBeat,acked,on
    <SessionProgress beat={replay.beat} finished={live.finished} remaining={live.remaining}/>
    <View style={{flexDirection:'row',gap:6,flexWrap:'wrap'}} accessibilityLabel="Replay controls">
     {([1,2,4] as ReplaySpeed[]).map(sp=><Pressable key={sp} accessibilityRole="button" accessibilityLabel={`Replay at ${sp}x`} accessibilityState={{selected:replay.speed===sp}} onPress={()=>replay.setSpeed(sp)}
-     style={{minWidth:44,minHeight:44,borderRadius:5,borderWidth:1,borderColor:replay.speed===sp?ui.accent:ui.line,backgroundColor:replay.speed===sp?ui.accentMuted:'transparent',alignItems:'center',justifyContent:'center'}}><Text style={{color:ui.ink,fontWeight:'800'}}>{sp}×</Text></Pressable>)}
+     style={{minWidth:44,minHeight:44,borderRadius:5,borderWidth:1,borderColor:replay.speed===sp?ui.accent:ui.line,backgroundColor:replay.speed===sp?ui.accentMuted:'transparent',alignItems:'center',justifyContent:'center'}}><Text style={[styles.figure,{color:ui.ink}]}>{sp}×</Text></Pressable>)}
     <Pressable accessibilityRole="button" accessibilityLabel="Skip to the next stop" disabled={!replay.playing} onPress={replay.skip}
      style={{minWidth:58,minHeight:44,borderRadius:5,borderWidth:1,borderColor:ui.line,alignItems:'center',justifyContent:'center',opacity:replay.playing?1:.4}}><Text style={{color:ui.ink,fontWeight:'800'}}>SKIP</Text></Pressable>
     <Pressable accessibilityRole="switch" accessibilityLabel="Focus mode: only your cars and the drop-zone battle" accessibilityState={{checked:focus}} onPress={()=>setFocus(f=>!f)}
@@ -60,16 +64,19 @@ export function QualifyingLive({universe,definition,eventId,from,onBeat,acked,on
  const yourCars=<View testID="your-cars" style={{gap:8}}><Section title="Your cars"/>{mine.map(r=><MyCar key={r.driverId} row={r} cutoff={live.cutoff}/>)}</View>;
  const tower=<View style={{gap:10}}>
    {focus?<Text style={styles.muted}>Focus: your cars and the drop-zone battle. Turn off Focus for the full field.</Text>:null}
-   <LiveTower rows={live.rows} cutoff={live.cutoff} finished={live.finished} focus={focus}/>
+   <TowerDetail row={live.rows.find(r=>r.driverId===(selected??hovered))} onClose={()=>{setSelected(null);setHovered(null);}}/>
+   <View onLayout={e=>setTowerWidth(e.nativeEvent.layout.width)}>
+    <LiveTower rows={live.rows} cutoff={live.cutoff} finished={live.finished} focus={focus} wide={towerWidth>=WIDE_TOWER} selected={selected}
+     onSelect={id=>setSelected(s=>s===id?null:id)} onHover={setHovered}/></View>
    <SectorLegend/></View>;
  const commentary=<Commentary lines={live.commentary} names={names} teamColor={teamColor}/>;
  const note=<Text style={styles.muted}>Times are shown as gaps. This replays the session your team has already run; replay speed, Skip and Focus don't change it.</Text>;
  const title=`Qualifying · ${live.segment}`,kicker='SATURDAY · LIVE TIMING',subtitle=live.finished?`${live.segment} complete`:wetLabel(live.track.wet);
- if(wide)return <Screen title={title} kicker={kicker} subtitle={subtitle} tab="HQ" onNavigate={onNavigate} maxWidth={1400}>
+ if(wide)return <Screen title={title} kicker={kicker} subtitle={subtitle} tab="HQ" onNavigate={onNavigate} maxWidth={2200}>
   {controls}
   <View style={{flexDirection:'row',gap:24,alignItems:'flex-start'}}>
-   <View style={{flex:1.15,minWidth:0}}>{tower}</View>
-   <View style={{flex:1,minWidth:360,gap:14}}>{breakCard}{call?<CallCard model={call} onCall={onCall}/>:null}{doneCard}{yourCars}{commentary}</View>
+   <View style={{flex:1.6,minWidth:0}}>{tower}</View>
+   <View style={{flex:1,minWidth:340,maxWidth:560,gap:14}}>{breakCard}{call?<CallCard model={call} onCall={onCall}/>:null}{doneCard}{yourCars}{commentary}</View>
   </View>
   {note}
  </Screen>;
@@ -85,9 +92,9 @@ export function QualifyingLive({universe,definition,eventId,from,onBeat,acked,on
   {call?tower:null}
   {controls}
   {breakCard}{doneCard}
+  {!call?tower:null}
   {!call&&!atBreak&&!done?yourCars:null}
   {!call?commentary:null}
-  {!call?tower:null}
   {!call?note:null}
   {call?<View style={{height:sheetOpen?height*.46:56}}/>:null}
  </Screen>;
@@ -100,21 +107,22 @@ function SessionProgress({beat,finished,remaining}:{beat:number;finished:boolean
   <View style={{flexDirection:'row',gap:6}}>{SEGMENTS.map(s=>{const i=SEGMENTS.indexOf(s),cur=SEGMENTS.indexOf(seg);
    return <View key={s} style={{minWidth:52,height:32,paddingHorizontal:10,borderRadius:5,alignItems:'center',justifyContent:'center',
     backgroundColor:i===cur?ui.accent:i<cur?ui.surfaceElevated:'transparent',borderWidth:1,borderColor:i===cur?ui.accent:ui.line}}>
-    <Text style={{color:i===cur?ui.onAccent:i<cur?ui.ink:ui.muted,fontSize:14,fontWeight:'900'}}>{s}{i<cur?' ✓':''}</Text></View>;})}</View>
+    <Text style={[styles.heading,{color:i===cur?ui.onAccent:i<cur?ui.ink:ui.muted,fontSize:20}]}>{s}{i<cur?' ✓':''}</Text></View>;})}</View>
   <View style={{height:12,borderRadius:6,backgroundColor:ui.surfaceElevated,borderWidth:1,borderColor:ui.line,overflow:'visible'}}>
    <View style={{width:`${share*100}%`,height:10,borderRadius:6,backgroundColor:ui.accent}}/>
   </View>
-  <Text style={[styles.body,{fontWeight:'900'}]}>{finished?`${seg} complete`:`${remaining} min left in ${seg}`}</Text>
+  <Text style={[styles.figure,{fontSize:15}]}>{finished?`${seg} complete`:`${remaining} min left in ${seg}`}</Text>
  </View>;
 }
 
-function MyCar({row,cutoff}:{row:TowerRow;cutoff:number|null}){const {ui,styles}=useDesign();
+function MyCar({row,cutoff}:{row:TowerRow;cutoff:number|null}){const {ui,styles,teamInk}=useDesign();
  const danger=cutoff!==null&&row.position>cutoff;
- return <View accessibilityLabel={`${row.name}, ${PHASE[row.phase]}, P${row.position}, ${row.gap}${row.predicted?`, on pace for P${row.predicted}`:''}`} style={{gap:6,padding:10,borderRadius:6,backgroundColor:ui.accentMuted,borderLeftWidth:5,borderLeftColor:ui.accent}}>
-  <View style={styles.between}><Text style={[styles.body,{fontWeight:'900'}]}>{row.name}</Text>
+ return <View accessibilityLabel={`${row.name}, ${PHASE[row.phase]}, P${row.position}, ${row.gap}${row.predicted?`, on pace for P${row.predicted}`:''}`} style={{gap:6,padding:12,borderRadius:8,backgroundColor:ui.surface,borderLeftWidth:6,borderLeftColor:row.color}}>
+  <View style={styles.between}><View style={{flex:1,minWidth:0}}><Text numberOfLines={1} style={styles.heading}>{row.time===null?'':`P${row.position}  `}{row.name}</Text>
+   <Text style={{color:teamInk(row.color),fontSize:11,fontWeight:'800',letterSpacing:.8}}>{row.team.toUpperCase()}</Text></View>
    <Chip text={row.time===null?'NO TIME':`P${row.position}${danger?' · IN DANGER':''}`} tone={row.time===null||danger?'red':'green'}/></View>
   <View style={[styles.between,{flexWrap:'wrap'}]}><Text style={[styles.muted,{fontWeight:'800'}]}>{PHASE[row.phase].toUpperCase()}</Text>
-   {row.predicted?<Text style={{color:cutoff!==null&&row.predicted>cutoff?ui.danger:ui.green,fontWeight:'900',fontSize:12}}>ON PACE FOR P{row.predicted}</Text>:<Text style={styles.muted}>{row.gap}</Text>}</View>
+   {row.predicted?<Text style={{color:cutoff!==null&&row.predicted>cutoff?ui.danger:ui.green,fontWeight:'900',fontSize:12}}>ON PACE FOR P{row.predicted}</Text>:<Text style={[styles.figure,{color:ui.muted}]}>{row.gap}</Text>}</View>
   <SectorStrip sectors={row.sectors} large/>
  </View>;
 }

@@ -10,11 +10,16 @@ export function useDesign(){
  const {theme:ui}=useTheme();
  return useMemo(()=>({ui,styles:makeStyles(ui),s:makeSurfaces(ui),teamInk:(color:string)=>readableTeamInk(color,ui)}),[ui]);
 }
+/** Condensed display face when the surface provides one; its weight is baked in, so no synthetic bold. */
+const display=(ui:VisualTheme,extra:object)=>ui.fonts.display?{fontFamily:ui.fonts.display,fontWeight:'normal' as const,...extra}:{};
 const makeStyles=(ui:VisualTheme)=>StyleSheet.create({
  row:{flexDirection:'row',alignItems:'center',gap:12},between:{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:10},
  stack:{gap:12},body:{color:ui.ink,fontSize:ui.type.body,lineHeight:21},muted:{color:ui.muted,fontSize:ui.type.small,lineHeight:19},
- title:{color:ui.ink,fontSize:ui.type.title,fontWeight:'900',letterSpacing:-1},heading:{color:ui.ink,fontSize:ui.type.heading,fontWeight:'800'},
+ title:{color:ui.ink,fontSize:ui.type.title,fontWeight:'900',letterSpacing:-1,...display(ui,{letterSpacing:.3,fontSize:ui.type.title+4,textTransform:'uppercase'})},
+ heading:{color:ui.ink,fontSize:ui.type.heading,fontWeight:'800',...display(ui,{fontSize:ui.type.heading+3,letterSpacing:.3})},
  eyebrow:{color:ui.muted,fontSize:ui.type.caption,fontWeight:'800',letterSpacing:1.6,textTransform:'uppercase'},
+ /** Times, gaps and countdowns: monospaced figures on the broadcast surface, tabular system figures elsewhere. */
+ figure:{color:ui.ink,fontSize:ui.type.body,fontWeight:'700',fontVariant:['tabular-nums'],...(ui.fonts.mono?{fontFamily:ui.fonts.mono,fontWeight:'normal'}:null)},
 });
 /** maxWidth: wider pages (e.g. live timing in two columns); overlay: a layer above the scrolling page (e.g. a bottom sheet). */
 export function Screen({title,kicker,subtitle,tab,onNavigate,children,maxWidth=920,overlay}:{title:string;kicker:string;subtitle?:string;tab:NavTab;onNavigate:(tab:NavTab)=>void;children:ReactNode;maxWidth?:number;overlay?:ReactNode}){const {ui,styles,s}=useDesign();

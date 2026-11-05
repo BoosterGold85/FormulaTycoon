@@ -9,6 +9,7 @@ import {CalendarScreen} from './src/ui/CalendarScreen';
 import {DriversScreen} from './src/ui/DriversScreen';
 import {TeamScreen} from './src/ui/TeamScreen';
 import {ThemeProvider} from './src/ui/theme';
+import {useAppFonts} from './src/ui/hooks/useAppFonts';
 import {GameHud} from './src/ui/components/GameHud';
 import {BottomNav} from './src/ui/components/BottomNav';
 import {HistoryScreen} from './src/ui/HistoryScreen';
@@ -19,7 +20,7 @@ import {QualifyingPlan} from './src/ui/qualifying/QualifyingPlan';
 import {QualifyingLive} from './src/ui/qualifying/QualifyingLive';
 import {QualifyingReport} from './src/ui/qualifying/QualifyingReport';
 
-export default function App(){return <ThemeProvider><GameApplication/></ThemeProvider>;}
+export default function App(){useAppFonts();return <ThemeProvider><GameApplication/></ThemeProvider>;}
 function GameApplication() {
  const session=useGameUniverse(DEFAULT_GAME_DEFINITION);
  const [tab,setTab]=useState<NavTab>('HQ');

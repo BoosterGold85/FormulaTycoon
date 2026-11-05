@@ -66,6 +66,23 @@ car fit, Sprint/weekend markers, navigation selection, buttons/disclosures and a
 text/button/status pairs and team labels target at least4.5:1 contrast on their rendered surfaces.
 Contrast checks and browser screenshots do not establish native accessibility/performance compliance.
 
+## Broadcast surface: live timing and session results
+
+Owner-approved permanent exception, November 5, 2026. Live session timing and session result screens
+(qualifying today; future race timing) use the **BROADCAST** palette in `ui/design/tokens.ts`, in BOTH light
+and dark preference: near-black background (`#07090D`), bright white primary text, saturated timing colours
+(purple/green/yellow sectors, soft/medium/inter tyre rings) and strong brand red (`#E10F2C`) for primary actions.
+`BroadcastTheme` in `ui/theme.tsx` provides it; shared components render unchanged through the same semantic keys.
+Management surfaces keep the warm light canvas. Do not add a second broadcast palette or screen-local colour tables.
+
+Typography on this surface only: bundled Barlow Condensed (positions, headings, driver codes) and JetBrains Mono
+(times, gaps, countdowns), both SIL OFL in `assets/fonts`, loaded by `useAppFonts` without blocking rendering.
+Towers use three-letter driver codes derived from canonical names (never saved); full names appear on tap or
+hover and in "Your cars". Every tower row carries a solid team colour bar; player cars carry a team-colour ring
+plus spoken "your car" labels, so colour never carries meaning alone. Lap columns show stored gaps and deltas
+only, never invented absolute circuit lap times. Desktop tower rows are 36 px secondary inspect targets
+(pointer); phone rows keep 44 px. Text pairs on this surface target 4.5:1, as elsewhere.
+
 ## Interaction and information hierarchy
 
 **GLANCE → UNDERSTAND → TAP → INVESTIGATE → ACT.**

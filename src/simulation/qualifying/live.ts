@@ -1,7 +1,8 @@
 import {teamBrand} from '../../game/brandRegistry';
 import type {GameUniverse} from '../universe/types';
 import {segmentDrivers} from './session';
-import {FORMAT,SESSION_MINUTES,type QualifyingLap,type QualifyingSession,type Segment} from './types';
+import {driverCodes} from './codes';
+import {FORMAT,SESSION_MINUTES,type LapTyre,type QualifyingLap,type QualifyingSession,type Segment} from './types';
 import {wetnessAt} from './weather';
 
 /**
@@ -20,7 +21,17 @@ export type TowerRow = { driverId: string; name: string; teamId: string; team: s
   /** A car fighting around the knockout line on a flying lap (Q1/Q2). */
   nearCut: boolean;
   /** Player cars on a flying lap: where the lap would put them at its pace so far (null otherwise). */
-  predicted: number | null };
+  predicted: number | null;
+  /** Presentation-only fields for the broadcast tower; all derived from stored laps at this beat. */
+  code: string;
+  /** Tyre of the current (or most recent) run in this segment; null before the first run. */
+  tyre: LapTyre | null;
+  /** Gap to the car directly ahead (both timed), e.g. "+0.118". */
+  interval: string | null;
+  /** Latest completed flying lap in this segment versus the driver's own best: PB, +0.214 or OFF (lost). */
+  last: { kind: 'PB' | 'SLOWER' | 'OFF'; text: string } | null;
+  /** Places gained (+) or lost (-) over the last session minute, for timed cars; 0 otherwise. */
+  moved: number };
 /** Commentary from stored session data only: the announcer covers the field; radio is the player's engineer. */
 export type CommentaryLine = { kind: 'ANNOUNCER' | 'RADIO'; text: string; driverId?: string; at: number };
 const tenths = (d: number) => { const n = Math.round(Math.abs(d) * 10); return n >= 10 ? `${Math.abs(d).toFixed(1)} seconds` : n <= 1 ? 'a tenth' : `${['', '', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'][n]} tenths`; };
@@ -118,7 +129,9 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
   const order = finished ? result!.order : rank(best), cut = FORMAT[seg].cars - FORMAT[seg].out;
   if (finished && seg !== 'Q3') say(D * 3 + 0.5, `${seg} over. Out: ${order.slice(cut).map(id => surname(universe, id)).join(', ')}.`);
   if (finished && seg === 'Q3') say(D * 3 + 0.5, `Chequered flag! ${surname(universe, order[0]!)} takes pole.`);
-  const pole = best.get(order[0]!) ?? null;
+  const pole = best.get(order[0]!) ?? null, codes = driverCodes(universe);
+  // Position change: the order one session minute ago in this segment (start of segment for the first minute).
+  const before = rank(bestAt(Math.max(0, local - 3))), was = new Map(before.map((id, i) => [id, i + 1]));
   const rows: TowerRow[] = order.map((id, i) => {
     const entrant = session.entrants.find(e => e.driverId === id)!, time = best.get(id) ?? null, b = teamBrand(entrant.teamId);
     const mineLaps = (result?.laps ?? []).filter(l => l.driverId === id && l.slot * 3 <= local).sort((a, b) => a.slot - b.slot);
@@ -146,7 +159,14 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
         predicted = 1 + [...best].filter(([other, tm]) => other !== id && tm < target).length;
       }
     }
+    const finishedLaps = laps.filter(l => l.driverId === id && (l.time === null ? sectorBeat(l, l.sectors.findIndex(x => x === null)) <= local : doneAt(l) <= local))
+      .sort((a, b) => a.slot - b.slot), latest = finishedLaps[finishedLaps.length - 1], ahead = i > 0 ? best.get(order[i - 1]!) : undefined;
+    const last: TowerRow['last'] = !latest ? null : latest.time === null ? { kind: 'OFF', text: 'OFF' }
+      : latest.time === time ? { kind: 'PB', text: 'PB' } : { kind: 'SLOWER', text: `+${(latest.time - time!).toFixed(3)}` };
     return { driverId: id, name: name(universe, id), teamId: entrant.teamId, team: b.name, color: b.colors.primary, predicted,
+      code: codes[id] ?? surname(universe, id).slice(0, 3).toUpperCase(), tyre: lap?.tyre ?? null, last,
+      interval: time !== null && ahead !== undefined ? `+${(time - ahead).toFixed(3)}` : null,
+      moved: time === null || finished ? 0 : (was.get(id) ?? i + 1) - (i + 1),
       nearCut: seg !== 'Q3' && phase === 'FLYING' && i >= cut - 3 && i <= cut + 2,
       mine: entrant.teamId === universe.playerTeamId, position: i + 1, time,
       gap: time === null ? 'No time' : i === 0 ? 'Fastest' : `+${(time - pole!).toFixed(3)}`,
