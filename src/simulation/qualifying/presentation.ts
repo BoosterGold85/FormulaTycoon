@@ -69,12 +69,23 @@ export function selectQualifyingCall(universe: GameUniverse, definition: GameDef
   const ctx = sessionContext(universe, definition, session), recommended = recommendedCalls(universe, definition);
   const wet = wetnessAt(session.weather, now), before = wetnessAt(session.weather, Math.max(0, now - 3));
   const used = (id: string) => [...SEGMENTS.flatMap(s => session.segments[s]?.laps ?? [])].filter(l => l.driverId === id && l.tyre === 'NEW_SOFT').length;
-  return { eventId: session.eventId, segment: seg, minute: CHECKPOINT[seg], remaining: FORMAT[seg].minutes - CHECKPOINT[seg], cutoff: tower.cutoff,
+  // The stakes as the timing screen stands now: the time currently on the knockout line (Q3: pole).
+  const timed = tower.rows.filter(r => r.time !== null), poleTime = timed[0]?.time ?? null;
+  const lineRow = tower.cutoff === null ? timed[0] : timed.length >= tower.cutoff ? timed[tower.cutoff - 1] : undefined;
+  // Too few times yet: fall back on the previous part's stored times for the same place (never on future laps).
+  const prevSeg = seg === 'Q2' ? 'Q1' : seg === 'Q3' ? 'Q2' : null, prev = prevSeg ? session.segments[prevSeg] : undefined;
+  const prevPole = prev ? bestTime(prev.laps, prev.order[0]!) : null, prevLine = prev ? bestTime(prev.laps, prev.order[(tower.cutoff ?? FORMAT.Q3.cars) - 1]!) : null;
+  const target = { position: tower.cutoff ?? 1, lineTime: lineRow?.time ?? null,
+    offPole: lineRow && poleTime !== null ? Math.round((lineRow.time! - poleTime) * 1000) / 1000
+      : prevPole !== null && prevLine !== null ? Math.round((prevLine - prevPole) * 1000) / 1000 : null,
+    source: (lineRow ? 'NOW' : prevSeg && prevPole !== null && prevLine !== null ? prevSeg : null) as 'NOW' | 'Q1' | 'Q2' | null };
+  return { eventId: session.eventId, segment: seg, minute: CHECKPOINT[seg], remaining: FORMAT[seg].minutes - CHECKPOINT[seg], cutoff: tower.cutoff, target,
     track: { label: wetLabel(wet), trend: wet > before + 0.01 ? 'getting wetter' : wet < before - 0.01 ? 'drying' : 'steady', tyreChoice: wet > 0 || before > 0 },
     forecast: forecastText(session.forecasts[universe.playerTeamId]!),
     drivers: Object.keys(recommended).map(id => {
       const row = tower.rows.find(r => r.driverId === id)!, plan = session.plans[id]![seg];
-      return { driverId: id, name: row.name, position: row.time === null ? null : row.position, gap: row.gap, danger: row.danger,
+      const toLine = row.time !== null && target.lineTime !== null ? Math.round((row.time - target.lineTime) * 1000) / 1000 : null;
+      return { driverId: id, name: row.name, position: row.time === null ? null : row.position, gap: row.gap, danger: row.danger, toLine,
         newSoftsLeft: Math.max(0, NEW_SOFT_SETS - used(id)), plannedTyre: plan.tyre,
         plannedRunsLeft: plannedSlots(ctx, id, seg, plan).filter(s => s >= CHECKPOINT[seg]).length, recommended: recommended[id]! as Call };
     }) };

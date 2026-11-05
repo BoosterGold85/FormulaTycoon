@@ -6,9 +6,11 @@ import {useTheme} from '../theme';
 
 export type TurnControlsProps={target:TurnTarget|null;pendingDecisions:number;onContinue:()=>void;onNextDay:()=>void;playing?:boolean;blocked?:number;
  /** Qualifying weekend step: a call is waiting (LIVE). */
- qualifyingCall?:boolean};
+ qualifyingCall?:boolean;
+ /** A live qualifying session is on screen: +1 DAY is locked so the weekend can't be skipped by accident. */
+ dayLocked?:boolean};
 /** Campaign controls in the shared dark shell. They only dispatch the domain turn/day commands. */
-export function TurnControls({target,pendingDecisions,onContinue,onNextDay,playing=false,blocked=0,qualifyingCall=false,compact=false}:TurnControlsProps&{compact?:boolean}){
+export function TurnControls({target,pendingDecisions,onContinue,onNextDay,playing=false,blocked=0,qualifyingCall=false,dayLocked=false,compact=false}:TurnControlsProps&{compact?:boolean}){
  const {theme:t}=useTheme();
  if(!target)return <Text style={{color:t.navMuted,fontSize:11,fontWeight:'800',maxWidth:140}}>Season complete · review not available yet</Text>;
  const when=`${weekday(target.date).slice(0,3)} ${formatCampaignDate(target.date).replace(/, \d{4}$/,'')}`;
@@ -16,7 +18,8 @@ export function TurnControls({target,pendingDecisions,onContinue,onNextDay,playi
  const label=playing?'WORKING…':blocked?'DECISION REQUIRED':qualifyingCall?'QUALIFYING LIVE':target.kind==='FP1'?'CONTINUE TO FP1':target.kind==='QUALIFYING'?'PLAN QUALIFYING':'CONTINUE WEEK';
  const spoken=qualifyingCall?'Qualifying is waiting for your call':target.kind==='FP1'?`Continue to ${target.venue} first practice`:target.kind==='QUALIFYING'?`Plan ${target.venue} qualifying`:'Continue week';
  return <View style={{flexDirection:'row',alignItems:'center',gap:8}}>
-  {!compact?<Pressable accessibilityRole="button" accessibilityLabel="Next day" onPress={onNextDay} style={{minHeight:44,paddingHorizontal:10,justifyContent:'center',borderRadius:6,borderWidth:1,borderColor:t.navBorder,backgroundColor:t.navSurface}}>
+  {!compact?<Pressable accessibilityRole="button" accessibilityLabel={qualifyingCall||dayLocked?'Next day is unavailable during a live session':'Next day'} accessibilityState={{disabled:qualifyingCall||dayLocked}} disabled={qualifyingCall||dayLocked} onPress={onNextDay}
+   style={{minHeight:44,paddingHorizontal:10,justifyContent:'center',borderRadius:6,borderWidth:1,borderColor:t.navBorder,backgroundColor:t.navSurface,opacity:qualifyingCall||dayLocked?.4:1}}>
    <Text style={{color:t.navText,fontSize:11,fontWeight:'800'}}>+1 DAY</Text></Pressable>:null}
   <Pressable accessibilityRole="button" accessibilityState={{disabled:playing}} disabled={playing} accessibilityLabel={playing?'The team is working':blocked?'Decision required before continuing':`${spoken}, ${when}`} testID="turn-continue" onPress={onContinue}
    style={{minHeight:44,minWidth:96,paddingHorizontal:12,justifyContent:'center',borderRadius:6,backgroundColor:blocked&&!playing?t.artGold:t.accent,opacity:playing?.55:1}}>

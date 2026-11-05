@@ -27,10 +27,20 @@ Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V
     - Q1 reaches its call in about 44 s at 1×.
 
     Golden hashes prove lap times and grids are unchanged.
+  - Play-test 4 (layout and UI fixes):
+    - desktop: two columns, tower on the left; call, break, Your cars and commentary on the right;
+    - phone: the call is a collapsible bottom sheet over the tower;
+    - Focus switches on while a call is open, so the drop-zone battle stays in view;
+    - no-time cars have no position number and are grouped under "No time yet";
+    - a finished lap flashes the row (it replaces the gold edge);
+    - call options carry one-line consequences, and the call states the pace needed to get through (now, else from
+      the previous part);
+    - larger Q1/Q2/Q3 steps and a progress bar with time left;
+    - +1 DAY is locked during a live session.
 - **IN PROGRESS:** none. Event-driven calls (conditions change, yellow and red flags) are not started; they are
   waiting on the owner's decision, because real decisions on them would change results.
 - **TESTED:**
-  - 427/427 tests, 23 suites (18 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+  - 428/428 tests, 23 suites (19 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
     season; no double processing; determinism and reload at every status; choices mattering; a better car winning
     more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
     validation tampering; and v7 fixture migration with a golden development continuation.

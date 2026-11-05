@@ -55,7 +55,7 @@ function GameApplication() {
  return <View style={{flex:1}}>
   <GameHud currentDate={session.universe.currentDate} nextEvent={selectNextEvent(session.universe)}
    turn={{target:nextTurnTarget(session.universe),pendingDecisions:hasTeam?selectDevelopmentHub(session.universe,DEFAULT_GAME_DEFINITION).pendingDecisions:0,
-    onContinue:continueTurn,onNextDay:()=>{const r=session.nextDay();if(!r.ok&&r.reason.startsWith('QUALIFYING'))continueTurn();},playing,blocked:pending.length,qualifyingCall:!!awaiting}}/>
+    onContinue:continueTurn,onNextDay:()=>{const r=session.nextDay();if(!r.ok&&r.reason.startsWith('QUALIFYING'))continueTurn();},playing,blocked:pending.length,qualifyingCall:!!awaiting,dayLocked:weekend?.view==='LIVE'}}/>
   <View style={{flex:1,flexDirection:'row'}}>
    <BottomNav active={tab} onSelect={navigate} sidebar/>
    <View style={{flex:1,minWidth:0}}>

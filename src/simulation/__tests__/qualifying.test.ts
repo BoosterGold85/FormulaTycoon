@@ -358,3 +358,19 @@ test('commentary: the announcer covers the field, radio is only for the player, 
  // The same beat always reads the same, however it was reached (speed, Skip or Focus are presentation only).
  expect(liveTiming(u,s,40)).toEqual(liveTiming(u,s,40));
 });
+
+test('call stakes come from the current timing screen, or else the previous part, never from laps still to come',()=>{
+ for(const seed of [1,2,3,4]){
+  let u=atFP1(seed);u=ok(setQualifyingPlan(u,definition,recommendedPlans(u,definition)));u=advanceCampaignTo(u,definition,SAT);
+  for(let i=0;i<5&&sessionAwaitingPlayer(u);i++){
+   const card=selectQualifyingCall(u,definition);
+   if(card){
+    const s=session(u),tower=towerAt(u,s,(card.segment==='Q1'?0:card.segment==='Q2'?18:33)+card.minute),timed=tower.rows.filter(r=>r.time!==null);
+    if(card.target.source==='NOW'){const line=timed[(card.cutoff??1)-1]!;expect(card.target.offPole).toBeCloseTo(line.time!-timed[0]!.time!,3);}
+    else if(card.segment==='Q1')expect(card.target.source).toBeNull();
+    else expect(card.target.source).toBe(card.segment==='Q2'?'Q1':'Q2');
+   }
+   u=acceptRecommendation(u,definition)!;
+  }
+ }
+});

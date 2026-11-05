@@ -271,8 +271,14 @@ same Research shown as bubbles in the week replay. Even a well-researched foreca
 - **Pace:** the replay lingers when something happens and moves faster when nothing does. You can watch at 1×, 2×
   or 4×; Skip jumps to the next stop.
 
+On a wide screen, the timing tower sits on the left and the pit wall on the right, so you see the field while you
+decide. On a phone, the call opens as a sheet over the tower; tap its header to fold it away. Cars without a lap
+time have no position yet and are listed under "No time yet". A row flashes briefly when that car finishes a lap.
+**+1 DAY** is locked while a session is live.
+
 Halfway through each part the pit wall asks for one call per driver: stick to the plan, go now, wait for the end,
-or stay in the garage to save tyres. On a wet or drying track you can also change tyres. A recommendation is
+or stay in the garage to save tyres. Each option says what it costs, and the call shows the pace currently needed to
+get through (early in a part, the previous part's pace). On a wet or drying track you can also change tyres. A recommendation is
 marked; you can always choose differently.
 
 **Breaks.** The session stops after Q1 and after Q2. The break shows who was knocked out, whether your cars made

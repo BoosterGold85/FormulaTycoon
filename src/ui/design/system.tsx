@@ -16,10 +16,11 @@ const makeStyles=(ui:VisualTheme)=>StyleSheet.create({
  title:{color:ui.ink,fontSize:ui.type.title,fontWeight:'900',letterSpacing:-1},heading:{color:ui.ink,fontSize:ui.type.heading,fontWeight:'800'},
  eyebrow:{color:ui.muted,fontSize:ui.type.caption,fontWeight:'800',letterSpacing:1.6,textTransform:'uppercase'},
 });
-export function Screen({title,kicker,subtitle,tab,onNavigate,children}:{title:string;kicker:string;subtitle?:string;tab:NavTab;onNavigate:(tab:NavTab)=>void;children:ReactNode}){const {ui,styles,s}=useDesign();
+/** maxWidth: wider pages (e.g. live timing in two columns); overlay: a layer above the scrolling page (e.g. a bottom sheet). */
+export function Screen({title,kicker,subtitle,tab,onNavigate,children,maxWidth=920,overlay}:{title:string;kicker:string;subtitle?:string;tab:NavTab;onNavigate:(tab:NavTab)=>void;children:ReactNode;maxWidth?:number;overlay?:ReactNode}){const {ui,styles,s}=useDesign();
  return <SafeAreaView style={{flex:1,backgroundColor:ui.bg}}>
-  <View style={s.header}><View style={{width:'100%',maxWidth:920,alignSelf:'center',gap:4}}><Text style={styles.eyebrow}>{kicker}</Text><Text accessibilityRole="header" style={styles.title}>{title}</Text>{subtitle?<Text style={styles.muted}>{subtitle}</Text>:null}</View></View>
-  <ScrollView style={{flex:1}} contentContainerStyle={s.page}>{children}</ScrollView>
+  <View style={s.header}><View style={{width:'100%',maxWidth,alignSelf:'center',gap:4}}><Text style={styles.eyebrow}>{kicker}</Text><Text accessibilityRole="header" style={styles.title}>{title}</Text>{subtitle?<Text style={styles.muted}>{subtitle}</Text>:null}</View></View>
+  <View style={{flex:1}}><ScrollView style={{flex:1}} contentContainerStyle={[s.page,{maxWidth}]}>{children}</ScrollView>{overlay}</View>
   <BottomNav active={tab} onSelect={next=>onNavigate(next)}/>
  </SafeAreaView>;
 }
@@ -43,6 +44,14 @@ export function Segmented<T extends string|number>({label,options,value,onChange
   return <Pressable key={String(o.value)} accessibilityRole="radio" accessibilityLabel={`${label}: ${o.label}${o.note?`, ${o.note}`:''}`} accessibilityState={{selected:on,checked:on}} onPress={()=>onChange(o.value)}
    style={({pressed})=>[{minHeight:44,minWidth:64,paddingHorizontal:11,paddingVertical:6,borderRadius:5,borderWidth:1,borderColor:on?ui.accent:ui.line,backgroundColor:on?ui.accent:ui.surface,justifyContent:'center',alignItems:'center'},pressed&&{opacity:.75}]}>
    <Text style={{color:on?ui.onAccent:ui.ink,fontSize:12,fontWeight:'800'}}>{o.label}</Text>{o.note?<Text style={{color:on?ui.onAccent:ui.muted,fontSize:10,fontWeight:'700'}}>{o.note}</Text>:null}</Pressable>;})}</View></View>;
+}
+/** Vertical single choice where each option carries a one-line consequence (44px+ targets; text, not colour, carries meaning). */
+export function ChoiceList<T extends string>({label,options,value,onChange}:{label:string;options:Array<{value:T;label:string;hint:string;tag?:string}>;value:T;onChange:(v:T)=>void}){const {ui,styles}=useDesign();
+ return <View style={{gap:6}}><Text style={styles.eyebrow}>{label}</Text><View accessibilityRole="radiogroup" style={{gap:6}}>{options.map(o=>{const on=o.value===value;
+  return <Pressable key={o.value} accessibilityRole="radio" accessibilityLabel={`${o.label}. ${o.hint}${o.tag?`. ${o.tag}`:''}`} accessibilityState={{selected:on,checked:on}} onPress={()=>onChange(o.value)}
+   style={({pressed})=>[{minHeight:52,paddingHorizontal:12,paddingVertical:8,borderRadius:6,borderWidth:on?2:1,borderColor:on?ui.accent:ui.line,backgroundColor:on?ui.accentMuted:ui.surface,gap:2},pressed&&{opacity:.75}]}>
+   <View style={styles.between}><Text style={{color:ui.ink,fontSize:14,fontWeight:'900'}}>{on?'● ':'○ '}{o.label}</Text>{o.tag?<Text style={{color:ui.accent,fontSize:10,fontWeight:'900',letterSpacing:.6}}>{o.tag.toUpperCase()}</Text>:null}</View>
+   <Text style={styles.muted}>{o.hint}</Text></Pressable>;})}</View></View>;
 }
 export function Fact({label,value}:{label:string;value:string}){const {ui,styles,s}=useDesign();return <View style={styles.between}><Text style={styles.muted}>{label}</Text><Text style={[styles.body,{flex:1,textAlign:'right',fontWeight:'600'}]}>{value}</Text></View>;}
 const makeSurfaces=(ui:VisualTheme)=>StyleSheet.create({
