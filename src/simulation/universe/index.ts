@@ -6,6 +6,7 @@ import {NEW_CAREER_DATE,addCampaignDays,campaignContext,legacyWeekDate,nextCampa
 import {developmentState,developmentView} from '../campaignTime/developmentView';
 import {dueCampaignEvents} from './campaignEvents';
 import {fitAtWeekend,rules2Week,rules3Week} from '../developmentLoop/step';
+import {addResearch,closeQualifying,emptyQualifyingState,resetResearch,runQualifyingDay} from '../qualifying';
 import type {GameDefinition,GameUniverse} from './types';
 import type {ResolvedRoster} from '../../game/roster';
 export * from './types';
@@ -22,6 +23,7 @@ export function createGameUniverse(definition:GameDefinition,seed:number,options
  const calendarId=definition.calendarId??DEFAULT_CALENDAR_ID;calendarById(calendarId);
  return {definitionVersion:definition.version,calendarId,currentDate:NEW_CAREER_DATE,seed,developmentRules:definition.developmentRules??1,playerTeamId:definition.driverEra?'team.wellington':null,
   ...(definition.driverEra?{drivers:createDriverWorld(definition.driverDataVersion!==1,options.roster)}:{}),
+  ...(definition.driverEra&&definition.qualifyingRules===1?{qualifying:emptyQualifyingState(definition)}:{}),
   headquarters:createHeadquartersState(definition.headquarters.layout,definition.headquarters.roster),
   development:developmentState(createDevelopmentWorld(definition.development,seed))};
 }
@@ -55,10 +57,14 @@ function advanceTo(universe:GameUniverse,definition:GameDefinition,target:Campai
    switch(event.kind){
     case 'SEASON_TRANSITION':
      current={...current,development:developmentState(startNextSeason(developmentView(current.development,addCampaignDays(event.date,-1)),definition.development,transition!.standings,{regulationReset:transition!.regulationReset}))};
+     if(current.qualifying)current={...current,qualifying:resetResearch(current.qualifying)};
      break;
     case 'DEVELOPMENT_WEEK': {
      const view=developmentView(current.development,addCampaignDays(event.date,-1));
+     const before=current.development.teams;
      current={...current,development:developmentState(current.developmentRules===3?rules3Week(view,definition.development,current.calendarId):current.developmentRules===2?rules2Week(view,definition.development,current.calendarId):advanceDevelopmentWeek(view,definition.development))};
+     // Season Research total for weather forecasts: bookkeeping only, it never changes development.
+     if(current.qualifying)current={...current,qualifying:addResearch(current.qualifying,before,current.development.teams,definition.development)};
      break;
     }
     case 'DEVELOPMENT_FITTING': {
@@ -66,6 +72,12 @@ function advanceTo(universe:GameUniverse,definition:GameDefinition,target:Campai
      current={...current,development:developmentState(fitAtWeekend(developmentView(current.development,event.date),definition.development,current.calendarId,weekend))};
      break;
     }
+    case 'QUALIFYING':
+     current=runQualifyingDay(current,definition,event.eventId!);
+     break;
+    case 'QUALIFYING_CLOSE':
+     current=closeQualifying(current,definition,event.eventId!);
+     break;
     case 'CONTRACT_STATUS_CHECK':
      if(current.drivers)current={...current,drivers:refreshDriverStatuses(current.drivers,event.date)};
      break;

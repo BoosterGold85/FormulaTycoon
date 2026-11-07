@@ -98,7 +98,7 @@ test('aligned raw sources, stable IDs and exact deals survive v5 round trip and 
  universe.drivers=observeDriver(universe.drivers!,observer,'driver.takase',NEW_CAREER_DATE);
  const save=value(createSaveEnvelope(universe,meta,definition));
  const loaded=value(deserializeSave(value(serializeSave(save,definition)),definition));
- expect(loaded).toEqual(save);expect(loaded.saveVersion).toBe(7);
+ expect(loaded).toEqual(save);expect(loaded.saveVersion).toBe(8);
  for(const [id,source] of Object.entries(expected.performance)) expect(loaded.universe.drivers!.drivers[id]!.sourcePerformance).toEqual(source);
  expect(loaded.universe.drivers!.contracts).toEqual(world.contracts);
 });

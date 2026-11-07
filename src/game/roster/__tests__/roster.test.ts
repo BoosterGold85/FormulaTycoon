@@ -6,6 +6,8 @@ import {DEFAULT_GAME_DEFINITION as definition} from '../../defaultGame';
 import {advanceCampaignTo,createGameUniverse,type GameUniverse} from '../../../simulation/universe';
 import {nextTurnTarget,startPlayerProject} from '../../../simulation/developmentLoop';
 import {driverView} from '../../../simulation/drivers';
+import {selectQualifyingGrid} from '../../../simulation/qualifying';
+import {driverCodes} from '../../../simulation/qualifying/codes';
 import {NEW_CAREER_DATE} from '../../../simulation/campaignTime';
 import {createSaveEnvelope,deserializeSave,serializeSave,type SaveResult} from '../../../persistence/saveEnvelope';
 import {teamBrand,TEAM_BRANDS} from '../../brandRegistry';
@@ -55,12 +57,14 @@ describe('default pack',()=>{
   expect(new Set(grid.map(d=>d.number)).size).toBe(22);
   for(let slot=1;slot<=22;slot+=2)expect(grid[slot-1]!.helmetPattern).not.toBe(grid[slot]!.helmetPattern);
  });
- // Hashes captured from the pre-roster-pack build, ignoring the display name and bio fields that moved into the pack.
+ // Hashes captured from Qualifying V1 (claude/happy-dirac-pw7zmq at 4f0d907, which has no roster packs), ignoring the
+// display name and bio fields that moved into the pack. Each 20-turn career includes 4 qualifying sessions.
+// (Before qualifying merged in, the same check matched the pre-roster build at a204428.)
  test.each([
-  [1,'119a9a6f0c8d1a30ce8aa6a0bf1108f79540daf52e629f8d4385edb8bc9735db'],
-  [7,'bc86bc32a1642a8367471895c1bbcf27145d28096da18044654cd27292b707b3'],
-  [42,'1afd4fe6f2101256b9bdf77814c3e8472fdca72f25a8536f97b95ca188bf48fd'],
-  [123456,'9d8065be390279ed7bc7e6d8ad152e8ef5a957248f4ae2dd6465071a86c14c8e']
+  [1,'4a84f4640168ea02476944d4cf5dc805225fe01ac5aada23cd2a3ff658b01bbc'],
+  [7,'5d7a4833538e913479829ac649415d482de17fb184795904545367ac09fc2b18'],
+  [42,'79070954f62b30c0cbc3de0eb1c78e0e318ea7346e6abdbb3053d377e0f4504f'],
+  [123456,'213652ec1b12a38a4c66bd4b7609e51fbd05e955395961d7b6d67ce4b64752d5']
  ])('determinism unchanged for the default pack: seed %d',(seed,hash)=>{
   expect(createHash('sha256').update(simulationOnly(play(seed))).digest('hex')).toBe(hash);
   // Explicitly passing the default pack is identical to passing nothing.
@@ -82,6 +86,16 @@ describe('sample cosmetic pack',()=>{
    archetype:DEFAULT_ROSTER.drivers[0]!.archetype,statsChanged:false});
   expect(r.roster.drivers.find(d=>d.id===FREE_AGENT_SLOT_IDS[0])!.name).toBe('Pell Marrow');
   expect(r.roster.statOverrides).toEqual({});
+ });
+ test('qualifying grid, names and timing codes follow the pack; stored sessions do not change',()=>{
+  const u=play(1),eventId=Object.keys(u.qualifying!.sessions)[0]!,stored=JSON.stringify(u.qualifying);
+  const before=selectQualifyingGrid(u,eventId)!,codesBefore={...driverCodes(u)};
+  setDisplayRoster(r.roster);
+  const after=selectQualifyingGrid(u,eventId)!,row=after.rows.find(x=>x.driverId==='driver.sainor')!;
+  expect(row.name).toBe('Imke Sandvoort');
+  expect(after.rows.map(x=>[x.position,x.driverId])).toEqual(before.rows.map(x=>[x.position,x.driverId]));
+  expect(driverCodes(u)['driver.sainor']).not.toBe(codesBefore['driver.sainor']);
+  expect(JSON.stringify(u.qualifying)).toBe(stored);
  });
  test('applies to a running career: views change, the simulation does not',()=>{
   const before=play(42);

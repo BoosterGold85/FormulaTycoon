@@ -10,16 +10,22 @@ export function useDesign(){
  const {theme:ui}=useTheme();
  return useMemo(()=>({ui,styles:makeStyles(ui),s:makeSurfaces(ui),teamInk:(color:string)=>readableTeamInk(color,ui)}),[ui]);
 }
+/** Condensed display face when the surface provides one; its weight is baked in, so no synthetic bold. */
+const display=(ui:VisualTheme,extra:object)=>ui.fonts.display?{fontFamily:ui.fonts.display,fontWeight:'normal' as const,...extra}:{};
 const makeStyles=(ui:VisualTheme)=>StyleSheet.create({
  row:{flexDirection:'row',alignItems:'center',gap:12},between:{flexDirection:'row',alignItems:'center',justifyContent:'space-between',gap:10},
  stack:{gap:12},body:{color:ui.ink,fontSize:ui.type.body,lineHeight:21},muted:{color:ui.muted,fontSize:ui.type.small,lineHeight:19},
- title:{color:ui.ink,fontSize:ui.type.title,fontWeight:'900',letterSpacing:-1},heading:{color:ui.ink,fontSize:ui.type.heading,fontWeight:'800'},
+ title:{color:ui.ink,fontSize:ui.type.title,fontWeight:'900',letterSpacing:-1,...display(ui,{letterSpacing:.3,fontSize:ui.type.title+4,textTransform:'uppercase'})},
+ heading:{color:ui.ink,fontSize:ui.type.heading,fontWeight:'800',...display(ui,{fontSize:ui.type.heading+3,letterSpacing:.3})},
  eyebrow:{color:ui.muted,fontSize:ui.type.caption,fontWeight:'800',letterSpacing:1.6,textTransform:'uppercase'},
+ /** Times, gaps and countdowns: monospaced figures on the broadcast surface, tabular system figures elsewhere. */
+ figure:{color:ui.ink,fontSize:ui.type.body,fontWeight:'700',fontVariant:['tabular-nums'],...(ui.fonts.mono?{fontFamily:ui.fonts.mono,fontWeight:'normal'}:null)},
 });
-export function Screen({title,kicker,subtitle,tab,onNavigate,children}:{title:string;kicker:string;subtitle?:string;tab:NavTab;onNavigate:(tab:NavTab)=>void;children:ReactNode}){const {ui,styles,s}=useDesign();
+/** maxWidth: wider pages (e.g. live timing in two columns); overlay: a layer above the scrolling page (e.g. a bottom sheet). */
+export function Screen({title,kicker,subtitle,tab,onNavigate,children,maxWidth=920,overlay}:{title:string;kicker:string;subtitle?:string;tab:NavTab;onNavigate:(tab:NavTab)=>void;children:ReactNode;maxWidth?:number;overlay?:ReactNode}){const {ui,styles,s}=useDesign();
  return <SafeAreaView style={{flex:1,backgroundColor:ui.bg}}>
-  <View style={s.header}><View style={{width:'100%',maxWidth:920,alignSelf:'center',gap:4}}><Text style={styles.eyebrow}>{kicker}</Text><Text accessibilityRole="header" style={styles.title}>{title}</Text>{subtitle?<Text style={styles.muted}>{subtitle}</Text>:null}</View></View>
-  <ScrollView style={{flex:1}} contentContainerStyle={s.page}>{children}</ScrollView>
+  <View style={s.header}><View style={{width:'100%',maxWidth,alignSelf:'center',gap:4}}><Text style={styles.eyebrow}>{kicker}</Text><Text accessibilityRole="header" style={styles.title}>{title}</Text>{subtitle?<Text style={styles.muted}>{subtitle}</Text>:null}</View></View>
+  <View style={{flex:1}}><ScrollView style={{flex:1}} contentContainerStyle={[s.page,{maxWidth}]}>{children}</ScrollView>{overlay}</View>
   <BottomNav active={tab} onSelect={next=>onNavigate(next)}/>
  </SafeAreaView>;
 }
@@ -37,6 +43,21 @@ export function Disclosure({title,children,initiallyOpen=false}:{title:string;ch
 }
 export function CompactRow({label,detail,leading,trailing,onPress,accessibilityLabel}:{label:string;detail:string;leading?:ReactNode;trailing?:ReactNode;onPress:()=>void;accessibilityLabel?:string}){const {ui,styles,s}=useDesign();return <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel??label} onPress={onPress} style={({pressed})=>[s.listRow,pressed&&{backgroundColor:ui.raised}]}>{leading}<View style={{flex:1,minWidth:0,gap:4}}><Text style={{fontSize:15,fontWeight:'800',color:ui.ink}}>{label}</Text><Text style={styles.muted}>{detail}</Text></View>{trailing}<Text style={{color:ui.accent,fontSize:22}}>›</Text></Pressable>;}
 export function EmptyState({title,text,art}:{title:string;text:string;art?:ReactNode}){const {ui,styles,s}=useDesign();return <Card style={{alignItems:'center',paddingVertical:30}}>{art}<Text accessibilityRole="header" style={[styles.heading,{textAlign:'center'}]}>{title}</Text><Text style={[styles.muted,{textAlign:'center',maxWidth:280}]}>{text}</Text></Card>;}
+/** Shared single-choice control (44px targets). Selection is paired with text, never color alone. */
+export function Segmented<T extends string|number>({label,options,value,onChange,testID}:{label:string;options:Array<{value:T;label:string;note?:string}>;value:T;onChange:(v:T)=>void;testID?:string}){const {ui,styles}=useDesign();
+ return <View style={{gap:5}} testID={testID}><Text style={styles.eyebrow}>{label}</Text><View accessibilityRole="radiogroup" style={{flexDirection:'row',flexWrap:'wrap',gap:6}}>{options.map(o=>{const on=o.value===value;
+  return <Pressable key={String(o.value)} accessibilityRole="radio" accessibilityLabel={`${label}: ${o.label}${o.note?`, ${o.note}`:''}`} accessibilityState={{selected:on,checked:on}} onPress={()=>onChange(o.value)}
+   style={({pressed})=>[{minHeight:44,minWidth:64,paddingHorizontal:11,paddingVertical:6,borderRadius:5,borderWidth:1,borderColor:on?ui.accent:ui.line,backgroundColor:on?ui.accent:ui.surface,justifyContent:'center',alignItems:'center'},pressed&&{opacity:.75}]}>
+   <Text style={{color:on?ui.onAccent:ui.ink,fontSize:12,fontWeight:'800'}}>{o.label}</Text>{o.note?<Text style={{color:on?ui.onAccent:ui.muted,fontSize:10,fontWeight:'700'}}>{o.note}</Text>:null}</Pressable>;})}</View></View>;
+}
+/** Vertical single choice where each option carries a one-line consequence (44px+ targets; text, not colour, carries meaning). */
+export function ChoiceList<T extends string>({label,options,value,onChange}:{label:string;options:Array<{value:T;label:string;hint:string;tag?:string}>;value:T;onChange:(v:T)=>void}){const {ui,styles}=useDesign();
+ return <View style={{gap:6}}><Text style={styles.eyebrow}>{label}</Text><View accessibilityRole="radiogroup" style={{gap:6}}>{options.map(o=>{const on=o.value===value;
+  return <Pressable key={o.value} accessibilityRole="radio" accessibilityLabel={`${o.label}. ${o.hint}${o.tag?`. ${o.tag}`:''}`} accessibilityState={{selected:on,checked:on}} onPress={()=>onChange(o.value)}
+   style={({pressed})=>[{minHeight:52,paddingHorizontal:12,paddingVertical:8,borderRadius:6,borderWidth:on?2:1,borderColor:on?ui.accent:ui.line,backgroundColor:on?ui.accentMuted:ui.surface,gap:2},pressed&&{opacity:.75}]}>
+   <View style={styles.between}><Text style={{color:ui.ink,fontSize:14,fontWeight:'900'}}>{on?'● ':'○ '}{o.label}</Text>{o.tag?<Text style={{color:ui.accent,fontSize:10,fontWeight:'900',letterSpacing:.6}}>{o.tag.toUpperCase()}</Text>:null}</View>
+   <Text style={styles.muted}>{o.hint}</Text></Pressable>;})}</View></View>;
+}
 export function Fact({label,value}:{label:string;value:string}){const {ui,styles,s}=useDesign();return <View style={styles.between}><Text style={styles.muted}>{label}</Text><Text style={[styles.body,{flex:1,textAlign:'right',fontWeight:'600'}]}>{value}</Text></View>;}
 const makeSurfaces=(ui:VisualTheme)=>StyleSheet.create({
  header:{paddingHorizontal:ui.space.lg,paddingTop:16,paddingBottom:14,borderBottomWidth:1,borderBottomColor:ui.line},

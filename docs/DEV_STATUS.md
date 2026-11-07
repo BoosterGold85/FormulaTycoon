@@ -19,7 +19,8 @@
 
 ## Milestone
 
-**FICTIONAL ROSTER + IMPORTABLE ROSTER PACKS** (branch `claude/blissful-mendel-y9g5tm`, from `a204428`).
+**FICTIONAL ROSTER + IMPORTABLE ROSTER PACKS** (built on `claude/blissful-mendel-y9g5tm` from `a204428`, then merged with Qualifying V1 from
+`claude/happy-dirac-pw7zmq`).
 Format guide: [ROSTER_PACKS](ROSTER_PACKS.md). Not merged.
 
 - **COMPLETED:**
@@ -81,10 +82,107 @@ Format guide: [ROSTER_PACKS](ROSTER_PACKS.md). Not merged.
 - **NEXT MILESTONE:** owner review of the import screen and new team palette, then the §8 helmet/car art approval
   step on explicit instruction.
 
-## Previous milestone (Core Gameplay Feel V2)
+## Qualifying (merged in from `claude/happy-dirac-pw7zmq`)
 
-**CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: READY FOR OWNER PLAY-TEST** (branch `claude/adoring-brahmagupta-g738lm`,
-from main `8716cd6`). Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md). Qualifying NOT started. Not merged.
+**QUALIFYING BROADCAST PRESENTATION: ITEMS 1–8 DONE, AWAITING OWNER REVIEW.** Branch
+`claude/trusting-hamilton-r5g89o`, fast-forwarded onto `claude/happy-dirac-pw7zmq` (Qualifying V1, still unmerged).
+Presentation only: no results, lap times, RNG keys, seeds or save shapes changed.
+
+- **COMPLETED:**
+  - 1–4 (owner-approved): broadcast palette and brand red; team colour bars, rings and card edges; bundled
+    condensed/mono type; dense tower with code, gap, interval, last lap, S1–S3, tyre, position change; inspect panel.
+  - 5: mini-sectors (4 per sector desktop, 3 phone, 6 in Your cars) fill white with the replay glide and take the
+    stored sector colour once it exists.
+  - 6: live track map for Melbourne only (`LIVE_MAP_TRACKS`), sector boundaries, team-colour dots, player cars
+    ringed with codes. Car position = laps since leaving the pits at the shown beat (`TowerRow.onTrack`), gliding
+    toward the next beat via the replay clock's `progress` (visual only; held at 0 when stopped/reduced motion).
+  - 7: LIVE / PAUSED / FINAL header with pulsing dot, venue, Q1/Q2/Q3 badges, mm:ss countdown and part bar.
+  - 8: result moments (helmet, team colour, huge position, headline + detail from `headlines.ts`) and the full grid
+    always visible (two columns on desktop) with knockout lines from stored segments.
+- **TESTED:** fingerprint test (seeds 11 and 42, recorded on the untouched engine) still passes; read-model tests for
+  codes, interval, last lap, tyre, moved, onTrack; headline invariants over six headless seasons (pole, margins,
+  teammate knock-outs, no pronouns); track geometry tests. 437/437 tests, TypeScript, web export; Playwright flow at
+  390×844 and 1440×900 with no page errors or overflow.
+- **NOT VERIFIED:** native fonts/animation on iOS and Android; the live Cloudflare preview; smoothness on low-end
+  phones (22 animated dots plus mini-sector fills).
+- **KNOWN ISSUES:** cars that left in the same minute share a beat position, so the map spaces them slightly in
+  tower order; sectors are equal thirds of the outline (the outline is stylized). At Q2/Q3 start the arrows can show
+  big jumps as the first timed cars pass untimed ones (true to the stored order).
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:** `expo-font` added plus ~570 KB OFL fonts. The track map draws ~160
+  rotated Views; fine in Chromium, unmeasured on native.
+- **NEXT MILESTONE:** owner review of the Melbourne map, then enable maps track by track (each needs a reviewed
+  outline), or merge Qualifying V1 + this presentation.
+
+## Previous milestone
+
+**QUALIFYING V1: READY FOR OWNER PLAY-TEST.** Branch `claude/happy-dirac-pw7zmq`, from main `a204428`. Not merged.
+Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V1-DESIGN.md).
+
+- **COMPLETED:**
+  - Headless engine in `src/simulation/qualifying`: Q1/Q2/Q3 knockout over 22 cars, a plan per car, one call per
+    segment, tyre allowance, traffic, track evolution, seeded weather with research-driven forecasts, rival AI
+    policy, and 1–3 stored reasons per grid entry.
+  - Campaign integration: `QUALIFYING` (Saturday) and `QUALIFYING_CLOSE` (Sunday) instructions, plus a Saturday turn
+    target with plan and call gates.
+  - Save v8, with the v7 contract and validation frozen, a new v7 fixture from the released build, and a
+    v7 → v8 migration (approved Research estimate, no backfilled grids).
+  - UI: plan screen, live timing replay with the call card, Report Card, and the grid in RACE event detail.
+    The turn bar shows PLAN QUALIFYING and QUALIFYING LIVE.
+  - Player Manual qualifying section.
+  - Play-test 2 (owner: "rolls through, too jumpy"): a sector-by-sector replay with purple/green/yellow sectors,
+    a "Your cars" panel (out lap, flying lap, in lap) and a live feed. It lingers on action and moves faster
+    through quiet minutes. Lap times are unchanged.
+  - Play-test 3:
+    - breaks after Q1 and Q2, with the next part's plan;
+    - dimmed inactive cars, a drop-zone divider, pulsing rivals at the cut, sliding rows and Focus mode;
+    - 4×, and "on pace for";
+    - commentary plus team radio;
+    - Q1 reaches its call in about 44 s at 1×.
+
+    Golden hashes prove lap times and grids are unchanged.
+  - Play-test 4 (layout and UI fixes):
+    - desktop: two columns, tower on the left; call, break, Your cars and commentary on the right;
+    - phone: the call is a collapsible bottom sheet over the tower;
+    - Focus switches on while a call is open, so the drop-zone battle stays in view;
+    - no-time cars have no position number and are grouped under "No time yet";
+    - a finished lap flashes the row (it replaces the gold edge);
+    - call options carry one-line consequences, and the call states the pace needed to get through (now, else from
+      the previous part);
+    - larger Q1/Q2/Q3 steps and a progress bar with time left;
+    - +1 DAY is locked during a live session.
+- **IN PROGRESS:** none. Event-driven calls (conditions change, yellow and red flags) are not started; they are
+  waiting on the owner's decision, because real decisions on them would change results.
+- **TESTED:**
+  - 428/428 tests, 23 suites (19 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+    season; no double processing; determinism and reload at every status; choices mattering; a better car winning
+    more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
+    validation tampering; and v7 fixture migration with a golden development continuation.
+  - The v6 and v7 golden development hashes are unchanged, so qualifying never touches development.
+  - TypeScript and web export pass.
+  - Browser play-test (Playwright, web export, seed 1) at 390×844 and 1440×1000 in light and dark: FP1 → plan →
+    lock → live → three calls → result → RACE grid → Monday. No console errors, no horizontal overflow.
+    Wet sessions were also checked on phone.
+- **NOT VERIFIED:** native iPhone; live Cloudflare preview; balance across a full multi-season career; owner feel.
+- **KNOWN ISSUES:**
+  - Calibration weights (car vs driver seconds, traffic, mistakes, rain odds) are provisional game weights, not
+    researched facts.
+  - The fastest car takes most poles at circuits where it has a clear edge.
+  - No full wet tyres.
+  - The replay position is session-only, so it restarts from the beginning after an app reload.
+- **TECHNICAL DEBT / ARCHITECTURAL RISK:**
+  - Session records store every lap, about 22 KB per round (about 0.5 MB per season). Compaction may be needed
+    before multi-season careers.
+  - `qualifyingValidation.ts` reads the live `FORMAT`/`qualifyingDate`. Any change to the format must freeze a
+    copy and bump the save version.
+  - `validateDevelopmentRulesV7` is shared by frozen v7 and current v8 validation (the same pattern as v6).
+- **NEXT MILESTONE:** owner play-test of Qualifying V1. Then either race simulation (E) or a qualifying tuning pass,
+  as the owner decides.
+
+## Milestone
+
+**CORE GAMEPLAY FEEL V2 — WATCH THE WEEK: MERGED TO MAIN** (`a204428`, owner-approved, PR #2).
+Before merging, head `de312c8` passed 409/409 tests, TypeScript and the web export. Save v7 and development rules 3
+are now RELEASED. Notes: [CORE-GAMEPLAY-FEEL-V2](development-notes/CORE-GAMEPLAY-FEEL-V2.md).
 
 - **COMPLETED:**
   - HQ development card: active, decision, ready and idle states.

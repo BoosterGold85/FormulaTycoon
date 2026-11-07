@@ -202,7 +202,8 @@ test('race-week advancement still stops at FP1 and hands off to the weekend with
  expect(report.weekend).toMatchObject({venue:'Melbourne'});
  expect(report.weekend!.suitability.length).toBeGreaterThan(0);
  expect(buildWeekTimeline(report).pieces).toHaveLength(0);
- expect(nextTurnTarget(after)).toMatchObject({kind:'MONDAY',date:'2026-03-09'});
+ // Save v8: after FP1 the next stop is Saturday qualifying, then Monday.
+ expect(nextTurnTarget(after)).toMatchObject({kind:'QUALIFYING',date:'2026-03-07'});
 });
 
 test('weekly variation odds: normal is most common, majors are rare, better departments stall less and break through more',()=>{
@@ -240,17 +241,17 @@ test('rules 2 weekly work is untouched by rules 3 (no variation, same kernel)',(
 test('save v7: frozen v6 fixture migrates keeping rules 2 and its exact released continuation',()=>{
  expect(createHash('sha256').update(readFileSync(join(__dirname,'../../persistence/__tests__/fixtures/driver-world-v6.json'))).digest('hex'))
   .toBe('0eccdb6b944e7413b68a111d75e1d4240efd194114109d3600207f56e289b9f6');
- expect(SAVE_V6.definition.version).toBe('development-loop-2026-v6');expect(SAVE_V7.definition.version).toBe(definition.version);
+ expect(SAVE_V6.definition.version).toBe('development-loop-2026-v6');expect(SAVE_V7.definition.version).toBe('development-loop-2026-v7');
  const bytes=JSON.stringify(v6);
  const loaded=value(deserializeSave(bytes,definition));
  expect(JSON.stringify(v6)).toBe(bytes);
- expect(loaded.saveVersion).toBe(7);expect(loaded.universe.developmentRules).toBe(2);
- const {definitionVersion,...rest}=loaded.universe,{definitionVersion:_old,...original}=v6.universe;
+ expect(loaded.saveVersion).toBe(8);expect(loaded.universe.developmentRules).toBe(2);
+ const {definitionVersion,qualifying,...rest}=loaded.universe,{definitionVersion:_old,...original}=v6.universe;
  expect(definitionVersion).toBe(definition.version);expect(rest).toEqual(original);
- let u=loaded.universe;
- for(let i=0;i<12;i++)u=turn(u);
- // Golden continuation recorded from the released rules-2 build before this milestone.
- expect(u.currentDate).toBe('2026-06-26');
+ expect(qualifying).toMatchObject({rules:1,sessions:{}});
+ // Golden continuation recorded from the released rules-2 build (12 turns then, reaching the same date).
+ // Qualifying never touches development, so the development hash is unchanged.
+ const u=advanceCampaignTo(loaded.universe,definition,'2026-06-26' as GameUniverse['currentDate']);
  expect(createHash('sha256').update(JSON.stringify(u.development)).digest('hex')).toBe('fe099222a911b279be2eaa98fe36cfcca79f761fbffec8e516a3c93a6496c307');
  expect(reload(u)).toEqual(u);
 });
