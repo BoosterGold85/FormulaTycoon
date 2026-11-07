@@ -288,8 +288,8 @@ Measured over 25–40 seeds at Melbourne (automated tests):
   part has at most one event, and that event becomes the part's one call, so the two-phase rule holds:
   - **RAIN/DRYING:** the call comes at the weather change minute, when it falls inside a part and leaves room for
     runs before and after.
-  - **YELLOW:** otherwise a part may roll a yellow flag, with chance 0.12 + 0.3 × the circuit's safety-car tendency
-    (provisional game weight). The flag is out for one minute in one sector. The call comes one minute earlier, and
+  - **YELLOW:** otherwise a part may roll a yellow flag, with chance 0.06 + 0.15 × the circuit's safety-car tendency
+    (provisional game weight; halved from 0.12 + 0.3 after the owner found yellows too frequent). The flag is out for one minute in one sector. The call comes one minute earlier, and
     the cars leaving then fly into it.
   - **No event:** the fallback checkpoint call.
 - **Yellow outcomes**, from the new stream `qualifying-yellow`:

@@ -19,7 +19,7 @@ export function rollEvents(seed: number, calendarId: string, eventId: string, tr
       if (callable(seg, minute)) { events.push({ segment: seg, kind: weather.kind, minute }); continue; }
     }
     const rng = randomFor(seed, 'qualifying-events', calendarId, eventId, seg);
-    if (rng.next() < 0.12 + 0.3 * track.metadata.safetyCarTendency) {
+    if (rng.next() < 0.06 + 0.15 * track.metadata.safetyCarTendency) {
       const flagMinute = rng.int(3, D - 3);
       events.push({ segment: seg, kind: 'YELLOW', minute: flagMinute - 1, sector: rng.int(0, 2) });
     }
