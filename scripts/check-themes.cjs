@@ -39,8 +39,8 @@ const out=path.resolve(process.env.FORMULA_ARTIFACT_DIR||'docs/screenshots/defau
   await tab('RACE');await shot('calendar-phone');await button('View weekend').click();await shot('event-phone');
   await button('More details').click();await p.getByText('TRACK CHARACTER',{exact:true}).waitFor();
   await tab('TEAM');await shot('team-phone');await button('View car').click();await shot('car-phone');await button('Back to team').click();
-  await button('View development').click();await p.getByText('Your factory is idle',{exact:true}).waitFor();await check();await button('Back to team').click();
-  await button('View organization').click();await p.getByText('People make the difference.',{exact:true}).waitFor();await check();
+  await button('Start project').click();await p.getByText('Your factory is idle',{exact:true}).waitFor();await check();await button('Back to team').click();
+  await button('View HQ').click();await p.getByText('People make the difference.',{exact:true}).waitFor();await check();
   await tab('HISTORY');await p.getByText('A legacy worth building.',{exact:true}).waitFor();await check();
   await tab('HQ');await p.getByText('8/8 AT WORK',{exact:true}).waitFor();
   await switchTo(mode==='light'?'dark':'light');await p.getByText('8/8 AT WORK',{exact:true}).waitFor();await switchTo(mode);

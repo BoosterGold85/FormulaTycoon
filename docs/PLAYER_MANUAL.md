@@ -9,7 +9,22 @@ payroll and a complete career loop are not available yet. Planned effects are id
 Open **DRIVERS** for your current pairing first, then browse Available, Prospects, Reserves or
 the full Grid. Compact rows show Talent, form and contract horizon. Tap a driver for the full
 dossier and six categories; expand **Contract details**, **Scouting report** or background for
-depth. Open **TEAM** for your car's next-circuit suitability, drivers, development and HQ staff.
+depth. Open **TEAM** for your organization at a glance:
+- **Team band:** a pre-season prediction (based on how your car compares with the field; races are not simulated
+  yet, so there is no points table), the board's expectation, your remaining development budget and the
+  countdown to the next race.
+- **Current car:** next-circuit suitability, and how your power, downforce, reliability and tyre wear compare with
+  the grid average (above in green, around it in yellow, below in orange). Strengths and concerns for the next
+  circuit sit on the matching bar, or are listed underneath when they differ from the grid comparison.
+- **Your drivers:** form, morale, main trait, contract and Talent grade, with a line about the weekend: a target
+  based on your car's standing at the next circuit, or how they qualified last time.
+- **Teammate battle:** qualifying head-to-heads this season. It stays empty until the first session.
+- **Factory and organisation:** your current project (or Start project) and your headquarters departments with
+  their staff.
+- **Season:** recent qualifying results, the next three races and season progress.
+
+Tap a driver, View car, Start project or View HQ to go deeper. Some pictures (car, helmets, factory, track
+outlines) are placeholder boxes until the final artwork is added.
 The starting organization is Ardent Dynamics. No finances or morale are invented for the overview.
 
 Drivers have six broad evaluation categories, shown as letter grades from F to A+:

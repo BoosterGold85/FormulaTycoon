@@ -73,7 +73,11 @@ Owner-approved permanent exception, November 5, 2026. Live session timing and se
 and dark preference: near-black background (`#07090D`), bright white primary text, saturated timing colours
 (purple/green/yellow sectors, soft/medium/inter tyre rings) and strong brand red (`#E10F2C`) for primary actions.
 `BroadcastTheme` in `ui/theme.tsx` provides it; shared components render unchanged through the same semantic keys.
-Management surfaces keep the warm light canvas. Do not add a second broadcast palette or screen-local colour tables.
+Management surfaces keep the warm light canvas, with one owner-approved exception (November 7, 2026): the
+**Team overview** (team band, car, drivers, factory, organisation, season strip) also uses the broadcast surface in
+both preferences. Its drill-ins (car detail, development, headquarters, driver dossier) stay on the management canvas.
+Do not add a second broadcast palette or screen-local colour tables. `caution` (orange) is the shared "below average"
+token next to `success`/`warning`.
 
 Typography on this surface only: bundled Barlow Condensed (positions, headings, driver codes) and JetBrains Mono
 (times, gaps, countdowns), both SIL OFL in `assets/fonts`, loaded by `useAppFonts` without blocking rendering.
@@ -122,6 +126,16 @@ must not carry essential meaning: pair it with readable names, labels and silhou
   effects, parts and department animations must follow this language, not establish another one.
 - Race presentation: readable stylized circuit/vehicle graphics; illustrations are not surveyed maps
   or performance data. Qualifying/race presentation requires its own approved gameplay milestone.
+
+## Drop-in image art (owner decision, November 7, 2026)
+
+Final car, helmet-portrait, factory and track art is commissioned as image files, not drawn in code. The Team
+overview loads them from `public/assets/{cars,helmets,factory,tracks}/` with predictable names
+(`public/assets/README.md`); until a file exists the slot shows a labelled dashed placeholder naming the missing
+file. Cars and helmets have transparent backgrounds: the game adds the garage floor, shadow, portrait tint, frame
+and race-number badge. The earlier parametric vector helmet/car candidates were retired unshipped. Web loads
+dropped-in files at runtime; native builds need a generated asset list before they can show them. The existing
+`DriverPortrait` template remains the portrait elsewhere until that art lands.
 
 ## Permanent driver portrait architecture
 

@@ -1,21 +1,44 @@
 # Development status
 
-## In progress: section 8 art approval step (awaiting owner OK)
+## Milestone: Team screen redesign (broadcast surface), awaiting owner review
 
-- Style candidates only; **no in-game art has been replaced**. Review sheet: `docs/art-review/section-8/review.html`,
-  with phone and desktop screenshots `review-phone*.png` and `review-desktop*.png`. Regenerate it with
-  `node scripts/art-review/build-review.cjs` against a served `dist/`.
-- `src/ui/art/vector/`: platform-agnostic templates returning shape lists plus an SVG serializer.
-  - `helmetArt`: three-quarter helmet, 8 patterns, full and small detail, blue or team-tinted backdrop.
-  - `carArt`: isometric open-wheel car, one geometry recoloured per team, full and small detail.
-  - Covered by 7 tests.
-- The two reference images were not received, so the sheet has empty reference slots; the candidates follow the
-  written spec.
-- **Owner decisions before the in-game swap:**
-  - Style approval.
-  - The rendering path. The Design Bible forbids DOM-only SVG and new graphics dependencies, but section 8 asks
-    for SVG templates. Recommended: add Expo's `react-native-svg` and update the Bible in the same change.
-    Alternative: re-express the shapes with View primitives, which loses the curves.
+On Dirac (`claude/happy-dirac-pw7zmq`). Presentation only: no simulation, save, stat, RNG or seed change.
+
+- **COMPLETED:**
+  - `selectTeamScreen` (`src/simulation/teamScreen.ts`): a read-only model behind the Team overview.
+  - New Team overview (`src/ui/team/`), laid out as two columns on desktop and one stacked column on phone:
+    - team band with four stat tiles;
+    - car card with "vs grid average" bars and fit tags;
+    - driver cards with story line, form/morale, chips and number badge, plus the teammate battle;
+    - factory and organisation tiles, and the season strip.
+  - Owner decisions A–G:
+    - A: the championship tile shows a circuit-independent car-pace ranking.
+    - B: the target tile shows the team's existing expectation.
+    - C: Talent grade instead of OVR.
+    - D: real HQ departments with staff, and no Hire links.
+    - E: stories and results come from qualifying.
+    - F: the overview uses the broadcast surface in both themes.
+    - G: the section 8 vector templates are removed.
+  - Drop-in art: `AssetImage` loads `public/assets/{cars,helmets,factory,tracks}/` (names in
+    `public/assets/README.md`) and falls back to labelled dashed placeholders. Added a `caution` token.
+- **TESTED:**
+  - 478/478 tests, including 6 new view-model tests: read-only, no bare 0, honest empty states, bars and tags, real
+    departments, qualifying-derived results and head-to-head, and cosmetic-pack renames.
+  - The default-pack simulation fingerprint test is unchanged.
+  - TypeScript and the web export pass.
+  - `scripts/check-team-screen.cjs` passes at phone and desktop size in both themes. Screenshots are in
+    `docs/screenshots/team-screen/`.
+  - Drop-in loading was proven with throwaway test images, which were not committed (0 placeholders showing).
+  - Existing UI checks pass: ui-visual-v1, themes, driver portraits and roster packs. The first two had their Team
+    selectors updated.
+- **NOT VERIFIED:** native rendering, and native loading of dropped-in files (not supported yet); the live Cloudflare
+  preview.
+- **KNOWN ISSUES:**
+  - Morale is shown from the saved value, which is not simulated yet (constant start value).
+  - A circuit strength that disagrees with the grid comparison is listed under the bars, not on them.
+  - The pre-season prediction reuses the car-pace proxy; code comments call field comparisons "not a public
+    ranking", and that rule was relaxed for this tile by owner decision A.
+- **NEXT MILESTONE:** owner review; wire real art when files arrive (and a native asset list).
 
 ## Milestone
 
