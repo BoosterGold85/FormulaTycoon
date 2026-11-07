@@ -1,5 +1,22 @@
 # Development status
 
+## In progress: section 8 art approval step (awaiting owner OK)
+
+- Style candidates only; **no in-game art has been replaced**. Review sheet: `docs/art-review/section-8/review.html`,
+  with phone and desktop screenshots `review-phone*.png` and `review-desktop*.png`. Regenerate it with
+  `node scripts/art-review/build-review.cjs` against a served `dist/`.
+- `src/ui/art/vector/`: platform-agnostic templates returning shape lists plus an SVG serializer.
+  - `helmetArt`: three-quarter helmet, 8 patterns, full and small detail, blue or team-tinted backdrop.
+  - `carArt`: isometric open-wheel car, one geometry recoloured per team, full and small detail.
+  - Covered by 7 tests.
+- The two reference images were not received, so the sheet has empty reference slots; the candidates follow the
+  written spec.
+- **Owner decisions before the in-game swap:**
+  - Style approval.
+  - The rendering path. The Design Bible forbids DOM-only SVG and new graphics dependencies, but section 8 asks
+    for SVG templates. Recommended: add Expo's `react-native-svg` and update the Bible in the same change.
+    Alternative: re-express the shapes with View primitives, which loses the curves.
+
 ## Milestone
 
 **FICTIONAL ROSTER + IMPORTABLE ROSTER PACKS** (branch `claude/blissful-mendel-y9g5tm`, from `a204428`).
