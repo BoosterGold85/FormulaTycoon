@@ -16,6 +16,13 @@ export const FORMAT: Record<Segment, { minutes: number; cars: number; out: numbe
 export const SESSION_MINUTES = 45;
 /** The replay pauses for the one mid-session call at this minute of each segment. */
 export const CHECKPOINT: Record<Segment, number> = { Q1: 9, Q2: 7, Q3: 6 };
+/**
+ * An on-track event, rolled from the seed at the briefing. It moves that segment's one call to the event:
+ * RAIN/DRYING at the minute conditions change; YELLOW one minute before a yellow flag in `sector` (the
+ * cars leaving then fly into it). Without an event the segment keeps its fallback CHECKPOINT call.
+ */
+export type SessionEvent = { segment: Segment; kind: 'RAIN' | 'DRYING' | 'YELLOW'; minute: number; sector?: number };
+export type YellowChoice = 'ABORT' | 'PUSH';
 /** A run is out-lap (slot s), flying lap (s + 1), in-lap (s + 2). The flying lap must start before the flag. */
 export const RUN_SLOTS = 3;
 /** Per-driver qualifying allowance. Intermediates are not rationed in V1. */
@@ -31,7 +38,7 @@ export type SegmentPlan = { tyre: Tyre; runs: 1 | 2; timing: Timing; traffic: Tr
 export type DriverPlan = Record<Segment, SegmentPlan>;
 export type CallAction = 'PLAN' | 'GO_NOW' | 'GO_LATE' | 'STAY_IN';
 /** tyre: optional override for the rest of the segment (e.g. switch to inters). */
-export type Call = { action: CallAction; tyre?: Tyre };
+export type Call = { action: CallAction; tyre?: Tyre; yellow?: YellowChoice };
 
 export type WeatherKind = 'DRY' | 'RAIN' | 'DRYING';
 /** Actual session weather: at most one change, at a session minute (0..44). */
@@ -47,6 +54,8 @@ export type QualifyingLap = {
   sectors: Array<number | null>;
   /** Seconds lost to traffic on this lap (0 when clean). */
   traffic: number; mistake: boolean; wet: number;
+  /** Yellow flag outcome: lifted (time lost), lap deleted for not slowing, or lap aborted. */
+  flag?: 'YELLOW_LIFT' | 'DELETED' | 'ABORTED';
 };
 export type SegmentResult = {
   /** The call each driver in the segment made at the checkpoint (defaulted = policy/default, not the player). */
@@ -68,6 +77,7 @@ export type QualifyingSession = {
   date: CampaignDate;
   status: SessionStatus;
   weather: Weather;
+  events: SessionEvent[];
   forecasts: Record<string, Forecast>;
   /** Race-seat lineup at the briefing, in entry order. */
   entrants: Array<{ driverId: string; teamId: string }>;

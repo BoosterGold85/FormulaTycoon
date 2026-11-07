@@ -292,6 +292,19 @@ or stay in the garage to save tyres. Each option says what it costs, and the cal
 get through (early in a part, the previous part's pace). On a wet or drying track you can also change tyres. A recommendation is
 marked; you can always choose differently.
 
+**On-track events.** The call can come from something happening on track instead of the halfway point:
+- **Conditions change:** when rain starts to fall or the track starts to dry, the pit wall asks whether to go out
+  now or wait.
+- **Yellow flag:** when race control reports debris, cars heading out now will meet a yellow flag in that sector.
+  For each of your cars on that lap, choose:
+  - **Abort the lap:** it's lost, but the driver can go again a couple of minutes later if time allows. That uses
+    another set of tyres.
+  - **Push through:** keeps the lap, but the driver loses time lifting, and the lap can be deleted for not slowing
+    enough.
+
+If nothing happens in a part, the call comes at the halfway point as usual, so every part has one decision.
+Commentary and team radio cover these events too. Red flags are not in the game yet.
+
 **Breaks.** The session stops after Q1 and after Q2. The break shows who was knocked out, whether your cars made
 it, and the order going into the next part. If you have a car still running, you can change its plan for the next
 part there. Nothing resumes until you press Continue; Skip and the speed controls stop there too. The replay only

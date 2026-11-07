@@ -9,6 +9,7 @@ import {reasonsFor,type FitNote} from './reasons';
 import {bestTime,classify,plannedSlots,runAfterCheckpoint,runBeforeCheckpoint,segmentDrivers,type SessionContext} from './session';
 import {CHECKPOINT,FORMAT,SEGMENTS,type Call,type DriverPlan,type GridEntry,type QualifyingLap,type QualifyingSession,type SegmentPlan,type QualifyingState,type Segment,type SessionStatus} from './types';
 import {sessionWeather,teamForecast,wetnessAt} from './weather';
+import {callMinute,eventOf,rollEvents} from './events';
 
 /** Saturday qualifying: the day after the weekend's FP1, for normal and Sprint weekends alike (V1). */
 export const qualifyingDate = (event: CalendarEvent): CampaignDate => addCampaignDays(event.weekendStartDate, 1);
@@ -43,7 +44,8 @@ export function sessionContext(universe: GameUniverse, definition: GameDefinitio
   const entrants: SessionContext['entrants'] = {};
   for (const e of session.entrants) {
     const driver = universe.drivers!.drivers[e.driverId]!;
-    entrants[e.driverId] = { ...e, car: field[e.teamId]!.pace, pace: driverPace(driver, universe, definition, e.teamId), driver };
+    entrants[e.driverId] = { ...e, car: field[e.teamId]!.pace, pace: driverPace(driver, universe, definition, e.teamId), driver,
+      aggression: definition.development.teams.find(t => t.id === e.teamId)!.aggression };
   }
   return { seed: universe.seed, calendarId: universe.calendarId, eventId: session.eventId, evolution: track.metadata.trackEvolution, weather: session.weather, entrants };
 }
@@ -71,7 +73,8 @@ export function createBriefing(universe: GameUniverse, definition: GameDefinitio
     const profile = definition.development.teams.find(t => t.id === e.teamId)!;
     plans[e.driverId] = policyPlan({ carRank: field[e.teamId]!.rank, aggression: profile.aggression, forecast: forecasts[e.teamId]! });
   }
-  return { eventId: event.id, date, status: 'PLANNING', weather, forecasts, entrants, plans, planLocked: false, segments: {}, grid: null };
+  return { eventId: event.id, date, status: 'PLANNING', weather, events: rollEvents(universe.seed, universe.calendarId, event.id, track, weather),
+    forecasts, entrants, plans, planLocked: false, segments: {}, grid: null };
 }
 
 const withSession = (universe: GameUniverse, session: QualifyingSession): GameUniverse =>
@@ -84,11 +87,13 @@ export function ensureBriefing(universe: GameUniverse, definition: GameDefinitio
 /** Policy call for one driver at the checkpoint, from the shared timing screen and the team's own forecast. */
 export function defaultCall(ctx: SessionContext, session: QualifyingSession, seg: Segment, driverId: string, provisional: string[]): Call {
   // Only what the timing screen shows at the call: laps already finished (cars still on a flying lap are unknown).
-  const segLaps = session.segments[seg]!.laps.filter(l => l.slot + 2 <= CHECKPOINT[seg]), plan = session.plans[driverId]![seg];
+  const C = callMinute(session, seg), event = eventOf(session, seg)?.kind;
+  const segLaps = session.segments[seg]!.laps.filter(l => l.slot + 2 <= C), plan = session.plans[driverId]![seg];
   const hasTime = bestTime(segLaps, driverId) !== null;
   const timed = classify(ctx, seg, provisional, segLaps).filter(id => bestTime(segLaps, id) !== null);
-  const now = FORMAT[seg].offset + CHECKPOINT[seg], remaining = plannedSlots(ctx, driverId, seg, plan).filter(s => s >= CHECKPOINT[seg]);
+  const now = FORMAT[seg].offset + C, remaining = plannedSlots(ctx, driverId, seg, plan).filter(s => s >= C);
   return policyCall({ segment: seg, position: hasTime ? timed.indexOf(driverId) + 1 : null, hasTime, timedCars: timed.length,
+    ...(event ? { callMinute: C, event, aggression: ctx.entrants[driverId]!.aggression } : {}),
     remainingRuns: remaining.length, nextRunMinute: remaining.length ? FORMAT[seg].offset + remaining[0]! + 1 : null, plannedTyre: plan.tyre,
     wetNow: wetnessAt(session.weather, now), wetBefore: wetnessAt(session.weather, Math.max(0, now - 3)), forecast: session.forecasts[ctx.entrants[driverId]!.teamId]! });
 }

@@ -62,6 +62,9 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
      <Text style={{color:focus?ui.onAccent:ui.ink,fontWeight:'800'}}>FOCUS</Text></Pressable>
    </View>}/>;
  const map=<TrackMap trackId={trackId} rows={live.rows} progress={replay.progress}/>;
+ const flagBanner=live.yellowFlag?<View accessibilityRole="alert" accessibilityLabel={`Yellow flag in sector ${live.yellowFlag.sector}`} style={{flexDirection:'row',alignItems:'center',gap:10,padding:10,borderRadius:6,backgroundColor:ui.sectorYellow}}>
+   <Text style={{color:ui.onSectorYellow,fontSize:15,fontWeight:'900',letterSpacing:.8}}>⚑ YELLOW FLAG · SECTOR {live.yellowFlag.sector}</Text>
+   <Text style={{color:ui.onSectorYellow,fontSize:12,fontWeight:'700'}}>Slow down: laps through it are compromised.</Text></View>:null;
  const breakCard=atBreak?<BreakCard key={pendingBreak!.beat} done={pendingBreak!.done} next={pendingBreak!.next} rows={live.rows} plans={breakPlans} editable={engineBreak} onContinue={continueBreak}/>:null;
  const doneCard=done?<Card accent={ui.green}><Text accessibilityRole="header" style={styles.heading}>Chequered flag</Text><Text style={styles.body}>The grid is set. See how your drivers did and why.</Text>
    <Action label="SEE THE RESULT" onPress={onFinish}/></Card>:null;
@@ -77,7 +80,7 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
  const note=<Text style={styles.muted}>Times are shown as gaps. This replays the session your team has already run; replay speed, Skip and Focus don't change it.</Text>;
  const title='Live timing',kicker='SATURDAY';
  if(wide)return <Screen title={title} kicker={kicker} tab="HQ" onNavigate={onNavigate} maxWidth={2200}>
-  {controls}
+  {controls}{flagBanner}
   <View style={{flexDirection:'row',gap:24,alignItems:'flex-start'}}>
    <View style={{flex:1.6,minWidth:0}}>{tower}</View>
    <View style={{flex:1,minWidth:340,maxWidth:560,gap:14}}>{map}{breakCard}{call?<CallCard model={call} onCall={onCall}/>:null}{doneCard}{yourCars}{commentary}</View>
@@ -89,10 +92,11 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
    borderTopLeftRadius:12,borderTopRightRadius:12,shadowColor:ui.shadow,shadowOpacity:.25,shadowRadius:12,shadowOffset:{width:0,height:-4}}}>
    <Pressable accessibilityRole="button" accessibilityLabel={sheetOpen?'Collapse the call to see the timing':'Open the pit wall call'} onPress={()=>setSheetOpen(o=>!o)}
     style={{minHeight:48,flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:16}}>
-    <Text style={[styles.eyebrow,{color:ui.gold}]}>PIT WALL CALL · {call.segment} · {call.remaining} MIN LEFT</Text><Text style={{color:ui.accent,fontSize:18,fontWeight:'900'}}>{sheetOpen?'▾':'▴'}</Text></Pressable>
+    <Text style={[styles.eyebrow,{color:ui.gold}]}>{callTitle(call)} · {call.segment} · {call.remaining} MIN LEFT</Text><Text style={{color:ui.accent,fontSize:18,fontWeight:'900'}}>{sheetOpen?'▾':'▴'}</Text></Pressable>
    {sheetOpen?<ScrollView contentContainerStyle={{paddingHorizontal:16,paddingBottom:16}}><CallCard model={call} onCall={onCall} bare/></ScrollView>:null}
   </View>:null;
  return <Screen title={title} kicker={kicker} tab="HQ" onNavigate={onNavigate} overlay={sheet}>
+  {flagBanner}
   {call?tower:null}
   {controls}
   {breakCard}{doneCard}
@@ -119,6 +123,7 @@ function MyCar({row,cutoff,progress}:{row:TowerRow;cutoff:number|null;progress:A
  </View>;
 }
 
+const callTitle=(m:{event:{kind:string}|null})=>m.event?.kind==='YELLOW'?'RACE CONTROL: YELLOW FLAG':m.event?'CONDITIONS CHANGING':'PIT WALL CALL';
 const HINT:Record<CallAction,string>={PLAN:'Run the laps already planned for this part.',GO_NOW:'Cleaner track and a lap banked early, but less grip.',
  GO_LATE:'Best grip, but traffic risk and no second chance.',STAY_IN:'Save the tyres for later; risky if the cars behind improve.'};
 function CallCard({model,onCall,bare=false}:{model:NonNullable<ReturnType<typeof selectQualifyingCall>>;onCall:(c:Record<string,Call>)=>void;bare?:boolean}){
@@ -130,7 +135,11 @@ function CallCard({model,onCall,bare=false}:{model:NonNullable<ReturnType<typeof
  const [calls,setCalls]=useState<Record<string,Call>>(()=>Object.fromEntries(model.drivers.map(d=>[d.driverId,d.recommended])));
  const actions:CallAction[]=['PLAN','GO_NOW','GO_LATE','STAY_IN'];
  const body=<>
-  {!bare?<Text style={[styles.eyebrow,{color:ui.gold}]}>PIT WALL CALL · {model.segment} · {model.remaining} MIN LEFT</Text>:null}
+  {!bare?<Text style={[styles.eyebrow,{color:ui.gold}]}>{callTitle(model)} · {model.segment} · {model.remaining} MIN LEFT</Text>:null}
+  {model.event?<Text style={[styles.heading,{fontSize:18}]}>{model.event.kind==='YELLOW'?(model.drivers.some(x=>x.leavingNow)
+   ?`Yellow flag coming out in sector ${model.event.sector}. Abort the lap or push through?`
+   :`Yellow flag coming out in sector ${model.event.sector}. Cars heading out now will meet it.`)
+   :model.event.kind==='RAIN'?'Rain is starting to fall. Go out now or wait?':'The track is starting to dry. Go out now or wait?'}</Text>:null}
   <Text style={styles.body}>Track: {model.track.label}, {model.track.trend}. Forecast: {model.forecast.headline.toLowerCase()} ({model.forecast.confidence.toLowerCase()}).</Text>
   {stakes?<Text style={[styles.body,{fontWeight:'800'}]}>{stakes}</Text>:<Text style={styles.muted}>Not enough laps set yet to know the pace needed to get through.</Text>}
   {model.drivers.map(d=>{const c=calls[d.driverId]!;const rec=d.recommended;
@@ -138,9 +147,13 @@ function CallCard({model,onCall,bare=false}:{model:NonNullable<ReturnType<typeof
    return <View key={d.driverId} style={{gap:8,borderTopWidth:1,borderTopColor:ui.line,paddingTop:10}}>
     <View style={styles.between}><Text style={[styles.body,{fontWeight:'900'}]}>{d.name}</Text>
      <Chip text={d.position===null?'NO TIME':`P${d.position}${d.danger?' · IN DANGER':''}`} tone={d.position===null||d.danger?'red':'green'}/></View>
-    <Text style={styles.muted}>{d.position===null?'No lap time yet':`Gap ${d.gap}`}{d.toLine!==null&&model.cutoff?` · ${d.toLine<=0?`${Math.abs(d.toLine).toFixed(3)} inside the cut`:`needs ${d.toLine.toFixed(3)} to get through`}`:''} · {d.newSoftsLeft} new softs left · {d.plannedRunsLeft} planned {d.plannedRunsLeft===1?'run':'runs'} left</Text>
+    <Text style={styles.muted}>{d.position===null?'No lap time yet':`Gap ${d.gap}`}{d.toLine!==null&&model.cutoff?` · ${d.toLine===0?'right on the cut line':d.toLine<0?`${Math.abs(d.toLine).toFixed(3)} inside the cut`:`needs ${d.toLine.toFixed(3)} to get through`}`:''} · {d.newSoftsLeft} new softs left · {d.plannedRunsLeft} planned {d.plannedRunsLeft===1?'run':'runs'} left</Text>
     <ChoiceList label="Call" value={c.action} onChange={action=>setCalls(p=>({...p,[d.driverId]:{...p[d.driverId]!,action}}))}
-     options={actions.map(a=>({value:a,label:CALL_LABEL[a],hint:a==='PLAN'?`${HINT.PLAN} ${d.plannedRunsLeft===0?'None left: he stays in.':d.plannedRunsLeft===1?'One run left.':`${d.plannedRunsLeft} runs left.`}`:HINT[a],tag:a===rec.action?'Recommended':undefined}))}/>
+     options={actions.map(a=>({value:a,label:CALL_LABEL[a],hint:a==='GO_NOW'&&model.event?.kind==='YELLOW'?`${HINT.GO_NOW} He will meet the yellow in sector ${model.event.sector}.`:a==='PLAN'?`${HINT.PLAN} ${d.plannedRunsLeft===0?'None left: he stays in.':d.plannedRunsLeft===1?'One run left.':`${d.plannedRunsLeft} runs left.`}`:HINT[a],tag:a===rec.action?'Recommended':undefined}))}/>
+    {model.event?.kind==='YELLOW'&&(d.leavingNow||c.action==='GO_NOW')?<ChoiceList label={`Yellow flag in sector ${model.event.sector}`} value={c.yellow??rec.yellow??'PUSH'}
+     onChange={yellow=>setCalls(p=>({...p,[d.driverId]:{...p[d.driverId]!,yellow}}))}
+     options={[{value:'ABORT' as const,label:'Abort the lap',hint:'The lap is lost; he can go again two minutes later if time allows (another set).',tag:rec.yellow==='ABORT'?'Recommended':undefined},
+      {value:'PUSH' as const,label:'Push through',hint:'Keeps the lap but loses time lifting, and it may be deleted for not slowing.',tag:rec.yellow==='PUSH'?'Recommended':undefined}]}/>:null}
     {model.track.tyreChoice?<Segmented label="Tyres for the rest of the segment" value={c.tyre??'KEEP'} onChange={t=>setCalls(p=>{const {tyre:_old,...rest}=p[d.driverId]!;return {...p,[d.driverId]:t==='KEEP'?rest:{...rest,tyre:t}};})}
      options={tyres.map(t=>({value:t,label:t==='KEEP'?`As planned (${TYRE_LABEL[d.plannedTyre]})`:TYRE_LABEL[t],note:(rec.tyre??'KEEP')===t?'Recommended':undefined}))}/>:null}
    </View>;})}

@@ -56,12 +56,25 @@ export type CallSituation = {
   plannedTyre: Tyre; forecast: Forecast;
   /** What everyone can see: the track now and three minutes ago. */
   wetNow: number; wetBefore: number;
+  /** The segment-local minute of this call (its event, else the checkpoint) and the event behind it. */
+  callMinute?: number; event?: 'RAIN' | 'DRYING' | 'YELLOW'; aggression?: number;
 };
+/** Yellow flag: a car with a safe time aborts (nothing to gain); otherwise bold teams push through and risk deletion. */
+export function policyYellow(s: Pick<CallSituation, 'segment' | 'hasTime' | 'position' | 'aggression'>): 'ABORT' | 'PUSH' {
+  const seg = FORMAT[s.segment], cutoff = s.segment === 'Q3' ? 3 : seg.cars - seg.out;
+  if (s.hasTime && s.position !== null && s.position <= cutoff - 3) return 'ABORT';
+  return (s.aggression ?? 0.5) >= 0.55 ? 'PUSH' : 'ABORT';
+}
 /** The checkpoint call: protect a safe place, push when in danger, react to the weather you can see. */
 export function policyCall(s: CallSituation): Call {
-  const seg = FORMAT[s.segment], now = seg.offset + CHECKPOINT[s.segment], end = seg.offset + seg.minutes;
+  const call = baseCall(s);
+  return s.event === 'YELLOW' ? { ...call, yellow: policyYellow(s) } : call;
+}
+function baseCall(s: CallSituation): Call {
+  const seg = FORMAT[s.segment], now = seg.offset + (s.callMinute ?? CHECKPOINT[s.segment]), end = seg.offset + seg.minutes;
   const wet = forecastWetFrom(s.forecast);
-  const rainComing = s.forecast.kind === 'RAIN' && wet !== null && wet.from >= now && wet.from < end && s.wetNow < CROSSOVER;
+  // Rain due before the end of this part, or visibly starting now (a conditions-change call).
+  const rainComing = (s.event === 'RAIN' || (s.forecast.kind === 'RAIN' && wet !== null && wet.from >= now && wet.from < end)) && s.wetNow < CROSSOVER;
   // Tyres for the next lap: project the visible trend to when that lap will start.
   const lapAt = rainComing || s.nextRunMinute === null ? now + 1 : s.nextRunMinute;
   const projected = s.wetNow + (s.wetNow - s.wetBefore) / 3 * (lapAt - now);

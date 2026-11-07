@@ -1,5 +1,6 @@
 import {bestTime} from './session';
-import {CHECKPOINT,FORMAT,type QualifyingLap,type QualifyingSession,type Segment} from './types';
+import {callMinute} from './events';
+import {FORMAT,type QualifyingLap,type QualifyingSession,type Segment} from './types';
 import {CROSSOVER} from './weather';
 
 /** Car-fit facts for one team at this circuit, from the canonical suitability disclosure. */
@@ -51,7 +52,10 @@ export function reasonsFor(session: QualifyingSession, driverId: string, decided
   const q1 = session.segments.Q1!.laps.filter(l => l.driverId === driverId);
   if (decided !== 'Q1' && q1.length && q1.every(l => l.tyre === 'MEDIUM' || l.tyre === 'USED_MEDIUM')) out.push('Got through Q1 on mediums, saving a new soft.');
   const calls = result.calls[driverId];
-  if (calls && !calls.defaulted && calls.action === 'STAY_IN' && decided !== 'Q3' && position > cutoff) out.push(`Stayed in the garage after ${CHECKPOINT[decided]} minutes and was knocked out.`);
+  if (calls && !calls.defaulted && calls.action === 'STAY_IN' && decided !== 'Q3' && position > cutoff) out.push(`Stayed in the garage after ${callMinute(session, decided)} minutes and was knocked out.`);
+  // Yellow flags.
+  const flagged = laps.find(l => l.flag);
+  if (flagged) out.unshift(flagged.flag === 'ABORTED' ? `Aborted a ${decided} lap for a yellow flag.` : flagged.flag === 'DELETED' ? `A ${decided} lap was deleted for not slowing under yellow.` : `Lifted for a yellow flag in ${decided} and lost time.`);
   // A narrow escape in the previous segment matters less than what decided this one.
   const next = decided === 'Q1' ? null : decided === 'Q2' ? 'Q1' : 'Q2';
   if (next) {

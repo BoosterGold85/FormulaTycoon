@@ -12,3 +12,4 @@ export * from './presentation';
 export * from './live';
 export * from './codes';
 export * from './headlines';
+export * from './events';

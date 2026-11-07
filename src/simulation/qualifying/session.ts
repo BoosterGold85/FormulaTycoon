@@ -4,9 +4,10 @@ import {CAR_SECONDS,DRIVER_SECONDS,wetSkillPenalty} from './pace';
 import {CHECKPOINT,FORMAT,MEDIUM_SETS,NEW_SOFT_SETS,SESSION_MINUTES,type Call,type LapTyre,type QualifyingLap,type QualifyingSession,
  type Segment,type SegmentPlan,type Traffic,type Tyre,type Weather} from './types';
 import {wetnessAt} from './weather';
+import {callMinute,yellowOf} from './events';
 
 /** Everything a lap reads, derived from the universe on the session day (never saved). */
-export type EntrantPace = { driverId: string; teamId: string; car: number; pace: number; driver: Driver };
+export type EntrantPace = { driverId: string; teamId: string; car: number; pace: number; driver: Driver; aggression: number };
 export type SessionContext = { seed: number; calendarId: string; eventId: string; evolution: number; weather: Weather; entrants: Record<string, EntrantPace> };
 
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
@@ -23,8 +24,8 @@ export function plannedSlots(ctx: SessionContext, driverId: string, seg: Segment
 }
 
 /** Slots for the part of the segment after the checkpoint, as the call decided. */
-export function slotsAfterCall(ctx: SessionContext, driverId: string, seg: Segment, plan: SegmentPlan, call: Call): number[] {
-  const C = CHECKPOINT[seg], D = FORMAT[seg].minutes;
+export function slotsAfterCall(ctx: SessionContext, driverId: string, seg: Segment, plan: SegmentPlan, call: Call, C: number = CHECKPOINT[seg]): number[] {
+  const D = FORMAT[seg].minutes;
   if (call.action === 'STAY_IN') return [];
   if (call.action === 'GO_NOW') return [C];
   if (call.action === 'GO_LATE') return [D - 3];
@@ -132,9 +133,9 @@ export function segmentDrivers(session: QualifyingSession, seg: Segment): string
 export const allLaps = (session: QualifyingSession): QualifyingLap[] =>
   (['Q1', 'Q2', 'Q3'] as const).flatMap(s => session.segments[s]?.laps ?? []);
 
-/** Phase A: every planned run leaving before the checkpoint. */
+/** Phase A: every planned run leaving before the segment's call (its event, else the checkpoint). */
 export function runBeforeCheckpoint(ctx: SessionContext, session: QualifyingSession, seg: Segment): QualifyingLap[] {
-  const C = CHECKPOINT[seg];
+  const C = callMinute(session, seg);
   const starts = segmentDrivers(session, seg).flatMap(id => {
     const plan = session.plans[id]![seg];
     return plannedSlots(ctx, id, seg, plan).filter(s => s < C).map(slot => ({ driverId: id, slot, tyre: plan.tyre, traffic: plan.traffic }));
@@ -143,9 +144,36 @@ export function runBeforeCheckpoint(ctx: SessionContext, session: QualifyingSess
 }
 /** Phase B: the rest of the segment, as each driver's call decided. */
 export function runAfterCheckpoint(ctx: SessionContext, session: QualifyingSession, seg: Segment, calls: Record<string, Call>): QualifyingLap[] {
+  const C = callMinute(session, seg), D = FORMAT[seg].minutes;
   const starts = segmentDrivers(session, seg).flatMap(id => {
     const plan = session.plans[id]![seg], call = calls[id]!;
-    return slotsAfterCall(ctx, id, seg, plan, call).map(slot => ({ driverId: id, slot, tyre: call.tyre ?? plan.tyre, traffic: plan.traffic }));
+    return slotsAfterCall(ctx, id, seg, plan, call, C).map(slot => ({ driverId: id, slot, tyre: call.tyre ?? plan.tyre, traffic: plan.traffic }));
   });
-  return resolveRuns(ctx, seg, starts, FORMAT[seg].minutes, allLaps(session));
+  const yellow = yellowOf(session, seg);
+  let laps = resolveRuns(ctx, seg, starts, D, allLaps(session));
+  if (!yellow) return laps;
+  // Laps flying while the yellow is out (left the pits at the call minute) meet it in its sector.
+  const meets = (l: QualifyingLap) => l.slot === yellow.minute - 1 && l.slot <= lastStart(seg) && !l.sectors.slice(0, yellow.sector).some(x => x === null);
+  // An aborted lap gets one more go two minutes later, if the flag allows it and no other run is that close.
+  const aborting = laps.filter(l => meets(l) && calls[l.driverId]!.yellow === 'ABORT').map(l => l.driverId);
+  const again = aborting.filter(id => yellow.minute + 1 <= lastStart(seg) && !starts.some(s => s.driverId === id && Math.abs(s.slot - (yellow.minute + 1)) <= 2 && s.slot !== yellow.minute - 1));
+  if (again.length) laps = resolveRuns(ctx, seg, [...starts, ...again.map(id => {
+    const plan = session.plans[id]![seg], call = calls[id]!;
+    return { driverId: id, slot: yellow.minute + 1, tyre: call.tyre ?? plan.tyre, traffic: plan.traffic };
+  })], D, allLaps(session));
+  return laps.map(l => meets(l) ? applyYellow(ctx, seg, l, calls[l.driverId]!.yellow ?? 'PUSH', yellow.sector) : l);
+}
+
+/**
+ * A yellow flag on a flying lap (own stream 'qualifying-yellow'). Abort: the lap ends in the flag's sector.
+ * Push through: the driver lifts and loses 0.25-0.6 s there, and the lap may be deleted for not slowing enough.
+ */
+export function applyYellow(ctx: SessionContext, seg: Segment, lap: QualifyingLap, choice: 'ABORT' | 'PUSH', sector: number): QualifyingLap {
+  if (choice === 'ABORT') return { ...lap, time: null, sectors: lap.sectors.map((x, i) => i < sector ? x : null), flag: 'ABORTED' };
+  if (lap.time === null) return lap;
+  const r = randomFor(ctx.seed, 'qualifying-yellow', ctx.calendarId, ctx.eventId, lap.driverId, seg, lap.slot);
+  const lift = round3(0.25 + 0.35 * r.next()), deleted = r.next() < 0.15;
+  const sectors = lap.sectors.map((x, i) => i === sector ? round3(x! + lift) : x);
+  if (deleted) return { ...lap, time: null, sectors, flag: 'DELETED' };
+  return { ...lap, time: round3(lap.time + lift), sectors, flag: 'YELLOW_LIFT' };
 }

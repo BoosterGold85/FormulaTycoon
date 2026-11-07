@@ -13,6 +13,7 @@ import {BEATS_PER_MINUTE,liveTiming} from './live';
 import {driverCodes} from './codes';
 import {qualifyingHeadline,type Headline} from './headlines';
 import { displayDriverName } from '../../game/roster';
+import {callMinute,eventOf,yellowOf} from './events';
 
 /** Display vocabulary. Read models only: nothing here is saved or changes a result. */
 export const TYRE_LABEL: Record<Tyre | 'USED_MEDIUM', string> = { NEW_SOFT: 'New soft', USED_SOFT: 'Used soft', MEDIUM: 'Medium', USED_MEDIUM: 'Used medium', INTER: 'Inters' };
@@ -54,7 +55,7 @@ export function selectQualifyingPlan(universe: GameUniverse, definition: GameDef
 export function replayTarget(session: QualifyingSession): number {
   const seg = segmentOf(session.status), pause = breakOf(session.status);
   if (pause) return FORMAT[pause.done].offset + FORMAT[pause.done].minutes;
-  return seg ? FORMAT[seg].offset + CHECKPOINT[seg] : session.status === 'COMPLETE' ? SESSION_MINUTES : 0;
+  return seg ? FORMAT[seg].offset + callMinute(session, seg) : session.status === 'COMPLETE' ? SESSION_MINUTES : 0;
 }
 
 /** The timing screen at a whole replay minute (the call card and tests read this). */
@@ -68,7 +69,8 @@ export function towerAt(universe: GameUniverse, session: QualifyingSession, minu
 export function selectQualifyingCall(universe: GameUniverse, definition: GameDefinition) {
   const session = sessionAwaitingCall(universe);
   if (!session || !universe.playerTeamId) return null;
-  const seg = segmentOf(session.status)!, now = FORMAT[seg].offset + CHECKPOINT[seg], tower = towerAt(universe, session, now);
+  const seg = segmentOf(session.status)!, C = callMinute(session, seg), now = FORMAT[seg].offset + C, tower = towerAt(universe, session, now);
+  const ev = eventOf(session, seg), yellow = yellowOf(session, seg);
   const ctx = sessionContext(universe, definition, session), recommended = recommendedCalls(universe, definition);
   const wet = wetnessAt(session.weather, now), before = wetnessAt(session.weather, Math.max(0, now - 3));
   const used = (id: string) => [...SEGMENTS.flatMap(s => session.segments[s]?.laps ?? [])].filter(l => l.driverId === id && l.tyre === 'NEW_SOFT').length;
@@ -82,7 +84,9 @@ export function selectQualifyingCall(universe: GameUniverse, definition: GameDef
     offPole: lineRow && poleTime !== null ? Math.round((lineRow.time! - poleTime) * 1000) / 1000
       : prevPole !== null && prevLine !== null ? Math.round((prevLine - prevPole) * 1000) / 1000 : null,
     source: (lineRow ? 'NOW' : prevSeg && prevPole !== null && prevLine !== null ? prevSeg : null) as 'NOW' | 'Q1' | 'Q2' | null };
-  return { eventId: session.eventId, segment: seg, minute: CHECKPOINT[seg], remaining: FORMAT[seg].minutes - CHECKPOINT[seg], cutoff: tower.cutoff, target,
+  return { eventId: session.eventId, segment: seg, minute: C, remaining: FORMAT[seg].minutes - C, cutoff: tower.cutoff, target,
+    /** Why the call is now: a conditions change, a yellow flag, or the fallback checkpoint. */
+    event: ev ? { kind: ev.kind, sector: yellow ? yellow.sector + 1 : null } : null,
     track: { label: wetLabel(wet), trend: wet > before + 0.01 ? 'getting wetter' : wet < before - 0.01 ? 'drying' : 'steady', tyreChoice: wet > 0 || before > 0 },
     forecast: forecastText(session.forecasts[universe.playerTeamId]!),
     drivers: Object.keys(recommended).map(id => {
@@ -90,7 +94,9 @@ export function selectQualifyingCall(universe: GameUniverse, definition: GameDef
       const toLine = row.time !== null && target.lineTime !== null ? Math.round((row.time - target.lineTime) * 1000) / 1000 : null;
       return { driverId: id, name: row.name, position: row.time === null ? null : row.position, gap: row.gap, danger: row.danger, toLine,
         newSoftsLeft: Math.max(0, NEW_SOFT_SETS - used(id)), plannedTyre: plan.tyre,
-        plannedRunsLeft: plannedSlots(ctx, id, seg, plan).filter(s => s >= CHECKPOINT[seg]).length, recommended: recommended[id]! as Call };
+        plannedRunsLeft: plannedSlots(ctx, id, seg, plan).filter(s => s >= C).length, recommended: recommended[id]! as Call,
+        /** Planned to leave now, so his flying lap meets the yellow (so does "Go now"). */
+        leavingNow: plannedSlots(ctx, id, seg, plan).includes(C) };
     }) };
 }
 

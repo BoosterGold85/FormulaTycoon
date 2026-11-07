@@ -150,10 +150,15 @@ Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V
       the previous part);
     - larger Q1/Q2/Q3 steps and a progress bar with time left;
     - +1 DAY is locked during a live session.
-- **IN PROGRESS:** none. Event-driven calls (conditions change, yellow and red flags) are not started; they are
-  waiting on the owner's decision, because real decisions on them would change results.
+  - Event-driven calls (owner-approved):
+    - a conditions change (rain or drying) or a yellow flag becomes the part's one call;
+    - yellow flags offer abort or push through per affected car;
+    - without an event, the fallback checkpoint call stays.
+
+    Sessions without an event are byte-identical (77 recorded per-session fingerprints).
+- **IN PROGRESS:** none. Red flags are deferred to their own milestone (owner decision).
 - **TESTED:**
-  - 428/428 tests, 23 suites (19 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+  - 431/431 tests, 23 suites (22 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
     season; no double processing; determinism and reload at every status; choices mattering; a better car winning
     more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
     validation tampering; and v7 fixture migration with a golden development continuation.

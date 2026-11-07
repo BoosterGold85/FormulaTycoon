@@ -5,6 +5,7 @@ import {driverCodes} from './codes';
 import {FORMAT,SESSION_MINUTES,type LapTyre,type QualifyingLap,type QualifyingSession,type Segment} from './types';
 import {wetnessAt} from './weather';
 import { displayDriverName } from '../../game/roster';
+import {yellowOf} from './events';
 
 /**
  * Live timing for the replay, built only from STORED laps. Time moves in sector beats (three per session
@@ -13,7 +14,7 @@ import { displayDriverName } from '../../game/roster';
  */
 export const BEATS_PER_MINUTE = 3;
 export type SectorColor = 'PURPLE' | 'GREEN' | 'YELLOW';
-export type LivePhase = 'GARAGE' | 'OUT_LAP' | 'FLYING' | 'IN_LAP' | 'OFF' | 'MISSED';
+export type LivePhase = 'GARAGE' | 'OUT_LAP' | 'FLYING' | 'IN_LAP' | 'OFF' | 'ABORTED' | 'MISSED';
 /** delta: seconds behind the fastest completed time in that sector (0 for purple). */
 export type LiveSector = { color: SectorColor; time: number; delta: number } | null;
 export type TowerRow = { driverId: string; name: string; teamId: string; team: string; color: string; mine: boolean; position: number;
@@ -94,8 +95,17 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
     const mine = isMine(l.driverId);
     if (mine && l.slot * 3 <= local) radio(l.slot * 3, l.driverId, 'Out lap. Bring the tyres in.');
     if (off >= 0 && l.time === null && sectorBeat(l, off) <= local) {
-      say(sectorBeat(l, off), `${surname(universe, l.driverId)}'s off in S${off + 1}, that lap's gone.`);
-      if (mine) radio(sectorBeat(l, off) + 0.1, l.driverId, "We've lost that one. Box this lap.");
+      if (l.flag === 'ABORTED') {
+        say(sectorBeat(l, off), `${surname(universe, l.driverId)} aborts the lap for the yellow.`);
+        if (mine) radio(sectorBeat(l, off) + 0.1, l.driverId, `Yellow in sector ${off + 1}, abort the lap. Box this lap.`);
+      } else {
+        say(sectorBeat(l, off), `${surname(universe, l.driverId)}'s off in S${off + 1}, that lap's gone.`);
+        if (mine) radio(sectorBeat(l, off) + 0.1, l.driverId, "We've lost that one. Box this lap.");
+      }
+    }
+    if (l.flag === 'DELETED' && doneAt(l) <= local) {
+      say(doneAt(l), `${surname(universe, l.driverId)}'s lap is deleted: not slow enough under the yellow.`);
+      if (mine) radio(doneAt(l) + 0.1, l.driverId, "They've deleted the lap. We didn't slow enough for the yellow.");
     }
     // The engineer's split at each sector: against the driver's own best lap, else the car on the knockout line (Q3: pole).
     if (mine) for (let i = 0; i < 3; i++) {
@@ -116,6 +126,7 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
     if (p === 1 && improved) say(at, `${surname(universe, l.driverId)} goes fastest!`);
     if (!mine) continue;
     const cut = FORMAT[seg].cars - FORMAT[seg].out, line = now.get(order[cut - 1]!);
+    if (l.flag === 'YELLOW_LIFT') radio(at + 0.05, l.driverId, 'We lifted for the yellow and lost time there.');
     if (!improved) radio(at + 0.1, l.driverId, `No improvement, still P${p}. Box this lap.`);
     else if (seg === 'Q3' || p <= cut - 3) radio(at + 0.1, l.driverId, p === 1 ? 'That puts you on top! Box this lap.' : `P${p}. Good lap. Box this lap.`);
     else if (p <= cut) radio(at + 0.1, l.driverId, `P${p}, just inside the cut. Box, box.`);
@@ -125,6 +136,11 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
     say(D * 3, `${surname(universe, l.driverId)} misses the flag!`);
     if (isMine(l.driverId)) radio(D * 3 + 0.1, l.driverId, "We missed the flag. Sorry, that's our call.");
   }
+  // Race control: a yellow is reported at the call, flown for one minute in its sector, then cleared.
+  const y = yellowOf(session, seg);
+  if (y && y.call * 3 <= local) say(y.call * 3, `Debris in sector ${y.sector + 1}: yellow flag coming out!`);
+  if (y && (y.minute + 1) * 3 <= local) say((y.minute + 1) * 3, 'Track clear, green flag.');
+  const yellowFlag = y && local >= y.call * 3 && local < (y.minute + 1) * 3 ? { sector: y.sector + 1 } : null;
   const w = session.weather;
   if (w.changeMinute !== null && w.changeMinute >= FORMAT[seg].offset && w.changeMinute < FORMAT[seg].offset + D && (w.changeMinute - FORMAT[seg].offset) * 3 <= local)
     say((w.changeMinute - FORMAT[seg].offset) * 3, w.kind === 'RAIN' ? 'Rain is starting to fall!' : 'The track is starting to dry.');
@@ -145,7 +161,7 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
       const off = lap.sectors.findIndex(x => x === null), lost = lap.time === null && off >= 0 && !flagged(lap, seg);
       if (flagged(lap, seg)) phase = local >= D * 3 ? 'MISSED' : 'OUT_LAP';
       else if (local < (lap.slot + 1) * 3) phase = 'OUT_LAP';
-      else if (lost && sectorBeat(lap, off) <= local) phase = local < (lap.slot + 3) * 3 ? 'OFF' : 'GARAGE';
+      else if (lost && sectorBeat(lap, off) <= local) phase = local < (lap.slot + 3) * 3 ? (lap.flag === 'ABORTED' ? 'ABORTED' : 'OFF') : 'GARAGE';
       else phase = local < doneAt(lap) ? 'FLYING' : local < (lap.slot + 3) * 3 ? 'IN_LAP' : 'GARAGE';
       if (phase === 'OUT_LAP' || phase === 'FLYING' || phase === 'IN_LAP') onTrack = { laps: (local - lap.slot * 3) / 3, moving: true };
       // A lost lap stops in the middle of the sector where it went wrong.
@@ -183,7 +199,7 @@ export function liveTiming(universe: GameUniverse, session: QualifyingSession, b
   });
   const wet = wetnessAt(session.weather, Math.min(FORMAT[seg].offset + t, SESSION_MINUTES - 1));
   return { segment: seg, minute: t, remaining: Math.max(0, D - t), cutoff: seg === 'Q3' ? null : cut, rows, finished,
-    track: { wet }, commentary: feed.sort((a, b) => b.at - a.at).slice(0, 6) };
+    track: { wet }, yellowFlag, commentary: feed.sort((a, b) => b.at - a.at).slice(0, 6) };
 }
 
 /** Global replay beat of a segment-local beat (Q2 and Q3 start right after the previous segment's final beat). */

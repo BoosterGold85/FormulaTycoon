@@ -7,8 +7,8 @@ import {TyreIcon} from './TyreIcon';
 import {MiniSectors,runningSector} from './MiniSectors';
 
 const CUT_H=22;
-export const PHASE:Record<LivePhase,string>={GARAGE:'In the garage',OUT_LAP:'Out lap',FLYING:'Flying lap',IN_LAP:'In lap',OFF:'Off — lap lost',MISSED:'Missed the flag'};
-const TAG:Record<LivePhase,string>={GARAGE:'PIT',OUT_LAP:'OUT LAP',FLYING:'FLYING',IN_LAP:'IN LAP',OFF:'OFF',MISSED:'MISSED'};
+export const PHASE:Record<LivePhase,string>={GARAGE:'In the garage',OUT_LAP:'Out lap',FLYING:'Flying lap',IN_LAP:'In lap',OFF:'Off — lap lost',ABORTED:'Aborted for the yellow',MISSED:'Missed the flag'};
+const TAG:Record<LivePhase,string>={GARAGE:'PIT',OUT_LAP:'OUT LAP',FLYING:'FLYING',IN_LAP:'IN LAP',OFF:'OFF',ABORTED:'ABORTED',MISSED:'MISSED'};
 const COLOR_WORD:Record<SectorColor,string>={PURPLE:'fastest',GREEN:'personal best',YELLOW:'slower'};
 
 export function useSector(){const {ui}=useDesign();
@@ -80,7 +80,7 @@ function TowerRowView({row,top:y,c,wide,selected,onSelect,onHover,progress}:{row
   loop.start();return ()=>loop.stop();
  },[pulsing,pulse]);
  const flying=row.phase==='FLYING',timed=row.time!==null,leader=timed&&row.position===1;
- const statusColor=flying?ui.green:row.phase==='OFF'||row.phase==='MISSED'?ui.danger:ui.muted;
+ const statusColor=flying?ui.green:row.phase==='OFF'||row.phase==='MISSED'?ui.danger:row.phase==='ABORTED'?ui.gold:ui.muted;
  const lastColor=row.last?.kind==='PB'?ui.green:row.last?.kind==='OFF'?ui.danger:ui.gold;
  const fig=(width:number,text:string|null,color=ui.ink,bold=false)=>width?<Text numberOfLines={1} style={[styles.figure,{width,textAlign:'right',color,fontSize:wide?14:13},bold&&ui.fonts.monoBold?{fontFamily:ui.fonts.monoBold}:null]}>{text??''}</Text>:null;
  const display=(size:number)=>ui.fonts.display?{fontFamily:ui.fonts.display,fontSize:size}:{fontWeight:'900' as const,fontSize:size-4};

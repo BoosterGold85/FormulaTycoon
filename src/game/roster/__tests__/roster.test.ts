@@ -60,11 +60,12 @@ describe('default pack',()=>{
  // Hashes captured from Qualifying V1 (claude/happy-dirac-pw7zmq at 4f0d907, which has no roster packs), ignoring the
 // display name and bio fields that moved into the pack. Each 20-turn career includes 4 qualifying sessions.
 // (Before qualifying merged in, the same check matched the pre-roster build at a204428.)
+ // Re-recorded for owner-approved event-driven qualifying calls; everything outside qualifying is unchanged.
  test.each([
-  [1,'4a84f4640168ea02476944d4cf5dc805225fe01ac5aada23cd2a3ff658b01bbc'],
-  [7,'5d7a4833538e913479829ac649415d482de17fb184795904545367ac09fc2b18'],
-  [42,'79070954f62b30c0cbc3de0eb1c78e0e318ea7346e6abdbb3053d377e0f4504f'],
-  [123456,'213652ec1b12a38a4c66bd4b7609e51fbd05e955395961d7b6d67ce4b64752d5']
+  [1,'11cdd74acda3b9a0d7ea8bb39aff38121fd47795521c3bcd48c29b74368dd10f'],
+  [7,'90446da20369c31e2203d9417b0c1dcdf867100a5de4ccd75556230cb3fa180c'],
+  [42,'a8fb476330de86f9dcc47beffb25804dfe80ff2166ed2e61a048553129afb8a1'],
+  [123456,'6eae130b6cca9b5b64e9d8a451b7767d3a0ae99ce16da3e073bd5a167db10451']
  ])('determinism unchanged for the default pack: seed %d',(seed,hash)=>{
   expect(createHash('sha256').update(simulationOnly(play(seed))).digest('hex')).toBe(hash);
   // Explicitly passing the default pack is identical to passing nothing.

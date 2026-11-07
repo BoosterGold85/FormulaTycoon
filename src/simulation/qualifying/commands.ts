@@ -28,7 +28,8 @@ function validPlan(plan: unknown): plan is DriverPlan {
 function validCall(call: unknown): call is Call {
   if (!call || typeof call !== 'object') return false;
   const c = call as Record<string, unknown>;
-  return ACTIONS.includes(c.action as string) && Object.keys(c).every(k => k === 'action' || k === 'tyre') && (!own(c, 'tyre') || TYRES.includes(c.tyre as string));
+  return ACTIONS.includes(c.action as string) && Object.keys(c).every(k => k === 'action' || k === 'tyre' || k === 'yellow') &&
+    (!own(c, 'tyre') || TYRES.includes(c.tyre as string)) && (!own(c, 'yellow') || c.yellow === 'ABORT' || c.yellow === 'PUSH');
 }
 
 /** The weekend whose qualifying the player can plan right now: after FP1, before Saturday. */
