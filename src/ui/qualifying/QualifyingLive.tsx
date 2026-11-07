@@ -34,7 +34,8 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
  const replay=useSessionReplay(target,from,b=>active.has(b),onBeat);
  const live=liveTiming(universe,session,replay.beat);
  const [focus,setFocus]=useState(false);
- const [selected,setSelected]=useState<string|null>(null),[hovered,setHovered]=useState<string|null>(null),[towerWidth,setTowerWidth]=useState(0);
+ // Details open on click/tap only: hover reveals shifted the tower under the pointer and flickered.
+ const [selected,setSelected]=useState<string|null>(null),[towerWidth,setTowerWidth]=useState(0);
  const atBreak=!replay.playing&&!!pendingBreak&&replay.beat===pendingBreak.beat;
  const engineBreak=atBreak&&breakOf(session.status)?.done===pendingBreak!.done;
  const call=!replay.playing&&!atBreak&&segmentOf(session.status)?selectQualifyingCall(universe,definition):null;
@@ -74,10 +75,10 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
  const yourCars=<View testID="your-cars" style={{gap:8}}><Section title="Your cars"/>{mine.map(r=><MyCar key={r.driverId} row={r} cutoff={live.cutoff} progress={replay.progress}/>)}</View>;
  const tower=<View style={{gap:10}}>
    {focus?<Text style={styles.muted}>Focus: your cars and the drop-zone battle. Turn off Focus for the full field.</Text>:null}
-   <TowerDetail row={live.rows.find(r=>r.driverId===(selected??hovered))} onClose={()=>{setSelected(null);setHovered(null);}}/>
+   <TowerDetail row={live.rows.find(r=>r.driverId===selected)} onClose={()=>setSelected(null)}/>
    <View onLayout={e=>setTowerWidth(e.nativeEvent.layout.width)}>
     <LiveTower rows={live.rows} cutoff={live.cutoff} finished={live.finished} focus={focus} wide={towerWidth>=WIDE_TOWER} selected={selected}
-     onSelect={id=>setSelected(s=>s===id?null:id)} onHover={setHovered} progress={replay.progress}/></View>
+     onSelect={id=>setSelected(s=>s===id?null:id)} progress={replay.progress}/></View>
    <SectorLegend/></View>;
  const commentary=<Commentary lines={live.commentary} names={names} teamColor={teamColor}/>;
  const note=<Text style={styles.muted}>Times are shown as gaps. This replays the session your team has already run; replay speed, Skip and Focus don't change it.</Text>;

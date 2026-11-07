@@ -38,8 +38,8 @@ type Cols=typeof COLS.wide;
  * cars carry a ring, and rivals fighting around the drop zone pulse while flying. Tap (or hover on web) a row to
  * inspect the driver; the tower itself never changes a result.
  */
-export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onHover,progress}:{rows:TowerRow[];cutoff:number|null;finished:boolean;focus:boolean;wide:boolean;progress:Animated.Value;
- selected:string|null;onSelect:(id:string)=>void;onHover:(id:string|null)=>void}){
+export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,progress}:{rows:TowerRow[];cutoff:number|null;finished:boolean;focus:boolean;wide:boolean;progress:Animated.Value;
+ selected:string|null;onSelect:(id:string)=>void}){
  const {ui,styles}=useDesign(),c=wide?COLS.wide:COLS.narrow;
  const timedAll=rows.filter(r=>r.time!==null).length,early=cutoff!==null&&timedAll<cutoff;
  const shown=focus?rows.filter(r=>r.mine||(early?r.time!==null:cutoff!==null?r.position>=cutoff-2&&r.position<=cutoff+3:r.position<=3)):rows;
@@ -58,7 +58,7 @@ export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onH
    {wide?head('TYRE',c.tyre+8,'center'):<View style={{width:c.tyre}}/>}<View style={{width:c.move}}/>
   </View>
   <View style={{height:shown.length*c.h+dividers.length*CUT_H}}>
-   {shown.map((r,i)=><TowerRowView key={r.driverId} row={r} top={y(i)} c={c} wide={wide} selected={selected===r.driverId} onSelect={onSelect} onHover={onHover} progress={progress}/>)}
+   {shown.map((r,i)=><TowerRowView key={r.driverId} row={r} top={y(i)} c={c} wide={wide} selected={selected===r.driverId} onSelect={onSelect} progress={progress}/>)}
    {dividers.map(d=><View key={d.kind} pointerEvents="none" accessibilityLabel={d.kind==='NOTIME'?'Cars below have no lap time yet':finished?'Knocked out below this line':'Drop zone below this line'}
     style={{position:'absolute',left:0,right:0,top:dy(d),height:CUT_H,flexDirection:'row',alignItems:'center',gap:10}}>
     <View style={{flex:1,height:d.kind==='CUT'?2:1,backgroundColor:d.kind==='CUT'?ui.danger:ui.line}}/>
@@ -68,7 +68,7 @@ export function LiveTower({rows,cutoff,finished,focus,wide,selected,onSelect,onH
  </View>;
 }
 
-function TowerRowView({row,top:y,c,wide,selected,onSelect,onHover,progress}:{row:TowerRow;top:number;c:Cols;wide:boolean;selected:boolean;onSelect:(id:string)=>void;onHover:(id:string|null)=>void;progress:Animated.Value}){
+function TowerRowView({row,top:y,c,wide,selected,onSelect,progress}:{row:TowerRow;top:number;c:Cols;wide:boolean;selected:boolean;onSelect:(id:string)=>void;progress:Animated.Value}){
  const {ui,styles}=useDesign(),reduced=useReducedMotion(),running=runningSector(row.phase,row.sectors);
  const top=useRef(new Animated.Value(y)).current,pulse=useRef(new Animated.Value(1)).current,flash=useRef(new Animated.Value(0)).current;
  useEffect(()=>{if(!row.justFinished)return;flash.setValue(reduced?0:.28);if(!reduced)Animated.timing(flash,{toValue:0,duration:1400,useNativeDriver:false}).start();},[row.justFinished,reduced,flash]);
@@ -87,7 +87,7 @@ function TowerRowView({row,top:y,c,wide,selected,onSelect,onHover,progress}:{row
  return <Animated.View style={{position:'absolute',left:0,right:0,top,height:c.h,opacity:Animated.multiply(pulse,row.mine||flying?1:.5)}}>
   <Pressable accessibilityRole="button" accessibilityState={{selected}}
    accessibilityLabel={`${timed?`P${row.position}`:'No time'} ${row.name}, ${row.team}${row.mine?', your car':''}${timed?`, ${row.gap}`:''}, ${PHASE[row.phase]}${row.moved>0?`, up ${row.moved}`:row.moved<0?`, down ${-row.moved}`:''}${row.nearCut?', fighting at the drop zone':''}`}
-   onPress={()=>onSelect(row.driverId)} onHoverIn={()=>onHover(row.driverId)} onHoverOut={()=>onHover(null)}
+   onPress={()=>onSelect(row.driverId)}
    style={state=>({flex:1,flexDirection:'row',alignItems:'center',gap:8,paddingHorizontal:8,borderRadius:5,marginVertical:1,
     backgroundColor:row.mine?ui.surfaceElevated:row.nearCut?ui.accentMuted:(state as {hovered?:boolean}).hovered?ui.chip:'transparent',
     borderWidth:row.mine||selected?2:0,borderColor:selected?ui.ink:row.color})}>

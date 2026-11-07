@@ -5,10 +5,10 @@ import {useDesign} from '../design/system';
 import {PHASE,SectorStrip} from './LiveTower';
 import {TyreIcon} from './TyreIcon';
 
-/** The tapped (or hovered) tower row in full: name, team and every timing figure for that car right now. */
+/** The clicked or tapped tower row in full (click again or × to close): name, team and every timing figure for that car right now. */
 export function TowerDetail({row,onClose}:{row:TowerRow|undefined;onClose:()=>void}){
  const {ui,styles,teamInk}=useDesign();
- if(!row)return <Text style={styles.muted}>Tap a driver for full name and timing.</Text>;
+ if(!row)return <Text style={styles.muted}>Click or tap a driver for full name and timing.</Text>;
  const fact=(label:string,value:string,color=ui.ink)=><View style={{gap:2,minWidth:64}}><Text style={[styles.eyebrow,{fontSize:10}]}>{label}</Text><Text style={[styles.figure,{color}]}>{value}</Text></View>;
  return <View testID="tower-detail" style={{flexDirection:'row',gap:12,padding:12,borderRadius:8,backgroundColor:ui.surface,borderLeftWidth:6,borderLeftColor:row.color}}>
   <View style={{flex:1,minWidth:0,gap:8}}>
