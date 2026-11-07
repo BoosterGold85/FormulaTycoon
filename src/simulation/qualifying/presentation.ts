@@ -19,7 +19,7 @@ import {callMinute,eventOf,yellowOf} from './events';
 export const TYRE_LABEL: Record<Tyre | 'USED_MEDIUM', string> = { NEW_SOFT: 'New soft', USED_SOFT: 'Used soft', MEDIUM: 'Medium', USED_MEDIUM: 'Used medium', INTER: 'Inters' };
 export const TIMING_LABEL: Record<Timing, string> = { EARLY: 'Early', MIDDLE: 'Middle', LATE: 'Late' };
 export const TRAFFIC_LABEL: Record<Traffic, string> = { FIND_SPACE: 'Find space', PUSH: 'Push through' };
-export const CALL_LABEL: Record<CallAction, string> = { PLAN: 'Stick to plan', GO_NOW: 'Go now', GO_LATE: 'Wait for the end', STAY_IN: 'Stay in' };
+export const CALL_LABEL: Record<CallAction, string> = { PLAN: 'Stick to plan', GO_NOW: 'Go now', GO_LATE: 'Wait for the end', STAY_IN: 'Stay in', WAIT_CLEAN: 'Wait for a clean track' };
 
 /** "Q2, about 6 minutes in" for a session minute. */
 export function sessionMoment(minute: number): string {

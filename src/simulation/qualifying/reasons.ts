@@ -55,7 +55,7 @@ export function reasonsFor(session: QualifyingSession, driverId: string, decided
   if (calls && !calls.defaulted && calls.action === 'STAY_IN' && decided !== 'Q3' && position > cutoff) out.push(`Stayed in the garage after ${callMinute(session, decided)} minutes and was knocked out.`);
   // Yellow flags.
   const flagged = laps.find(l => l.flag);
-  if (flagged) out.unshift(flagged.flag === 'ABORTED' ? `Aborted a ${decided} lap for a yellow flag.` : flagged.flag === 'DELETED' ? `A ${decided} lap was deleted for not slowing under yellow.` : `Lifted for a yellow flag in ${decided} and lost time.`);
+  if (flagged) out.unshift(flagged.flag === 'RED' ? `A ${decided} lap was stopped by the red flag.` : flagged.flag === 'ABORTED' ? `Aborted a ${decided} lap for a yellow flag.` : flagged.flag === 'DELETED' ? `A ${decided} lap was deleted for not slowing under yellow.` : `Lifted for a yellow flag in ${decided} and lost time.`);
   // A narrow escape in the previous segment matters less than what decided this one.
   const next = decided === 'Q1' ? null : decided === 'Q2' ? 'Q1' : 'Q2';
   if (next) {

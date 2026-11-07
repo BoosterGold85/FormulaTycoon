@@ -156,9 +156,13 @@ Design and as-built notes: [QUALIFYING-V1-DESIGN](development-notes/QUALIFYING-V
     - without an event, the fallback checkpoint call stays.
 
     Sessions without an event are byte-identical (77 recorded per-session fingerprints).
-- **IN PROGRESS:** none. Red flags are deferred to their own milestone (owner decision).
+  - Red flags (owner-approved):
+    - the session stops, and laps in progress are lost;
+    - the clock pauses at the restart call: go out first, wait for a clean track, wait for the end, or stay in;
+    - about 8% of parts; yellows about 12%.
+- **IN PROGRESS:** none.
 - **TESTED:**
-  - 431/431 tests, 23 suites (22 new in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
+  - 472/472 tests (23 in `qualifying.test.ts`). They cover: a valid grid in every round of a headless
     season; no double processing; determinism and reload at every status; choices mattering; a better car winning
     more often but not always; bounded variation; forecasts improving with research; policy independence; gates;
     validation tampering; and v7 fixture migration with a golden development continuation.

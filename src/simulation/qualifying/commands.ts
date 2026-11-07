@@ -9,7 +9,7 @@ export type QualifyingFailure = 'NO_PLAYER_TEAM' | 'NO_QUALIFYING' | 'NOT_PLANNI
 export type QualifyingResult = { ok: true; universe: GameUniverse } | { ok: false; reason: QualifyingFailure };
 
 const TYRES = ['NEW_SOFT', 'USED_SOFT', 'MEDIUM', 'INTER'], TIMINGS = ['EARLY', 'MIDDLE', 'LATE'], TRAFFIC = ['FIND_SPACE', 'PUSH'];
-const ACTIONS = ['PLAN', 'GO_NOW', 'GO_LATE', 'STAY_IN'];
+const ACTIONS = ['PLAN', 'GO_NOW', 'GO_LATE', 'STAY_IN', 'WAIT_CLEAN'];
 const own = (o: object, k: string) => Object.prototype.hasOwnProperty.call(o, k);
 function validSegmentPlan(p: unknown): p is SegmentPlan {
   const s = p as Record<string, unknown> | undefined;

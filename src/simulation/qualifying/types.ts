@@ -21,7 +21,8 @@ export const CHECKPOINT: Record<Segment, number> = { Q1: 9, Q2: 7, Q3: 6 };
  * RAIN/DRYING at the minute conditions change; YELLOW one minute before a yellow flag in `sector` (the
  * cars leaving then fly into it). Without an event the segment keeps its fallback CHECKPOINT call.
  */
-export type SessionEvent = { segment: Segment; kind: 'RAIN' | 'DRYING' | 'YELLOW'; minute: number; sector?: number };
+/** RED: the session is stopped at `minute` (cars on a flying lap then lose it); the clock pauses and the call is the restart queue. */
+export type SessionEvent = { segment: Segment; kind: 'RAIN' | 'DRYING' | 'YELLOW' | 'RED'; minute: number; sector?: number };
 export type YellowChoice = 'ABORT' | 'PUSH';
 /** A run is out-lap (slot s), flying lap (s + 1), in-lap (s + 2). The flying lap must start before the flag. */
 export const RUN_SLOTS = 3;
@@ -36,7 +37,8 @@ export type Timing = 'EARLY' | 'MIDDLE' | 'LATE';
 export type Traffic = 'FIND_SPACE' | 'PUSH';
 export type SegmentPlan = { tyre: Tyre; runs: 1 | 2; timing: Timing; traffic: Traffic };
 export type DriverPlan = Record<Segment, SegmentPlan>;
-export type CallAction = 'PLAN' | 'GO_NOW' | 'GO_LATE' | 'STAY_IN';
+/** WAIT_CLEAN: let the restart queue go and leave two minutes later on a cleaner track. */
+export type CallAction = 'PLAN' | 'GO_NOW' | 'GO_LATE' | 'STAY_IN' | 'WAIT_CLEAN';
 /** tyre: optional override for the rest of the segment (e.g. switch to inters). */
 export type Call = { action: CallAction; tyre?: Tyre; yellow?: YellowChoice };
 
@@ -55,7 +57,7 @@ export type QualifyingLap = {
   /** Seconds lost to traffic on this lap (0 when clean). */
   traffic: number; mistake: boolean; wet: number;
   /** Yellow flag outcome: lifted (time lost), lap deleted for not slowing, or lap aborted. */
-  flag?: 'YELLOW_LIFT' | 'DELETED' | 'ABORTED';
+  flag?: 'YELLOW_LIFT' | 'DELETED' | 'ABORTED' | 'RED';
 };
 export type SegmentResult = {
   /** The call each driver in the segment made at the checkpoint (defaulted = policy/default, not the player). */

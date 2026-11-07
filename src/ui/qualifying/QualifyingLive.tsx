@@ -62,9 +62,12 @@ function LiveView({universe,definition,eventId,from,onBeat,acked,onAck,onCall,on
      <Text style={{color:focus?ui.onAccent:ui.ink,fontWeight:'800'}}>FOCUS</Text></Pressable>
    </View>}/>;
  const map=<TrackMap trackId={trackId} rows={live.rows} progress={replay.progress}/>;
- const flagBanner=live.yellowFlag?<View accessibilityRole="alert" accessibilityLabel={`Yellow flag in sector ${live.yellowFlag.sector}`} style={{flexDirection:'row',alignItems:'center',gap:10,padding:10,borderRadius:6,backgroundColor:ui.sectorYellow}}>
+ const redBanner=live.redFlag?<View accessibilityRole="alert" accessibilityLabel={`Red flag, session stopped with ${live.redFlag.remaining} minutes left`} style={{flexDirection:'row',alignItems:'center',gap:10,padding:10,borderRadius:6,backgroundColor:ui.danger}}>
+   <Text style={{color:ui.onAccent,fontSize:15,fontWeight:'900',letterSpacing:.8}}>⚑ RED FLAG · SESSION STOPPED</Text>
+   <Text style={{color:ui.onAccent,fontSize:12,fontWeight:'700'}}>Clock paused with {live.redFlag.remaining} min left.</Text></View>:null;
+ const flagBanner=redBanner??(live.yellowFlag?<View accessibilityRole="alert" accessibilityLabel={`Yellow flag in sector ${live.yellowFlag.sector}`} style={{flexDirection:'row',alignItems:'center',gap:10,padding:10,borderRadius:6,backgroundColor:ui.sectorYellow}}>
    <Text style={{color:ui.onSectorYellow,fontSize:15,fontWeight:'900',letterSpacing:.8}}>⚑ YELLOW FLAG · SECTOR {live.yellowFlag.sector}</Text>
-   <Text style={{color:ui.onSectorYellow,fontSize:12,fontWeight:'700'}}>Slow down: laps through it are compromised.</Text></View>:null;
+   <Text style={{color:ui.onSectorYellow,fontSize:12,fontWeight:'700'}}>Slow down: laps through it are compromised.</Text></View>:null);
  const breakCard=atBreak?<BreakCard key={pendingBreak!.beat} done={pendingBreak!.done} next={pendingBreak!.next} rows={live.rows} plans={breakPlans} editable={engineBreak} onContinue={continueBreak}/>:null;
  const doneCard=done?<Card accent={ui.green}><Text accessibilityRole="header" style={styles.heading}>Chequered flag</Text><Text style={styles.body}>The grid is set. See how your drivers did and why.</Text>
    <Action label="SEE THE RESULT" onPress={onFinish}/></Card>:null;
@@ -123,9 +126,10 @@ function MyCar({row,cutoff,progress}:{row:TowerRow;cutoff:number|null;progress:A
  </View>;
 }
 
-const callTitle=(m:{event:{kind:string}|null})=>m.event?.kind==='YELLOW'?'RACE CONTROL: YELLOW FLAG':m.event?'CONDITIONS CHANGING':'PIT WALL CALL';
+const callTitle=(m:{event:{kind:string}|null})=>m.event?.kind==='RED'?'RED FLAG · SESSION STOPPED':m.event?.kind==='YELLOW'?'RACE CONTROL: YELLOW FLAG':m.event?'CONDITIONS CHANGING':'PIT WALL CALL';
 const HINT:Record<CallAction,string>={PLAN:'Run the laps already planned for this part.',GO_NOW:'Cleaner track and a lap banked early, but less grip.',
- GO_LATE:'Best grip, but traffic risk and no second chance.',STAY_IN:'Save the tyres for later; risky if the cars behind improve.'};
+ GO_LATE:'Best grip, but traffic risk and no second chance.',STAY_IN:'Save the tyres for later; risky if the cars behind improve.',
+ WAIT_CLEAN:'Let the restart queue go and leave two minutes later on a cleaner track, with less time to spare.'};
 function CallCard({model,onCall,bare=false}:{model:NonNullable<ReturnType<typeof selectQualifyingCall>>;onCall:(c:Record<string,Call>)=>void;bare?:boolean}){
  const {ui,styles}=useDesign();
  const t=model.target,stakes=t.source===null||t.offPole===null?null:model.cutoff===null
@@ -133,10 +137,11 @@ function CallCard({model,onCall,bare=false}:{model:NonNullable<ReturnType<typeof
   :t.source==='NOW'?`To get through: about +${t.offPole.toFixed(3)} off P1 (P${t.position} pace right now).`
   :`To get through: in ${t.source}, P${t.position} pace was about +${t.offPole.toFixed(3)} off P1.`;
  const [calls,setCalls]=useState<Record<string,Call>>(()=>Object.fromEntries(model.drivers.map(d=>[d.driverId,d.recommended])));
- const actions:CallAction[]=['PLAN','GO_NOW','GO_LATE','STAY_IN'];
+ const red=model.event?.kind==='RED';
+ const actions:CallAction[]=red?['GO_NOW','WAIT_CLEAN','GO_LATE','STAY_IN']:['PLAN','GO_NOW','GO_LATE','STAY_IN'];
  const body=<>
   {!bare?<Text style={[styles.eyebrow,{color:ui.gold}]}>{callTitle(model)} · {model.segment} · {model.remaining} MIN LEFT</Text>:null}
-  {model.event?<Text style={[styles.heading,{fontSize:18}]}>{model.event.kind==='YELLOW'?(model.drivers.some(x=>x.leavingNow)
+  {model.event?<Text style={[styles.heading,{fontSize:18}]}>{red?'Red flag: the session is stopped and the clock is paused. At the restart, go out first or wait for a clean track?':model.event.kind==='YELLOW'?(model.drivers.some(x=>x.leavingNow)
    ?`Yellow flag coming out in sector ${model.event.sector}. Abort the lap or push through?`
    :`Yellow flag coming out in sector ${model.event.sector}. Cars heading out now will meet it.`)
    :model.event.kind==='RAIN'?'Rain is starting to fall. Go out now or wait?':'The track is starting to dry. Go out now or wait?'}</Text>:null}
@@ -149,7 +154,7 @@ function CallCard({model,onCall,bare=false}:{model:NonNullable<ReturnType<typeof
      <Chip text={d.position===null?'NO TIME':`P${d.position}${d.danger?' · IN DANGER':''}`} tone={d.position===null||d.danger?'red':'green'}/></View>
     <Text style={styles.muted}>{d.position===null?'No lap time yet':`Gap ${d.gap}`}{d.toLine!==null&&model.cutoff?` · ${d.toLine===0?'right on the cut line':d.toLine<0?`${Math.abs(d.toLine).toFixed(3)} inside the cut`:`needs ${d.toLine.toFixed(3)} to get through`}`:''} · {d.newSoftsLeft} new softs left · {d.plannedRunsLeft} planned {d.plannedRunsLeft===1?'run':'runs'} left</Text>
     <ChoiceList label="Call" value={c.action} onChange={action=>setCalls(p=>({...p,[d.driverId]:{...p[d.driverId]!,action}}))}
-     options={actions.map(a=>({value:a,label:CALL_LABEL[a],hint:a==='GO_NOW'&&model.event?.kind==='YELLOW'?`${HINT.GO_NOW} He will meet the yellow in sector ${model.event.sector}.`:a==='PLAN'?`${HINT.PLAN} ${d.plannedRunsLeft===0?'None left: he stays in.':d.plannedRunsLeft===1?'One run left.':`${d.plannedRunsLeft} runs left.`}`:HINT[a],tag:a===rec.action?'Recommended':undefined}))}/>
+     options={actions.map(a=>({value:a,label:red&&a==='GO_NOW'?'Go out first':CALL_LABEL[a],hint:red&&a==='GO_NOW'?'Head the restart queue: the most time left, but the whole field leaves with you (traffic).':a==='GO_NOW'&&model.event?.kind==='YELLOW'?`${HINT.GO_NOW} He will meet the yellow in sector ${model.event.sector}.`:a==='PLAN'?`${HINT.PLAN} ${d.plannedRunsLeft===0?'None left: he stays in.':d.plannedRunsLeft===1?'One run left.':`${d.plannedRunsLeft} runs left.`}`:HINT[a],tag:a===rec.action?'Recommended':undefined}))}/>
     {model.event?.kind==='YELLOW'&&(d.leavingNow||c.action==='GO_NOW')?<ChoiceList label={`Yellow flag in sector ${model.event.sector}`} value={c.yellow??rec.yellow??'PUSH'}
      onChange={yellow=>setCalls(p=>({...p,[d.driverId]:{...p[d.driverId]!,yellow}}))}
      options={[{value:'ABORT' as const,label:'Abort the lap',hint:'The lap is lost; he can go again two minutes later if time allows (another set).',tag:rec.yellow==='ABORT'?'Recommended':undefined},

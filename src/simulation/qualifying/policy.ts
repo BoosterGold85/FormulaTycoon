@@ -57,7 +57,7 @@ export type CallSituation = {
   /** What everyone can see: the track now and three minutes ago. */
   wetNow: number; wetBefore: number;
   /** The segment-local minute of this call (its event, else the checkpoint) and the event behind it. */
-  callMinute?: number; event?: 'RAIN' | 'DRYING' | 'YELLOW'; aggression?: number;
+  callMinute?: number; event?: 'RAIN' | 'DRYING' | 'YELLOW' | 'RED'; aggression?: number;
 };
 /** Yellow flag: a car with a safe time aborts (nothing to gain); otherwise bold teams push through and risk deletion. */
 export function policyYellow(s: Pick<CallSituation, 'segment' | 'hasTime' | 'position' | 'aggression'>): 'ABORT' | 'PUSH' {
@@ -82,6 +82,12 @@ function baseCall(s: CallSituation): Call {
     : s.plannedTyre === 'INTER' && projected < CROSSOVER - 0.08 ? 'NEW_SOFT' : undefined;
   const withTyre = (call: Call): Call => tyre ? { ...call, tyre } : call;
   if (rainComing) return withTyre({ action: 'GO_NOW' });
+  // Red flag restart: a safe car stays in; otherwise bold teams join the queue and the rest wait for a clean track.
+  if (s.event === 'RED') {
+    const cut = seg.cars - seg.out;
+    if (s.segment !== 'Q3' && s.hasTime && s.position !== null && s.timedCars >= cut && s.position <= cut - 4 && !tyre) return { action: 'STAY_IN' };
+    return withTyre({ action: (s.aggression ?? 0.5) >= 0.55 ? 'GO_NOW' : 'WAIT_CLEAN' });
+  }
   if (s.segment === 'Q3') return withTyre({ action: s.remainingRuns > 0 ? 'PLAN' : 'GO_LATE' });
   const cutoff = seg.cars - seg.out;
   if (s.hasTime && s.position !== null && s.timedCars >= cutoff && s.position <= cutoff - 6 && !tyre) return { action: 'STAY_IN' };

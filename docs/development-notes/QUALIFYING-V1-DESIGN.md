@@ -302,5 +302,18 @@ Measured over 25–40 seeds at Melbourne (automated tests):
   per-session fingerprints (`fixtures/qualifying-pre-events.json`). Sessions with an event may differ.
 - **Presentation:** the call card says why the call is now, and offers abort-or-push for affected cars. A yellow
   banner shows while the flag is out. Commentary and radio cover each event.
-- **Red flags:** not built. Deferred to their own milestone.
+- **Red flags** (owner-approved, after the yellow pass):
+  - **Rolling:** red flags come from their own stream, `qualifying-red`, rolled before the yellow roll, so no yellow
+    draw moves. The chance per part is 0.03 + 0.07 × safety-car tendency (about 8% of parts). The stop minute is
+    3..D−4.
+  - **Stop:** the session stops at the start of that minute, and every car on a flying lap then has it stopped
+    (`flag: 'RED'`, no sector, set used). That part's one call is the restart, at the same minute; the clock is
+    paused in the replay until the player answers.
+  - **Restart choices:**
+    - **Go out first** (`GO_NOW`): leaves at the restart and heads the queue, never waiting for a gap.
+    - **Wait for a clean track** (new action `WAIT_CLEAN`): leaves two minutes later.
+    - **Wait for the end** or **stay in.**
+  - **Policy:** a safe car stays in; otherwise teams with aggression ≥ 0.55 go first and the rest wait.
+  - **Presentation:** a red banner shows while stopped. Commentary covers the stop and the green light; radio
+    calls the driver in; stopped cars show "Stopped"; reasons mention stopped laps.
 

@@ -14,10 +14,10 @@ const segmentPlan = object({ tyre: choice(TYRES), runs: choice([1, 2]), timing: 
 const driverPlan = object({ Q1: segmentPlan, Q2: segmentPlan, Q3: segmentPlan });
 const minute = number(0, SESSION_MINUTES - 1, true);
 const forecast = object({ kind: choice(['DRY', 'RAIN', 'DRYING']), changeMinute: nullable(minute), confidence: choice(['LOW', 'MEDIUM', 'HIGH']) });
-const call = object({ action: choice(['PLAN', 'GO_NOW', 'GO_LATE', 'STAY_IN']), tyre: choice(TYRES), yellow: choice(['ABORT', 'PUSH']), defaulted: bool }, ['tyre', 'yellow']);
+const call = object({ action: choice(['PLAN', 'GO_NOW', 'GO_LATE', 'STAY_IN', 'WAIT_CLEAN']), tyre: choice(TYRES), yellow: choice(['ABORT', 'PUSH']), defaulted: bool }, ['tyre', 'yellow']);
 const lap = (seg: Segment, drivers: string[]) => object({ driverId: choice(drivers), slot: number(0, FORMAT[seg].minutes + 1, true), tyre: choice(LAP_TYRES),
   time: nullable(number(0, 1000)), sectors: (v, p) => { array(nullable(number(0, 1000)))(v, p); requireValid((v as unknown[]).length === 3, p); },
-  traffic: number(0, 5), mistake: bool, wet: number(0, 1), flag: choice(['YELLOW_LIFT', 'DELETED', 'ABORTED']) }, ['flag']);
+  traffic: number(0, 5), mistake: bool, wet: number(0, 1), flag: choice(['YELLOW_LIFT', 'DELETED', 'ABORTED', 'RED']) }, ['flag']);
 const keysAre = (v: unknown, keys: string[], p: string) => {
   requireValid(v && typeof v === 'object' && !Array.isArray(v), p);
   const own = Object.keys(v as object);
@@ -27,7 +27,7 @@ const isPermutation = (a: unknown, b: string[]) => Array.isArray(a) && a.length 
 
 function validateSession(raw: unknown, path: string, eventId: string, root: { current: CampaignDate; calendarId: string; teams: string[]; drivers: string[] }): void {
   object({ eventId: choice([eventId]), date: text, status: choice(STATUS), weather: object({ kind: choice(['DRY', 'RAIN', 'DRYING']), changeMinute: nullable(minute) }),
-    events: array(object({ segment: choice(SEGMENTS), kind: choice(['RAIN', 'DRYING', 'YELLOW']), minute: number(2, 15, true), sector: number(0, 2, true) }, ['sector'])),
+    events: array(object({ segment: choice(SEGMENTS), kind: choice(['RAIN', 'DRYING', 'YELLOW', 'RED']), minute: number(2, 15, true), sector: number(0, 2, true) }, ['sector'])),
     forecasts: v => keysAre(v, root.teams, `${path}.forecasts`), entrants: array(object({ driverId: choice(root.drivers), teamId: choice(root.teams) })),
     plans: v => requireValid(v && typeof v === 'object', `${path}.plans`), planLocked: bool, segments: v => requireValid(v && typeof v === 'object' && !Array.isArray(v), `${path}.segments`),
     grid: v => requireValid(v === null || Array.isArray(v), `${path}.grid`) })(raw, path);
@@ -41,7 +41,7 @@ function validateSession(raw: unknown, path: string, eventId: string, root: { cu
   requireValid(new Set(evs.map(e => e.segment)).size === evs.length, `${path}.events.duplicate`);
   for (const e of evs) {
     requireValid(e.minute <= FORMAT[e.segment].minutes - 3 && (e.kind === 'YELLOW') === (e.sector !== undefined), `${path}.events.shape`);
-    if (e.kind !== 'YELLOW') requireValid(s.weather.kind === e.kind && s.weather.changeMinute === FORMAT[e.segment].offset + e.minute, `${path}.events.weather`);
+    if (e.kind === 'RAIN' || e.kind === 'DRYING') requireValid(s.weather.kind === e.kind && s.weather.changeMinute === FORMAT[e.segment].offset + e.minute, `${path}.events.weather`);
   }
   // Entrants: 22 distinct cars, two per team.
   const entrants = (s.entrants as Array<{ driverId: string; teamId: string }>), ids = entrants.map(e => e.driverId);
@@ -63,7 +63,13 @@ function validateSession(raw: unknown, path: string, eventId: string, root: { cu
     for (const l of r.laps as Array<{ time: number | null; sectors: Array<number | null>; flag?: string }>)
       requireValid(l.time === null ? (l.flag === 'DELETED' ? l.sectors.every(x => x !== null) : l.sectors.some(x => x === null))
         : l.sectors.every(x => x !== null) && Math.abs(l.sectors.reduce((a, b) => a! + b!, 0)! - l.time) < 0.0015, `${p}.sectors`);
-    for (const l of r.laps as Array<{ flag?: string }>) requireValid(!l.flag || evs.some(e => e.segment === seg && e.kind === 'YELLOW'), `${p}.flag`);
+    // Yellow outcomes only in a part with a yellow; a red-flag stop only on the laps flying when that part's red came out.
+    const red = evs.find(e => e.segment === seg && e.kind === 'RED');
+    for (const l of r.laps as Array<{ flag?: string; slot: number; time: number | null; sectors: Array<number | null> }>) {
+      if (l.flag === 'RED') requireValid(!!red && l.slot === red.minute - 1 && l.time === null && l.sectors.every(x => x === null), `${p}.flag.red`);
+      else requireValid(!l.flag || evs.some(e => e.segment === seg && e.kind === 'YELLOW'), `${p}.flag`);
+      if (red && l.slot === red.minute - 1 && l.slot <= FORMAT[seg].minutes - 2) requireValid(l.flag === 'RED', `${p}.flag.redMissing`);
+    }
     if (complete) {
       keysAre(r.calls, drivers, `${p}.calls`);
       for (const id of drivers) call(r.calls[id], `${p}.calls.${id}`);

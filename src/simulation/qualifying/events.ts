@@ -7,8 +7,8 @@ const callable = (seg: Segment, minute: number) => minute >= 2 && minute <= FORM
 
 /**
  * Events for a session, rolled once from the seed at the briefing (new stream 'qualifying-events', so no
- * earlier draw moves). A weather change inside a segment becomes that segment's call; otherwise a yellow flag
- * may be rolled, more often at circuits with a high safety-car tendency (provisional game weights).
+ * earlier draw moves). A weather change inside a segment becomes that segment's call; otherwise a red flag
+ * (rare) or a yellow flag may be rolled, more often at circuits with a high safety-car tendency (provisional game weights).
  */
 export function rollEvents(seed: number, calendarId: string, eventId: string, track: CircuitDefinition, weather: Weather): SessionEvent[] {
   const events: SessionEvent[] = [];
@@ -18,6 +18,9 @@ export function rollEvents(seed: number, calendarId: string, eventId: string, tr
       const minute = weather.changeMinute - start;
       if (callable(seg, minute)) { events.push({ segment: seg, kind: weather.kind, minute }); continue; }
     }
+    // Red flags: own stream 'qualifying-red' and rare (provisional game weight), so no yellow draw moves.
+    const red = randomFor(seed, 'qualifying-red', calendarId, eventId, seg);
+    if (red.next() < 0.03 + 0.07 * track.metadata.safetyCarTendency) { events.push({ segment: seg, kind: 'RED', minute: red.int(3, D - 4) }); continue; }
     const rng = randomFor(seed, 'qualifying-events', calendarId, eventId, seg);
     if (rng.next() < 0.06 + 0.15 * track.metadata.safetyCarTendency) {
       const flagMinute = rng.int(3, D - 3);
@@ -33,4 +36,9 @@ export const callMinute = (session: Pick<QualifyingSession, 'events'>, seg: Segm
 export function yellowOf(session: Pick<QualifyingSession, 'events'>, seg: Segment): { minute: number; sector: number; call: number } | null {
   const e = eventOf(session, seg);
   return e?.kind === 'YELLOW' ? { minute: e.minute + 1, sector: e.sector!, call: e.minute } : null;
+}
+/** A segment's red flag: the minute the session stops (laps flying then are lost; the restart call is at that minute). */
+export function redOf(session: Pick<QualifyingSession, 'events'>, seg: Segment): { minute: number } | null {
+  const e = eventOf(session, seg);
+  return e?.kind === 'RED' ? { minute: e.minute } : null;
 }

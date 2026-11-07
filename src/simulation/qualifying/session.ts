@@ -4,7 +4,7 @@ import {CAR_SECONDS,DRIVER_SECONDS,wetSkillPenalty} from './pace';
 import {CHECKPOINT,FORMAT,MEDIUM_SETS,NEW_SOFT_SETS,SESSION_MINUTES,type Call,type LapTyre,type QualifyingLap,type QualifyingSession,
  type Segment,type SegmentPlan,type Traffic,type Tyre,type Weather} from './types';
 import {wetnessAt} from './weather';
-import {callMinute,yellowOf} from './events';
+import {callMinute,redOf,yellowOf} from './events';
 
 /** Everything a lap reads, derived from the universe on the session day (never saved). */
 export type EntrantPace = { driverId: string; teamId: string; car: number; pace: number; driver: Driver; aggression: number };
@@ -28,6 +28,7 @@ export function slotsAfterCall(ctx: SessionContext, driverId: string, seg: Segme
   const D = FORMAT[seg].minutes;
   if (call.action === 'STAY_IN') return [];
   if (call.action === 'GO_NOW') return [C];
+  if (call.action === 'WAIT_CLEAN') return [Math.min(C + 2, lastStart(seg))];
   if (call.action === 'GO_LATE') return [D - 3];
   return plannedSlots(ctx, driverId, seg, plan).filter(s => s >= C);
 }
@@ -140,14 +141,19 @@ export function runBeforeCheckpoint(ctx: SessionContext, session: QualifyingSess
     const plan = session.plans[id]![seg];
     return plannedSlots(ctx, id, seg, plan).filter(s => s < C).map(slot => ({ driverId: id, slot, tyre: plan.tyre, traffic: plan.traffic }));
   });
-  return resolveRuns(ctx, seg, starts, C, allLaps(session));
+  const laps = resolveRuns(ctx, seg, starts, C, allLaps(session));
+  // Red flag at the call minute: every car on a flying lap then has it stopped (no sector completed).
+  const red = redOf(session, seg);
+  return red ? laps.map(l => l.slot === red.minute - 1 ? { ...l, time: null, sectors: [null, null, null], flag: 'RED' as const } : l) : laps;
 }
 /** Phase B: the rest of the segment, as each driver's call decided. */
 export function runAfterCheckpoint(ctx: SessionContext, session: QualifyingSession, seg: Segment, calls: Record<string, Call>): QualifyingLap[] {
   const C = callMinute(session, seg), D = FORMAT[seg].minutes;
   const starts = segmentDrivers(session, seg).flatMap(id => {
     const plan = session.plans[id]![seg], call = calls[id]!;
-    return slotsAfterCall(ctx, id, seg, plan, call, C).map(slot => ({ driverId: id, slot, tyre: call.tyre ?? plan.tyre, traffic: plan.traffic }));
+    // At a red-flag restart, "go out first" heads the queue: it never waits for a gap.
+    const traffic = redOf(session, seg) && call.action === 'GO_NOW' ? 'PUSH' as const : plan.traffic;
+    return slotsAfterCall(ctx, id, seg, plan, call, C).map(slot => ({ driverId: id, slot, tyre: call.tyre ?? plan.tyre, traffic }));
   });
   const yellow = yellowOf(session, seg);
   let laps = resolveRuns(ctx, seg, starts, D, allLaps(session));

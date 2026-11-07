@@ -9,7 +9,7 @@ import {dueCampaignEvents} from '../universe/campaignEvents';
 import type {CampaignDate} from '../campaignTime';
 import {advancePlayerDay,continuePlayerTurn,nextTurnTarget,startPlayerProject} from '../developmentLoop';
 import {acceptRecommendation,answerQualifyingCall,closeQualifying,fieldAtTrack,forecastAccuracy,policyCall,policyPlan,progressSession,recommendedCalls,
- activeBeats,applyYellow,callMinute,continueQualifying,liveTiming,rollEvents,yellowOf,recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAtBreak,sessionAwaitingCall,sessionAwaitingPlayer,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
+ activeBeats,applyYellow,callMinute,redOf,continueQualifying,liveTiming,rollEvents,yellowOf,recommendedPlans,runQualifyingDay,selectQualifyingCall,sessionAtBreak,sessionAwaitingCall,sessionAwaitingPlayer,setQualifyingPlan,teamForecast,towerAt,upcomingBriefing,
  type Call,type DriverPlan,type QualifyingSession,type SegmentPlan,type Weather} from '../qualifying';
 import {SAVE_V7,SAVE_V8} from '../../persistence/contracts';
 import {createSaveEnvelope,deserializeSave,serializeSave,validateSave,type SaveResult} from '../../persistence/saveEnvelope';
@@ -410,6 +410,7 @@ test('events: rolled from the seed at the briefing, at most one per part, and we
   expect(rollEvents(u.seed,u.calendarId,s.eventId,track,s.weather)).toEqual(s.events);
   for(const e of s.events){
    if(e.kind==='YELLOW'){yellows++;expect(e.sector).toBeGreaterThanOrEqual(0);expect(callMinute(s,e.segment)).toBe(e.minute);}
+   else if(e.kind==='RED'){expect(e.sector).toBeUndefined();expect(callMinute(s,e.segment)).toBe(e.minute);}
    else{weather++;expect(s.weather.changeMinute).toBe(e.minute+({Q1:0,Q2:18,Q3:33} as const)[e.segment]);}
   }
  }
@@ -456,4 +457,37 @@ test('yellow flag: abort ends the lap in the flag sector (with a later go if tim
   const bad=JSON.parse(JSON.stringify(env));bad.universe.qualifying.sessions[melbourne].segments.Q1.laps[0].flag='ABORTED';
   expect(validateSave(bad,definition).ok).toBe(false);
  }
+});
+
+test('red flag: laps flying when it comes out are stopped; the restart call (go first or wait) changes the result',()=>{
+ let found:{seed:number;seg:'Q1'|'Q2'|'Q3'}|null=null;
+ for(let seed=1;seed<600&&!found;seed++){const e=upcomingBriefing(atFP1(seed),definition)!.events.find(x=>x.kind==='RED'&&x.segment==='Q1');if(e)found={seed,seg:'Q1'};}
+ expect(found).not.toBeNull();
+ const u=atFP1(found!.seed);
+ const run=(action:Call['action'])=>{
+  let w=ok(setQualifyingPlan(u,definition,recommendedPlans(u,definition)));w=advanceCampaignTo(w,definition,SAT);
+  const card=selectQualifyingCall(w,definition)!;
+  expect(card.event?.kind).toBe('RED');
+  w=ok(answerQualifyingCall(w,definition,Object.fromEntries(card.drivers.map(x=>[x.driverId,{action}]))));
+  return session(w);
+ };
+ const first=run('GO_NOW'),wait=run('WAIT_CLEAN'),red=redOf(first,'Q1')!;
+ for(const l of first.segments.Q1!.laps.filter(l=>l.slot===red.minute-1)){expect(l.flag).toBe('RED');expect(l.time).toBeNull();expect(l.sectors).toEqual([null,null,null]);}
+ expect(first.segments.Q1!.laps.some(l=>l.flag==='RED')).toBe(true);
+ expect(liveTiming(advanceCampaignTo(u,definition,SUN),session(advanceCampaignTo(u,definition,SUN)),red.minute*3).redFlag).toEqual({remaining:18-red.minute});
+ // Going first leaves at the restart minute; waiting leaves two minutes later.
+ const ids=Object.keys(first.segments.Q1!.calls).filter(id=>first.entrants.find(e=>e.driverId===id)!.teamId===teamId);
+ for(const id of ids){
+  expect(first.segments.Q1!.laps.some(l=>l.driverId===id&&l.slot===red.minute)).toBe(true);
+  expect(wait.segments.Q1!.laps.some(l=>l.driverId===id&&l.slot>=red.minute+2&&!l.flag)).toBe(true);
+  expect(wait.segments.Q1!.laps.some(l=>l.driverId===id&&l.slot===red.minute)).toBe(false);
+ }
+ expect(JSON.stringify(first.segments.Q1)).not.toBe(JSON.stringify(wait.segments.Q1));
+ expect(run('WAIT_CLEAN')).toEqual(wait);
+ // A red-flag stop is only valid on the laps flying when that part's red came out.
+ const env=value(createSaveEnvelope(advanceCampaignTo(u,definition,SUN),meta,definition));
+ const bad=JSON.parse(JSON.stringify(env)),q1=bad.universe.qualifying.sessions[melbourne].segments.Q1;
+ const victim=q1.laps.findIndex((l:{slot:number;flag?:string})=>l.slot!==red.minute-1&&!l.flag);q1.laps[victim].flag='RED';
+ expect(validateSave(bad,definition).ok).toBe(false);
+ expect(validateSave(env,definition).ok).toBe(true);
 });

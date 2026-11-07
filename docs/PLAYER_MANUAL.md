@@ -302,8 +302,14 @@ marked; you can always choose differently.
   - **Push through:** keeps the lap, but the driver loses time lifting, and the lap can be deleted for not slowing
     enough.
 
+- **Red flag:** the session stops and the clock pauses. Any car on a flying lap loses that lap. For the restart,
+  choose:
+  - **Go out first:** head the queue with the most time left, but the whole field leaves with you.
+  - **Wait for a clean track:** leave two minutes later with less time to spare.
+  - **Wait for the end**, or **stay in.**
+
 If nothing happens in a part, the call comes at the halfway point as usual, so every part has one decision.
-Commentary and team radio cover these events too. Red flags are not in the game yet.
+Commentary and team radio cover these events too.
 
 **Breaks.** The session stops after Q1 and after Q2. The break shows who was knocked out, whether your cars made
 it, and the order going into the next part. If you have a car still running, you can change its plan for the next
