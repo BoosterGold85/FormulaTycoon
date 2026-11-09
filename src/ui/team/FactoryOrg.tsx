@@ -10,7 +10,7 @@ export function FactoryTile({model, onOpen}: {model: TeamScreenModel; onOpen: ()
   const {ui, styles} = useDesign(), f = model.factory;
   return <Panel testID="team-factory" style={{flex: 1, gap: 10}}>
     <View style={{flexDirection: 'row', alignItems: 'center', gap: 12}}>
-      <AssetImage testID="asset-factory" src={factoryAsset(!f.idle)} label="Factory" width={76} aspect={1} placeholder="PLACE FACTORY ICON HERE"/>
+      <AssetImage testID="asset-factory" asset={factoryAsset(!f.idle)} width={76} aspect={1} compact/>
       <View style={{flex: 1, minWidth: 0, gap: 2}}>
         <Text style={styles.eyebrow}>FACTORY</Text>
         <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.title, {fontSize: 26, lineHeight: 28}]}>{f.title}</Text>

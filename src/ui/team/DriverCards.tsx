@@ -5,7 +5,7 @@ import type {TeamScreenModel} from '../../simulation/teamScreen';
 import {AssetImage} from '../assets/AssetImage';
 import {helmetAsset} from '../assets/assetPaths';
 import {Chip, Meter, Panel} from './bits';
-import {contrast, inkOn, tint, toneColor} from './colors';
+import {contrast, inkOn, toneColor} from './colors';
 
 type Driver = TeamScreenModel['drivers'][number];
 /**
@@ -26,9 +26,8 @@ export function DriverCard({driver: d, index, team, wide, onPress}: {driver: Dri
     <View style={{width: 6, backgroundColor: frame}}/>
     <View style={{flex: 1, flexDirection: 'row', gap: 14, padding: 14, minWidth: 0}}>
       <View style={{width: size, height: size, borderRadius: 10, borderWidth: 3, borderColor: frame, overflow: 'hidden',
-        backgroundColor: tint(frame, ui.surface, .55)}}>
-        <AssetImage testID={`asset-helmet-${index}`} src={helmetAsset(d.name)} label={`${d.name} helmet`} width="100%" aspect={1}
-          placeholder="HELMET" style={{borderRadius: 0}}/>
+        backgroundColor: ui.bg}}>
+        <AssetImage testID={`asset-helmet-${index}`} asset={helmetAsset(d.name, team)} width="100%" aspect={1} compact/>
         {d.number !== null ? <View style={{position: 'absolute', right: 0, bottom: 0, minWidth: 34, paddingHorizontal: 5, paddingVertical: 1,
           borderTopLeftRadius: 8, backgroundColor: frame, alignItems: 'center'}}>
           <Text style={[styles.title, {color: inkOn(frame), fontSize: 24, lineHeight: 28}]}>{d.number}</Text></View> : null}

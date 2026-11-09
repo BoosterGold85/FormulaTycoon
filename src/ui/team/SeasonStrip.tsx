@@ -23,7 +23,7 @@ export function SeasonStrip({model, wide, onCalendar}: {model: TeamScreenModel; 
     {s.upcoming.map(e => <View key={e.eventId} testID={e.isNext ? 'season-next' : undefined}
       style={[TILE, {flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: e.isNext ? ui.accentMuted : ui.raised,
         borderWidth: e.isNext ? 2 : 0, borderColor: ui.danger}]}>
-      <AssetImage src={trackAsset(e.trackId)} label={`${e.venue} circuit outline`} width={72} aspect={1.4} placeholder="TRACK OUTLINE"/>
+      <AssetImage asset={trackAsset(e.trackId, e.venue)} width={72} aspect={1.4} compact/>
       <View style={{gap: 2, flexShrink: 1}}>
         <Text style={[styles.eyebrow, {color: e.isNext ? ui.danger : ui.muted}]}>{e.isNext ? `NEXT · R${e.round}` : `R${e.round}`}</Text>
         <Text numberOfLines={1} style={[styles.title, {fontSize: 20, lineHeight: 22}]}>{e.venue}</Text>

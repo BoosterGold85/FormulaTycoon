@@ -132,8 +132,9 @@ must not carry essential meaning: pair it with readable names, labels and silhou
 Final car, helmet-portrait, factory and track art is commissioned as image files, not drawn in code. The Team
 overview loads them from `public/assets/{cars,helmets,factory,tracks}/` with predictable names
 (`public/assets/README.md`); until a file exists the slot shows a labelled dashed placeholder naming the missing
-file. Cars and helmets have transparent backgrounds: the game adds the garage floor, shadow, portrait tint, frame
-and race-number badge. The earlier parametric vector helmet/car candidates were retired unshipped. Web loads
+file and describing the image to commission (subject, colours, size). The game draws NO stand-in art, backdrop
+shapes or shadows for these slots: only the portrait frame and race-number badge are UI. Cars and helmets have
+transparent backgrounds. The earlier parametric vector helmet/car candidates were retired unshipped. Web loads
 dropped-in files at runtime; native builds need a generated asset list before they can show them. The existing
 `DriverPortrait` template remains the portrait elsewhere until that art lands.
 

@@ -31,14 +31,10 @@ export function CarCard({model, wide, onViewCar}: {model: TeamScreenModel; wide:
 
 function GarageFloor({team}: {team: TeamScreenModel['team']}) {
   const {ui} = useDesign();
-  // Dark radial "garage floor" in flat layers; the car file itself is transparent and the game adds the shadow.
+  // Plain dark slot. The car art (transparent PNG) is commissioned; the game draws no stand-in shapes.
   return <View style={{flex: 1.15, minWidth: 0, aspectRatio: 1.45, borderRadius: 10, overflow: 'hidden', backgroundColor: ui.bg,
-    alignItems: 'center', justifyContent: 'center'}}>
-    {[1.3, 1, .72].map((s, i) => <View key={s} style={{position: 'absolute', width: `${s * 100}%`, aspectRatio: 1, borderRadius: 9999,
-      backgroundColor: ui.raised, opacity: .22 + i * .14}}/>)}
-    <View style={{position: 'absolute', bottom: '18%', width: '62%', height: '12%', borderRadius: 999, backgroundColor: '#000', opacity: .45}}/>
-    <AssetImage testID="asset-car" src={carAsset(team.shortName)} label={`${team.name} car`} width="86%" aspect={1.6}
-      placeholder="PLACE CAR IMAGE HERE"/>
+    alignItems: 'center', justifyContent: 'center', padding: 10}}>
+    <AssetImage testID="asset-car" asset={carAsset(team)} width="100%" aspect={1.6}/>
   </View>;
 }
 

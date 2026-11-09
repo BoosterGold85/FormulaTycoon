@@ -20,7 +20,8 @@ On Dirac (`claude/happy-dirac-pw7zmq`). Presentation only: no simulation, save, 
     - F: the overview uses the broadcast surface in both themes.
     - G: the section 8 vector templates are removed.
   - Drop-in art: `AssetImage` loads `public/assets/{cars,helmets,factory,tracks}/` (names in
-    `public/assets/README.md`) and falls back to labelled dashed placeholders. Added a `caution` token.
+    `public/assets/README.md`). Missing files show dashed placeholders that describe the image to commission
+    (subject, colours, size, file); no stand-in art, backdrop shapes or shadows are drawn. Added a `caution` token.
 - **TESTED:**
   - 478/478 tests, including 6 new view-model tests: read-only, no bare 0, honest empty states, bars and tags, real
     departments, qualifying-derived results and head-to-head, and cosmetic-pack renames.

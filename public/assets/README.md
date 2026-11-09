@@ -1,7 +1,8 @@
 # Drop-in art
 
 The Team screen looks for these files. Add a file with the right name and it appears; no code change.
-Until a file exists, its slot shows a dashed placeholder naming the file it expects.
+Until a file exists, its slot shows a dashed placeholder describing the image needed and naming the file it
+expects. The game draws no stand-in art.
 
 | Folder | File name | Size | Notes |
 |---|---|---|---|
